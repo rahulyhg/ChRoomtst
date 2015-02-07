@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRow">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/profileBack2"
+            android:background="@color/green"
+            android:textStyle="bold"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Выбор подарка"
+        android:id="@+id/tvProfilePhoto2"
+        android:textAlignment="center"
+        android:background="@drawable/g_strip"
+        android:visibility="visible"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ivGifts"
+        android:background="@color/white"
+        android:src="@drawable/profile_gifts"
+        android:scaleType="centerInside" />
+
+
+</LinearLayout>

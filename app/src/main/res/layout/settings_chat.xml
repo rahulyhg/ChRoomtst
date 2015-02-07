@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRow_sch">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/setBack"
+            android:text="←"
+            android:background="@color/green"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:divider="@drawable/rect"
+        android:showDividers="middle"
+        android:layout_weight="50"
+        android:layout_gravity="top"
+        android:weightSum="50">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Выбор отображаемых чатов"
+            android:id="@+id/tvSetChatLogo"
+            android:layout_margin="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_gravity="top"
+            android:layout_weight="10" />
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="10"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Город"
+                android:id="@+id/textView13"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerChatCities"
+                android:entries="@array/cities"
+                android:spinnerMode="dropdown"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/corners" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="10"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Регион"
+                android:id="@+id/textView14"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerChatRegions"
+                android:entries="@array/regions"
+                android:spinnerMode="dropdown"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/corners" />
+        </TableRow>
+
+
+    </LinearLayout>
+</LinearLayout>

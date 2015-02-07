@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRow">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/setBack"
+            android:text="←"
+            android:background="@drawable/corners3"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Поддержка"
+        android:id="@+id/tvSupportTitle"
+        android:textAlignment="center"
+        android:background="@drawable/g_strip"
+        android:visibility="visible"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="e-mail:"
+            android:id="@+id/tvSupportMail"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSupportMail"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/corners"
+            android:cursorVisible="false"
+            android:autoText="false" />
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Тема:"
+            android:id="@+id/tvSupportSubject"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSupportSubject"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/corners"
+            android:cursorVisible="false"
+            android:autoText="false" />
+    </TableRow>
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Текст:"
+            android:id="@+id/tvSupportBody"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="top" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/etSupportBody"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/corners"
+            android:cursorVisible="false"
+            android:autoText="false"
+            android:inputType="textMultiLine" />
+    </TableRow>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Отправить обращение"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+        android:background="@color/green"
+        android:layout_margin="10dp" />
+</LinearLayout>

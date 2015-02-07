@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:background="@color/green"
+        android:id="@+id/topRow">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/usrPic"
+            android:src="@drawable/user_pic2"
+            android:scaleType="fitStart"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginLeft="7dp"
+            android:background="@color/green"/>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imageButton"
+            android:src="@drawable/ic_sup"
+            android:background="@color/green"
+            android:layout_toLeftOf="@+id/settingsButton"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginRight="10dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/settingsButton"
+            android:src="@drawable/ic_set"
+            android:background="@color/green"
+            android:scaleType="fitCenter"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp" />
+    </RelativeLayout>
+
+
+    <TabHost
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_below="@id/topRow">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+</TabHost>
+
+</RelativeLayout>

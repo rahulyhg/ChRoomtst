@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cities">
+        <item>Уфа</item>
+        <item>Стерлитамак</item>
+        <item>Салават</item>
+        <item>Туймазы</item>
+        <item>Ишимбай</item>
+        <item>Кумертау</item>
+        <item>Янаул</item>
+        <item>Бирск</item>
+        <item>Мелеуз</item>
+        <item>Нефтекамск</item>
+    </string-array>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="regions">
+        <item>Башкортостан</item>
+        <item>Татарстан</item>
+        <item>Челябинская обл.</item>
+        <item>Москва</item>
+        <item>Самарская обл.</item>
+    </string-array>
+</resources>

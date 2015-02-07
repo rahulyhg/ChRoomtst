@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRowChat">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/profileBack"
+            android:background="@color/green"
+            android:textStyle="bold"
+            android:text="Nick"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ivChatAvatar"
+            android:layout_toEndOf="@+id/ivChatAvatar" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ivChatAvatar"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/butNewsBack"
+            android:layout_toEndOf="@+id/butNewsBack" />
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:text="+"
+            android:id="@+id/butFile"
+            android:background="@drawable/but_green"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:text="&lt;"
+            android:id="@+id/butNewsBack"
+            android:background="@drawable/but_green"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:id="@+id/ibStar"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/butFile"
+            android:layout_toStartOf="@+id/butFile"
+            android:src="@drawable/star"
+            android:background="@drawable/but_green"
+            android:scaleType="centerInside" />
+    </RelativeLayout>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvChat"
+        android:divider="@android:color/transparent"
+        android:layout_above="@+id/sendText" />
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text=">"
+        android:id="@+id/buttonSend"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendText"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/buttonSend"
+        android:layout_toRightOf="@+id/buttonSmile"
+        android:layout_toEndOf="@+id/buttonSmile" />
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text=":)"
+        android:id="@+id/buttonSmile"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
+</LinearLayout>

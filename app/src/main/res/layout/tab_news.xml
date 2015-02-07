@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:id="@+id/tvNewsTitle"
+        android:textAlignment="center"
+        android:background="@drawable/g_strip"
+        android:visibility="visible"
+        android:textColor="@color/black"
+        android:text="Новости"
+        android:gravity="center"
+        android:textStyle="bold" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvNews" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

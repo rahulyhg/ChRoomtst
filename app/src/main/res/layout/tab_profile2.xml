@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRow">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/profileBack"
+            android:background="@color/green"
+            android:textStyle="bold"
+            android:text="←"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:id="@+id/scrollView2" >
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="230dp"
+        android:id="@+id/profRel1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ivProfilePhoto"
+            android:background="@color/white"
+            android:src="@drawable/camera128"
+            android:visibility="visible"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:shape="rectangle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/profileGlass"
+            android:background="#770FB470"
+            android:visibility="visible">
+            </ImageView>
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/profileLike"
+            android:src="@drawable/like"
+            android:layout_gravity="center_horizontal"
+            android:background="#0000FF00"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:scaleType="fitCenter"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="19dp" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/profileGift"
+            android:src="@drawable/gift"
+            android:layout_gravity="center_horizontal"
+            android:background="#0000FF00"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="17dp"
+            android:layout_below="@+id/profileLike"
+            android:layout_alignLeft="@+id/profileLike"
+            android:layout_alignStart="@+id/profileLike" />
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/profileKiss"
+            android:src="@drawable/kiss"
+            android:layout_gravity="center_horizontal"
+            android:background="#0000FF00"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="17dp"
+            android:layout_below="@+id/profileGift"
+            android:layout_alignLeft="@+id/profileGift"
+            android:layout_alignStart="@+id/profileGift" />
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/profileSmallPhoto"
+            android:background="@drawable/circle"
+            android:src="@drawable/camera128"
+            android:scaleType="centerCrop"
+            android:layout_alignTop="@+id/etName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etName"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Счастье есть - его не может не быть"
+            android:id="@+id/tvProfileStatus"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:gravity="center_horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"
+            android:background="@color/greenlight"
+            android:textStyle="bold"
+            android:visibility="visible"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white">
+
+            <Button
+                android:layout_width="397dp"
+                android:layout_height="wrap_content"
+                android:text="Отправить сообщение"
+                android:id="@+id/butProfileSend"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/but_green"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Фотографии"
+                android:id="@+id/tvProfilePhoto"
+                android:textAlignment="center"
+                android:background="@drawable/g_strip"
+                android:visibility="visible"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:gravity="center"
+                android:weightSum="80">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/photo1"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/camera128"
+                    android:scaleType="centerInside"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="20"
+                    android:layout_gravity="center_vertical" />
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/photo2"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/camera128"
+                    android:scaleType="centerInside"
+                    android:layout_alignTop="@+id/photo1"
+                    android:layout_toRightOf="@+id/photo1"
+                    android:layout_toEndOf="@+id/photo1"
+                    android:layout_weight="20"
+                    android:layout_gravity="center_vertical" />
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/photo3"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/camera128"
+                    android:scaleType="centerInside"
+                    android:layout_alignTop="@+id/photo4"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_weight="20"
+                    android:layout_gravity="center_vertical" />
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/photo4"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/camera128"
+                    android:scaleType="centerInside"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/photo3"
+                    android:layout_toStartOf="@+id/photo3"
+                    android:layout_weight="20"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="Информация"
+                android:id="@+id/tvProfileInfo"
+                android:textAlignment="center"
+                android:background="@drawable/g_strip"
+                android:visibility="visible"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView"
+                android:background="@color/white"
+                android:layout_marginBottom="5dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:showDividers="middle"
+                    android:divider="@drawable/rect"
+                    android:layout_height="fill_parent">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="О себе:"
+                            android:id="@+id/textView"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etProfileAbout"
+                            android:layout_marginLeft="15dp"
+                            android:autoText="false"
+                            android:layout_marginRight="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="О себе" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Регион:"
+                            android:id="@+id/textView2"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etProfileRegion"
+                            android:layout_marginLeft="15dp"
+                            android:cursorVisible="false"
+                            android:autoText="false"
+                            android:layout_marginRight="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Регион" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Город:"
+                            android:id="@+id/textView3"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etProfileCity"
+                            android:layout_marginLeft="15dp"
+                            android:cursorVisible="false"
+                            android:autoText="false"
+                            android:layout_marginRight="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Город" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Семейное положение"
+                            android:id="@+id/tvProfileRelationships"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:maxLines="1" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etProfileRelationships"
+                            android:layout_marginLeft="15dp"
+                            android:cursorVisible="false"
+                            android:autoText="false"
+                            android:layout_marginRight="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Семейное положение"
+                            android:maxLines="1" />
+                    </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_gravity="center_vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ищу:"
+                                android:id="@+id/tvProfileSearchSex"
+                                android:textColor="#000000"
+                                android:textStyle="bold"
+                                android:paddingLeft="15dp"
+                                android:paddingTop="5dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/spinProfileSearchSex"
+                                android:spinnerMode="dialog"
+                                android:layout_marginLeft="15dp"
+                                android:background="@drawable/corners" />
+                        </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="5dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Интересы"
+                            android:id="@+id/tvProfile2Hobbies"
+                            android:textColor="#000000"
+                            android:textStyle="bold"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:maxLines="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/etProfile2Hobbies"
+                            android:layout_marginLeft="15dp"
+                            android:cursorVisible="false"
+                            android:autoText="false"
+                            android:layout_marginRight="5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Астрономия"
+                            android:maxLines="1" />
+                    </TableRow>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

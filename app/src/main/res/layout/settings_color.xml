@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRow_sc">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/setBack"
+            android:text="←"
+            android:background="@color/green"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:divider="@drawable/rect"
+        android:showDividers="middle"
+        android:layout_weight="50"
+        android:layout_gravity="top"
+        android:weightSum="50">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Цветовая схема"
+            android:id="@+id/tvSetColorLogo"
+            android:layout_margin="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_gravity="top"
+            android:layout_weight="10" />
+
+        <Button
+            android:layout_width="422dp"
+            android:layout_height="wrap_content"
+            android:text="Зелёный"
+            android:id="@+id/setGreen"
+            android:background="@drawable/but_green"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_weight="10" />
+
+        <Button
+            android:layout_width="419dp"
+            android:layout_height="wrap_content"
+            android:text="Синий"
+            android:id="@+id/setBlue"
+            android:background="@drawable/but_blue"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_weight="10" />
+
+        <Button
+            android:layout_width="426dp"
+            android:layout_height="wrap_content"
+            android:text="Оранжевый"
+            android:id="@+id/setOrange"
+            android:background="@drawable/but_orange"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_weight="10" />
+
+        <Button
+            android:layout_width="422dp"
+            android:layout_height="wrap_content"
+            android:text="Фиолетовый"
+            android:id="@+id/setPurple"
+            android:background="@drawable/but_purple"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_weight="10" />
+
+    </LinearLayout>
+</LinearLayout>

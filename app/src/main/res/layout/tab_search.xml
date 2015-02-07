@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/rect"
+    android:showDividers="middle"
+    android:background="@color/white"
+    android:weightSum="80">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:text="@string/Search_set"
+        android:id="@+id/tvSearchTitle"
+        android:textAlignment="center"
+        android:background="@drawable/g_strip"
+        android:visibility="visible"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold" />
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="10"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Семейное положение:"
+            android:id="@+id/tvSearchFamily"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSearchFamily"
+            android:entries="@array/family"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/corners"
+            android:cursorVisible="false"
+            android:autoText="false"
+            android:layout_marginRight="5dp"
+            android:spinnerMode="dropdown" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="10"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_sex"
+            android:id="@+id/tvSearchSex"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinSearchSex"
+            android:entries="@array/sex"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/corners" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="10"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_age1"
+            android:id="@+id/tvSearchAge1"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/etSearchAge1"
+            android:linksClickable="false"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:background="@drawable/corners"
+            android:cursorVisible="false"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_age2"
+            android:id="@+id/tvSearchAge2"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/etSearchAge2"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:singleLine="true"
+            android:background="@drawable/corners"
+            android:cursorVisible="false"
+            android:layout_marginLeft="15dp" />
+    </TableRow>
+
+
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="10"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_region"
+                android:id="@+id/tvSearchRegion"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinSearchRegion"
+                android:entries="@array/regions"
+                android:spinnerMode="dropdown"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/corners" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="10"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_city"
+                android:id="@+id/tvSearchCity"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/etSearchCity"
+                android:background="@drawable/corners"
+                android:cursorVisible="false"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_weight="10"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_online"
+                android:id="@+id/textView6"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cbSearchOnline"
+                android:button="@drawable/checkbox_selector"
+                android:checked="false"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:elegantTextHeight="false" />
+
+        </TableRow>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="Начать поиск"
+        android:id="@+id/butSearch"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/but_green"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_weight="10"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp" />
+
+</LinearLayout>

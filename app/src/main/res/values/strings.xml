@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ChRoom</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_button">Войти</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_nick">Ник:</string>
+    <string name="search_age1">Возраст от:</string>
+    <string name="search_age2">до:</string>
+    <string name="search_sex">Пол:</string>
+    <string name="search_region">Регион:</string>
+    <string name="search_city">Город:</string>
+    <string name="search_online">В сети:</string>
+    <string name="Search_set">Поиск по параметрам</string>
+    <string name="Search">Поиск</string>
+    <string-array name="sex">
+        <item>М</item>
+        <item>Ж</item>
+        <item>-</item>
+    </string-array>
+    <string name="Registration">Регистрация</string>
+    <string-array name="color_themes">
+        <item>Зелёный</item>
+        <item>Синий</item>
+        <item>Оранжевый</item>
+        <item>Фиолетовый</item>
+    </string-array>
+    <string-array name="family">
+        <item>В браке</item>
+        <item>В активном поиске</item>
+        <item>В отношениях</item>
+        <item>Свободен(-на)</item>
+    </string-array>
+    <string-array name="hobbies">
+        <item>Астрономия</item>
+        <item>Футбол</item>
+        <item>Игры</item>
+        <item>Кино</item>
+    </string-array>
+
+    <string name="cancelled">Cancelled</string>
+    <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
+    <string name="ok">OK</string>
+    <string name="hello_user">Hello %1$s!</string>
+    <string name="success">Success</string>
+    <string name="successfully_posted_post">Successfully posted \'%1$s\'.\nPost ID: %2$s</string>
+    <string name="error">Error</string>
+    <string name="status_update">Updating status for %1$s at %2$s</string>
+    <string name="photo_post">Photo Post</string>
+    <string name="you_picked">You picked:</string>
+    <string name="no_friends_selected">&lt;No friends selected&gt;</string>
+    <string name="no_place_selected">&lt;No place selected&gt;</string>
+    <string name="pick_seattle_place">Pick a Seattle Place</string>
+    <string name="app_id">435465129943262</string>
+    <string name="exception">Exception: %1$s</string>
+</resources>
