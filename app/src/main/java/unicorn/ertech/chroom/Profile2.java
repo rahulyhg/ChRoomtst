@@ -174,8 +174,10 @@ public class Profile2 extends Activity implements View.OnClickListener{
         if(isNetworkAvailable()) {
             new getProfile().execute();
             String picUrl = i.getStringExtra("avatar");
-            Picasso.with(getApplicationContext()).load(picUrl).into(profilePhoto);
-            Picasso.with(getApplicationContext()).load(picUrl).transform(new PicassoRoundTransformation()).fit().into(smallProfilePhoto);
+            Picasso mPicasso;
+            mPicasso = Picasso.with(getApplicationContext());
+            mPicasso.load(picUrl).skipMemoryCache().into(profilePhoto);
+            Picasso.with(getApplicationContext()).load(picUrl).transform(new PicassoRoundTransformation()).fit().skipMemoryCache().into(smallProfilePhoto);
 
         }
         else

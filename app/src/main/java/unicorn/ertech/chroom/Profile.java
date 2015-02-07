@@ -33,6 +33,7 @@ import com.squareup.picasso.Picasso;
 
 import ch.boye.httpclientandroidlib.client.HttpClient;
 import ch.boye.httpclientandroidlib.client.methods.HttpPost;
+import ch.boye.httpclientandroidlib.entity.ContentType;
 import ch.boye.httpclientandroidlib.entity.mime.HttpMultipartMode;
 import ch.boye.httpclientandroidlib.entity.mime.MultipartEntityBuilder;
 import ch.boye.httpclientandroidlib.entity.mime.content.FileBody;
@@ -389,7 +390,7 @@ public class Profile extends Activity {
                 MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
                 entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
-                //entityBuilder.addBinaryBody("file", file);
+                entityBuilder.addBinaryBody("file", file, ContentType.create("image/jpeg"), file.getName());
                 entityBuilder.addTextBody("action", "check");
                 entityBuilder.addTextBody("token", token);
                 // add more key/value pairs here as needed
