@@ -4,6 +4,37 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/green"
+        android:id="@+id/topRow_sr">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/searchBack"
+            android:text="←"
+            android:background="@color/green"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/textView15"
+            android:background="@color/green"
+            android:textStyle="bold"
+            android:text="Результаты поиска"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/searchBack"
+            android:layout_toEndOf="@+id/searchBack"
+            android:gravity="center" />
+    </RelativeLayout>
     <GridView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

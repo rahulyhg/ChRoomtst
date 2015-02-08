@@ -23,7 +23,8 @@
             android:layout_toRightOf="@+id/butNewsBack"
             android:layout_toEndOf="@+id/butNewsBack"
             android:gravity="center_vertical"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:ellipsize="marquee" />
 
         <Button
             android:layout_width="50dp"

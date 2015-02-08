@@ -28,9 +28,13 @@ public class SetChat extends Activity {
         butBack=(Button)findViewById(R.id.setBack);
         setColor();
         spinner=(Spinner)findViewById(R.id.spinnerChatCities);
+        final SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
+        if(sPref2.contains(SAVED_CITY)){
+            spinner.setSelection(sPref2.getInt(SAVED_CITY, 11)-11);
+        }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
-                SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
+
                 SharedPreferences.Editor ed = sPref2.edit();
                 ed.putInt(SAVED_CITY, 11+selectedItemPosition);
                 ed.commit();
