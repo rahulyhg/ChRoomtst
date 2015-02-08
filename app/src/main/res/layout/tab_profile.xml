@@ -94,6 +94,20 @@
                     android:visibility="visible" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/tvBirthday"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:background="@android:color/transparent"
+                    android:visibility="visible"
+                    android:layout_below="@+id/etName"
+                    android:layout_alignLeft="@+id/etName"
+                    android:layout_alignStart="@+id/etName" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Счастье есть - его не может не быть"

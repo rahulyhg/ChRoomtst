@@ -80,10 +80,7 @@ public class News extends Activity implements SwipeRefreshLayout.OnRefreshListen
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeLayout.setColorSchemeResources(R.color.green, R.color.blue, R.color.orange, R.color.purple);
         swipeLayout.setDistanceToTriggerSync(20);
 
         lvNews.setAdapter(adapter3);
@@ -137,7 +134,7 @@ public class News extends Activity implements SwipeRefreshLayout.OnRefreshListen
             @Override
             public void run() {
                 swipeLayout.setRefreshing(false);
-                new GetRssFeed().execute("http://feeds.bbci.co.uk/news/rss.xml");
+                new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
                 //parser.parseAsync();
             }
         }, 4000);
