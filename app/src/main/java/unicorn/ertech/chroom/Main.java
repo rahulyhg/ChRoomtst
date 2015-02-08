@@ -346,7 +346,7 @@ public class Main extends TabActivity {
         quitDialog.show();
     }
 
-    @Override
+   /* @Override
     public void onResume(){
         super.onResume();
         setColor();
@@ -356,6 +356,7 @@ public class Main extends TabActivity {
     @Override
     public void onPause(){
         curTab=tabHost.getCurrentTab();
+
         super.onPause();
     }
 
@@ -369,6 +370,6 @@ public class Main extends TabActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt("mCurrentTab", tabHost.getCurrentTab());
         super.onSaveInstanceState(outState);
-    }
+    }*/
 }
 
