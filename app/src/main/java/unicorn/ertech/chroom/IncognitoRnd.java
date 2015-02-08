@@ -145,9 +145,9 @@ public class IncognitoRnd  extends Fragment {
                     if (valuesAccelMotion[1] > 5) j++;
                     if (valuesAccelMotion[2] > 5) j++;
                     if (j > 1) {
-                        Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                        /*Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                         long milliseconds = 1000;
-                        v.vibrate(milliseconds);
+                        v.vibrate(milliseconds);*/
                         sensorManager.unregisterListener(listener);
                     }
                     break;
