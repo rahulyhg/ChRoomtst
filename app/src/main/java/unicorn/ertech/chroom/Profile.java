@@ -71,6 +71,7 @@ public class Profile extends Activity {
     ImageView photo4;
     TextView tvProfStat;
     TextView etName;
+    TextView birthDay;
     EditText etProfileAbout;
     EditText etProfileCity;
     Button saveProfile;
@@ -107,6 +108,8 @@ public class Profile extends Activity {
         photo2 = (ImageView) findViewById(R.id.photo2);
         photo3 = (ImageView) findViewById(R.id.photo3);
         photo4 = (ImageView) findViewById(R.id.photo4);
+        birthDay = (TextView)findViewById(R.id.tvBirthday);
+        profileSex = (Spinner)findViewById(R.id.spinnerProfileSex);
         saveProfile = (Button) findViewById(R.id.butProfileSave);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         sPref2 = getSharedPreferences("user", MODE_PRIVATE);
@@ -338,6 +341,13 @@ public class Profile extends Activity {
                 etProfileCity.setText(json.getString("city"));
                 userName = json.getString("name");
                 userAbout = json.getString("info");
+                birthDay.setText(json.getString("birthday"));
+                String sex = json.getString("sex");
+                profileSex.setSelection(0);
+                Log.e("selectedItem", profileSex.getSelectedItem()+"");
+                if(sex.equals("1")){profileSex.setSelection(0);}
+                if(sex.equals("0")){profileSex.setSelection(1);}
+                Log.e("selectedItem", profileSex.getSelectedItem()+"");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
             }
@@ -357,8 +367,10 @@ public class Profile extends Activity {
             JSONParser jParser = new JSONParser();
             //ставим нужные нам параметры
             jParser.setParam("action", "profile_set");
-            jParser.setParam("userid", Integer.toString(userID));
+            //jParser.setParam("userid", Integer.toString(userID));
             jParser.setParam("token", token);
+            jParser.setParam("city", etProfileCity.getText().toString());
+            jParser.setParam("info", etProfileAbout.getText().toString());
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
@@ -366,6 +378,24 @@ public class Profile extends Activity {
 
         @Override
         protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    Log.e("saveToken", e.toString());
+                }
+
+                if(status.equals("false"))
+                {
+                    Toast.makeText(getApplicationContext(), "Данные успешно изменены!", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Ошибка при изменении данных!", Toast.LENGTH_LONG).show();
+                }
+            }
 
         }
     }
@@ -391,8 +421,9 @@ public class Profile extends Activity {
                 entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
                 entityBuilder.addBinaryBody("file", file, ContentType.create("image/jpeg"), file.getName());
-                entityBuilder.addTextBody("action", "check");
+                entityBuilder.addTextBody("action", "avatar_set");
                 entityBuilder.addTextBody("token", token);
+
                 // add more key/value pairs here as needed
 
                 HttpEntity entity = entityBuilder.build();
