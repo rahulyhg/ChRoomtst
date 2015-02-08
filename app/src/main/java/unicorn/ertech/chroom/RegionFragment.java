@@ -159,6 +159,16 @@ public class RegionFragment extends Fragment {
                 txtSend.setText("");
             }
         });
+
+        butSmile.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                initiatePopupWindow();
+            }
+        });
+
         return view;
     }
 

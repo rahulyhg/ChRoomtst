@@ -38,18 +38,11 @@ import at.theengine.android.simple_rss2_android.SimpleRss2ParserCallback;
  * Created by Timur on 04.01.2015.
  */
 public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
-    private ArrayList<HashMap<String, Object>> newsList;
     private Context context;
     List<newsItem> news_list = new ArrayList<newsItem>();
     newsAdapter adapter3;
     TextView tvNewsTitle;
-    SimpleRss2Parser parser;
-    private static final String TITLE = "message_author"; // Верхний текст
-    private static final String DESCRIPTION = "message_body"; // ниже главного
-    private static final String ICON = "avatar";  // будущая картинка
     final String SAVED_COLOR = "color";
-    SimpleAdapter adapter;
-    ArrayAdapter adapter2;
     ListView lvNews;
     SwipeRefreshLayout swipeLayout;
 
