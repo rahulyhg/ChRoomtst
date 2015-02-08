@@ -18,6 +18,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -176,8 +178,8 @@ public class Profile2 extends Activity implements View.OnClickListener{
             String picUrl = i.getStringExtra("avatar");
             Picasso mPicasso;
             mPicasso = Picasso.with(getApplicationContext());
-            mPicasso.load(picUrl).skipMemoryCache().into(profilePhoto);
-            Picasso.with(getApplicationContext()).load(picUrl).transform(new PicassoRoundTransformation()).fit().skipMemoryCache().into(smallProfilePhoto);
+            mPicasso.load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).into(profilePhoto);
+            Picasso.with(getApplicationContext()).load(picUrl).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE).fit().into(smallProfilePhoto);
 
         }
         else
