@@ -41,7 +41,7 @@ public class IncognitoTab extends FragmentActivity{
         fTrans.replace(R.id.frgmCont2, frag1);
         fTrans.commit();
 
-        SharedPreferences sPref;
+       SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
         if (sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
@@ -75,6 +75,7 @@ public class IncognitoTab extends FragmentActivity{
 
     @Override
     public void onResume(){
+        super.onResume();
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
         if (sPref.contains(SAVED_COLOR)) {

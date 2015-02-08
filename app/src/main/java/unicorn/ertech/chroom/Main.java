@@ -346,14 +346,14 @@ public class Main extends TabActivity {
         quitDialog.show();
     }
 
-   /* @Override
+    @Override
     public void onResume(){
         super.onResume();
         setColor();
         //tabHost.setCurrentTab(curTab);
     }
 
-    @Override
+    /*@Override
     public void onPause(){
         curTab=tabHost.getCurrentTab();
 
