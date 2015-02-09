@@ -93,7 +93,7 @@ public class Main extends TabActivity {
         //View tabView3;
         //tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
         //searchtab.setIndicator(tabView3);
-        Intent searchIntent = new Intent(this, News.class);
+        Intent searchIntent = new Intent(this, NewsContainer.class);
         searchtab.setContent(searchIntent);
 
         // Вкладка
@@ -346,14 +346,14 @@ public class Main extends TabActivity {
         quitDialog.show();
     }
 
-   /* @Override
+    @Override
     public void onResume(){
         super.onResume();
         setColor();
         //tabHost.setCurrentTab(curTab);
     }
 
-    @Override
+    /*@Override
     public void onPause(){
         curTab=tabHost.getCurrentTab();
 

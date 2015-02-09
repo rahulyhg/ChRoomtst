@@ -10,9 +10,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -34,36 +37,41 @@ import at.theengine.android.simple_rss2_android.SimpleRss2ParserCallback;
 /**
  * Created by Timur on 04.01.2015.
  */
-public class News extends Activity implements SwipeRefreshLayout.OnRefreshListener{
-    private ArrayList<HashMap<String, Object>> newsList;
+public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+    private Context context;
     List<newsItem> news_list = new ArrayList<newsItem>();
     newsAdapter adapter3;
     TextView tvNewsTitle;
-    SimpleRss2Parser parser;
-    private static final String TITLE = "message_author"; // Верхний текст
-    private static final String DESCRIPTION = "message_body"; // ниже главного
-    private static final String ICON = "avatar";  // будущая картинка
     final String SAVED_COLOR = "color";
-    SimpleAdapter adapter;
-    ArrayAdapter adapter2;
     ListView lvNews;
     SwipeRefreshLayout swipeLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_news);
+    public void onActivityCreated(Bundle savedInstanceState) {
 
-        lvNews=(ListView)findViewById(R.id.lvNews);
-        newsList = new ArrayList<HashMap<String, Object>>();
-        adapter2 = new ArrayAdapter<String>(this, R.layout.list_item2);
-        adapter = new SimpleAdapter(getBaseContext(), newsList,  R.layout.list_item2, new String[] { TITLE, DESCRIPTION, ICON},  new int[] { R.id.textTitle, R.id.textLink, R.id.img });
-        tvNewsTitle = (TextView) findViewById(R.id.tvNewsTitle);
-        adapter3 = new newsAdapter(news_list, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //задаем разметку фрагменту
+        final View view = inflater.inflate(R.layout.tab_news, container, false);
+        //ну и контекст, так как фрагменты не содержат собственного
+        context = view.getContext();
+
+        lvNews = (ListView) view.findViewById(R.id.lvNews);
+        tvNewsTitle = (TextView) view.findViewById(R.id.tvNewsTitle);
+        adapter3 = new newsAdapter(news_list, context);
 
         SharedPreferences sPref;
-        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)) {
+        sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if (sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
                 tvNewsTitle.setBackgroundResource(R.drawable.b_string);
@@ -74,11 +82,11 @@ public class News extends Activity implements SwipeRefreshLayout.OnRefreshListen
             } else if (col == 3) {
                 tvNewsTitle.setBackgroundResource(R.drawable.p_string);
             }
-        }else{
+        } else {
             tvNewsTitle.setBackgroundResource(R.drawable.g_strip);
         }
 
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeResources(R.color.green, R.color.blue, R.color.orange, R.color.purple);
         swipeLayout.setDistanceToTriggerSync(20);
@@ -87,95 +95,40 @@ public class News extends Activity implements SwipeRefreshLayout.OnRefreshListen
         new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
 
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id)
-            {
-                String URL =  adapter3.getItem(position).URL;
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String URL = adapter3.getItem(position).URL;
                 String title = adapter3.getItem(position).title;
-                Intent browseIntent = new Intent(getApplicationContext(), NewsWeb.class);
-                browseIntent.putExtra("URL", URL);
-                browseIntent.putExtra("Title", title);
+                NewsContainer parentActivity = (NewsContainer)getActivity();
+                parentActivity.startWeb(URL, title);
+                //Intent browseIntent = new Intent(context, NewsWeb.class);
+                //browseIntent.putExtra("URL", URL);
+                //browseIntent.putExtra("Title", title);
                 //Intent browseIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-                startActivity(browseIntent);
+                //startActivity(browseIntent);
             }
         });
 
-//        parser = new SimpleRss2Parser("https://news.google.com/news?pz=1&cf=all&ned=ru_ru&hl=ru&output=rss",
-//                new SimpleRss2ParserCallback() {
-//                    @Override
-//                    public void onFeedParsed(List<RSSItem> items) {
-//                        for(int i = 0; i < items.size(); i++){
-//                            HashMap<String, Object> hm;
-//                            hm = new HashMap<String, Object>();
-//                            hm.put(TITLE, items.get(i).getTitle()); // Название
-//                            hm.put(DESCRIPTION, items.get(i).getLink().toString()); // Описание
-//                            hm.put(ICON,  R.drawable.ic_launcher); // Картинка
-//                            newsList.add(0,hm);
-//                            //items.get(i).
-//                            Log.d("SimpleRss2ParserDemo", items.get(i).getTitle());
-//                            Log.d("SimpleRss2ParserDemo", items.get(i).getDescription());
-//                            Log.d("SimpleRss2ParserDemo", items.get(i).getLink().toString());
-//                        }
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                    @Override
-//                    public void onError(Exception ex) {
-//                        Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
-//        parser.parseAsync();
-
+        return view;
     }
 
     @Override
     public void onRefresh() {
         swipeLayout.setRefreshing(true);
+        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 swipeLayout.setRefreshing(false);
-                new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
                 //parser.parseAsync();
             }
         }, 4000);
-    }
-    private static long back_pressed;
-
-    @Override
-    public void onBackPressed() {
-        // TODO Auto-generated method stub
-        // super.onBackPressed();
-        openQuitDialog();
-    }
-
-    private void openQuitDialog() {
-        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
-                News.this);
-        quitDialog.setTitle("Выход: Вы уверены?");
-
-        quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        });
-
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        quitDialog.show();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         SharedPreferences sPref;
-        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
@@ -194,14 +147,22 @@ public class News extends Activity implements SwipeRefreshLayout.OnRefreshListen
 
     private class GetRssFeed extends AsyncTask<String, Void, Void> {
         @Override
+        protected void onPreExecute(){
+            //news_list.clear();
+        }
+        @Override
         protected Void doInBackground(String... params) {
             try {
                 RssReader rssReader = new RssReader(params[0]);
                 int it=0;
-                for (RssItem item : rssReader.getItems()){
-                    //adapter2.add(item.getTitle());
-                    news_list.add(it, new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl()));
-                    it++;
+                RssItem item;
+                int rssSize = rssReader.getItems().size();
+                item=rssReader.getItems().get(0);
+                news_list.add(new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl()));
+                for (int j=0; j<rssSize; j++){
+                    item=rssReader.getItems().get(j);
+                    newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
+                    news_list.add(currentItem);
                 }
             } catch (Exception e) {
                 Log.v("Error Parsing Data", e + "");
@@ -211,8 +172,23 @@ public class News extends Activity implements SwipeRefreshLayout.OnRefreshListen
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            //adapter2.notifyDataSetChanged();
             adapter3.notifyDataSetChanged();
+            lvNews.refreshDrawableState();
+        }
+    }
+
+    protected boolean checkRepeat(String URL){
+        boolean flag=false;
+        for(int i=0; i<news_list.size(); i++){
+            if(news_list.get(i).getURL().equals(URL)){
+                flag=true;
+                break;
+            }
+        }
+        if(flag==false){
+            return true;
+        }else{
+            return false;
         }
     }
 }

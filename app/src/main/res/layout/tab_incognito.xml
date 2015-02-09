@@ -3,9 +3,23 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:id="@+id/tvIncognitoTitle"
+        android:textAlignment="center"
+        android:background="@drawable/g_strip"
+        android:visibility="visible"
+        android:textColor="@color/black"
+        android:text="Инкогнито"
+        android:gravity="center"
+        android:textStyle="bold" />
+
     <FrameLayout
         android:id="@+id/frgmCont2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
         </FrameLayout>
+
 </LinearLayout>

@@ -159,6 +159,16 @@ public class CountryFragment extends Fragment {
                 txtSend.setText("");
             }
         });
+
+        butSmile.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                initiatePopupWindow();
+            }
+        });
+
         return view;
     }
 
@@ -488,4 +498,6 @@ public class CountryFragment extends Fragment {
         addSmiles(context, spannable);
         return spannable;
     }
+
+
 }

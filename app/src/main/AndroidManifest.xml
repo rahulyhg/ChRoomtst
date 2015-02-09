@@ -45,10 +45,6 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".News"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".Search"
             android:label="@string/app_name" >
         </activity>
@@ -117,11 +113,11 @@
             android:label="ChRoom" >
         </activity>
         <activity
-            android:name=".NewsWeb"
+            android:name=".SetChat"
             android:label="ChRoom" >
         </activity>
         <activity
-            android:name=".SetChat"
+            android:name=".NewsContainer"
             android:label="ChRoom" >
         </activity>
         <activity

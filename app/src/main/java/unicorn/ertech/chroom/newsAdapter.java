@@ -28,7 +28,7 @@ public class newsAdapter extends ArrayAdapter<newsItem> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-        chatHolder holder = new chatHolder();
+        newsHolder holder = new newsHolder();
         // First let's verify the convertView is not null
         if (convertView == null) {
             // This a new view we inflate the new layout
@@ -40,25 +40,23 @@ public class newsAdapter extends ArrayAdapter<newsItem> {
             TextView description = (TextView) v.findViewById(R.id.textLink);
             ImageView image = (ImageView)v.findViewById(R.id.img);
 
-            //holder.tvFrom = from;
-            //holder.tvMsg = msg;
-            //holder.img = image;
-
-            newsItem p = news.get(position);
-            title.setText(p.getTitle());
-            description.setText(p.getDescription());
-            Picasso.with(getContext()).load(p.getPicURL()).transform(new PicassoRoundTransformation()).fit().into(image);
+            holder.tvTitle = title;
+            holder.tvDesription = description;
+            holder.img = image;
 
             v.setTag(holder);
         }
         else {
-            holder = (chatHolder) v.getTag();
+            holder = (newsHolder) v.getTag();
         }
         /*chatMessage p = chat.get(position);
         holder.tvFrom.setText(p.getFrom());
         holder.tvMsg.setText(getSmiledText(getContext(),p.getMessage()));
         Picasso.with(getContext()).load(p.getPicURL()).transform(new PicassoRoundTransformation()).fit().into(holder.img);*/
-
+        newsItem n = news.get(position);
+        holder.tvTitle.setText(n.getTitle());
+        holder.tvDesription.setText(n.getDescription());
+        Picasso.with(getContext()).load(n.getPicURL()).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
         return v;
     }
