@@ -264,15 +264,16 @@ public class Login extends Activity {
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            boolean result;
-            result=true;
+            if (json != null){
+                boolean result;
+            result = true;
             try {
-                result=json.getBoolean("auth");
+                result = json.getBoolean("auth");
 //                Log.e("saveToken", token);
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
             }
-            if(result==true) {
+            if (result == true) {
                 if (token.equals("false")) {
                     Toast.makeText(getApplicationContext(), "Необходима авторизация!", Toast.LENGTH_LONG).show();
                 } else {
@@ -281,6 +282,10 @@ public class Login extends Activity {
                     startActivity(i);
                     Log.e("writefile", token);
                 }
+            }
+        }
+            else{
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
     }

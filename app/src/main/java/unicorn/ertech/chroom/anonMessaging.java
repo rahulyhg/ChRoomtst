@@ -1,19 +1,15 @@
 package unicorn.ertech.chroom;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -21,10 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.*;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -35,16 +29,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-/**
- * Created by Timur on 22.01.2015.
- */
-public class PrivateMessaging extends Activity {
+
+public class anonMessaging extends ActionBarActivity {
+
     ListView lvChat;
     EditText txtSend;
     Button butSend;
@@ -110,15 +103,6 @@ public class PrivateMessaging extends Activity {
             }
         });
 
-        butSmile.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                initiatePopupWindow();
-            }
-        });
-
         lvChat.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -152,6 +136,7 @@ public class PrivateMessaging extends Activity {
                 }
             }
         }, 1L * 250, 2L * 1000);
+
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -179,10 +164,6 @@ public class PrivateMessaging extends Activity {
             JSONObject json = jParser.getJSONFromUrl(URL);
             Log.e("receivedjson", "2222");
             Log.e("privatesend","444");
-
-
-
-            
             return json;
         }
         @Override
@@ -204,7 +185,7 @@ public class PrivateMessaging extends Activity {
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                     conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), outMsg,picUrl, "0",fake,c.get(c.YEAR)+"-"+month+ "-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
-                    ConversationsFragment.newMsg(p2);
+
                     msgCount++;
                     Log.e("privatesend","777");
                     adapter.notifyDataSetChanged();
@@ -377,7 +358,6 @@ public class PrivateMessaging extends Activity {
                             conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), messag.getString("message"),picUrl, "1",fake,c.get(c.YEAR)+"-"+month+"-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
                             Log.e("addingMessage", messag.getString("message"));
                             messages.add(msgCount, p);
-                            ConversationsFragment.newMsg(p2);
                             msgCount++;
 
                         } catch (JSONException e) {
@@ -407,151 +387,5 @@ public class PrivateMessaging extends Activity {
         myTimer.cancel();
         Log.e("json", "destroy");
         super.onDestroy();
-    }
-
-    private PopupWindow pwindo;
-    ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
-
-    private void initiatePopupWindow() {
-        try {
-// We need to get the instance of the LayoutInflater
-            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //View view = inflater.inflate(R.layout.fragment_blank, container, false);
-            View layout = inflater.inflate(R.layout.smile_popup,  null, false);
-            Display display = getWindowManager().getDefaultDisplay();
-            DisplayMetrics metricsB = new DisplayMetrics();
-            display.getMetrics(metricsB);
-            int window_width = metricsB.widthPixels;
-            int window_height = metricsB.heightPixels;
-            pwindo = new PopupWindow(layout, window_width, window_height, true);
-            pwindo.showAsDropDown(butSmile,0,-window_height);
-            Button smileCancel = (Button) layout.findViewById(R.id.button3);
-            smileCancel.setOnClickListener(smile_click_listener);
-            layout.setOnClickListener(smile_click_listener);
-            s01 = (ImageView) layout.findViewById(R.id.s01);
-            s01.setOnClickListener(smile_click_listener);
-            s02 = (ImageView) layout.findViewById(R.id.s02);
-            s02.setOnClickListener(smile_click_listener);
-            s03 = (ImageView) layout.findViewById(R.id.s03);
-            s03.setOnClickListener(smile_click_listener);
-            s04 = (ImageView) layout.findViewById(R.id.s04);
-            s04.setOnClickListener(smile_click_listener);
-            s05 = (ImageView) layout.findViewById(R.id.s05);
-            s05.setOnClickListener(smile_click_listener);
-            s06 = (ImageView) layout.findViewById(R.id.s06);
-            s06.setOnClickListener(smile_click_listener);
-            s07 = (ImageView) layout.findViewById(R.id.s07);
-            s07.setOnClickListener(smile_click_listener);
-            s08 = (ImageView) layout.findViewById(R.id.s08);
-            s08.setOnClickListener(smile_click_listener);
-            s09 = (ImageView) layout.findViewById(R.id.s09);
-            s09.setOnClickListener(smile_click_listener);
-            s10 = (ImageView) layout.findViewById(R.id.s10);
-            s10.setOnClickListener(smile_click_listener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private View.OnClickListener smile_click_listener = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.s01:
-                    txtSend.append(":)");
-                    break;
-                case R.id.s02:
-                    txtSend.append(":D");
-                    break;
-                case R.id.s03:
-                    txtSend.append(":O");
-                    break;
-                case R.id.s04:
-                    txtSend.append(":(");
-                    break;
-                case R.id.s05:
-                    txtSend.append("*05*");
-                    break;
-                case R.id.s06:
-                    txtSend.append("Z)");
-                    break;
-                case R.id.s07:
-                    txtSend.append("*07*");
-                    break;
-                case R.id.s08:
-                    txtSend.append("*08*");
-                    break;
-                case R.id.s09:
-                    txtSend.append("*09*");
-                    break;
-                case R.id.s10:
-                    txtSend.append("*love*");
-                    break;
-                default:
-                    pwindo.dismiss();
-                    break;
-            }
-            txtSend.setText(getSmiledText(getApplicationContext(),txtSend.getText()));
-        }
-    };
-
-    //
-    //Ниже часть, связанная с отображением смайлов в edittext
-    //
-
-    private static final Spannable.Factory spannableFactory = Spannable.Factory
-            .getInstance();
-
-    private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
-
-    static {
-        addPattern(emoticons, ":)", R.drawable.s01);
-        addPattern(emoticons, ":D", R.drawable.s02);
-        addPattern(emoticons, ":O", R.drawable.s03);
-        addPattern(emoticons, ":(", R.drawable.s04);
-        addPattern(emoticons, "*05*", R.drawable.s05);
-        addPattern(emoticons, "Z)", R.drawable.s06);
-        addPattern(emoticons, "*07*", R.drawable.s07);
-        addPattern(emoticons, "*08*", R.drawable.s08);
-        addPattern(emoticons, "*09*", R.drawable.s09);
-        addPattern(emoticons, "*love*", R.drawable.s10);
-        // ...
-    }
-
-    private static void addPattern(Map<Pattern, Integer> map, String smile,
-                                   int resource) {
-        map.put(Pattern.compile(Pattern.quote(smile)), resource);
-    }
-
-    public static boolean addSmiles(Context context, Spannable spannable) {
-        boolean hasChanges = false;
-        for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
-            Matcher matcher = entry.getKey().matcher(spannable);
-            while (matcher.find()) {
-                boolean set = true;
-                for (ImageSpan span : spannable.getSpans(matcher.start(),
-                        matcher.end(), ImageSpan.class))
-                    if (spannable.getSpanStart(span) >= matcher.start()
-                            && spannable.getSpanEnd(span) <= matcher.end())
-                        spannable.removeSpan(span);
-                    else {
-                        set = false;
-                        break;
-                    }
-                if (set) {
-                    hasChanges = true;
-                    spannable.setSpan(new ImageSpan(context, entry.getValue()),
-                            matcher.start(), matcher.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-        }
-        return hasChanges;
-    }
-
-    public static Spannable getSmiledText(Context context, CharSequence text) {
-        Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, spannable);
-        return spannable;
     }
 }

@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 /**
  * Created by Timur on 22.01.2015.
@@ -127,17 +130,11 @@ public class Profile2 extends Activity implements View.OnClickListener{
         });
 
         butLike=(ImageView)findViewById(R.id.profileLike);
-        like_current = loadData(LIKE_STATE);
-        if(like_current==true){
-            butLike.setImageResource(R.drawable.like_fill);
-        }
+
         butLike.setOnClickListener(this);
 
         butKiss=(ImageView)findViewById(R.id.profileKiss);
-        kiss_current = loadData(KISS_STATE);
-        if(kiss_current==true){
-            butKiss.setImageResource(R.drawable.kiss_fill);
-        }
+
         butKiss.setOnClickListener(this);
 
         profilePhoto=(ImageView)findViewById(R.id.ivProfilePhoto);
@@ -222,22 +219,26 @@ public class Profile2 extends Activity implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.profileLike:
                 if(like_current==false) {
-                    saveData(true, LIKE_STATE);
+                    //saveData(true, LIKE_STATE);
+                    new giveLike().execute();
                     like_current=true;
                     butLike.setImageResource(R.drawable.like_fill);
                 }else{
-                    saveData(false, LIKE_STATE);
+                    //saveData(false, LIKE_STATE);
+                    new deleteLike().execute();
                     like_current=false;
                     butLike.setImageResource(R.drawable.like);
                 }
                 break;
             case R.id.profileKiss:
                 if(kiss_current==false){
-                    saveData(true, KISS_STATE);
+                    //saveData(true, KISS_STATE);
+                    new giveKiss().execute();
                     kiss_current=true;
                     butKiss.setImageResource(R.drawable.kiss_fill);
                 }else{
-                    saveData(false, KISS_STATE);
+                    //saveData(false, KISS_STATE);
+                    new deleteKiss().execute();
                     kiss_current=false;
                     butKiss.setImageResource(R.drawable.kiss);
                 }
@@ -286,8 +287,15 @@ public class Profile2 extends Activity implements View.OnClickListener{
 
                 if (status.equals("false")) {
                     try {
+                        String like="";
+                        String kiss="";
                         etName.setText(json.getString("name"));
                         info.setText(json.getString("info"));
+                        userId = json.getString("id");
+                        like = json.getString("like");
+                        kiss = json.getString("kiss");
+                        if(like.equals("1")){butLike.setImageResource(R.drawable.like_fill);like_current=true;}
+                        if(kiss.equals("1")){butKiss.setImageResource(R.drawable.kiss_fill);kiss_current=true;}
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -300,6 +308,196 @@ public class Profile2 extends Activity implements View.OnClickListener{
             else
             {
                 Toast.makeText(getApplicationContext(),"Проверьте Ваше подключение к Интернету!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class giveLike extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e("privatesend", "222");
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "like_set");
+            //jParser.setParam("userid", myID);
+            jParser.setParam("userid", userId);
+            jParser.setParam("type", "1");
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    like_current = true;
+                    Toast.makeText(getApplicationContext(), "Вы поставили пользователю лайк!", Toast.LENGTH_LONG).show();
+                } else {
+                    butLike.setImageResource(R.drawable.like);
+                    Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class giveKiss extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e("privatesend", "222");
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "like_set");
+            //jParser.setParam("userid", myID);
+            jParser.setParam("userid", userId);
+            jParser.setParam("type", "2");
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    kiss_current = true;
+                    Toast.makeText(getApplicationContext(), "Вы отправили пользователю поцелуй!", Toast.LENGTH_LONG).show();
+                } else {
+                    butKiss.setImageResource(R.drawable.kiss);
+                    Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class deleteKiss extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e("privatesend", "222");
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "like_delete");
+            //jParser.setParam("userid", myID);
+            jParser.setParam("userid", userId);
+            jParser.setParam("type", "2");
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    butKiss.setImageResource(R.drawable.kiss);
+                    kiss_current = false;
+                    Toast.makeText(getApplicationContext(), "Вы забрали у пользователя поцелуй!", Toast.LENGTH_LONG).show();
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class deleteLike extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e("privatesend", "222");
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "like_delete");
+            //jParser.setParam("userid", myID);
+            jParser.setParam("userid", userId);
+            jParser.setParam("type", "1");
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    butLike.setImageResource(R.drawable.like);
+                    like_current = false;
+                    Toast.makeText(getApplicationContext(), "Вы забрали у пользователя свой лайк!", Toast.LENGTH_LONG).show();
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
     }

@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -117,7 +119,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder.tvTime.setText(dateTime[0]);
         }
 
-        Picasso.with(getContext()).load(p.picURL).transform(new PicassoRoundTransformation()).fit().into(holder.img);
+        Picasso.with(getContext()).load(p.picURL).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 
         return v;
