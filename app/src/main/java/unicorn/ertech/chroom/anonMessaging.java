@@ -1,13 +1,15 @@
 package unicorn.ertech.chroom;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -17,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.*;
 
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -28,14 +29,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by Timur on 22.01.2015.
- */
-public class PrivateMessaging extends Activity {
+
+public class anonMessaging extends ActionBarActivity {
+
     ListView lvChat;
     EditText txtSend;
     Button butSend;
@@ -183,7 +185,7 @@ public class PrivateMessaging extends Activity {
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                     conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), outMsg,picUrl, "0",fake,c.get(c.YEAR)+"-"+month+ "-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
-                    ConversationsFragment.newMsg(p2);
+
                     msgCount++;
                     Log.e("privatesend","777");
                     adapter.notifyDataSetChanged();
@@ -356,7 +358,6 @@ public class PrivateMessaging extends Activity {
                             conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), messag.getString("message"),picUrl, "1",fake,c.get(c.YEAR)+"-"+month+"-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
                             Log.e("addingMessage", messag.getString("message"));
                             messages.add(msgCount, p);
-                            ConversationsFragment.newMsg(p2);
                             msgCount++;
 
                         } catch (JSONException e) {
@@ -387,6 +388,4 @@ public class PrivateMessaging extends Activity {
         Log.e("json", "destroy");
         super.onDestroy();
     }
-
-
 }

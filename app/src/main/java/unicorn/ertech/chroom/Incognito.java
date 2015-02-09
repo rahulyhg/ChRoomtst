@@ -185,10 +185,10 @@ public class Incognito extends Fragment {
                     }
 
 
-                    Intent i = new Intent(getActivity().getApplicationContext(),PrivateMessaging.class);
+                    Intent i = new Intent(getActivity().getApplicationContext(),anonMessaging.class);
                     i.putExtra("nick",s);
                     i.putExtra("userId",id);
-                    i.putExtra("fake","false");
+                    i.putExtra("fake","true");
                     i.putExtra("token",Main.str);
                     i.putExtra("avatar",avatar);
                     startActivity(i);
@@ -271,10 +271,10 @@ public class Incognito extends Fragment {
                         }
 
 
-                        Intent i = new Intent(getActivity().getApplicationContext(), PrivateMessaging.class);
+                        Intent i = new Intent(getActivity().getApplicationContext(), anonMessaging.class);
                         i.putExtra("nick", s);
                         i.putExtra("userId", id);
-                        i.putExtra("fake", "false");
+                        i.putExtra("fake", "true");
                         i.putExtra("token", Main.str);
                         i.putExtra("avatar", avatar);
                         startActivity(i);

@@ -62,7 +62,6 @@ public class SearchResult extends Activity {
     }
 
     private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
-
         @Override
         public void onItemClick(AdapterView<?> parent, View v, int position,
                                 long id) {

@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -60,7 +62,7 @@ public class chatAdapter extends ArrayAdapter<chatMessage> {
             holder.tvFrom.setText(p.getFrom());
             //holder.tvMsg.setText(p.getMessage());
             holder.tvMsg.setText(getSmiledText(getContext(),p.getMessage()));
-            Picasso.with(getContext()).load(p.getPicURL()).transform(new PicassoRoundTransformation()).fit().into(holder.img);
+            Picasso.with(getContext()).load(p.getPicURL()).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 
             return v;

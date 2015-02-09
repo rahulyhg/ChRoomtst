@@ -73,20 +73,6 @@ public class ConversationsFragment extends Fragment {
         dialogs = (ListView)view.findViewById(R.id.lvConversations);
 
         ReadDialogsFromFile();
-
-        agent = new conversationsMsg("1","Служба поддержки","Сообщение от службы поддержки","http:\\/\\/im.topufa.org\\/quadro\\/tech.jpg","1","false","2015-2-1%19:23:46");
-
-        //conversationsMsg m = agent = new conversationsMsg("999","Служба поддержки","Сообщение от службы поддержки","http:\\/\\/im.topufa.org\\/quadro\\/tech.jpg","1","false","2015-2-2%19:23:46");
-
-        if(!findAgent("1"))
-        {
-            messages.add(0,agent);
-        }
-
-
-
-        setAgentFirst("1");
-        //messages.add(0,m);
         adapter = new conversationsAdapter(messages,context);
         dialogs.setAdapter(adapter);
         token = Main.str;
@@ -272,7 +258,7 @@ public class ConversationsFragment extends Fragment {
                 messages.get(i).time = msg.time;
                 conversationsMsg m = messages.get(i);
                 messages.remove(i);
-                messages.add(1,m);
+                messages.add(0,m);
                 adapter.notifyDataSetChanged();
                 flag = true;
             }
@@ -300,7 +286,7 @@ public class ConversationsFragment extends Fragment {
         if(flag)
         {
             conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.fake,p.time);
-            messages.add(1,m);
+            messages.add(0,m);
             WriteDialogsToFile();
         }
     }
