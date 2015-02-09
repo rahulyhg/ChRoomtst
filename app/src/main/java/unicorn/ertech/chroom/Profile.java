@@ -176,6 +176,13 @@ public class Profile extends Activity {
         saveProfile.setVisibility(View.INVISIBLE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        saveProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new sendUserData().execute();
+            }
+        });
+
         profilePhoto = (ImageView) findViewById(R.id.ivProfilePhoto);
         //profilePhoto=(ImageView)etProfileCity.getText();
         smallProfilePhoto = (ImageView) findViewById(R.id.profileSmallPhoto);
@@ -264,7 +271,6 @@ public class Profile extends Activity {
                 }
         }
     }
-
 
     protected void SavePhoto() {
         Bitmap bitmap = ((BitmapDrawable) profilePhoto.getDrawable()).getBitmap();
@@ -396,7 +402,6 @@ public class Profile extends Activity {
                     Toast.makeText(getApplicationContext(), "Ошибка при изменении данных!", Toast.LENGTH_LONG).show();
                 }
             }
-
         }
     }
 

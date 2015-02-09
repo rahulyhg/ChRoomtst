@@ -9,7 +9,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_nick">Ник:</string>
     <string name="search_age1">Возраст от:</string>
-    <string name="search_age2">до:</string>
+    <string name="search_age2">- до:</string>
     <string name="search_sex">Пол:</string>
     <string name="search_region">Регион:</string>
     <string name="search_city">Город:</string>
