@@ -9,7 +9,7 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:divider="#ffffeec5"
-        android:id="@+id/lvConversations"/>
+        android:id="@+id/lvConversations"
+        android:background="@color/white" />
 
 </RelativeLayout>

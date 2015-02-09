@@ -123,36 +123,6 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
             }
         }, 4000);
     }
-    private static long back_pressed;
-
-    public void onBackPressed() {
-        // TODO Auto-generated method stub
-        // super.onBackPressed();
-        //openQuitDialog();
-    }
-
-    private void openQuitDialog() {
-        /*AlertDialog.Builder quitDialog = new AlertDialog.Builder(
-                News.this);
-        quitDialog.setTitle("Выход: Вы уверены?");
-
-        quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        });
-
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        quitDialog.show();*/
-    }
 
     @Override
     public void onResume(){
@@ -180,7 +150,6 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         protected void onPreExecute(){
             news_list.clear();
         }
-
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -191,28 +160,12 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
                 item=rssReader.getItems().get(0);
                 news_list.add(new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl()));
                 for (int j=0; j<rssSize; j++){
-                    //adapter2.add(item.getTitle());
                     item=rssReader.getItems().get(j);
                     newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
-                    /*boolean flag=false;
-                    for(int i=0; i<j; i++){
-                        if(news_list.get(i).getURL().equals(currentItem.getURL())){
-                            flag=true;
-                            break;
-                        }
-                    }
-                    if(flag==false){
-                        news_list.add(0,currentItem);
-                    };*/
-                    /*if(!news_list.contains(currentItem)){
-                        news_list.add(it,currentItem);
-                        it++;
-                    }*/
                     if(checkRepeat(currentItem.getURL())==true){
                         news_list.add(currentItem);
                         it++;
                     }
-                    //news_list.add(it, new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl()));
                 }
             } catch (Exception e) {
                 Log.v("Error Parsing Data", e + "");
@@ -222,8 +175,8 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            //adapter2.notifyDataSetChanged();
             adapter3.notifyDataSetChanged();
+            lvNews.refreshDrawableState();
         }
     }
 

@@ -79,8 +79,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvChat"
-        android:divider="@android:color/transparent"
-        android:layout_above="@+id/sendText" />
+        android:layout_above="@+id/sendText"
+        android:divider="@android:color/transparent" />
 
     <Button
         android:layout_width="50dp"

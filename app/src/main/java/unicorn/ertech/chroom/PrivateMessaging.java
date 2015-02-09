@@ -177,6 +177,10 @@ public class PrivateMessaging extends Activity {
             JSONObject json = jParser.getJSONFromUrl(URL);
             Log.e("receivedjson", "2222");
             Log.e("privatesend","444");
+
+
+
+            
             return json;
         }
         @Override
