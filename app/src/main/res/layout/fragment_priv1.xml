@@ -10,6 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvConversations"
+        android:footerDividersEnabled="true"
         android:background="@color/white" />
 
 </RelativeLayout>

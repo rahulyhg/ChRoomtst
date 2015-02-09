@@ -114,11 +114,11 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
     @Override
     public void onRefresh() {
         swipeLayout.setRefreshing(true);
+        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 swipeLayout.setRefreshing(false);
-                new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
                 //parser.parseAsync();
             }
         }, 4000);
@@ -148,7 +148,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
     private class GetRssFeed extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute(){
-            news_list.clear();
+            //news_list.clear();
         }
         @Override
         protected Void doInBackground(String... params) {
@@ -162,10 +162,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
                 for (int j=0; j<rssSize; j++){
                     item=rssReader.getItems().get(j);
                     newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
-                    if(checkRepeat(currentItem.getURL())==true){
-                        news_list.add(currentItem);
-                        it++;
-                    }
+                    news_list.add(currentItem);
                 }
             } catch (Exception e) {
                 Log.v("Error Parsing Data", e + "");
