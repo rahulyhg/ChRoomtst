@@ -203,8 +203,12 @@ public class PrivateMessaging extends Activity {
                     messages.add(msgCount,p);
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
-                    conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), outMsg,picUrl, "0",fake,c.get(c.YEAR)+"-"+month+ "-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
-                    ConversationsFragment.newMsg(p2);
+                    if(fake.equals("false")) {
+                        conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0", fake, c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND));
+                        ConversationsFragment.newMsg(p2);
+                    }
+
+
                     msgCount++;
                     Log.e("privatesend","777");
                     adapter.notifyDataSetChanged();
@@ -377,7 +381,10 @@ public class PrivateMessaging extends Activity {
                             conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), messag.getString("message"),picUrl, "1",fake,c.get(c.YEAR)+"-"+month+"-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
                             Log.e("addingMessage", messag.getString("message"));
                             messages.add(msgCount, p);
-                            ConversationsFragment.newMsg(p2);
+                            if(fake.equals("false")) {
+                                ConversationsFragment.newMsg(p2);
+                            }
+
                             msgCount++;
 
                         } catch (JSONException e) {
