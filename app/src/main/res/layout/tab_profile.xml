@@ -327,17 +327,17 @@
                             android:paddingLeft="15dp"
                             android:paddingTop="5dp"
                             android:maxLines="1" />
-                        <EditText
+                        <Spinner
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/etProfileRelationships"
+                            android:id="@+id/spinProfileRelationships"
                             android:layout_marginLeft="15dp"
                             android:cursorVisible="false"
+                            android:entries="@array/family"
                             android:autoText="false"
                             android:layout_marginRight="5dp"
                             android:background="@android:color/transparent"
-                            android:hint="Семейное положение"
-                            android:maxLines="1" />
+                            android:hint="Семейное положение" />
                     </TableRow>
                         <TableRow
                             android:layout_width="fill_parent"

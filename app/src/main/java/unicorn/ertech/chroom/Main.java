@@ -60,7 +60,7 @@ public class Main extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        stopService(new Intent(this, notif.class));
+        //stopService(new Intent(this, notif.class));
 
         tabHost = getTabHost();
         Intent i = getIntent();
@@ -353,7 +353,7 @@ public class Main extends TabActivity {
     public void onDestroy(){
         Intent i = new Intent(this, notif.class);
         i.putExtra("token", str);
-        startService(i);
+        //startService(i);
         super.onDestroy();
     }
 
