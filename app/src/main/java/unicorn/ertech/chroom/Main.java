@@ -38,9 +38,7 @@ public class Main extends TabActivity {
      */
     public static String str;
     SharedPreferences sPref;
-    Integer curTab;
-
-    private static long back_pressed;
+    Integer curColor;
 
     TabSpec searchtab;
     TabSpec globaltab;
@@ -226,6 +224,7 @@ public class Main extends TabActivity {
                 butSettings.setBackgroundResource(R.color.purple);
                 tabHost.refreshDrawableState();
             }
+                curColor=col;
         }else{
             tabsSetColor(0);
             topRow.setBackgroundResource(R.color.green);
@@ -233,6 +232,7 @@ public class Main extends TabActivity {
             butProfile.setBackgroundResource(R.color.green);
             butSettings.setBackgroundResource(R.color.green);
             tabHost.refreshDrawableState();
+            curColor=0;
         }
     }
 
@@ -328,7 +328,7 @@ public class Main extends TabActivity {
                 Main.this);
         quitDialog.setTitle("Выход: Вы уверены?");
 
-        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+        quitDialog.setPositiveButton("да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
@@ -349,7 +349,13 @@ public class Main extends TabActivity {
     @Override
     public void onResume(){
         super.onResume();
-        setColor();
+        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if (sPref.contains(SAVED_COLOR)) {
+            int col = sPref.getInt(SAVED_COLOR, 0);
+            if(col!=curColor){
+                setColor();
+            }
+        }
         //tabHost.setCurrentTab(curTab);
     }
 

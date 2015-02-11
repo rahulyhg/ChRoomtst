@@ -18,9 +18,9 @@
     <string name="Search">Поиск</string>
 
     <string-array name="sex">
-        <item>М</item>
         <item>Ж</item>
-        <item>-</item>
+        <item>М</item>
+        <item> </item>
     </string-array>
 
     <string name="Registration">Регистрация</string>
@@ -32,18 +32,26 @@
         <item>Фиолетовый</item>
     </string-array>
     <string-array name="family">
+        <item> </item>
+        <item>Не женат/не замужем</item>
+        <item>Встречаюсь</item>
+        <item>Помолвлен(-а)</item>
         <item>В браке</item>
+        <item>Влюблен(-а)</item>
+        <item>Всё сложно</item>
         <item>В активном поиске</item>
-        <item>В отношениях</item>
-        <item>Свободен(-на)</item>
     </string-array>
-    <string-array name="hobbies">
-        <item>Астрономия</item>
-        <item>Футбол</item>
-        <item>Игры</item>
-        <item>Кино</item>
+    <string-array name="herefor">
+        <item>Дружба и общение</item>
+        <item>Переписка</item>
+        <item>Отношения</item>
+        <item>Флирт</item>
+        <item>Брак, создание семьи</item>
+        <item>Занятия спортом</item>
+        <item>Путешествия</item>
+        <item>Секс</item>
+        <item>Встреча, свидание</item>
     </string-array>
-
     <string name="cancelled">Cancelled</string>
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
     <string name="ok">OK</string>

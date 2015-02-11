@@ -59,6 +59,35 @@
         android:layout_gravity="center_horizontal"
         android:inputType="number" />
 
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="gone"
+        android:id="@+id/trReceivedPass">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Пароль:"
+            android:id="@+id/tvReceivedPass"
+            android:textColor="@color/black"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etReceivedPass"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/corners"
+            android:autoText="false"
+            android:layout_marginRight="5dp"
+            android:inputType="phone" />
+    </TableRow>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
