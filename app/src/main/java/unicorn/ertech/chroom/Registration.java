@@ -3,6 +3,7 @@ package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +30,16 @@ public class Registration extends Activity{
     EditText nick, name;
     TextView datePick, phonenumber;
     String URL = "http://im.topufa.org/index.php";
+    Spinner sexSpin, searchSpin, spSpin;
     final String FILENAME = "token";
     public String token;
     int DIALOG_DATE = 1;
     int myYear = 2011;
     int myMonth = 01;
     int myDay = 01;
+    int sex = 1;
+    int searchSex=0;
+    int sp=0;
     boolean success;
 
 
@@ -48,6 +54,11 @@ public class Registration extends Activity{
         name = (EditText)findViewById(R.id.etRegName);
         phonenumber=(TextView)findViewById(R.id.etRegNumber);
         phonenumber.setText(Reg1.number);
+        sexSpin = (Spinner)findViewById(R.id.spinRegSex);
+        searchSpin =(Spinner)findViewById(R.id.spinRegSexSearch);
+        spSpin =(Spinner)findViewById(R.id.spinSp);
+        sexSpin.setSelection(2);
+        searchSpin.setSelection(2);
         //TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         //String line1Number = telephonyManager.getLine1Number();
         //phonenumber.setText(line1Number);
@@ -58,11 +69,16 @@ public class Registration extends Activity{
             }
         });
 
+        token= getIntent().getStringExtra("Token");
+
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = getApplicationContext();
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                sex=sexSpin.getSelectedItemPosition();
+                searchSex=searchSpin.getSelectedItemPosition();
+                sp=spSpin.getSelectedItemPosition();
                 new RegSend().execute();
             }
         });
@@ -81,16 +97,21 @@ public class Registration extends Activity{
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
             myYear = year;
-            myMonth = monthOfYear;
+            myMonth = monthOfYear+1;
             myDay = dayOfMonth;
             datePick.setText(myDay + "/" + myMonth + "/" + myYear);
         }
     };
     private class RegSend extends AsyncTask<String, String, JSONObject> {
-
+        private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog = new ProgressDialog(Registration.this);
+            pDialog.setMessage("Получение данных профиля ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
 
         }
         @Override
@@ -99,23 +120,27 @@ public class Registration extends Activity{
 
             //ставим нужные нам параметры
 
-            jParser.setParam("action", "auth_singup");
-            //jParser.setParam("userid", myID);
-            jParser.setParam("phone", phonenumber.getText().toString());
+            jParser.setParam("action", "profile_set");
+            jParser.setParam("token", token);
             jParser.setParam("name", name.getText().toString());
-            //jParser.setParam("deviceid", "");
-            // Getting JSON from URL
+            jParser.setParam("day", Integer.toString(myDay));
+            jParser.setParam("month", Integer.toString(myMonth));
+            jParser.setParam("year", Integer.toString(myYear));
+            if(sex<2) {
+                jParser.setParam("sex", Integer.toString(sex));
+            }
+            if(searchSex<2) {
+                jParser.setParam("lookingfor", Integer.toString(searchSex));
+            }
+            if(sp>0){
+                jParser.setParam("sp", Integer.toString(sp));
+            }
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            try {
-                token = json.getString("token");
-                Log.e("saveToken", token);
-            } catch (JSONException e) {
-                Log.e("saveToken", e.toString());
-            }
+            pDialog.dismiss();
             try {
                 success=json.getBoolean("error");
                 Log.e("saveToken", token);

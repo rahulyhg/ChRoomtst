@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="hobbies">
+        <item> </item>
+        <item>Авто и мото</item>
+        <item>Бизнес и финансы</item>
+        <item>Досуг и развлечения</item>
+        <item>Животные и растения</item>
+        <item>Знакомства, любовь и отношения</item>
+        <item>Искусство и культура</item>
+        <item>Компьютеры и интернет</item>
+        <item>Красота и здоровье</item>
+        <item>Наука и техника</item>
+        <item>Общество и политика</item>
+        <item>Путешествия и спорт</item>
+        <item>Работа и карьера</item>
+        <item>Семья, Дом, Дети</item>
+        <item>Стиль, Мода, Звёзды</item>
+        <item>Темы для взрослых</item>
+        <item>Юмор</item>
+    </string-array>
+</resources>

@@ -75,7 +75,8 @@ public class Profile extends Activity {
     EditText etProfileAbout;
     EditText etProfileCity;
     Button saveProfile;
-    Spinner profileSex;
+    Spinner profileSex, searchSex, hobbiesSpin, hereForSpin;
+    int sex, ssex, hob, here;
 
     Picasso mPicasso;
 
@@ -179,6 +180,10 @@ public class Profile extends Activity {
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sex = profileSex.getSelectedItemPosition();
+                ssex=searchSex.getSelectedItemPosition();
+                hob=hobbiesSpin.getSelectedItemPosition();
+                here=hereForSpin.getSelectedItemPosition();
                 new sendUserData().execute();
             }
         });
@@ -377,6 +382,7 @@ public class Profile extends Activity {
             jParser.setParam("token", token);
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
+
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;

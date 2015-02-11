@@ -11,17 +11,17 @@
         android:id="@+id/topRowChat">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/profileBack"
-            android:background="@color/green"
+            android:background="@drawable/but_green"
             android:textStyle="bold"
             android:text="Nick"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/ivChatAvatar"
-            android:layout_toEndOf="@+id/ivChatAvatar" />
+            android:layout_toStartOf="@+id/ibStar" />
 
         <ImageView
             android:layout_width="40dp"
@@ -29,8 +29,9 @@
             android:id="@+id/ivChatAvatar"
             android:src="@drawable/ic_launcher"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/butNewsBack"
-            android:layout_toEndOf="@+id/butNewsBack" />
+            android:layout_toRightOf="@+id/butChatBack"
+            android:layout_toEndOf="@+id/butChatBack"
+            android:background="@drawable/but_green" />
 
         <Button
             android:layout_width="40dp"
@@ -48,7 +49,7 @@
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:text="&lt;"
-            android:id="@+id/butNewsBack"
+            android:id="@+id/butChatBack"
             android:background="@drawable/but_green"
             android:textStyle="bold"
             android:textColor="@color/white"

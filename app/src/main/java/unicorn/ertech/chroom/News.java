@@ -148,7 +148,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
     private class GetRssFeed extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute(){
-            //news_list.clear();
+            news_list.clear();
         }
         @Override
         protected Void doInBackground(String... params) {

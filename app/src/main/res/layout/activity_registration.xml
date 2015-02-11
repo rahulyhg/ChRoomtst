@@ -105,7 +105,7 @@
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinRegSexSearch"
+                    android:id="@+id/spinRegSex"
                     android:entries="@array/sex"
                     android:spinnerMode="dropdown"
                     android:layout_marginLeft="15dp"
@@ -157,13 +157,40 @@
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinRegSex"
+                    android:id="@+id/spinRegSexSearch"
                     android:entries="@array/sex"
                     android:spinnerMode="dropdown"
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/corners" />
             </TableRow>
 
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
+
+                <TextView
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:text="Семейное положение:"
+                    android:id="@+id/tvSp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:minLines="2" />
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinSp"
+                    android:entries="@array/family"
+                    android:spinnerMode="dropdown"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/corners" />
+            </TableRow>
 
             <TextView
                 android:layout_width="match_parent"

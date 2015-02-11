@@ -79,6 +79,34 @@ public class PrivateMessaging extends Activity {
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         dateTime = new Date();
 
+        final Button  butBack=(Button)findViewById(R.id.butChatBack);
+        nick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getApplicationContext();
+                Intent i = new Intent(context,Profile2.class);
+                i.putExtra("userId",userId);
+                i.putExtra("token",token);
+                i.putExtra("nick",nick.getText());
+                i.putExtra("avatar",picUrl);
+                startActivity(i);
+            }
+        });
+
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                butBack.callOnClick();
+            }
+        });
+
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         adapter = new pmChatAdapter(messages,getApplicationContext());
         lvChat.setAdapter(adapter);
         lastId = "0";
@@ -185,10 +213,6 @@ public class PrivateMessaging extends Activity {
             JSONObject json = jParser.getJSONFromUrl(URL);
             Log.e("receivedjson", "2222");
             Log.e("privatesend","444");
-
-
-
-            
             return json;
         }
         @Override
