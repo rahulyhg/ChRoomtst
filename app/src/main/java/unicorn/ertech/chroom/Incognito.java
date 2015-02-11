@@ -134,16 +134,52 @@ public class Incognito extends Fragment {
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
+            JSONObject json = null;
+            long wait = 2200;
+            String status = "";String num = "";
+            long elapsedtime = 0;
+            long startTime=   System.currentTimeMillis();
+            do {
 
-            //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
-            jParser.setParam("action", "lookfor");
-            jParser.setParam("type", "1");
-            //jParser.setParam("deviceid", "");
-            // Getting JSON from URL
-            Log.e("sendjson", "1111");
-            JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("receivedjson", "2222");
+                //ставим нужные нам параметры
+                jParser.setParam("token", Main.str);
+                jParser.setParam("action", "lookfor");
+                jParser.setParam("type", "1");
+                if(elapsedtime<5000) {
+                    json = jParser.getJSONFromUrl(URL);
+                    try {
+                        status = json.getString("error");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (status.equals("false")) {
+                        try {
+                            num = json.getString("total");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (!num.equals("0")) {
+                            break;
+                        } else {
+                            try {
+                                Thread.sleep(wait);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    long currTime = System.currentTimeMillis();
+                    elapsedtime = currTime - startTime;
+
+                    if (elapsedtime > 5000) {
+                        break;
+                    }
+                }
+                else{break;}
+            }while(true);
+
             return json;
         }
         @Override
@@ -185,7 +221,7 @@ public class Incognito extends Fragment {
                     }
 
 
-                    Intent i = new Intent(getActivity().getApplicationContext(),anonMessaging.class);
+                    Intent i = new Intent(getActivity().getApplicationContext(),PrivateMessaging.class);
                     i.putExtra("nick",s);
                     i.putExtra("userId",id);
                     i.putExtra("fake","true");
@@ -223,16 +259,52 @@ public class Incognito extends Fragment {
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
+            JSONObject json = null;
+            long wait = 2200;
+            String status = "";String num = "";
+            long elapsedtime = 0;
+            long startTime=   System.currentTimeMillis();
+            do {
 
-            //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
-            jParser.setParam("action", "lookfor");
-            jParser.setParam("type", "2");
-            //jParser.setParam("deviceid", "");
-            // Getting JSON from URL
-            Log.e("sendjson", "1111");
-            JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("receivedjson", "2222");
+                //ставим нужные нам параметры
+                jParser.setParam("token", Main.str);
+                jParser.setParam("action", "lookfor");
+                jParser.setParam("type", "2");
+                if(elapsedtime<5000) {
+                    json = jParser.getJSONFromUrl(URL);
+                    try {
+                        status = json.getString("error");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (status.equals("false")) {
+                        try {
+                            num = json.getString("total");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (!num.equals("0")) {
+                            break;
+                        } else {
+                            try {
+                                Thread.sleep(wait);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    long currTime = System.currentTimeMillis();
+                    elapsedtime = currTime - startTime;
+
+                    if (elapsedtime > 5000) {
+                        break;
+                    }
+                }
+                else{break;}
+            }while(true);
+
             return json;
         }
         @Override
@@ -271,7 +343,7 @@ public class Incognito extends Fragment {
                         }
 
 
-                        Intent i = new Intent(getActivity().getApplicationContext(), anonMessaging.class);
+                        Intent i = new Intent(getActivity().getApplicationContext(), PrivateMessaging.class);
                         i.putExtra("nick", s);
                         i.putExtra("userId", id);
                         i.putExtra("fake", "true");

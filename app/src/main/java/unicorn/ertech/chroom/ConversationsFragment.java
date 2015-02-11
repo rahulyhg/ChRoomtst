@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -177,7 +178,7 @@ public class ConversationsFragment extends Fragment {
                         try {
                             messag = new JSONObject(real.get(i).toString());
                             Log.e("realOne", messag.toString());
-
+                            Calendar c=Calendar.getInstance();int month = c.get(c.MONTH)+1;
                             conversationsMsg p = new conversationsMsg(messag.getString("uid"), messag.getString("nickname"),messag.getString("message"), messag.getString("avatar"),"1","false",messag.getString("time"));
 
                             if(!checkInList(p)) {
@@ -196,7 +197,7 @@ public class ConversationsFragment extends Fragment {
                         try {
                             messag = new JSONObject(fake.get(i).toString());
                             Log.e("realOne", messag.toString());
-
+                            Calendar c=Calendar.getInstance();int month = c.get(c.MONTH)+1;
                             conversationsMsg p = new conversationsMsg(messag.getString("uid"), messag.getString("nickname"),messag.getString("message"), messag.getString("avatar"),"1", "true",messag.getString("time"));
                             if(!checkInList(p)) {
                                 messages.add(0, p);

@@ -39,7 +39,8 @@ public class SearchRandom extends Fragment {
     ImageView buttonStart;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
-
+    int tryCount=0;
+    int realTry=0;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -181,16 +182,53 @@ public class SearchRandom extends Fragment {
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
+            JSONObject json = null;
+            long wait = 2200;
+            String status = "";String num = "";
+            long elapsedtime = 0;
+            long startTime=   System.currentTimeMillis();
+            do {
 
-            //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
-            jParser.setParam("action", "lookfor");
-            jParser.setParam("type", "4");
-            //jParser.setParam("deviceid", "");
-            // Getting JSON from URL
-            Log.e("sendjson", "1111");
-            JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("receivedjson", "2222");
+                //ставим нужные нам параметры
+                jParser.setParam("token", Main.str);
+                jParser.setParam("action", "lookfor");
+                jParser.setParam("type", "4");
+                if(elapsedtime<5000) {
+                    json = jParser.getJSONFromUrl(URL);
+                    try {
+                        status = json.getString("error");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (status.equals("false")) {
+                        try {
+                            num = json.getString("total");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (!num.equals("0")) {
+                            break;
+                        } else {
+                            try {
+                                Thread.sleep(wait);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            realTry++;
+                        }
+                    }
+
+                    long currTime = System.currentTimeMillis();
+                    elapsedtime = currTime - startTime;
+
+                    if (elapsedtime > 5000) {
+                        break;
+                    }
+                }
+                else{break;}
+            }while(true);
+
             return json;
         }
         @Override
@@ -213,6 +251,7 @@ public class SearchRandom extends Fragment {
                     }
                     if (num.equals("0")) {
                         Toast.makeText(getActivity().getApplicationContext(), "Нет результатов!", Toast.LENGTH_SHORT).show();
+                        realTry=0;
                     } else {
                         String s = "", avatar = "", id = "";
                         JSONObject messag = null;
