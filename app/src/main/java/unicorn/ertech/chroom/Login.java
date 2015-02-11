@@ -1,11 +1,16 @@
 package unicorn.ertech.chroom;
 
+import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,6 +60,9 @@ public class Login extends Activity {
     SharedPreferences userData;
     auto_auth aaTask;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +109,7 @@ public class Login extends Activity {
                 startReset();
             }
         });
+
     }
 
     private void startReg(){
@@ -308,4 +317,6 @@ public class Login extends Activity {
     protected void onPause() {
         super.onPause();
     }
+
+
 }

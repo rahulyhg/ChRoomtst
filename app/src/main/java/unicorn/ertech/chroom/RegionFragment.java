@@ -284,11 +284,11 @@ public class RegionFragment extends Fragment {
                             Log.e("messagregion", messag.toString());
                             if (firsTime) {
                                 if (!messag.equals(null)) {
-                                    messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname"), messag.getString("message"), messag.getString("avatar")));
+                                    messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
                                 }
                             } else {
                                 if (!messag.equals(null)) {
-                                    messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname"), messag.getString("message"), messag.getString("avatar")));
+                                    messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
                                 }
                             }
                             msgCount++;

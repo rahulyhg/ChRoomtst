@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -31,7 +32,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -52,6 +55,7 @@ public class ConversationsFragment extends Fragment {
     String token, realNum, fakeNum, lastID4;
     conversationsMsg agent;
     String URL = "http://im.topufa.org/index.php";
+    boolean stopTImer = false ;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -71,6 +75,7 @@ public class ConversationsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_priv1, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
+
         dialogs = (ListView)view.findViewById(R.id.lvConversations);
 
         ReadDialogsFromFile();
@@ -92,8 +97,6 @@ public class ConversationsFragment extends Fragment {
                 i.putExtra("nick",nick);
                 i.putExtra("fake",fake);
                 i.putExtra("avatar",adapter.getItem(position).picURL);
-                //messages.remove(position);
-                //adapter.notifyDataSetChanged();
                 startActivity(i);
 
             }
@@ -105,9 +108,10 @@ public class ConversationsFragment extends Fragment {
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequestConversation", token);
                 if (isNetworkAvailable()) {
-                    new globalChat4().execute();
+                    if(!stopTImer) {
+                        new globalChat4().execute();
+                    }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
@@ -118,7 +122,7 @@ public class ConversationsFragment extends Fragment {
     }
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
@@ -161,14 +165,19 @@ public class ConversationsFragment extends Fragment {
                     lastid = json.getString("firstid");
                     Log.e("firstid", lastID4);
                     if (lastID4.equals(lastid)) {
-                        lastID4 = json.getString("lastid");
+                        //lastID4 = json.getString("lastid");
                     } else {
                         flag = true;
                         lastID4 = json.getString("firstid");
-                        s = json.getString("real");
-                        real = new JSONArray(s);
-                        s = json.getString("fake");
-                        fake = new JSONArray(s);
+                        if(!realNum.equals("0")){
+                            s = json.getString("real");
+                            real = new JSONArray(s);
+                        }
+
+                        if(!fakeNum.equals("0")) {
+                            s = json.getString("fake");
+                            fake = new JSONArray(s);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -253,7 +262,7 @@ public class ConversationsFragment extends Fragment {
         boolean flag = false;
         for(int i=0; i<messages.size();i++)
         {
-            if(messages.get(i).uid.equals(msg.uid))
+            if(messages.get(i).uid.equals(msg.uid) && messages.get(i).fake.equals(msg.fake))
             {
                 messages.get(i).message = msg.message;
                 messages.get(i).time = msg.time;
@@ -279,7 +288,7 @@ public class ConversationsFragment extends Fragment {
                 flag = false;
                 conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).fake,p.time);
                 messages.remove(i);
-                messages.add(i,m);
+                messages.add(0,m);
                 adapter.notifyDataSetChanged();
                 WriteDialogsToFile();
             }
@@ -346,9 +355,21 @@ public class ConversationsFragment extends Fragment {
 
     @Override
     public void onDestroy(){
-        myTimer.cancel();
-        WriteDialogsToFile();
+        //myTimer.cancel();
+        stopTImer=true;
         Log.e("json", "destroy");
         super.onDestroy();
+    }
+    @Override
+    public void onPause(){
+        //myTimer.cancel();
+        stopTImer=true;
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        stopTImer=false;
+        super.onResume();
     }
 }

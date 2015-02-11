@@ -89,7 +89,7 @@ public class PrivateMessaging extends Activity {
         fake = i.getStringExtra("fake");
         nick.setText(i.getStringExtra("nick"));
         picUrl = i.getStringExtra("avatar");
-        Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).transform(new PicassoRoundTransformation()).fit().into(avatar);
+        Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +170,13 @@ public class PrivateMessaging extends Activity {
             jParser.setParam("token", token);
             jParser.setParam("action", "pm_send");
             //jParser.setParam("userid", myID);
-            jParser.setParam("sendto", userId);
+            if(fake.equals("false")) {
+                jParser.setParam("sendto", userId);
+            }
+            else
+            {
+                jParser.setParam("fakeid", userId);
+            }
             jParser.setParam("message", outMsg);
             //jParser.setParam("deviceid", "");
             // Getting JSON from URL
@@ -260,52 +266,62 @@ public class PrivateMessaging extends Activity {
                 String lastid = null;
                 JSONArray arr = null;
                 String s = null;
-                JSONObject messag = null;
+                String status="";
                 try {
-                    msgNum = json.getString("total");
-                    Log.e("msgNum",msgNum);
-                    Log.e("msgNumJson",json.toString());
+                    status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                try {
 
-                    flag = true;
-                    s = json.getString("data");
-                    arr = new JSONArray(s);
+                if(status.equals("false")) {
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (flag && Integer.parseInt(msgNum) !=0) {
+                    JSONObject messag = null;
                     try {
-                        lastBlock = json.getString("lastid");
+                        msgNum = json.getString("total");
+                        Log.e("msgNum", msgNum);
+                        Log.e("msgNumJson", json.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    for (int i = 0; i < Integer.parseInt(msgNum); i++) {
-
-                        try {
-                            messag = new JSONObject(arr.get(i).toString());
-
-                            pmChatMessage p = new pmChatMessage(messag.getString("uid"), messag.getString("message"), messag.getString("direct"));
-                            Log.e("addingMessage", messag.getString("message"));
-                            messages.add(0, p);
-                            msgCount++;
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (NullPointerException e) {
-                            Log.e("NullPointerException", e.toString());
+                    try {
+                        if(!msgNum.equals("0")) {
+                            flag = true;
+                            s = json.getString("data");
+                            arr = new JSONArray(s);
                         }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    adapter.notifyDataSetChanged();
-                    if(firstTime)
-                    {
-                        lvChat.setSelection(adapter.getCount());
-                        firstTime = false;
+                    if (flag && Integer.parseInt(msgNum) != 0) {
+                        try {
+                            lastBlock = json.getString("lastid");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        for (int i = 0; i < Integer.parseInt(msgNum); i++) {
+
+                            try {
+                                messag = new JSONObject(arr.get(i).toString());
+
+                                pmChatMessage p = new pmChatMessage(messag.getString("uid"), messag.getString("message"), messag.getString("direct"));
+                                Log.e("addingMessage", messag.getString("message"));
+                                messages.add(0, p);
+                                msgCount++;
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (NullPointerException e) {
+                                Log.e("NullPointerException", e.toString());
+                            }
+
+                        }
+                        adapter.notifyDataSetChanged();
+                        if (firstTime) {
+                            lvChat.setSelection(adapter.getCount());
+                            firstTime = false;
+                        }
                     }
                 }
             }

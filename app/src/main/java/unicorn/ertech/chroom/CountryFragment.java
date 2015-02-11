@@ -282,9 +282,9 @@ public class CountryFragment extends Fragment {
                             messag = new JSONObject(arr.get(i).toString());
                             Log.e("messagcountry", messag.toString());
                             if (firsTime) {
-                                messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname"), messag.getString("message"), messag.getString("avatar")));
+                                messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
                             } else {
-                                messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname"), messag.getString("message"), messag.getString("avatar")));
+                                messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
                             }
                             msgCount++;
                         } catch (JSONException e) {

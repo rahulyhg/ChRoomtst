@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +54,7 @@ public class Main extends TabActivity {
     ImageButton butProfile;
     ImageButton butSupport;
     ImageButton butSettings;
+    public  static String URL = "http://im.topufa.org/index.php";
 
     final String SAVED_COLOR = "color";
 
@@ -60,6 +62,7 @@ public class Main extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        stopService(new Intent(this, notif.class));
 
         tabHost = getTabHost();
         Intent i = getIntent();
@@ -344,6 +347,14 @@ public class Main extends TabActivity {
         });
 
         quitDialog.show();
+    }
+
+    @Override
+    public void onDestroy(){
+        Intent i = new Intent(this, notif.class);
+        i.putExtra("token", str);
+        startService(i);
+        super.onDestroy();
     }
 
     @Override

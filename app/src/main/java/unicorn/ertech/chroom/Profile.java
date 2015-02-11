@@ -347,7 +347,7 @@ public class Profile extends Activity {
                 etProfileCity.setText(json.getString("city"));
                 userName = json.getString("name");
                 userAbout = json.getString("info");
-                birthDay.setText(json.getString("birthday"));
+                birthDay.setText(json.getString("age"));
                 String sex = json.getString("sex");
                 profileSex.setSelection(0);
                 Log.e("selectedItem", profileSex.getSelectedItem()+"");

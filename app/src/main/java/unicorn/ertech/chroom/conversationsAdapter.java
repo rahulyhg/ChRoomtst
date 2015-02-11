@@ -77,6 +77,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         String[] dateTime = p.time.split("%");
         String[] time = dateTime[1].split(":");
         String[] date = dateTime[0].split("-");
+        dateTime[1]=time[0]+":"+time[1];
         msgTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(time[0]));
         msgTime.set(Calendar.MINUTE,Integer.parseInt(time[1]));
         msgTime.set(Calendar.SECOND,Integer.parseInt(time[2]));
@@ -119,7 +120,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder.tvTime.setText(dateTime[0]);
         }
 
-        Picasso.with(getContext()).load(p.picURL).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
+        Picasso.with(getContext()).load(p.picURL).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 
         return v;

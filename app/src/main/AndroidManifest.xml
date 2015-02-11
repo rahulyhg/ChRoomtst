@@ -124,6 +124,12 @@
             android:name=".anonMessaging"
             android:label="@string/title_activity_anon_messaging" >
         </activity>
+
+        <service
+            android:name=".notif"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

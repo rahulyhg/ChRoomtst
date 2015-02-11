@@ -62,7 +62,7 @@ public class chatAdapter extends ArrayAdapter<chatMessage> {
             holder.tvFrom.setText(p.getFrom());
             //holder.tvMsg.setText(p.getMessage());
             holder.tvMsg.setText(getSmiledText(getContext(),p.getMessage()));
-            Picasso.with(getContext()).load(p.getPicURL()).networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
+            Picasso.with(getContext()).load(p.getPicURL())/*.networkPolicy(NetworkPolicy.NO_CACHE)*/.memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 
             return v;

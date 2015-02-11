@@ -57,11 +57,11 @@ public class anonChatAdapter extends ArrayAdapter<anonChat> {
         if(p.getSex().equals("1"))//если мужской пол
         {
             //holder.img.setImageDrawable(getContext().getResources().getDrawable(getContext().getResources().getIdentifier("drawable/like_fill", "drawable", getContext().getPackageName())));
-            holder.img.setImageResource(R.drawable.like_fill);
+            holder.img.setImageResource(R.drawable.man);
         }
         else
         {
-            holder.img.setImageResource(R.drawable.kiss_fill);
+            holder.img.setImageResource(R.drawable.women);
             //holder.img.setImageDrawable(getContext().getResources().getDrawable(getContext().getResources().getIdentifier("drawable/kiss_fill", "drawable", getContext().getPackageName())));
         }
 
