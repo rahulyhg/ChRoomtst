@@ -203,7 +203,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "globe_send");
-            jParser.setParam("userid", myID);
             jParser.setParam("room", room);
             jParser.setParam("message", outMsg);
             //jParser.setParam("deviceid", "");

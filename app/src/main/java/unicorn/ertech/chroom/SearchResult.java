@@ -69,7 +69,6 @@ public class SearchResult extends Activity {
         adapter = new SearchResultAdapter(results,this);
         gridview.setAdapter(adapter);
 
-
     }
 
    /* private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {

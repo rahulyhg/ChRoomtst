@@ -49,6 +49,7 @@ public class Main extends TabActivity {
     TabHost tabHost;
     RelativeLayout topRow;
 
+
     ImageButton butProfile;
     ImageButton butSupport;
     ImageButton butSettings;
@@ -60,7 +61,7 @@ public class Main extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        stopService(new Intent(this, notif.class));
+
 
         tabHost = getTabHost();
         Intent i = getIntent();
@@ -147,6 +148,9 @@ public class Main extends TabActivity {
                 startActivity(in);
             }
         });
+
+        Intent srvs = new Intent(this, notif.class);
+        startService(srvs);
     }
 
     private static View createTabView(final Context context, final String text, int id) {
@@ -351,9 +355,6 @@ public class Main extends TabActivity {
 
     @Override
     public void onDestroy(){
-        Intent i = new Intent(this, notif.class);
-        i.putExtra("token", str);
-        startService(i);
         super.onDestroy();
     }
 
@@ -370,13 +371,13 @@ public class Main extends TabActivity {
         //tabHost.setCurrentTab(curTab);
     }
 
-    /*@Override
+    @Override
     public void onPause(){
-        curTab=tabHost.getCurrentTab();
 
         super.onPause();
     }
 
+    /*
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);

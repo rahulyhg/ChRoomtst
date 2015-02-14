@@ -508,4 +508,5 @@ public class Profile2 extends Activity implements View.OnClickListener{
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
+
 }

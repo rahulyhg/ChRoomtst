@@ -59,6 +59,8 @@ public class Profile extends Activity {
     public int pic_height;
     public int pic_width;
 
+    boolean startService = true;
+
     static final int GALLERY_REQUEST = 1;
     public static ImageHolder iHolder;
 
@@ -194,6 +196,7 @@ public class Profile extends Activity {
         smallProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startService = false;
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);  //Здесь запускает галерею
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
@@ -221,6 +224,7 @@ public class Profile extends Activity {
                 closeMe();
             }
         });
+
     }
 
     public void closeMe() {
@@ -272,6 +276,7 @@ public class Profile extends Activity {
                     //profilePhoto.setImageURI(selectedImage);
                     SavePath(selectedImage.toString());
                     pathToUserPhoto = getImagePath(selectedImage);
+                    startService = true;
                     new sendUserPhoto().execute();
                 }
         }
@@ -477,6 +482,7 @@ public class Profile extends Activity {
             }
         }
     }
+
 
     View.OnClickListener showSaveButton = new View.OnClickListener() {
         @Override

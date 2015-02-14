@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -43,7 +44,10 @@ public class SetCol extends Activity {
         butOrange.setOnClickListener(setColor);
         butPurple.setOnClickListener(setColor);
         butGreen.setOnClickListener(setColor);
+
+
     }
+
 
     private View.OnClickListener setColor = new View.OnClickListener(){
         @Override

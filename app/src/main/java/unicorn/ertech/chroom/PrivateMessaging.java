@@ -180,6 +180,7 @@ public class PrivateMessaging extends Activity {
                 }
             }
         }, 1L * 250, 2L * 1000);
+
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -449,12 +450,7 @@ public class PrivateMessaging extends Activity {
         return activeNetworkInfo != null;
     }
 
-    @Override
-    public void onDestroy(){
-        myTimer.cancel();
-        Log.e("json", "destroy");
-        super.onDestroy();
-    }
+
 
     private PopupWindow pwindo;
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;

@@ -13,6 +13,7 @@ public class conversationsMsg implements Serializable {
     String direction;
     String fake;
     String time;
+    String isRead;
 
     public conversationsMsg(String UID, String FROM, String MSG, String pcURL, String DIR, String FAKE, String TIME)
     {

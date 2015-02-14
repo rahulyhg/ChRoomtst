@@ -85,6 +85,8 @@ public class SetActivity extends Activity {
                 showActivity(SetCol.class);
             }
         });
+
+
     }
 
     public void closeMe(){

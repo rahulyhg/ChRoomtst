@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -25,11 +26,14 @@ import java.util.concurrent.TimeUnit;
 public class notif extends Service {
     private NotificationManager manager;
     int lastId=0;
-
+    SharedPreferences userData;
+    final String SAVED_TOKEN = "token";
+    String URL = "http://im.topufa.org/index.php";
     String lastID4="";
     String lastid="";
     String token="";
     Timer  myTimer;
+    Thread myThread;
     public notif() {
     }
 
@@ -44,15 +48,20 @@ public class notif extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "onStartCommand");
-        token = intent.getStringExtra("token");
-        myTimer = new Timer();
-        someTask();
+        userData = getSharedPreferences("userdata", MODE_PRIVATE);
+        if((userData.contains(SAVED_TOKEN))) {
+            token = userData.getString(SAVED_TOKEN, "");
+            myTimer = new Timer();
+            someTask();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        myTimer.cancel();
+        myTimer = null;
         Log.d(LOG_TAG, "onDestroy");
     }
 
@@ -70,63 +79,65 @@ public class notif extends Service {
                     @Override
                     public void run() {
                         if (isNetworkAvailable()) {
-                                new globalChat4().execute();
-                        } else {
-                            //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
+                                globalChat4();
                         }
                     }
-                }, 1L * 250, 2L * 1000);
+                }, 1L * 250, 3L * 1000);
             }
         }).start();
     }
 
-    private class globalChat4 extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
+    private void globalChat4 (){
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "pm_get");
             jParser.setParam("firstid", lastID4);
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(Main.URL);
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
             if(json!=null) {
                 String realNum = "";
                 String fakeNum = "";
                 String s = null;
                 JSONArray real = null;
                 JSONObject messag = null;
+
                 try {
-                    realNum = json.getString("real_total");
-                    fakeNum = json.getString("fake_total");
+                    s = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                try {
-                    lastID4 = json.getString("firstid");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if(!realNum.equals("0"))
+                if(s.equals("false"))
                 {
-                    int i = createInfoNotification("У Вас есть непрочитанные сообщения");
+                    try {
+                        realNum = json.getString("real_total");
+                        fakeNum = json.getString("fake_total");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        lastID4 = json.getString("firstid");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!realNum.equals("0")) {
+                        Log.e("notif_num", realNum);
+                        Log.e("notif_token", token);
+                        Log.e("notif_lastId", lastID4);
+                        int i = createInfoNotification("У Вас есть непрочитанные сообщения");
+                    }
+                }
+                else
+                {
+                    Log.e("notif_token", token);
+                    Log.e("notif_error", json.toString());
                 }
             }
 
         }
-    }//конец asyncTask
 
 
     public int createInfoNotification(String message){
@@ -135,7 +146,7 @@ public class notif extends Service {
         i.putExtra("Token",token);
         //startActivity(i); // по клику на уведомлении откроется HomeActivity
         NotificationCompat.Builder nb = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.logo) //иконка уведомления
+                .setSmallIcon(R.drawable.ic_launcher) //иконка уведомления
                 .setAutoCancel(true) //уведомление закроется по клику на него
                 .setTicker(message) //текст, который отобразится вверху статус-бара при создании уведомления
                 .setContentText(message) // Основной текст уведомления
@@ -145,9 +156,9 @@ public class notif extends Service {
                 .setDefaults(Notification.DEFAULT_ALL); // звук, вибро и диодный индикатор выставляются по умолчанию
 
         Notification notification = nb.getNotification(); //генерируем уведомление
-        manager.notify(lastId, notification); // отображаем его пользователю.
+        manager.notify(0, notification); // отображаем его пользователю.
         //notifications.put(lastId, notification); //теперь мы можем обращаться к нему по id
-        return lastId++;
+        return 0;
     }
 
     private boolean isNetworkAvailable() {
@@ -155,5 +166,17 @@ public class notif extends Service {
                 = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    private boolean checkToken(String TOKEN)
+    {
+        boolean result = false;
+
+        JSONParser jParser = new JSONParser();
+        jParser.setParam("action", "check");
+        jParser.setParam("token", token);
+        JSONObject json = jParser.getJSONFromUrl(URL);
+
+        return result;
     }
 }
