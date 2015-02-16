@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,14 @@ public class SetPrivate extends Activity {
         //setContentView(R.layout.tab_incognito);
 
         Button butBack=(Button)findViewById(R.id.setBack);
+        Button blackList=(Button)findViewById(R.id.tvBlackList);
         butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeMe();
+            }
+        });
+        blackList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeMe();
@@ -27,5 +35,9 @@ public class SetPrivate extends Activity {
 
     public void closeMe(){
         this.finish();
+    }
+    public void blackOpen(){
+        Intent i = new Intent(this, SetBlackList.class);
+        startActivity(i);
     }
 }
