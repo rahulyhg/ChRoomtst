@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/lvChat2"
-        android:layout_above="@+id/relLay1" />
+        android:layout_above="@+id/editText1" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -20,9 +20,7 @@
         android:background="#AAAAAAAA"
         android:id="@+id/smileTable2"
         android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentBottom="true">
 
         <TableRow
             android:layout_width="fill_parent"
@@ -98,30 +96,29 @@
         </TableRow>
     </TableLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/relLay1"
-        android:layout_above="@+id/smileTable2"
-        android:visibility="visible"
-        android:layout_alignWithParentIfMissing="true">
 
         <Button
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text=">"
             android:id="@+id/button22"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/smileTable2"
+            android:visibility="visible"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_alignParentBottom="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
-            android:layout_alignParentBottom="true"
+            android:id="@+id/editText1"
+            android:layout_alignParentBottom="false"
             android:layout_toRightOf="@+id/butSmile2"
             android:layout_toLeftOf="@+id/button22"
+            android:layout_above="@+id/smileTable2"
+            android:visibility="visible"
+            android:layout_alignWithParentIfMissing="true"
             android:layout_toStartOf="@+id/button22" />
 
         <Button
@@ -129,9 +126,11 @@
             android:layout_height="wrap_content"
             android:text=":)"
             android:id="@+id/butSmile2"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_alignParentLeft="true"
+            android:layout_above="@+id/smileTable2"
+            android:visibility="visible"
+            android:layout_alignWithParentIfMissing="true"
             android:layout_alignParentStart="true" />
-    </RelativeLayout>
 
 </RelativeLayout>

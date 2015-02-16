@@ -39,6 +39,12 @@ public class NewsContainer extends FragmentActivity {
         fTrans.commit();
     }
 
+    public void startList(){
+        fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.replace(R.id.frgmContNews, frag1);
+        fTrans.commit();
+    }
+
     @Override
     public void onBackPressed(){
 /*        Fragment frag = getSupportFragmentManager().findFragmentById(R.id.frgmContNews);

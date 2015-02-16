@@ -3,22 +3,24 @@ package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -48,6 +50,7 @@ public class PrivateMessaging extends Activity {
     ListView lvChat;
     EditText txtSend;
     Button butSend;
+    ImageButton butLists;
     Button butSmile;
     String URL = "http://im.topufa.org/index.php";
     TextView nick;
@@ -77,9 +80,15 @@ public class PrivateMessaging extends Activity {
         txtSend=(EditText)findViewById(R.id.sendText);
         nick = (TextView)findViewById(R.id.profileBack);
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
+        butLists=(ImageButton)findViewById(R.id.ibStar);
         dateTime = new Date();
 
-        final Button  butBack=(Button)findViewById(R.id.butChatBack);
+        butLists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }});
+        final Button  butBack=(Button)findViewById(R.id.butNewsBack);
         nick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -600,5 +609,36 @@ public class PrivateMessaging extends Activity {
         Spannable spannable = spannableFactory.newSpannable(text);
         addSmiles(context, spannable);
         return spannable;
+    }
+
+
+    //Всплывающее меню
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.inflate(R.menu.add_list_menu); // Для Android 4.0
+        // для версии Android 3.0 нужно использовать длинный вариант
+        // popupMenu.getMenuInflater().inflate(R.menu.popupmenu,
+        // popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Toast.makeText(PopupMenuDemoActivity.this,
+                        // item.toString(), Toast.LENGTH_LONG).show();
+                        // return true;
+                        switch (item.getItemId()) {
+                            default:
+                                return false;
+                        }
+                    }
+                });
+
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+
+            @Override
+            public void onDismiss(PopupMenu menu) {
+            }
+        });
+        popupMenu.show();
     }
 }
