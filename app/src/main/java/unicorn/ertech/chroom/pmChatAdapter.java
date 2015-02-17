@@ -49,13 +49,13 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         //Check whether message is mine to show green background and align to right
         if(p.direction.equals("0"))
         {
-            holder.tvMsg.setBackgroundResource(R.drawable.bright);
+            holder.tvMsg.setBackgroundResource(R.drawable.bubble);
             lp.gravity = Gravity.RIGHT;
         }
         //If not mine then it is from sender to show orange background and align to left
         else
         {
-            holder.tvMsg.setBackgroundResource(R.drawable.bleft);
+            holder.tvMsg.setBackgroundResource(R.drawable.bubble);
             lp.gravity = Gravity.LEFT;
         }
         holder.tvMsg.setLayoutParams(lp);

@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +32,7 @@ public class FavoritesFragment extends Fragment {
     Timer myTimer;
     String token;
     conversationsMsg agent;
+    ListView favotites;
     String URL = "http://im.topufa.org/index.php";
 
     /** Handle the results from the voice recognition activity. */
@@ -50,6 +54,30 @@ public class FavoritesFragment extends Fragment {
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
         token = Main.str;
+        favotites = (ListView)view.findViewById(R.id.lvFavorites);
+        adapter = new conversationsAdapter(messages,context);
+        favotites.setAdapter(adapter);
+        favotites.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id)
+            {
+
+                String UserId = adapter.getItem(position).uid;
+                String nick = adapter.getItem(position).from;
+                String fake = adapter.getItem(position).fake;
+                adapter.getItem(position).direction = "0";
+                Intent i = new Intent(getActivity(),PrivateMessaging.class);
+                i.putExtra("userId",UserId);
+                i.putExtra("token",token);
+                i.putExtra("nick",nick);
+                i.putExtra("fake",fake);
+                i.putExtra("avatar",adapter.getItem(position).picURL);
+                adapter.notifyDataSetChanged();
+                startActivity(i);
+
+            }
+        });
+
+        new Favorites().execute();
 
         return view;
     }
@@ -109,7 +137,7 @@ public class FavoritesFragment extends Fragment {
                         for (int i = 0; i < Integer.parseInt(num); i++) {
                             try {
                                 messag = new JSONObject(arr.get(i).toString());
-                                conversationsMsg p = new conversationsMsg(messag.getString("uid"), messag.getString("nickname"),""/*messag.getString("message")*/, messag.getString("avatar"),"1","false",messag.getString("time"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("id"), messag.getString("name"),messag.getString("message"), messag.getString("avatar"),"1","false",messag.getString("time"));
 
                                     messages.add(0, p);
 
@@ -119,6 +147,8 @@ public class FavoritesFragment extends Fragment {
                                 Log.e("NullPointerException", e.toString());
                             }
                         }
+
+                        adapter.notifyDataSetChanged();
                     }
                 }
 

@@ -154,11 +154,8 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         protected Void doInBackground(String... params) {
             try {
                 RssReader rssReader = new RssReader(params[0]);
-                int it=0;
                 RssItem item;
                 int rssSize = rssReader.getItems().size();
-                item=rssReader.getItems().get(0);
-                news_list.add(new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl()));
                 for (int j=0; j<rssSize; j++){
                     item=rssReader.getItems().get(j);
                     newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
