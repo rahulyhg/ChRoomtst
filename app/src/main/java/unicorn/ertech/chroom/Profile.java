@@ -56,6 +56,7 @@ import unicorn.ertech.chroom.PicassoRoundTransformation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.util.StringTokenizer;
 
 /**
  * Created by Timur on 08.01.2015.
@@ -382,7 +383,10 @@ public class Profile extends Activity {
                 Log.e("selectedItem", profileSex.getSelectedItem()+"");
                 if(sex.equals("1")){profileSex.setSelection(0);}
                 if(sex.equals("0")){profileSex.setSelection(1);}
-                Log.e("selectedItem", profileSex.getSelectedItem()+"");
+                familySpin.setSelection(json.getInt("sp"));
+                hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));
+                hereForTv.setText(getStringFromArray(json.getString("herefor"), R.array.herefor));
+                Log.e("selectedItem", profileSex.getSelectedItem() + "");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
             }
@@ -632,5 +636,15 @@ public class Profile extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String getStringFromArray(String arrayPositions, int arrayId){
+        String[] stringsArr = getResources().getStringArray(arrayId);
+        String str="";
+        StringTokenizer strTok=new StringTokenizer(arrayPositions, ",");
+        while(strTok.hasMoreTokens()==true){
+            str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
+        }
+        return str;
     }
 }
