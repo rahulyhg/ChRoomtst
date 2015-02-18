@@ -26,7 +26,7 @@ public class SetBlackList extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_blacklist);
-        topRow=(RelativeLayout)findViewById(R.id.topRow_sch);
+        topRow=(RelativeLayout)findViewById(R.id.topRow);
         butBack=(Button)findViewById(R.id.setBack);
         lvBlackList=(ListView)findViewById(R.id.lvBlackList);
         setColor();
