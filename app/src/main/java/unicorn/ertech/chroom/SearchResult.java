@@ -30,18 +30,7 @@ public class SearchResult extends Activity {
         GridView gridview = (GridView) findViewById(R.id.gridView);
 
         gridview.setNumColumns(3);
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position,long id) {
-            // TODO Auto-generated method stub
-            // Sending image id to FullScreenActivity
-            Intent i = new Intent(getApplicationContext(), Profile2.class);
-            // passing array index
-            i.putExtra("userId", results.get(position).uid);
-            i.putExtra("token", Main.str);
-            i.putExtra("avatar", results.get(position).picUrl);
-            startActivity(i);
-        }});
+
 
         Intent k = getIntent();
         String result = k.getStringExtra("results");
@@ -71,7 +60,7 @@ public class SearchResult extends Activity {
 
     }
 
-   /* private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
+    private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View v, int position,
                                 long id) {
@@ -84,5 +73,5 @@ public class SearchResult extends Activity {
             i.putExtra("avatar", results.get(position).picUrl);
             startActivity(i);
         }
-    };*/
+    };
 }

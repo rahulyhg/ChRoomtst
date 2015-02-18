@@ -2,14 +2,12 @@ package unicorn.ertech.chroom;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableRow;
@@ -39,7 +37,7 @@ public class Reg1 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_1);
 
-        phonenumber=(EditText)findViewById(R.id.editText);
+        phonenumber=(EditText)findViewById(R.id.editText1);
         Button next=(Button)findViewById(R.id.button4);
         etHuman=(EditText)findViewById(R.id.etHuman);
         trPass=(TableRow)findViewById(R.id.trReceivedPass);

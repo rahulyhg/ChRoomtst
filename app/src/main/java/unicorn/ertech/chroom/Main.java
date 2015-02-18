@@ -149,8 +149,8 @@ public class Main extends TabActivity {
             }
         });
 
-        Intent srvs = new Intent(this, notif.class);
-        startService(srvs);
+        //Intent srvs = new Intent(this, notif.class);
+        //startService(srvs);
     }
 
     private static View createTabView(final Context context, final String text, int id) {

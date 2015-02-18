@@ -35,7 +35,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/editText1"
             android:layout_marginLeft="15dp"
             android:background="@drawable/corners"
             android:autoText="false"

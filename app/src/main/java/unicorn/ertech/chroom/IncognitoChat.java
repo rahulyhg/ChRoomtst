@@ -53,7 +53,7 @@ public class IncognitoChat extends Fragment{
     private static final String DESCRIPTION = "message_body"; // ниже главного
     private static final String ICON = "avatar";  // будущая картинка
     anonChatAdapter adapter;
-
+    boolean stopTImer = false ;
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -71,9 +71,10 @@ public class IncognitoChat extends Fragment{
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequest", token);
                 if (isNetworkAvailable()) {
-                    new globalChat().execute();
+                    if(!stopTImer) {
+                        new globalChat().execute();
+                    }
                 }
                 else
                 {
@@ -255,5 +256,17 @@ public class IncognitoChat extends Fragment{
         myTimer.cancel();
         Log.e("json", "destroy");
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        stopTImer=false;
+    }
+
+    @Override
+    public void onPause(){
+        stopTImer=true;
+        super.onPause();
     }
 }

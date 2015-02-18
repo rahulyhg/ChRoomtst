@@ -30,10 +30,10 @@ public class FavoritesFragment extends Fragment {
     static conversationsAdapter adapter;
     static List<conversationsMsg> messages = new ArrayList<conversationsMsg>();
     Timer myTimer;
-    String token;
+    static String token;
     conversationsMsg agent;
     ListView favotites;
-    String URL = "http://im.topufa.org/index.php";
+    static String URL = "http://im.topufa.org/index.php";
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -77,7 +77,7 @@ public class FavoritesFragment extends Fragment {
             }
         });
 
-        new Favorites().execute();
+        updateList();
 
         return view;
     }
@@ -87,7 +87,7 @@ public class FavoritesFragment extends Fragment {
         new Favorites().execute();
     }
 
-    private class Favorites extends AsyncTask<String, String, JSONObject> {
+    private static class Favorites extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -158,4 +158,11 @@ public class FavoritesFragment extends Fragment {
 
         }
     }//конец asyncTask
+
+    public  static void updateList()
+    {
+        messages.clear();
+        adapter.notifyDataSetChanged();
+        new Favorites().execute();
+    }
 }

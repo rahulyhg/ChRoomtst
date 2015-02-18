@@ -129,6 +129,20 @@ public class ConversationsFragment extends Fragment {
         return activeNetworkInfo != null;
     }
 
+    public static void findNremove(String id)//удаляет чела с id из сиписка диалогов
+    {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).uid.equals(id))
+            {
+                messages.remove(i);
+                return;
+            }
+        }
+        adapter.notifyDataSetChanged();
+        WriteDialogsToFile();
+    }
+
     private class globalChat4 extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {

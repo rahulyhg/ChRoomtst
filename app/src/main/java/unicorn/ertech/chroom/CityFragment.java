@@ -10,30 +10,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +55,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
     JSONObject json;
     Timer myTimer;
     boolean firsTime;
+    boolean stopTImer = false ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     String URL = "http://im.topufa.org/index.php";
     String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID;
@@ -94,10 +86,11 @@ public class CityFragment extends android.support.v4.app.Fragment {
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequest", token);
                 if (isNetworkAvailable()) {
                     room = "10";
-                    new globalChat2().execute();
+                    if(!stopTImer) {
+                        new globalChat2().execute();
+                    }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
@@ -115,7 +108,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
         final Button butSend = (Button) view.findViewById(R.id.button22);
         butSmile = (Button) view.findViewById(R.id.butSmile2);
         lvChat = (ListView)view.findViewById(R.id.lvChat2);
-        txtSend = (EditText) view.findViewById(R.id.editText2);
+        txtSend = (EditText) view.findViewById(R.id.editText1);
         firsTime = true;
         token = Main.str;
         room = "10";
@@ -125,13 +118,14 @@ public class CityFragment extends android.support.v4.app.Fragment {
         lastID3 = "";
         lastID4 = "";
         myID = "18";
+        regionList = new ArrayList<HashMap<String, Object>>();
 
         adapter = new chatAdapter(messages,getActivity().getApplicationContext());
-
+        HashMap<String, Object> hm;
         lvChat.setAdapter(adapter);
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable2);
         final Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_animation);
-        rellay=(RelativeLayout)view.findViewById(R.id.relLay1);
+        //rellay=(RelativeLayout)view.findViewById(R.id.relLay1);
         //Animation anim2 = AnimationUtils.loadAnimation(getActivity(), )
         lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id)
@@ -159,6 +153,9 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 }else{
                     smileTable.setVisibility(View.GONE);
                 }
+                butSend.refreshDrawableState();
+                butSmile.refreshDrawableState();
+                txtSend.refreshDrawableState();
                 //RelativeLayout.LayoutParams params = rellay.getLayoutParams();
                 //butSend.setLayoutParams(butSmile.getLayoutParams());
                 //butSmile.setTop(butSmile.getTop() - smileTable.getLayoutParams().height);
@@ -323,29 +320,17 @@ public class CityFragment extends android.support.v4.app.Fragment {
         super.onDestroy();
     }
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        myTimer = new Timer();
-//        myTimer.schedule(new TimerTask() { // Определяем задачу
-//            @Override
-//            public void run() {
-//                Log.e("tokenBeforeRequest", token);
-//                if (isNetworkAvailable()) {
-//                    room = "10";
-//                    new globalChat2().execute();
-//                } else {
-//                    //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }, 1L * 250, 2L * 1000);
-//    }
-//
-//    @Override
-//    public void onPause(){
-//        myTimer.cancel();
-//        super.onPause();
-//    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        stopTImer=false;
+    }
+
+    @Override
+    public void onPause(){
+        stopTImer=true;
+        super.onPause();
+    }
 
     private void findSmiles(View view){
         s01 = (ImageView) view.findViewById(R.id.s01);

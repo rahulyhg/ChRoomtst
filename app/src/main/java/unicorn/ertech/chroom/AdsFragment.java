@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -60,6 +61,7 @@ public class AdsFragment extends Fragment {
         private ArrayList<HashMap<String, Object>> citiList;
         final String SAVED_CITY = "city";
         chatAdapter adapter;
+        boolean stopTImer = false ;
 
         /** Handle the results from the voice recognition activity. */
         @Override
@@ -85,10 +87,10 @@ public class AdsFragment extends Fragment {
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequest", token);
                 if (isNetworkAvailable()) {
-                            //room = "11";
-                            new globalChat1().execute();
+                    if(!stopTImer) {
+                        new globalChat1().execute();
+                    }
                 }
                 else
                 {
@@ -104,10 +106,11 @@ public class AdsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_blank, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
-        Button butSend = (Button) view.findViewById(R.id.button2);
+        final Button butSend = (Button) view.findViewById(R.id.button2);
         butSmile = (Button) view.findViewById(R.id.butSmile);
         lvChat = (ListView)view.findViewById(R.id.lvChat);
-        txtSend = (EditText) view.findViewById(R.id.sendText);
+        txtSend = (EditText) view.findViewById(R.id.editText1);
+        final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable1);
         firsTime = true;
         token = Main.str;
         //room = "11";
@@ -166,10 +169,18 @@ public class AdsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                initiatePopupWindow();
+                if(smileTable.getVisibility()==View.GONE){
+                    smileTable.setVisibility(View.VISIBLE);
+                }else{
+                    smileTable.setVisibility(View.GONE);
+                }
+                butSend.refreshDrawableState();
+                butSmile.refreshDrawableState();
+                txtSend.refreshDrawableState();
             }
         });
+
+        findSmiles(view);
         return view;
     }
 
@@ -321,86 +332,64 @@ public class AdsFragment extends Fragment {
     }
 
 
-    private PopupWindow pwindo;
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 
-    private void initiatePopupWindow() {
-        try {
-// We need to get the instance of the LayoutInflater
-            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //View view = inflater.inflate(R.layout.fragment_blank, container, false);
-            View layout = inflater.inflate(R.layout.smile_popup,  null, false);
-            Display display = getActivity().getWindowManager().getDefaultDisplay();
-            DisplayMetrics metricsB = new DisplayMetrics();
-            display.getMetrics(metricsB);
-            int window_width = metricsB.widthPixels;
-            int window_height = metricsB.heightPixels;
-            pwindo = new PopupWindow(layout, window_width, window_height, true);
-            pwindo.showAsDropDown(butSmile,0,-window_height);
-            Button smileCancel = (Button) layout.findViewById(R.id.button3);
-            smileCancel.setOnClickListener(smile_click_listener);
-            layout.setOnClickListener(smile_click_listener);
-            s01 = (ImageView) layout.findViewById(R.id.s01);
-            s01.setOnClickListener(smile_click_listener);
-            s02 = (ImageView) layout.findViewById(R.id.s02);
-            s02.setOnClickListener(smile_click_listener);
-            s03 = (ImageView) layout.findViewById(R.id.s03);
-            s03.setOnClickListener(smile_click_listener);
-            s04 = (ImageView) layout.findViewById(R.id.s04);
-            s04.setOnClickListener(smile_click_listener);
-            s05 = (ImageView) layout.findViewById(R.id.s05);
-            s05.setOnClickListener(smile_click_listener);
-            s06 = (ImageView) layout.findViewById(R.id.s06);
-            s06.setOnClickListener(smile_click_listener);
-            s07 = (ImageView) layout.findViewById(R.id.s07);
-            s07.setOnClickListener(smile_click_listener);
-            s08 = (ImageView) layout.findViewById(R.id.s08);
-            s08.setOnClickListener(smile_click_listener);
-            s09 = (ImageView) layout.findViewById(R.id.s09);
-            s09.setOnClickListener(smile_click_listener);
-            s10 = (ImageView) layout.findViewById(R.id.s10);
-            s10.setOnClickListener(smile_click_listener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void findSmiles(View view){
+        s01 = (ImageView) view.findViewById(R.id.s011);
+        s01.setOnClickListener(smile_click_listener);
+        s02 = (ImageView) view.findViewById(R.id.s012);
+        s02.setOnClickListener(smile_click_listener);
+        s03 = (ImageView) view.findViewById(R.id.s013);
+        s03.setOnClickListener(smile_click_listener);
+        s04 = (ImageView) view.findViewById(R.id.s014);
+        s04.setOnClickListener(smile_click_listener);
+        s05 = (ImageView) view.findViewById(R.id.s015);
+        s05.setOnClickListener(smile_click_listener);
+        s06 = (ImageView) view.findViewById(R.id.s016);
+        s06.setOnClickListener(smile_click_listener);
+        s07 = (ImageView) view.findViewById(R.id.s017);
+        s07.setOnClickListener(smile_click_listener);
+        s08 = (ImageView) view.findViewById(R.id.s018);
+        s08.setOnClickListener(smile_click_listener);
+        s09 = (ImageView) view.findViewById(R.id.s019);
+        s09.setOnClickListener(smile_click_listener);
+        s10 = (ImageView) view.findViewById(R.id.s010);
+        s10.setOnClickListener(smile_click_listener);
     }
-
     private View.OnClickListener smile_click_listener = new View.OnClickListener() {
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.s01:
+                case R.id.s011:
                     txtSend.append(":)");
                     break;
-                case R.id.s02:
+                case R.id.s012:
                     txtSend.append(":D");
                     break;
-                case R.id.s03:
+                case R.id.s013:
                     txtSend.append(":O");
                     break;
-                case R.id.s04:
+                case R.id.s014:
                     txtSend.append(":(");
                     break;
-                case R.id.s05:
+                case R.id.s015:
                     txtSend.append("*05*");
                     break;
-                case R.id.s06:
+                case R.id.s016:
                     txtSend.append("Z)");
                     break;
-                case R.id.s07:
+                case R.id.s017:
                     txtSend.append("*07*");
                     break;
-                case R.id.s08:
+                case R.id.s018:
                     txtSend.append("*08*");
                     break;
-                case R.id.s09:
+                case R.id.s019:
                     txtSend.append("*09*");
                     break;
-                case R.id.s10:
+                case R.id.s010:
                     txtSend.append("*love*");
                     break;
                 default:
-                    pwindo.dismiss();
                     break;
             }
             txtSend.setText(getSmiledText(getActivity(),txtSend.getText()));
@@ -419,26 +408,14 @@ public class AdsFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         }
-        /*myTimer = new Timer();
-        myTimer.schedule(new TimerTask() { // Определяем задачу
-            @Override
-            public void run() {
-                Log.e("tokenBeforeRequest", token);
-                if (isNetworkAvailable()) {
-                    room = "1";
-                    new globalChat1().execute();
-                } else {
-                    //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
-                }
-            }
-        }, 1L * 250, 2L * 1000);*/
+        stopTImer=false;
     }
-    /*
+
     @Override
     public void onPause(){
-        myTimer.cancel();
+        stopTImer=true;
         super.onPause();
-    }*/
+    }
 
     //
     //Ниже часть, связанная с отображением смайлов в edittext

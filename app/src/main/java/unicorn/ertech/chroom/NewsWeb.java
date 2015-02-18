@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -43,6 +44,16 @@ public class NewsWeb extends Fragment {
         TextView newsTitle = (TextView)view.findViewById(R.id.newsTitle);
         newsTitle.setText(parentActivity.selectedTitle);
         mWebView.setWebViewClient(new HelloWebViewClient());
+
+        Button backButton=(Button)view.findViewById(R.id.butNewsBack);
+
+        backButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                NewsContainer parentActivity = (NewsContainer)getActivity();
+                parentActivity.startList();
+            }
+        });
 
         return view;
     }

@@ -11,33 +11,125 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvChat"
-        android:layout_above="@+id/sendText" />
+        android:layout_above="@+id/editText1" />
 
     <Button
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text=">"
         android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/smileTable1"
+        android:visibility="visible"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_alignParentBottom="false"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sendText"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/button2"
+        android:id="@+id/editText1"
+        android:layout_alignParentBottom="false"
         android:layout_toRightOf="@+id/butSmile"
-        android:layout_toEndOf="@+id/butSmile" />
+        android:layout_toLeftOf="@+id/button2"
+        android:layout_above="@+id/smileTable1"
+        android:visibility="visible"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toStartOf="@+id/button2" />
 
     <Button
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text=":)"
         android:id="@+id/butSmile"
-        android:layout_above="@+id/button2"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_alignParentLeft="true"
+        android:layout_above="@+id/smileTable1"
+        android:visibility="visible"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_alignParentStart="true" />
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#AAAAAAAA"
+        android:id="@+id/smileTable1"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s011"
+                android:src="@drawable/s01" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s012"
+                android:src="@drawable/s02" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s013"
+                android:src="@drawable/s03" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s014"
+                android:src="@drawable/s04" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s015"
+                android:src="@drawable/s05" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s016"
+                android:src="@drawable/s06" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s017"
+                android:src="@drawable/s07" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s018"
+                android:src="@drawable/s08" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s019"
+                android:src="@drawable/s09" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s010"
+                android:src="@drawable/s10" />
+        </TableRow>
+    </TableLayout>
 </RelativeLayout>

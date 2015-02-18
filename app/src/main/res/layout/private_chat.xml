@@ -29,11 +29,11 @@
             android:id="@+id/ivChatAvatar"
             android:src="@drawable/ic_launcher"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/butChatBack"
-            android:layout_toEndOf="@+id/butChatBack"
+            android:layout_toRightOf="@+id/butNewsBack"
+            android:layout_toEndOf="@+id/butNewsBack"
             android:background="@drawable/but_green" />
 
-        <Button
+        <ImageButton
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:text="+"
@@ -43,13 +43,15 @@
             android:textColor="@color/white"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/screpka"
+            android:scaleType="fitCenter" />
 
         <Button
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:text="&lt;"
-            android:id="@+id/butChatBack"
+            android:id="@+id/butNewsBack"
             android:background="@drawable/but_green"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -73,7 +75,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/pm_bg"
     android:orientation="vertical">
 
     <ListView

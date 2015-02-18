@@ -58,8 +58,8 @@ public class SearchResultAdapter extends BaseAdapter {
 
         sResult entry = results.get(position);
 
-        Picasso.with(mContext).load(entry.picUrl).into(holder.img);
-        holder.tvFrom.setText(entry.name);
+        //Picasso.with(mContext).load(entry.picUrl).into(holder.img);
+        //holder.tvFrom.setText(entry.name);
 
         return convertView;
     }

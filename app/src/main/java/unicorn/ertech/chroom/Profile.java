@@ -18,12 +18,19 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,8 +63,8 @@ import java.net.URL;
 public class Profile extends Activity {
     SharedPreferences sPref;
     SharedPreferences sPref2;
-    public int pic_height;
     public int pic_width;
+    int k=0;
 
     boolean startService = true;
 
@@ -73,18 +80,16 @@ public class Profile extends Activity {
     ImageView photo4;
     TextView tvProfStat;
     TextView etName;
-    TextView birthDay;
+    TextView birthDay, hobbiesTv, hereForTv;
     EditText etProfileAbout;
     EditText etProfileCity;
     Button saveProfile;
-    Spinner profileSex, searchSex, hobbiesSpin, hereForSpin;
-    int sex, ssex, hob, here;
+    Spinner profileSex, searchSex, familySpin;
+    int sex, ssex, sp;
+    int[] selectedHobbies, selectedHere;
 
     Picasso mPicasso;
 
-
-    final String LIKE_STATE = "like";
-    final String KISS_STATE = "kiss";
     final String PHOTO_STATE = "photo";
     final String PHOTO_PATH = "path";
     final String SAVED_COLOR = "color";
@@ -113,6 +118,7 @@ public class Profile extends Activity {
         photo4 = (ImageView) findViewById(R.id.photo4);
         birthDay = (TextView)findViewById(R.id.tvBirthday);
         profileSex = (Spinner)findViewById(R.id.spinnerProfileSex);
+        searchSex=(Spinner)findViewById(R.id.spinSearchSex);
         saveProfile = (Button) findViewById(R.id.butProfileSave);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         sPref2 = getSharedPreferences("user", MODE_PRIVATE);
@@ -122,6 +128,12 @@ public class Profile extends Activity {
         etProfileAbout = (EditText) findViewById(R.id.etProfileAbout);
         etProfileCity = (EditText) findViewById(R.id.etProfileCity);
         tvProfStat = (TextView) findViewById(R.id.tvProfileStatus);
+        hobbiesTv = (TextView)findViewById(R.id.tvPickedHobbies);
+        hereForTv=(TextView)findViewById(R.id.tvPickedHerefor);
+        familySpin=(Spinner)findViewById(R.id.spinProfileRelationships);
+
+        selectedHobbies= new int[5];
+        selectedHere = new int[5];
 
         etName.setOnClickListener(showSaveButton);  //показ кнопки сохранить при редактировании данных о себе
         etProfileCity.setOnClickListener(showSaveButton);
@@ -143,6 +155,18 @@ public class Profile extends Activity {
                 new loadUserData().execute();
             }
         }
+        hobbiesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initiatePopupWindow(R.array.hobbies, hobbiesTv, selectedHobbies, 1);
+            }
+        });
+        hereForTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initiatePopupWindow(R.array.herefor, hereForTv, selectedHere, 0);
+            }
+        });
         if (sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
@@ -184,8 +208,8 @@ public class Profile extends Activity {
             public void onClick(View v) {
                 sex = profileSex.getSelectedItemPosition();
                 ssex=searchSex.getSelectedItemPosition();
-                hob=hobbiesSpin.getSelectedItemPosition();
-                here=hereForSpin.getSelectedItemPosition();
+                //hob=hobbiesSpin.getSelectedItemPosition();
+                //here=hereForSpin.getSelectedItemPosition();
                 new sendUserData().execute();
             }
         });
@@ -376,6 +400,7 @@ public class Profile extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            sp=familySpin.getSelectedItemPosition();
         }
 
         @Override
@@ -385,6 +410,17 @@ public class Profile extends Activity {
             jParser.setParam("action", "profile_set");
             //jParser.setParam("userid", Integer.toString(userID));
             jParser.setParam("token", token);
+            jParser.setParam("interest1", Integer.toString(selectedHobbies[0]));
+            jParser.setParam("interest2", Integer.toString(selectedHobbies[1]));
+            jParser.setParam("interest3", Integer.toString(selectedHobbies[2]));
+            jParser.setParam("interest4", Integer.toString(selectedHobbies[3]));
+            jParser.setParam("interest5", Integer.toString(selectedHobbies[4]));
+            jParser.setParam("herefor1", Integer.toString(selectedHere[0]));
+            jParser.setParam("herefor2", Integer.toString(selectedHere[1]));
+            jParser.setParam("herefor3", Integer.toString(selectedHere[2]));
+            jParser.setParam("herefor4", Integer.toString(selectedHere[3]));
+            jParser.setParam("herefor5", Integer.toString(selectedHere[4]));
+            jParser.setParam("sp", Integer.toString(sp));
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
 
@@ -490,4 +526,117 @@ public class Profile extends Activity {
             saveProfile.setVisibility(View.VISIBLE);
         }
     };
+
+    private PopupWindow pwindo;
+
+    private void initiatePopupWindow(final int arrayId, TextView targetTV, int[] targetArray, final int selector) {
+        try {
+// We need to get the instance of the LayoutInflater
+            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //View view = inflater.inflate(R.layout.fragment_blank, container, false);
+            View layout = inflater.inflate(R.layout.popup_multiple_choose,  null, false);
+            Display display = getWindowManager().getDefaultDisplay();
+            DisplayMetrics metricsB = new DisplayMetrics();
+            display.getMetrics(metricsB);
+            int window_width = metricsB.widthPixels;
+            int window_height = metricsB.heightPixels;
+            pwindo = new PopupWindow(layout, window_width/2, window_height/2, true);
+            pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
+            Button closePopup = (Button)layout.findViewById(R.id.popupBack);
+            String[] stringsArr2 = getResources().getStringArray(arrayId);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_multiple_choice, stringsArr2);
+            choiceList.setAdapter(adapter);
+            int[] myTarget = targetArray;
+            TextView myTv=targetTV;
+            if(selector==0){
+                for(int i=0; i<5; i++){
+                    selectedHere[i]=-1;
+                }
+            }else if(selector==1){
+                for(int i=0; i<5; i++){
+                    selectedHobbies[i]=-1;
+                }
+            }
+            k=0;
+            choiceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    if(selector==0){
+                        for(int i=0; i<5; i++){
+                            selectedHere[k]=position;
+                            k++;
+                        }
+                    }else if(selector==1){
+                        for(int i=0; i<5; i++){
+                            selectedHobbies[i]=position;
+                            k++;
+                        }
+                    }
+                    //myTarget[k]=position;
+                    //k++;
+                }
+            });
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] stringsArr = getResources().getStringArray(arrayId);
+                    if(selector==0){
+                        for(int i=0; i<5; i++){
+                            int tmp = selectedHere[i];
+                            hereForTv.setText("");
+                            if (tmp > -1) {
+                                hereForTv.append(", " + stringsArr[tmp]);
+                            }
+                        }
+                    }else if(selector==1){
+                        for(int i=0; i<5; i++){
+                            int tmp = selectedHobbies[i];
+                            hobbiesTv.setText("");
+                            if (tmp > -1) {
+                                hobbiesTv.append(", " + stringsArr[tmp]);
+                            }
+                        }
+                    }
+                    /*for (int i = 0; i < 5; i++) {
+                        int tmp = myTarget[i];
+                        if (tmp > -1) {
+                            myTv.setText(stringsArr[tmp]);
+                        }
+                    }*/
+                    pwindo.dismiss();
+                }
+            });
+            closePopup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] stringsArr = getResources().getStringArray(arrayId);
+                    if(selector==0){
+                        for(int i=0; i<5; i++){
+                            int tmp = selectedHere[i];
+                            if (tmp > -1) {
+                                hereForTv.setText(stringsArr[tmp]);
+                            }
+                        }
+                    }else if(selector==1){
+                        for(int i=0; i<5; i++){
+                            int tmp = selectedHobbies[i];
+                            if (tmp > -1) {
+                                hobbiesTv.setText(stringsArr[tmp]);
+                            }
+                        }
+                    }
+                    /*for (int i = 0; i < 5; i++) {
+                        int tmp = myTarget[i];
+                        if (tmp > -1) {
+                            myTv.setText(stringsArr[tmp]);
+                        }
+                    }*/
+                    pwindo.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
