@@ -4,6 +4,9 @@
     android:background="@color/white"
     android:id = "@+id/layout_color"
     android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:id="@+id/imgC"
@@ -11,7 +14,9 @@
         android:layout_height="50dp"
         android:layout_gravity="left"
         android:paddingLeft="0dip"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
 
     <TextView
         android:id="@+id/fromC"

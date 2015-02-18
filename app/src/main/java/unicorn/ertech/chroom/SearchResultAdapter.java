@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,10 +57,24 @@ public class SearchResultAdapter extends BaseAdapter {
             holder = (chatHolder)convertView.getTag();
         }
 
-        sResult entry = results.get(position);
+        final sResult entry = results.get(position);
 
-        //Picasso.with(mContext).load(entry.picUrl).into(holder.img);
-        //holder.tvFrom.setText(entry.name);
+        Picasso.with(mContext).load(entry.picUrl).into(holder.img);
+        holder.tvFrom.setText(entry.name);
+
+        holder.img.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Profile2.class);
+                        // passing array index
+                        i.putExtra("userId", entry.uid);
+                        i.putExtra("token", Main.str);
+                        i.putExtra("avatar", entry.picUrl);
+                        mContext.startActivity(i);
+                    }
+                }
+        );
 
         return convertView;
     }

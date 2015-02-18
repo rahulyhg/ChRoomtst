@@ -18,17 +18,33 @@ public class SetPrivate extends Activity {
         //setContentView(R.layout.tab_incognito);
 
         Button butBack=(Button)findViewById(R.id.setBack);
+        TextView blackList=(TextView)findViewById(R.id.tvBlackList);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeMe();
             }
         });
-
+        blackList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                blackOpen();
+            }
+        });
     }
 
 
     public void closeMe(){
         this.finish();
+    }
+    public void blackOpen(){
+        Intent i = new Intent(this, SetBlackList.class);
+        startActivity(i);
+    }
+
+    private void openBlack(View v)
+    {
+        Intent i = new Intent(this, SetBlackList.class);
+        startActivity(i);
     }
 }
