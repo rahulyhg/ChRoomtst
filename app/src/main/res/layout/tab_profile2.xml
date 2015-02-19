@@ -121,6 +121,20 @@
             android:visibility="visible" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/tvBirthday2"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:visibility="visible"
+            android:layout_below="@+id/etName"
+            android:layout_alignLeft="@+id/etName"
+            android:layout_alignStart="@+id/etName" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Счастье есть - его не может не быть"
@@ -239,187 +253,231 @@
                 android:gravity="center"
                 android:textStyle="bold" />
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/scrollView"
-                android:background="@color/white"
-                android:layout_marginBottom="5dp">
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:showDividers="middle"
-                    android:divider="@drawable/rect"
-                    android:layout_height="fill_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="О себе:"
+                    android:id="@+id/tvProfileAbout"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp" />
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="5dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2About"
+                    android:layout_marginLeft="15dp"
+                    android:autoText="false"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/transparent"
+                    android:hint="О себе" />
+            </TableRow>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="О себе:"
-                            android:id="@+id/textView"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp" />
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etProfileAbout"
-                            android:layout_marginLeft="15dp"
-                            android:autoText="false"
-                            android:layout_marginRight="5dp"
-                            android:background="@android:color/transparent"
-                            android:hint="О себе" />
-                    </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Регион:"
+                    android:id="@+id/tvProfileRegion"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2Region"
+                    android:layout_marginLeft="15dp"
+                    android:cursorVisible="false"
+                    android:autoText="false"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Регион" />
+            </TableRow>
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="5dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Регион:"
-                            android:id="@+id/textView2"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etProfileRegion"
-                            android:layout_marginLeft="15dp"
-                            android:cursorVisible="false"
-                            android:autoText="false"
-                            android:layout_marginRight="5dp"
-                            android:background="@android:color/transparent"
-                            android:hint="Регион" />
-                    </TableRow>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="5dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Город:"
-                            android:id="@+id/textView3"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etProfileCity"
-                            android:layout_marginLeft="15dp"
-                            android:cursorVisible="false"
-                            android:autoText="false"
-                            android:layout_marginRight="5dp"
-                            android:background="@android:color/transparent"
-                            android:hint="Город" />
-                    </TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Город:"
+                    android:id="@+id/tvProfileCity"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp" />
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="5dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Семейное положение"
-                            android:id="@+id/tvProfileRelationships"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp"
-                            android:maxLines="1" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etProfileRelationships"
-                            android:layout_marginLeft="15dp"
-                            android:cursorVisible="false"
-                            android:autoText="false"
-                            android:layout_marginRight="5dp"
-                            android:background="@android:color/transparent"
-                            android:hint="Семейное положение"
-                            android:maxLines="1" />
-                    </TableRow>
-                        <TableRow
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_gravity="center_vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Ищу:"
-                                android:id="@+id/tvProfileSearchSex"
-                                android:textColor="#000000"
-                                android:textStyle="bold"
-                                android:paddingLeft="15dp"
-                                android:paddingTop="5dp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/spinProfileSearchSex"
-                                android:spinnerMode="dialog"
-                                android:layout_marginLeft="15dp"
-                                android:background="@drawable/corners" />
-                        </TableRow>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2City"
+                    android:layout_marginLeft="15dp"
+                    android:cursorVisible="false"
+                    android:autoText="false"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Город" />
+            </TableRow>
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="5dp" >
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Интересы"
-                            android:id="@+id/tvProfile2Hobbies"
-                            android:textColor="#000000"
-                            android:textStyle="bold"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="5dp"
-                            android:maxLines="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Семейное положение"
+                    android:id="@+id/tvProfileRelationships"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:maxLines="1" />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/etProfile2Hobbies"
-                            android:layout_marginLeft="15dp"
-                            android:cursorVisible="false"
-                            android:autoText="false"
-                            android:layout_marginRight="5dp"
-                            android:background="@android:color/transparent"
-                            android:hint="Астрономия"
-                            android:maxLines="1" />
-                    </TableRow>
-                </LinearLayout>
-            </ScrollView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2Relationships"
+                    android:layout_marginLeft="15dp"
+                    android:cursorVisible="false"
+                    android:autoText="false"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Семейное положение"
+                    android:maxLines="1" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Пол:"
+                    android:id="@+id/tvProfileSex"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2Sex"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/corners" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center_vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ищу:"
+                    android:id="@+id/tvProfile2SearchSex"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2SearchSex"
+                    android:spinnerMode="dialog"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/corners" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Цель знакомства"
+                    android:id="@+id/tvProfile2Herefor"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2Herefor"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:padding="10dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Цель знакомства" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Интересы"
+                    android:id="@+id/tvProfile2Hobbies"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etProfile2Hobbies"
+                    android:layout_marginLeft="15dp"
+                    android:cursorVisible="false"
+                    android:autoText="false"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Астрономия"
+                    android:maxLines="1" />
+            </TableRow>
+
         </LinearLayout>
         </LinearLayout>
     </ScrollView>
