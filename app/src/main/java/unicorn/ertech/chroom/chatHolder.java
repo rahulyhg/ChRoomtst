@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -11,4 +12,5 @@ public class chatHolder {
     public TextView tvMsg;
     public TextView tvTime;
     public ImageView img;
+    public RelativeLayout Rl;
 }

@@ -46,6 +46,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
 
         View v = convertView;
         chatHolder holder = new chatHolder();
+        conversationsMsg p = chat.get(position);
         // First let's verify the convertView is not null
         if (convertView == null) {
             // This a new view we inflate the new layout
@@ -57,11 +58,13 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             TextView msg = (TextView) v.findViewById(R.id.messagC);
             TextView time = (TextView) v.findViewById(R.id.timeC);
             ImageView image = (ImageView)v.findViewById(R.id.imgC);
+            RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.layout_color);
 
             holder.tvFrom = from;
             holder.tvMsg = msg;
             holder.img = image;
             holder.tvTime = time;
+            holder.Rl = rl;
 
             v.setTag(holder);
         }
@@ -69,7 +72,15 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder = (chatHolder) v.getTag();
         }
 
-        conversationsMsg p = chat.get(position);
+        if(p.direction.equals("1"))
+        {
+            holder.Rl.setBackgroundResource(R.color.conversationsGrey);
+        }
+        else
+        {
+            holder.Rl.setBackgroundResource(R.color.conversationsWhite);
+        }
+
         holder.tvFrom.setText(p.from);
         holder.tvMsg.setText(p.message);
         Calendar currTime = Calendar.getInstance();int cday = currTime.get(currTime.DAY_OF_MONTH);
@@ -79,7 +90,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         String[] date = dateTime[0].split("-");
         dateTime[1]=time[0]+":"+time[1];
         msgTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(time[0]));
-        msgTime.set(Calendar.MINUTE,Integer.parseInt(time[1]));
+        msgTime.set(Calendar.MINUTE,Integer.parseInt(time[1]));int minute = Integer.parseInt(time[1]);if(minute<10&&time[1].length()==1){time[1]="0"+time[1];}
         msgTime.set(Calendar.SECOND,Integer.parseInt(time[2]));
         msgTime.set(Calendar.YEAR,Integer.parseInt(date[0])); int year = Integer.parseInt(date[0]);
         msgTime.set(Calendar.MONTH,Integer.parseInt(date[1])); int month = Integer.parseInt(date[1]);if(month<10&&date[1].length()==1){date[1]="0"+date[1];}

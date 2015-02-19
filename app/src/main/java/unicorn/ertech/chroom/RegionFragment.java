@@ -66,7 +66,7 @@ public class RegionFragment extends Fragment {
     private static final String DESCRIPTION = "message_body"; // ниже главного
     private static final String ICON = "avatar";  // будущая картинка
     chatAdapter adapter;
-
+    boolean stopTImer = false ;
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -87,10 +87,11 @@ public class RegionFragment extends Fragment {
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequest", token);
                 if (isNetworkAvailable()) {
                     room = "1";
-                    new globalChat3().execute();
+                    if(!stopTImer) {
+                        new globalChat3().execute();
+                    }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
@@ -324,29 +325,17 @@ public class RegionFragment extends Fragment {
         super.onDestroy();
     }
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        myTimer = new Timer();
-//        myTimer.schedule(new TimerTask() { // Определяем задачу
-//            @Override
-//            public void run() {
-//                Log.e("tokenBeforeRequest", token);
-//                if (isNetworkAvailable()) {
-//                    room = "1";
-//                    new globalChat3().execute();
-//                } else {
-//                    //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }, 1L * 250, 2L * 1000);
-//    }
-//
-//    @Override
-//    public void onPause(){
-//        myTimer.cancel();
-//        super.onPause();
-//    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        stopTImer=false;
+    }
+
+    @Override
+    public void onPause(){
+        stopTImer=true;
+        super.onPause();
+    }
 
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 

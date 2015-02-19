@@ -531,6 +531,7 @@ public class Profile2 extends Activity implements View.OnClickListener{
         return activeNetworkInfo != null;
     }
 
+
     private String getStringFromArray(String arrayPositions, int arrayId){
         String[] stringsArr = getResources().getStringArray(arrayId);
         String str="";

@@ -55,6 +55,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
     JSONObject json;
     Timer myTimer;
     boolean firsTime;
+    boolean stopTImer = false ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     String URL = "http://im.topufa.org/index.php";
     String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID;
@@ -85,10 +86,11 @@ public class CityFragment extends android.support.v4.app.Fragment {
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequest", token);
                 if (isNetworkAvailable()) {
                     room = "10";
-                    new globalChat2().execute();
+                    if(!stopTImer) {
+                        new globalChat2().execute();
+                    }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
@@ -198,7 +200,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "globe_send");
-            jParser.setParam("userid", myID);
             jParser.setParam("room", room);
             jParser.setParam("message", outMsg);
             //jParser.setParam("deviceid", "");
@@ -319,29 +320,17 @@ public class CityFragment extends android.support.v4.app.Fragment {
         super.onDestroy();
     }
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        myTimer = new Timer();
-//        myTimer.schedule(new TimerTask() { // Определяем задачу
-//            @Override
-//            public void run() {
-//                Log.e("tokenBeforeRequest", token);
-//                if (isNetworkAvailable()) {
-//                    room = "10";
-//                    new globalChat2().execute();
-//                } else {
-//                    //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        }, 1L * 250, 2L * 1000);
-//    }
-//
-//    @Override
-//    public void onPause(){
-//        myTimer.cancel();
-//        super.onPause();
-//    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        stopTImer=false;
+    }
+
+    @Override
+    public void onPause(){
+        stopTImer=true;
+        super.onPause();
+    }
 
     private void findSmiles(View view){
         s01 = (ImageView) view.findViewById(R.id.s01);

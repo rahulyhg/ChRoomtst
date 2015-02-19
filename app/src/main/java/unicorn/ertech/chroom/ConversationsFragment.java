@@ -91,12 +91,14 @@ public class ConversationsFragment extends Fragment {
                 String UserId = adapter.getItem(position).uid;
                 String nick = adapter.getItem(position).from;
                 String fake = adapter.getItem(position).fake;
+                adapter.getItem(position).direction = "0";
                 Intent i = new Intent(getActivity(),PrivateMessaging.class);
                 i.putExtra("userId",UserId);
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
                 i.putExtra("fake",fake);
                 i.putExtra("avatar",adapter.getItem(position).picURL);
+                adapter.notifyDataSetChanged();
                 startActivity(i);
 
             }
@@ -125,6 +127,20 @@ public class ConversationsFragment extends Fragment {
                 = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    public static void findNremove(String id)//удаляет чела с id из сиписка диалогов
+    {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).uid.equals(id))
+            {
+                messages.remove(i);
+                return;
+            }
+        }
+        adapter.notifyDataSetChanged();
+        WriteDialogsToFile();
     }
 
     private class globalChat4 extends AsyncTask<String, String, JSONObject> {
@@ -267,6 +283,7 @@ public class ConversationsFragment extends Fragment {
                 messages.get(i).message = msg.message;
                 messages.get(i).time = msg.time;
                 conversationsMsg m = messages.get(i);
+                m.direction = "1";
                 messages.remove(i);
                 messages.add(0,m);
                 adapter.notifyDataSetChanged();
@@ -355,14 +372,16 @@ public class ConversationsFragment extends Fragment {
 
     @Override
     public void onDestroy(){
-        //myTimer.cancel();
+        myTimer.cancel();
         stopTImer=true;
         Log.e("json", "destroy");
+
         super.onDestroy();
     }
     @Override
     public void onPause(){
         //myTimer.cancel();
+        WriteDialogsToFile();
         stopTImer=true;
         super.onPause();
     }

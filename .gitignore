@@ -6,3 +6,8 @@
 /build
 /gradle/
 /.idea/
+app/src/main/java/unicorn/ertech/chroom/Main.java
+app/src/main/java/unicorn/ertech/chroom/Main.java
+app/src/main/java/unicorn/ertech/chroom/PrivateMessaging.java
+app/src/main/java/unicorn/ertech/chroom/SetPrivate.java
+app/src/main/res/layout/conversation_msg_layout.xml

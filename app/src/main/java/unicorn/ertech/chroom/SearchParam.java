@@ -149,6 +149,7 @@ public class SearchParam extends Fragment {
             jParser.setParam("sex", sex);
             jParser.setParam("region", region);
             jParser.setParam("online", online);
+            jParser.setParam("page", "0");
             jParser.setParam("city", city.getText().toString());
             jParser.setParam("age_from", age_from.getText().toString());
             jParser.setParam("age_till", age_till.getText().toString());

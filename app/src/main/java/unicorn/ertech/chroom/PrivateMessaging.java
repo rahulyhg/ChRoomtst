@@ -189,6 +189,7 @@ public class PrivateMessaging extends Activity {
                 }
             }
         }, 1L * 250, 2L * 1000);
+
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -458,12 +459,7 @@ public class PrivateMessaging extends Activity {
         return activeNetworkInfo != null;
     }
 
-    @Override
-    public void onDestroy(){
-        myTimer.cancel();
-        Log.e("json", "destroy");
-        super.onDestroy();
-    }
+
 
     private PopupWindow pwindo;
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
@@ -610,7 +606,97 @@ public class PrivateMessaging extends Activity {
         addSmiles(context, spannable);
         return spannable;
     }
+    private class setFavorite extends AsyncTask<String, String, JSONObject> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e("privatesend", "222");
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "list_add");
+            jParser.setParam("addid", userId);
+            jParser.setParam("list", "1");
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    FavoritesFragment.updateList();
+                    Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class setBlackList extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.e("privatesend", "222");
+
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "list_add");
+            jParser.setParam("addid", userId);
+            jParser.setParam("list", "2");
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    FavoritesFragment.updateList();
+                    Toast.makeText(getApplicationContext(), "Пользователь успешно добавлен в черный список!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     //Всплывающее меню
     private void showPopupMenu(View v) {
@@ -623,13 +709,18 @@ public class PrivateMessaging extends Activity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Toast.makeText(PopupMenuDemoActivity.this,
-                        // item.toString(), Toast.LENGTH_LONG).show();
-                        // return true;
+                        //Toast.makeText(getApplicationContext(),String.valueOf(item.getItemId()), Toast.LENGTH_LONG).show();
                         switch (item.getItemId()) {
+                            case 2131231101:
+                                new setFavorite().execute();
+                                break;
+                            case 2131231102:
+                                new setBlackList().execute();
+                                break;
                             default:
                                 return false;
                         }
+                    return false;
                     }
                 });
 

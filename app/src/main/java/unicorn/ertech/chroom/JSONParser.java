@@ -25,8 +25,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.Application;
 import android.util.Log;
-public class JSONParser  {
+public class JSONParser extends Application {
     static InputStream is = null;
     static JSONObject jObj = null;
     JSONObject jsonObject = new JSONObject();

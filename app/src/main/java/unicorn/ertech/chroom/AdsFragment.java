@@ -61,6 +61,7 @@ public class AdsFragment extends Fragment {
         private ArrayList<HashMap<String, Object>> citiList;
         final String SAVED_CITY = "city";
         chatAdapter adapter;
+        boolean stopTImer = false ;
 
         /** Handle the results from the voice recognition activity. */
         @Override
@@ -86,10 +87,10 @@ public class AdsFragment extends Fragment {
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
-                Log.e("tokenBeforeRequest", token);
                 if (isNetworkAvailable()) {
-                            //room = "11";
-                            new globalChat1().execute();
+                    if(!stopTImer) {
+                        new globalChat1().execute();
+                    }
                 }
                 else
                 {
@@ -407,26 +408,14 @@ public class AdsFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         }
-        /*myTimer = new Timer();
-        myTimer.schedule(new TimerTask() { // Определяем задачу
-            @Override
-            public void run() {
-                Log.e("tokenBeforeRequest", token);
-                if (isNetworkAvailable()) {
-                    room = "1";
-                    new globalChat1().execute();
-                } else {
-                    //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
-                }
-            }
-        }, 1L * 250, 2L * 1000);*/
+        stopTImer=false;
     }
-    /*
+
     @Override
     public void onPause(){
-        myTimer.cancel();
+        stopTImer=true;
         super.onPause();
-    }*/
+    }
 
     //
     //Ниже часть, связанная с отображением смайлов в edittext

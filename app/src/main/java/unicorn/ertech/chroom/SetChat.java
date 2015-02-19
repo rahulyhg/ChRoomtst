@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -48,7 +49,9 @@ public class SetChat extends Activity {
                 closeMe();
             }
         });
+
     }
+
 
     private void setColor(){
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
