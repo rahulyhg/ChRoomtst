@@ -42,6 +42,7 @@
         <item>В активном поиске</item>
     </string-array>
     <string-array name="herefor">
+        <item> </item>
         <item>Дружба и общение</item>
         <item>Переписка</item>
         <item>Отношения</item>

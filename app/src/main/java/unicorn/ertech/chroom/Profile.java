@@ -64,7 +64,7 @@ import java.util.StringTokenizer;
 public class Profile extends Activity {
     SharedPreferences sPref;
     SharedPreferences sPref2;
-    public int pic_width;
+    public int pic_width, pic_width2;
     int k=0;
 
     static final int GALLERY_REQUEST = 1;
@@ -117,7 +117,7 @@ public class Profile extends Activity {
         photo4 = (ImageView) findViewById(R.id.photo4);
         birthDay = (TextView)findViewById(R.id.tvBirthday);
         profileSex = (Spinner)findViewById(R.id.spinnerProfileSex);
-        searchSex=(Spinner)findViewById(R.id.spinSearchSex);
+        searchSex=(Spinner)findViewById(R.id.spinProfileSearchSex);
         saveProfile = (Button) findViewById(R.id.butProfileSave);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         sPref2 = getSharedPreferences("user", MODE_PRIVATE);
@@ -142,6 +142,7 @@ public class Profile extends Activity {
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
         pic_width = metricsB.widthPixels;
+        pic_width2=(int)(150*metricsB.density);
 
         //ClassLoader classLoader = MultipartEntityBuilder.class.getClassLoader();
         //URL resource = classLoader.getResource("org/apache/http/message/BasicHeaderValueFormatter.class");
@@ -158,12 +159,14 @@ public class Profile extends Activity {
             @Override
             public void onClick(View v) {
                 initiatePopupWindow(R.array.hobbies, hobbiesTv, selectedHobbies, 1);
+                saveProfile.setVisibility(View.VISIBLE);
             }
         });
         hereForTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initiatePopupWindow(R.array.herefor, hereForTv, selectedHere, 0);
+                saveProfile.setVisibility(View.VISIBLE);
             }
         });
         if (sPref.contains(SAVED_COLOR)) {
@@ -234,7 +237,7 @@ public class Profile extends Activity {
                 //pic_height = profilePhoto.getMaxHeight();
                 mPicasso.load(tmp_path).resize(pic_width, 0).noFade().into(profilePhoto);
                 //mPicasso.load(tmp_path).centerInside().fit().noFade().into(profilePhoto);
-                mPicasso.load(tmp_path).transform(new PicassoRoundTransformation()).fit().noFade().into(smallProfilePhoto);
+                mPicasso.load(tmp_path).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
             }
         }
 
@@ -293,7 +296,7 @@ public class Profile extends Activity {
                     //profilePhoto.setImageBitmap(bitmap);
                     mPicasso.load(selectedImage).resize(pic_width, 0).noFade().into(profilePhoto);
                     //mPicasso.load(selectedImage).centerInside().fit().noFade().into(profilePhoto);
-                    mPicasso.load(selectedImage).transform(new PicassoRoundTransformation()).fit().noFade().into(smallProfilePhoto);
+                    mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
                     //profilePhoto.setImageURI(selectedImage);
                     SavePath(selectedImage.toString());
                     pathToUserPhoto = getImagePath(selectedImage);
@@ -538,7 +541,7 @@ public class Profile extends Activity {
             display.getMetrics(metricsB);
             int window_width = metricsB.widthPixels;
             int window_height = metricsB.heightPixels;
-            pwindo = new PopupWindow(layout, window_width/2, window_height/2, true);
+            pwindo = new PopupWindow(layout, window_width/3*2, window_height/3*2, true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
             ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
             Button closePopup = (Button)layout.findViewById(R.id.popupBack);
@@ -560,15 +563,26 @@ public class Profile extends Activity {
             choiceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    k=0;
                     if(selector==0){
                         for(int i=0; i<5; i++){
-                            selectedHere[k]=position;
-                            k++;
+                            if(selectedHere[i]==-1){
+                                selectedHere[i]=position;
+                                break;
+                            }
+                            //selectedHere[k]=position;
+                            //k++;
+                            //if(k==5) break;
                         }
                     }else if(selector==1){
                         for(int i=0; i<5; i++){
-                            selectedHobbies[i]=position;
-                            k++;
+                            if(selectedHobbies[i]==-1){
+                                selectedHobbies[i]=position;
+                                break;
+                            }
+                            //selectedHobbies[i]=position;
+                            //k++;
+                            //if(k==5) break;
                         }
                     }
                     //myTarget[k]=position;
@@ -580,21 +594,47 @@ public class Profile extends Activity {
                 public void onClick(View view) {
                     String[] stringsArr = getResources().getStringArray(arrayId);
                     if(selector==0){
+                        String str="";
                         for(int i=0; i<5; i++){
+                            if(selectedHere[i]>0){
+                                str=str+stringsArr[selectedHere[i]]+",";
+                            }else{
+                                break;
+                            }
+                        }
+                        if(str.length()>1) {
+                            str = str.substring(0, str.length() - 1);
+                        }
+                        hereForTv.setText(str);
+                        /*for(int i=0; i<5; i++){
                             int tmp = selectedHere[i];
                             hereForTv.setText("");
                             if (tmp > -1) {
-                                hereForTv.append(", " + stringsArr[tmp]);
+                                hereForTv.setText(hereForTv.getText()+", "+stringsArr[tmp]);
+                                //hereForTv.append(", " + stringsArr[tmp]);
+                            }
+                        }*/
+                    }else if(selector==1){
+                        String str="";
+                        for(int i=0; i<5; i++){
+                            if(selectedHobbies[i]>0){
+                                str=str+stringsArr[selectedHobbies[i]]+",";
+                            }else{
+                                break;
                             }
                         }
-                    }else if(selector==1){
-                        for(int i=0; i<5; i++){
+                        if(str.length()>1) {
+                            str = str.substring(0, str.length() - 1);
+                        }
+                        hobbiesTv.setText(str);
+                        /*for(int i=0; i<5; i++){
                             int tmp = selectedHobbies[i];
                             hobbiesTv.setText("");
                             if (tmp > -1) {
-                                hobbiesTv.append(", " + stringsArr[tmp]);
+                                hereForTv.setText(hereForTv.getText()+", "+stringsArr[tmp]);
+                                //hobbiesTv.append(", " + stringsArr[tmp]);
                             }
-                        }
+                        }*/
                     }
                     /*for (int i = 0; i < 5; i++) {
                         int tmp = myTarget[i];
@@ -641,9 +681,20 @@ public class Profile extends Activity {
     private String getStringFromArray(String arrayPositions, int arrayId){
         String[] stringsArr = getResources().getStringArray(arrayId);
         String str="";
-        StringTokenizer strTok=new StringTokenizer(arrayPositions, ",");
+        String[] strArr=arrayPositions.split(",");
+        /*StringTokenizer strTok=new StringTokenizer(arrayPositions, ",");
         while(strTok.hasMoreTokens()==true){
             str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
+        }*/
+        for(int i=0; i<5; i++){
+            if(Integer.parseInt(strArr[i])>0){
+                str=str+stringsArr[Integer.parseInt(strArr[i])]+",";
+            }else{
+                break;
+            }
+        }
+        if(str.length()>1) {
+            str = str.substring(0, str.length() - 1);
         }
         return str;
     }

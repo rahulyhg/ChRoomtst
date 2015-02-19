@@ -50,7 +50,7 @@ public class Profile2 extends Activity implements View.OnClickListener{
     String picUrl;
     Picasso mPicasso;
     TextView etName;
-    TextView info;
+    TextView info, hobbiesTv, hereForTv, familyTv, etProfileCity, birthDay, profileSex, searchSex;
     Button butSend;
 
     final String LIKE_STATE = "like";
@@ -67,7 +67,15 @@ public class Profile2 extends Activity implements View.OnClickListener{
         //setContentView(R.layout.tab_incognito);
         mPicasso = Picasso.with(getApplicationContext());
         etName = (TextView)findViewById(R.id.etName);
-        info = (TextView)findViewById(R.id.tvProfileStatus);
+        info = (TextView)findViewById(R.id.etProfile2About);
+        hobbiesTv = (TextView)findViewById(R.id.etProfile2Hobbies);
+        hereForTv=(TextView)findViewById(R.id.etProfile2Herefor);
+        familyTv=(TextView)findViewById(R.id.etProfile2Relationships);
+        tvProfStat = (TextView)findViewById(R.id.tvProfileStatus);
+        etProfileCity = (TextView) findViewById(R.id.etProfile2City);
+        birthDay = (TextView)findViewById(R.id.tvBirthday2);
+        profileSex = (TextView)findViewById(R.id.etProfile2Sex);
+        searchSex=(TextView)findViewById(R.id.etProfile2SearchSex);
 
         RelativeLayout topRow = (RelativeLayout)findViewById(R.id.topRow);
         Button back = (Button)findViewById(R.id.profileBack);
@@ -77,10 +85,10 @@ public class Profile2 extends Activity implements View.OnClickListener{
         photo3=(ImageView)findViewById(R.id.photo3);
         photo4=(ImageView)findViewById(R.id.photo4);
         butSend = (Button)findViewById(R.id.butProfileSend);
+
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         TextView tvProfPhoto = (TextView)findViewById(R.id.tvProfilePhoto);
         TextView tvProfInfo = (TextView)findViewById(R.id.tvProfileInfo);
-        tvProfStat = (TextView)findViewById(R.id.tvProfileStatus);
         if(sPref.contains(SAVED_COLOR)){
             int col = sPref.getInt(SAVED_COLOR,0);
             if(col==1){
@@ -291,12 +299,26 @@ public class Profile2 extends Activity implements View.OnClickListener{
                         String like="";
                         String kiss="";
                         etName.setText(json.getString("name"));
-                        info.setText(json.getString("info"));
+                        tvProfStat.setText(json.getString("status"));
                         userId = json.getString("id");
                         like = json.getString("like");
                         kiss = json.getString("kiss");
                         if(like.equals("1")){butLike.setImageResource(R.drawable.like_fill);like_current=true;}
                         if(kiss.equals("1")){butKiss.setImageResource(R.drawable.kiss_fill);kiss_current=true;}
+                        etProfileCity.setText(json.getString("city"));
+                        info.setText(json.getString("info"));
+                        birthDay.setText(json.getString("age"));
+                        Integer sex = json.getInt("sex");
+                        String[] sexarray = getResources().getStringArray(R.array.sex);
+                        if(sex==1){profileSex.setText(sexarray[0]);}
+                        if(sex==0){profileSex.setText(sexarray[1]);}
+                        sex=json.getInt("lookingfor");
+                        if(sex==1){searchSex.setText(sexarray[0]);}
+                        if(sex==0){searchSex.setText(sexarray[1]);}
+                        String[] familyarray = getResources().getStringArray(R.array.family);
+                        familyTv.setText(familyarray[json.getInt("sp")]);
+                        hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));
+                        hereForTv.setText(getStringFromArray(json.getString("herefor"), R.array.herefor));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -507,5 +529,22 @@ public class Profile2 extends Activity implements View.OnClickListener{
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    private String getStringFromArray(String arrayPositions, int arrayId){
+        String[] stringsArr = getResources().getStringArray(arrayId);
+        String str="";
+        String[] strArr=arrayPositions.split(",");
+        for(int i=0; i<5; i++){
+            if(Integer.parseInt(strArr[i])>0){
+                str=str+stringsArr[Integer.parseInt(strArr[i])]+",";
+            }else{
+                break;
+            }
+        }
+        if(str.length()>1) {
+            str = str.substring(0, str.length() - 1);
+        }
+        return str;
     }
 }
