@@ -9,6 +9,7 @@ public class chatMessage {
     String uid;
     String from;
     String picURL;
+    String picURLFull;
 
     public chatMessage(String UID, String FROM, String MSG, String pcURL)
     {

@@ -58,6 +58,9 @@ public class Profile2 extends Activity implements View.OnClickListener{
     final String PHOTO_STATE="photo";
     final String SAVED_COLOR = "color";
 
+    String picURL="";
+    String picURLFull="";
+
     String URL = "http://im.topufa.org/index.php";
 
     @Override
@@ -165,18 +168,15 @@ public class Profile2 extends Activity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(), PhotoViewer.class);
-                in.putExtra("photo",i.getStringExtra("avatar"));
+                in.putExtra("photo",picURLFull);
                 startActivity(in);
             }
         });
 
         if(isNetworkAvailable()) {
             new getProfile().execute();
-            String picUrl = i.getStringExtra("avatar");
-            Picasso mPicasso;
-            mPicasso = Picasso.with(getApplicationContext());
-            mPicasso.load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
-            Picasso.with(getApplicationContext()).load(picUrl).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(smallProfilePhoto);
+            //String picUrl = i.getStringExtra("avatar");
+
 
 
         }
@@ -295,8 +295,14 @@ public class Profile2 extends Activity implements View.OnClickListener{
                         userId = json.getString("id");
                         like = json.getString("like");
                         kiss = json.getString("kiss");
+                        picURL = json.getString("avatar");
+                        picURLFull = json.getString("avatar_full");
                         if(like.equals("1")){butLike.setImageResource(R.drawable.like_fill);like_current=true;}
                         if(kiss.equals("1")){butKiss.setImageResource(R.drawable.kiss_fill);kiss_current=true;}
+                        Picasso mPicasso;
+                        mPicasso = Picasso.with(getApplicationContext());
+                        mPicasso.load(picURLFull).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
+                        Picasso.with(getApplicationContext()).load(picURL).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(smallProfilePhoto);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

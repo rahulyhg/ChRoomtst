@@ -55,6 +55,7 @@ public class ConversationsFragment extends Fragment {
     String token, realNum, fakeNum, lastID4;
     conversationsMsg agent;
     String URL = "http://im.topufa.org/index.php";
+    newJsonParser jps = new newJsonParser();
     boolean stopTImer = false ;
 
     /** Handle the results from the voice recognition activity. */
@@ -158,6 +159,7 @@ public class ConversationsFragment extends Fragment {
             jParser.setParam("action", "pm_get");
             jParser.setParam("firstid", lastID4);
             // Getting JSON from URL
+
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
