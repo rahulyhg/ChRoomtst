@@ -236,6 +236,7 @@
                     android:id="@+id/etProfileAbout"
                     android:layout_marginLeft="15dp"
                     android:autoText="false"
+                    android:padding="7dp"
                     android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
                     android:hint="О себе" />
@@ -262,6 +263,7 @@
                     android:layout_marginLeft="15dp"
                     android:cursorVisible="false"
                     android:autoText="false"
+                    android:padding="7dp"
                     android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
                     android:hint="Регион" />
@@ -288,6 +290,7 @@
                     android:layout_marginLeft="15dp"
                     android:cursorVisible="false"
                     android:autoText="false"
+                    android:padding="7dp"
                     android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
                     android:hint="Город" />
@@ -316,6 +319,7 @@
                     android:cursorVisible="false"
                     android:entries="@array/family"
                     android:autoText="false"
+                    android:padding="7dp"
                     android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
                     android:hint="Семейное положение" />
@@ -341,6 +345,7 @@
                         android:id="@+id/spinProfileSearchSex"
                         android:entries="@array/sex"
                         android:spinnerMode="dialog"
+                        android:padding="7dp"
                         android:layout_marginLeft="15dp"
                         android:background="@drawable/corners" />
                 </TableRow>
@@ -367,6 +372,7 @@
                     android:id="@+id/spinnerProfileSex"
                     android:entries="@array/sex"
                     android:spinnerMode="dialog"
+                    android:padding="7dp"
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/corners" />
             </TableRow>
@@ -393,7 +399,7 @@
                     android:id="@+id/tvPickedHerefor"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="5dp"
-                    android:padding="10dp"
+                    android:padding="7dp"
                     android:background="@android:color/transparent"
                     android:hint="Цель знакомства" />
             </TableRow>
@@ -421,10 +427,10 @@
                         android:layout_marginLeft="15dp"
                         android:entries="@array/hobbies"
                         android:layout_marginRight="5dp"
-                        android:padding="10dp"
+                        android:padding="7dp"
                         android:background="@android:color/transparent"
                         android:hint="Интересы" />
-                </TableRow>
+            </TableRow>
 
         </LinearLayout>
         </LinearLayout>
