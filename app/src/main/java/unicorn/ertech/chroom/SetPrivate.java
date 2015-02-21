@@ -11,6 +11,7 @@ import android.widget.TextView;
  * Created by Timur on 11.01.2015.
  */
 public class SetPrivate extends Activity {
+    TextView blackList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +19,7 @@ public class SetPrivate extends Activity {
         //setContentView(R.layout.tab_incognito);
 
         Button butBack=(Button)findViewById(R.id.setBack);
-        TextView blackList=(TextView)findViewById(R.id.tvBlackList);
+        blackList=(TextView)findViewById(R.id.tvBlackList);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +34,6 @@ public class SetPrivate extends Activity {
         });
     }
 
-
     public void closeMe(){
         this.finish();
     }
@@ -42,9 +42,9 @@ public class SetPrivate extends Activity {
         startActivity(i);
     }
 
-    private void openBlack(View v)
+    public void myClick(View v)
     {
-        Intent i = new Intent(this, SetBlackList.class);
-        startActivity(i);
+        blackOpen();
     }
+
 }

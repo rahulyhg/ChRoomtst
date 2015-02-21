@@ -710,16 +710,15 @@ public class PrivateMessaging extends Activity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         //Toast.makeText(getApplicationContext(),String.valueOf(item.getItemId()), Toast.LENGTH_LONG).show();
-                        switch (item.getItemId()) {
-                            case 2131231101:
-                                new setFavorite().execute();
-                                break;
-                            case 2131231102:
-                                new setBlackList().execute();
-                                break;
-                            default:
-                                return false;
+                        if(item.getItemId() == R.id.menu_favorites) {
+                            new setFavorite().execute();
                         }
+                         if(item.getItemId() == R.id.menu_blacklist) {
+                             new setBlackList().execute();
+                         }
+
+
+
                     return false;
                     }
                 });

@@ -31,7 +31,6 @@ public class FavoritesFragment extends Fragment {
     static List<conversationsMsg> messages = new ArrayList<conversationsMsg>();
     Timer myTimer;
     static String token;
-    conversationsMsg agent;
     ListView favotites;
     static String URL = "http://im.topufa.org/index.php";
 

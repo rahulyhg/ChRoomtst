@@ -137,11 +137,11 @@ public class ConversationsFragment extends Fragment {
             if(messages.get(i).uid.equals(id))
             {
                 messages.remove(i);
+                adapter.notifyDataSetChanged();
+                WriteDialogsToFile();
                 return;
             }
         }
-        adapter.notifyDataSetChanged();
-        WriteDialogsToFile();
     }
 
     private class globalChat4 extends AsyncTask<String, String, JSONObject> {
