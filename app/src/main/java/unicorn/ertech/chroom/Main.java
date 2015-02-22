@@ -48,6 +48,12 @@ public class Main extends TabActivity {
     TabSpec newstab;
     TabHost tabHost;
     RelativeLayout topRow;
+    SharedPreferences Notif;
+    SharedPreferences.Editor ed2;
+    final String SAVED_NOTIF="notif";
+    final String SAVED_SOUND="sound";
+    final String SAVED_VIBRO="vibro";
+    final String SAVED_INDICATOR="indicator";
 
 
     ImageButton butProfile;
@@ -149,8 +155,28 @@ public class Main extends TabActivity {
             }
         });
 
-        //Intent srvs = new Intent(this, notif.class);
-        //startService(srvs);
+        Notif = getSharedPreferences("notifications",MODE_PRIVATE);
+        ed2 = Notif.edit();
+        if(Notif.contains(SAVED_NOTIF))
+        {
+            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
+            {
+                Intent srvs = new Intent(this, notif.class);
+                startService(srvs);
+            }
+        }
+        else
+        {
+            ed2.putString(SAVED_NOTIF,"true");
+            ed2.putString(SAVED_SOUND,"true");
+            ed2.putString(SAVED_VIBRO,"true");
+            ed2.putString(SAVED_INDICATOR,"true");
+            ed2.commit();
+
+            Intent srvs = new Intent(this, notif.class);
+            startService(srvs);
+        }
+
     }
 
     private static View createTabView(final Context context, final String text, int id) {

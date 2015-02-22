@@ -31,56 +31,54 @@
         android:showDividers="middle"
         android:layout_weight="50">
 
-        <TextView
+
+        <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Ник в анонимном чате"
-            android:id="@+id/tvPrivateNick"
             android:layout_gravity="center"
             android:layout_margin="15dp"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:gravity="center" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Чёрный список"
-            android:id="@+id/tvBlackList"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Оповещения"
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/tvNotifications"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:gravity="center" />
+            android:id="@+id/checkBox1"
+            android:visibility="visible" />
 
-        <TextView
+        <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Удалить аккаунт"
-            android:id="@+id/tvDeleteAcc"
             android:layout_gravity="center"
             android:layout_margin="15dp"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="Звук"
+            android:id="@+id/checkBox2"/>
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:text="Вибрация"
+            android:id="@+id/checkBox3" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:text="Индикатор"
+            android:id="@+id/checkBox4" />
     </LinearLayout>
 </LinearLayout>

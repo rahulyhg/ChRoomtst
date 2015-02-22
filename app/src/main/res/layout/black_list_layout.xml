@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingRight="15dp">
 
     <ImageView
         android:id="@+id/imgBlack"
@@ -26,13 +27,16 @@
         android:layout_alignParentTop="true" />
 
     <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:id="@+id/deleteFromBlack"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:src = "@drawable/remove"
-        android:layout_alignBottom="@+id/nameBlack" />
+        android:background="@android:color/white"
+        android:adjustViewBounds="true"
+        android:paddingRight="5dp"
+        android:layout_alignBottom="@+id/nameBlack"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -89,6 +89,9 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         String[] time = dateTime[1].split(":");
         String[] date = dateTime[0].split("-");
         dateTime[1]=time[0]+":"+time[1];
+        int hour = currTime.get(currTime.HOUR_OF_DAY);
+        time[0] = String.valueOf(hour);
+        dateTime[1] = time[0]+":"+time[1];
         msgTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(time[0]));
         msgTime.set(Calendar.MINUTE,Integer.parseInt(time[1]));int minute = Integer.parseInt(time[1]);
         if(minute<10&&time[1].length()==1)

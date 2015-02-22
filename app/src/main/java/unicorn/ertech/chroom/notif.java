@@ -7,8 +7,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -26,14 +29,17 @@ import java.util.concurrent.TimeUnit;
 public class notif extends Service {
     private NotificationManager manager;
     int lastId=0;
-    SharedPreferences userData;
     final String SAVED_TOKEN = "token";
+    SharedPreferences userData;
+    SharedPreferences Notif;
     String URL = "http://im.topufa.org/index.php";
     String lastID4="";
     String lastid="";
     String token="";
     Timer  myTimer;
-    Thread myThread;
+    final String SAVED_SOUND="sound";
+    final String SAVED_VIBRO="vibro";
+    final String SAVED_INDICATOR="indicator";
     public notif() {
     }
 
@@ -54,6 +60,9 @@ public class notif extends Service {
             myTimer = new Timer();
             someTask();
         }
+
+
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -82,7 +91,7 @@ public class notif extends Service {
                                 globalChat4();
                         }
                     }
-                }, 1L * 250, 3L * 1000);
+                }, 1L * 250, 5L * 1000);
             }
         }).start();
     }
@@ -141,6 +150,7 @@ public class notif extends Service {
 
 
     public int createInfoNotification(String message){
+        Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         Intent i = new Intent(getApplicationContext(), Main.class);
         i.putExtra("Token",token);
@@ -152,8 +162,34 @@ public class notif extends Service {
                 .setContentText(message) // Основной текст уведомления
                 .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, i, PendingIntent.FLAG_CANCEL_CURRENT))
                 .setWhen(System.currentTimeMillis()) //отображаемое время уведомления
-                .setContentTitle("ChatRoom") //заголовок уведомления
-                .setDefaults(Notification.DEFAULT_ALL); // звук, вибро и диодный индикатор выставляются по умолчанию
+                .setContentTitle("ChatRoom"); //заголовок уведомления
+                //.setDefaults(Notification.DEFAULT_ALL); // звук, вибро и диодный индикатор выставляются по умолчанию
+
+        nb.setVisibility(Notification.VISIBILITY_PUBLIC);
+
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        if(Notif.contains(SAVED_SOUND)&&Notif.contains(SAVED_VIBRO)&&Notif.contains(SAVED_INDICATOR))
+        {
+            if(Notif.getString(SAVED_SOUND,"").equals("true"))
+            {
+                nb.setSound(alarmSound);
+            }
+
+            if(Notif.getString(SAVED_VIBRO,"").equals("true"))
+            {
+                nb.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+            }
+
+            if(Notif.getString(SAVED_INDICATOR,"").equals("true"))
+            {
+                nb.setLights(Color.RED, 3000, 3000);
+            }
+        }
+        else
+        {
+            nb.setDefaults(Notification.DEFAULT_ALL);
+        }
 
         Notification notification = nb.getNotification(); //генерируем уведомление
         manager.notify(0, notification); // отображаем его пользователю.
@@ -166,17 +202,5 @@ public class notif extends Service {
                 = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
-    }
-
-    private boolean checkToken(String TOKEN)
-    {
-        boolean result = false;
-
-        JSONParser jParser = new JSONParser();
-        jParser.setParam("action", "check");
-        jParser.setParam("token", token);
-        JSONObject json = jParser.getJSONFromUrl(URL);
-
-        return result;
     }
 }

@@ -135,6 +135,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".Notifications"
+            android:label="@string/title_activity_notifications" >
+        </activity>
     </application>
 
 </manifest>
