@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -90,7 +91,7 @@ public class IncognitoChat extends Fragment{
         final View view = inflater.inflate(R.layout.incognito_chat, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
-        Button butSend = (Button) view.findViewById(R.id.button2i);
+        ImageButton butSend = (ImageButton) view.findViewById(R.id.button2i);
         lvChat = (ListView)view.findViewById(R.id.lvChati);
         final EditText txtSend = (EditText) view.findViewById(R.id.editTexti);
         firsTime = true;

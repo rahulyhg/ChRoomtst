@@ -13,9 +13,9 @@
         android:id="@+id/lvChat"
         android:layout_above="@+id/editText1" />
 
-    <Button
+    <ImageButton
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text=">"
         android:id="@+id/button2"
         android:layout_above="@+id/smileTable1"
@@ -23,7 +23,10 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_alignParentBottom="false"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/knopka200"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent" />
 
     <EditText
         android:layout_width="fill_parent"

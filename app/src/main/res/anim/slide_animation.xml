@@ -4,9 +4,11 @@
     android:fillAfter="true"
     android:fillEnabled="true">
     <translate
-        android:duration="2000"
+        android:duration="500"
         android:fillAfter="true"
         android:fillEnabled="true"
-        android:fromYDelta="0%"
-        android:toYDelta="-100%"/>
+        android:fromXDelta="0%"
+        android:toXDelta="-10%"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"/>
 </set>

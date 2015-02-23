@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -106,7 +107,7 @@ public class CountryFragment extends Fragment {
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
 
-        final Button butSend = (Button) view.findViewById(R.id.button23);
+        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button23);
         butSmile=(Button)view.findViewById(R.id.butSmile3);
         lvChat = (ListView)view.findViewById(R.id.lvChat3);
         txtSend = (EditText) view.findViewById(R.id.editText3);

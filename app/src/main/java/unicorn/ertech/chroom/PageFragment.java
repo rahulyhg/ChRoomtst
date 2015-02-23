@@ -4,6 +4,10 @@ package unicorn.ertech.chroom;
  * Created by Timur on 04.01.2015.
  */
 
+//
+//Вроде вообще не используется, удалить перед релизом
+//
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -24,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -102,7 +107,7 @@ public class PageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blank, null);
         //final TextView tvPage = (TextView) view.findViewById(R.id.tvPage);
-        Button butSend = (Button) view.findViewById(R.id.button2);
+        ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
         lvChat = (ListView)view.findViewById(R.id.lvChat);
         final EditText txtSend = (EditText) view.findViewById(R.id.sendText);
         firsTime = true;

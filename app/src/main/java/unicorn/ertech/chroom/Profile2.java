@@ -47,15 +47,14 @@ public class Profile2 extends Activity implements View.OnClickListener{
     ImageView photo4;
     TextView tvProfStat;
     String token, userId, nick;
+    String[] photosURLs;
     String picUrl;
     Picasso mPicasso;
     TextView etName;
     TextView info, hobbiesTv, hereForTv, familyTv, etProfileCity, birthDay, profileSex, searchSex;
     Button butSend;
 
-    final String LIKE_STATE = "like";
-    final String KISS_STATE = "kiss";
-    final String PHOTO_STATE="photo";
+    int pic_width, pic_width2;
     final String SAVED_COLOR = "color";
 
     String picURL="";
@@ -327,6 +326,18 @@ public class Profile2 extends Activity implements View.OnClickListener{
                         hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));
                         hereForTv.setText(getStringFromArray(json.getString("herefor"), R.array.herefor));
 
+                        photosURLs[0]=json.getString("photo1");
+                        photosURLs[1]=json.getString("photo2");
+                        photosURLs[2]=json.getString("photo3");
+                        photosURLs[3]=json.getString("photo4");
+                        photosURLs[4]=json.getString("photo1_full");
+                        photosURLs[5]=json.getString("photo2_full");
+                        photosURLs[6]=json.getString("photo3_full");
+                        photosURLs[7]=json.getString("photo4_full");
+                        mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                        mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                        mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                        mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
 
                     } catch (JSONException e) {
                         e.printStackTrace();

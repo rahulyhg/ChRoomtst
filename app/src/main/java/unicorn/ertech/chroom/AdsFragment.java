@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -106,7 +107,7 @@ public class AdsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_blank, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
-        final Button butSend = (Button) view.findViewById(R.id.button2);
+        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
         butSmile = (Button) view.findViewById(R.id.butSmile);
         lvChat = (ListView)view.findViewById(R.id.lvChat);
         txtSend = (EditText) view.findViewById(R.id.editText1);

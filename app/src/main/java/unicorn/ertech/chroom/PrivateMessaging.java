@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 public class PrivateMessaging extends Activity {
     ListView lvChat;
     EditText txtSend;
-    Button butSend;
+    ImageButton butSend;
     ImageButton butLists;
     Button butSmile;
     String URL = "http://im.topufa.org/index.php";
@@ -74,7 +74,7 @@ public class PrivateMessaging extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
 
-        butSend=(Button)findViewById(R.id.buttonSend);
+        butSend=(ImageButton)findViewById(R.id.buttonSend);
         butSmile=(Button)findViewById(R.id.buttonSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
         txtSend=(EditText)findViewById(R.id.sendText);

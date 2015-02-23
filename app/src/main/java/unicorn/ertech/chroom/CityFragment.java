@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -105,7 +106,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
 
-        final Button butSend = (Button) view.findViewById(R.id.button22);
+        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button22);
         butSmile = (Button) view.findViewById(R.id.butSmile2);
         lvChat = (ListView)view.findViewById(R.id.lvChat2);
         txtSend = (EditText) view.findViewById(R.id.editText1);

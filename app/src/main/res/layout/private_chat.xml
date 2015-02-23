@@ -85,14 +85,16 @@
         android:layout_above="@+id/sendText"
         android:divider="@android:color/transparent" />
 
-    <Button
+    <ImageButton
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text=">"
+        android:layout_height="50dp"
         android:id="@+id/buttonSend"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/knopka200"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent" />
 
     <EditText
         android:layout_width="fill_parent"

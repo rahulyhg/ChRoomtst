@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class anonMessaging extends ActionBarActivity {
 
     ListView lvChat;
     EditText txtSend;
-    Button butSend;
+    ImageButton butSend;
     Button butSmile;
     String URL = "http://im.topufa.org/index.php";
     TextView nick;
@@ -64,7 +65,7 @@ public class anonMessaging extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
 
-        butSend=(Button)findViewById(R.id.buttonSend);
+        butSend=(ImageButton)findViewById(R.id.buttonSend);
         butSmile=(Button)findViewById(R.id.buttonSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
         txtSend=(EditText)findViewById(R.id.sendText);

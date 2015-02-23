@@ -20,6 +20,7 @@ public class Search extends FragmentActivity {
     SearchParam frag1;
     SearchMain frag2;
     SearchRandom frag3;
+    ShareNetworks frag4;
     FragmentTransaction fTrans;
 
     @Override
@@ -30,7 +31,7 @@ public class Search extends FragmentActivity {
         frag1 = new SearchParam();
         frag2 = new SearchMain();
         frag3 = new SearchRandom();
-
+        frag4 = new ShareNetworks();
         fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frgmCont, frag2);
         fTrans.commit();
@@ -51,5 +52,10 @@ public class Search extends FragmentActivity {
         fTrans.commit();
     }
 
-
+    public void startShare(){
+        fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.replace(R.id.frgmCont, frag4);
+        fTrans.addToBackStack(null);
+        fTrans.commit();
+    }
 }

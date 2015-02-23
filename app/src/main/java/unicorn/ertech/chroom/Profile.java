@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -86,7 +87,7 @@ public class Profile extends Activity {
     EditText etProfileCity;
     Button saveProfile;
     Spinner profileSex, searchSex, familySpin;
-    int sex, ssex, sp;
+    int sex, ssex, sp, photo_type;
     int[] selectedHobbies, selectedHere;
 
     Picasso mPicasso;
@@ -225,12 +226,18 @@ public class Profile extends Activity {
             @Override
             public void onClick(View v) {
                 startService = false;
+                photo_type=0;
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);  //Здесь запускает галерею
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
                 //saveData(true, PHOTO_STATE);
             }
         });
+
+        photo1.setOnClickListener(photoClick);
+        photo2.setOnClickListener(photoClick);
+        photo3.setOnClickListener(photoClick);
+        photo4.setOnClickListener(photoClick);
 
         if (loadData(PHOTO_STATE)) {
             String tmp_path = GetPath();
@@ -255,6 +262,39 @@ public class Profile extends Activity {
 
     }
 
+    protected View.OnClickListener photoClick = new View.OnClickListener(){
+        @Override
+        public void onClick(View v){
+            switch (v.getId()){
+                case R.id.photo1:
+                    photo_type=1;
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);  //Здесь запускает галерею
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                    break;
+                case R.id.photo2:
+                    photo_type=2;
+                    Intent photoPickerIntent2 = new Intent(Intent.ACTION_PICK);  //Здесь запускает галерею
+                    photoPickerIntent2.setType("image/*");
+                    startActivityForResult(photoPickerIntent2, GALLERY_REQUEST);
+                    break;
+                case R.id.photo3:
+                    photo_type=3;
+                    Intent photoPickerIntent3 = new Intent(Intent.ACTION_PICK);  //Здесь запускает галерею
+                    photoPickerIntent3.setType("image/*");
+                    startActivityForResult(photoPickerIntent3, GALLERY_REQUEST);
+                    break;
+                case R.id.photo4:
+                    photo_type=4;
+                    Intent photoPickerIntent4 = new Intent(Intent.ACTION_PICK);  //Здесь запускает галерею
+                    photoPickerIntent4.setType("image/*");
+                    startActivityForResult(photoPickerIntent4, GALLERY_REQUEST);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
     public void closeMe() {
         this.finish();
     }
@@ -287,25 +327,39 @@ public class Profile extends Activity {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData(); //Это путь картинки
-                    //Bitmap bitmap = decodeSampledBitmapFromResource(selectedImage.getPath(), profilePhoto.getWidth(), profilePhoto.getHeight());
-                    /*try {
-                        galleryPic = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }*/
-                    //profilePhoto.setImageBitmap(bitmap);
-                    mPicasso.load(selectedImage).resize(pic_width, 0).noFade().into(profilePhoto);
-                    //mPicasso.load(selectedImage).centerInside().fit().noFade().into(profilePhoto);
-                    mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
-                    //profilePhoto.setImageURI(selectedImage);
-                    SavePath(selectedImage.toString());
-                    pathToUserPhoto = getImagePath(selectedImage);
-                    startService = true;
-                    new sendUserPhoto().execute();
+                    if(photo_type==0){
+                        mPicasso.load(selectedImage).resize(pic_width, 0).noFade().into(profilePhoto);
+                        //mPicasso.load(selectedImage).centerInside().fit().noFade().into(profilePhoto);
+                        mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
+                        //profilePhoto.setImageURI(selectedImage);
+                        SavePath(selectedImage.toString());
+                        pathToUserPhoto = getImagePath(selectedImage);
+                        startService = true;
+                        new sendUserPhoto().execute();
+                    }else{
+                        pathToUserPhoto = getImagePath(selectedImage);
+                        switch (photo_type) {
+                            case 1:
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                                break;
+                            case 2:
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                                break;
+                            case 3:
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                                break;
+                            case 4:
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                                break;
+                            default:
+                                break;
+                        }
+                        try {
+                            new sendAdditionalPhoto().execute();
+                        }catch (Exception e){
+                            Log.d("sendphoto", e.toString());
+                        }
+                    }
                 }
         }
     }
@@ -394,6 +448,11 @@ public class Profile extends Activity {
                 familySpin.setSelection(json.getInt("sp"));
                 hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));
                 hereForTv.setText(getStringFromArray(json.getString("herefor"), R.array.herefor));
+                mPicasso.load(json.getString("photo4")).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                mPicasso.load("photo3").resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                mPicasso.load("photo2").resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                mPicasso.load("photo1").resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                mPicasso.load("avatar").resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
                 Log.e("selectedItem", profileSex.getSelectedItem() + "");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
@@ -526,6 +585,73 @@ public class Profile extends Activity {
         }
     }
 
+    private class sendAdditionalPhoto extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            String responseString;
+            JSONObject json = null;
+
+            try
+            {
+                HttpClient client = new DefaultHttpClient();
+                File file = new File(pathToUserPhoto);
+                HttpPost post = new HttpPost(URL);
+
+                MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+                entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+                entityBuilder.addBinaryBody("file", file, ContentType.create("image/jpeg"), file.getName());
+                entityBuilder.addTextBody("action", "photo_set");
+                entityBuilder.addTextBody("token", token);
+                entityBuilder.addTextBody("position", Integer.toString(photo_type));
+
+                // add more key/value pairs here as needed
+
+                HttpEntity entity = entityBuilder.build();
+                post.setEntity(entity);
+
+                HttpResponse response = client.execute(post);
+                final HttpEntity httpEntity = response.getEntity();
+
+                //Log.v("result", EntityUtils.toString(httpEntity));
+                responseString = EntityUtils.toString(httpEntity);
+
+                json = new JSONObject(responseString);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    Log.e("saveToken", e.toString());
+                }
+
+                if(status.equals("false"))
+                {
+                    Toast.makeText(getApplicationContext(), "Изображение успешно добавлено на сервер!", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Ошибка при добавлении изображения на сервер!", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
 
     View.OnClickListener showSaveButton = new View.OnClickListener() {
         @Override
@@ -547,10 +673,12 @@ public class Profile extends Activity {
             display.getMetrics(metricsB);
             int window_width = metricsB.widthPixels;
             int window_height = metricsB.heightPixels;
-            pwindo = new PopupWindow(layout, window_width/3*2, window_height/3*2, true);
+            pwindo = new PopupWindow(layout, window_width, window_height, true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
-            ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
-            Button closePopup = (Button)layout.findViewById(R.id.popupBack);
+            final ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
+            LinearLayout.LayoutParams myParams= new LinearLayout.LayoutParams(window_width/3*2, window_height/3*2);
+            myParams.gravity= Gravity.CENTER;
+            choiceList.setLayoutParams(myParams);
             String[] stringsArr2 = getResources().getStringArray(arrayId);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_multiple_choice, stringsArr2);
             choiceList.setAdapter(adapter);
@@ -569,27 +697,30 @@ public class Profile extends Activity {
             choiceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    k=0;
-                    if(selector==0){
-                        for(int i=0; i<5; i++){
-                            if(selectedHere[i]==-1){
-                                selectedHere[i]=position;
+                    k = 0;
+                    if (selector == 0) {
+                        for (int i = 0; i < 5; i++) {
+                            if (selectedHere[i] == -1) {
+                                selectedHere[i] = position;
                                 break;
                             }
                             //selectedHere[k]=position;
                             //k++;
                             //if(k==5) break;
                         }
-                    }else if(selector==1){
-                        for(int i=0; i<5; i++){
-                            if(selectedHobbies[i]==-1){
-                                selectedHobbies[i]=position;
+                    } else if (selector == 1) {
+                        for (int i = 0; i < 5; i++) {
+                            if (selectedHobbies[i] == -1) {
+                                selectedHobbies[i] = position;
                                 break;
                             }
                             //selectedHobbies[i]=position;
                             //k++;
                             //if(k==5) break;
                         }
+                    }
+                    if(selectedHobbies[4]>0){
+                        choiceList.setEnabled(false);
                     }
                     //myTarget[k]=position;
                     //k++;
@@ -641,34 +772,6 @@ public class Profile extends Activity {
                                 //hobbiesTv.append(", " + stringsArr[tmp]);
                             }
                         }*/
-                    }
-                    /*for (int i = 0; i < 5; i++) {
-                        int tmp = myTarget[i];
-                        if (tmp > -1) {
-                            myTv.setText(stringsArr[tmp]);
-                        }
-                    }*/
-                    pwindo.dismiss();
-                }
-            });
-            closePopup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String[] stringsArr = getResources().getStringArray(arrayId);
-                    if(selector==0){
-                        for(int i=0; i<5; i++){
-                            int tmp = selectedHere[i];
-                            if (tmp > -1) {
-                                hereForTv.setText(stringsArr[tmp]);
-                            }
-                        }
-                    }else if(selector==1){
-                        for(int i=0; i<5; i++){
-                            int tmp = selectedHobbies[i];
-                            if (tmp > -1) {
-                                hobbiesTv.setText(stringsArr[tmp]);
-                            }
-                        }
                     }
                     /*for (int i = 0; i < 5; i++) {
                         int tmp = myTarget[i];

@@ -97,17 +97,19 @@
     </TableLayout>
 
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text=">"
+            android:layout_height="50dp"
             android:id="@+id/button22"
             android:layout_above="@+id/smileTable2"
             android:visibility="visible"
             android:layout_alignWithParentIfMissing="true"
             android:layout_alignParentBottom="false"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/knopka200"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent" />
 
         <EditText
             android:layout_width="fill_parent"
