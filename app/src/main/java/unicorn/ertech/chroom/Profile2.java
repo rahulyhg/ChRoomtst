@@ -1,5 +1,4 @@
 package unicorn.ertech.chroom;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,7 +8,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,24 +19,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Calendar;
-
 /**
  * Created by Timur on 22.01.2015.
  */
-public class Profile2 extends Activity implements View.OnClickListener{
+public class Profile2 extends Activity implements View.OnClickListener {
     SharedPreferences sPref;
     boolean like_current;
     boolean kiss_current;
-
     ImageView butKiss;
     ImageView butLike;
     ImageView profilePhoto;
@@ -53,47 +49,48 @@ public class Profile2 extends Activity implements View.OnClickListener{
     TextView etName;
     TextView info, hobbiesTv, hereForTv, familyTv, etProfileCity, birthDay, profileSex, searchSex;
     Button butSend;
-
     int pic_width, pic_width2;
     final String SAVED_COLOR = "color";
-
-    String picURL="";
-    String picURLFull="";
-
+    String picURL = "";
+    String picURLFull = "";
     String URL = "http://im.topufa.org/index.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_profile2);
-        //setContentView(R.layout.tab_incognito);
+//setContentView(R.layout.tab_incognito);
         mPicasso = Picasso.with(getApplicationContext());
-        etName = (TextView)findViewById(R.id.etName);
-        info = (TextView)findViewById(R.id.etProfile2About);
-        hobbiesTv = (TextView)findViewById(R.id.etProfile2Hobbies);
-        hereForTv=(TextView)findViewById(R.id.etProfile2Herefor);
-        familyTv=(TextView)findViewById(R.id.etProfile2Relationships);
-        tvProfStat = (TextView)findViewById(R.id.tvProfileStatus);
+        etName = (TextView) findViewById(R.id.etName);
+        info = (TextView) findViewById(R.id.etProfile2About);
+        hobbiesTv = (TextView) findViewById(R.id.etProfile2Hobbies);
+        hereForTv = (TextView) findViewById(R.id.etProfile2Herefor);
+        familyTv = (TextView) findViewById(R.id.etProfile2Relationships);
+        tvProfStat = (TextView) findViewById(R.id.tvProfileStatus);
         etProfileCity = (TextView) findViewById(R.id.etProfile2City);
-        birthDay = (TextView)findViewById(R.id.tvBirthday2);
-        profileSex = (TextView)findViewById(R.id.etProfile2Sex);
-        searchSex=(TextView)findViewById(R.id.etProfile2SearchSex);
-
-        RelativeLayout topRow = (RelativeLayout)findViewById(R.id.topRow);
-        Button back = (Button)findViewById(R.id.profileBack);
-        profileGlass = (ImageView)findViewById(R.id.profileGlass);
-        photo1=(ImageView)findViewById(R.id.photo1);
-        photo2=(ImageView)findViewById(R.id.photo2);
-        photo3=(ImageView)findViewById(R.id.photo3);
-        photo4=(ImageView)findViewById(R.id.photo4);
-        butSend = (Button)findViewById(R.id.butProfileSend);
-
+        birthDay = (TextView) findViewById(R.id.tvBirthday2);
+        profileSex = (TextView) findViewById(R.id.etProfile2Sex);
+        searchSex = (TextView) findViewById(R.id.etProfile2SearchSex);
+        RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
+        Button back = (Button) findViewById(R.id.profileBack);
+        profileGlass = (ImageView) findViewById(R.id.profileGlass);
+        photo1 = (ImageView) findViewById(R.id.photo1);
+        photo2 = (ImageView) findViewById(R.id.photo2);
+        photo3 = (ImageView) findViewById(R.id.photo3);
+        photo4 = (ImageView) findViewById(R.id.photo4);
+        butSend = (Button) findViewById(R.id.butProfileSend);
+        Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
+        DisplayMetrics metricsB = new DisplayMetrics();
+        display.getMetrics(metricsB);
+        pic_width = metricsB.widthPixels;
+        pic_width2 = (int) (150 * metricsB.density);
+        photosURLs = new String[10];
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        TextView tvProfPhoto = (TextView)findViewById(R.id.tvProfilePhoto);
-        TextView tvProfInfo = (TextView)findViewById(R.id.tvProfileInfo);
-        if(sPref.contains(SAVED_COLOR)){
-            int col = sPref.getInt(SAVED_COLOR,0);
-            if(col==1){
+        TextView tvProfPhoto = (TextView) findViewById(R.id.tvProfilePhoto);
+        TextView tvProfInfo = (TextView) findViewById(R.id.tvProfileInfo);
+        if (sPref.contains(SAVED_COLOR)) {
+            int col = sPref.getInt(SAVED_COLOR, 0);
+            if (col == 1) {
                 topRow.setBackgroundResource(R.color.blue);
                 back.setBackgroundResource(R.color.blue);
                 tvProfInfo.setBackgroundResource(R.drawable.b_string);
@@ -101,7 +98,7 @@ public class Profile2 extends Activity implements View.OnClickListener{
                 tvProfStat.setBackgroundResource(R.color.bluelight);
                 profileGlass.setBackgroundResource(R.color.blueglass);
                 butSend.setBackgroundResource(R.drawable.but_blue);
-            }else if(col==0){
+            } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 back.setBackgroundResource(R.color.green);
                 tvProfInfo.setBackgroundResource(R.drawable.g_strip);
@@ -109,7 +106,7 @@ public class Profile2 extends Activity implements View.OnClickListener{
                 tvProfStat.setBackgroundResource(R.color.greenlight);
                 profileGlass.setBackgroundResource(R.color.greenglass);
                 butSend.setBackgroundResource(R.drawable.but_green);
-            }else if(col==2){
+            } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 back.setBackgroundResource(R.color.orange);
                 tvProfInfo.setBackgroundResource(R.drawable.o_strip);
@@ -117,7 +114,7 @@ public class Profile2 extends Activity implements View.OnClickListener{
                 tvProfStat.setBackgroundResource(R.color.orangelight);
                 profileGlass.setBackgroundResource(R.color.orangeglass);
                 butSend.setBackgroundResource(R.drawable.but_orange);
-            }else if(col==3){
+            } else if (col == 3) {
                 topRow.setBackgroundResource(R.color.purple);
                 back.setBackgroundResource(R.color.purple);
                 tvProfInfo.setBackgroundResource(R.drawable.p_string);
@@ -127,10 +124,8 @@ public class Profile2 extends Activity implements View.OnClickListener{
                 butSend.setBackgroundResource(R.drawable.but_purple);
             }
         }
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        ImageView butGift=(ImageView)findViewById(R.id.profileGift);
+        ImageView butGift = (ImageView) findViewById(R.id.profileGift);
         butGift.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,73 +133,57 @@ public class Profile2 extends Activity implements View.OnClickListener{
                 startActivity(in);
             }
         });
-
-        butLike=(ImageView)findViewById(R.id.profileLike);
-
+        butLike = (ImageView) findViewById(R.id.profileLike);
         butLike.setOnClickListener(this);
-
-        butKiss=(ImageView)findViewById(R.id.profileKiss);
-
+        butKiss = (ImageView) findViewById(R.id.profileKiss);
         butKiss.setOnClickListener(this);
-
-        profilePhoto=(ImageView)findViewById(R.id.ivProfilePhoto);
-        smallProfilePhoto=(ImageView)findViewById(R.id.profileSmallPhoto);
-
-        Button butBack=(Button)findViewById(R.id.profileBack);
+        profilePhoto = (ImageView) findViewById(R.id.ivProfilePhoto);
+        smallProfilePhoto = (ImageView) findViewById(R.id.profileSmallPhoto);
+        Button butBack = (Button) findViewById(R.id.profileBack);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeMe();
             }
         });
-
         final Intent i = getIntent();
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
         picUrl = i.getStringExtra("avatar");
         nick = i.getStringExtra("nick");
-
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
             }
         });
-
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(), PhotoViewer.class);
-                in.putExtra("photo",picURLFull);
+                in.putExtra("photos", photosURLs);
                 startActivity(in);
             }
         });
-
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             new getProfile().execute();
-            //String picUrl = i.getStringExtra("avatar");
-
-
-
+//String picUrl = i.getStringExtra("avatar");
+        } else {
+            Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернету!", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            Toast.makeText(getApplicationContext(),"Проверьте Ваше подключение к Интернету!", Toast.LENGTH_SHORT).show();
-        }
-
     }
 
-    public void sendMessage(){
+    public void sendMessage() {
         Intent in = new Intent(this, PrivateMessaging.class);
         in.putExtra("userId", userId);
         in.putExtra("token", token);
         in.putExtra("avatar", picUrl);
         in.putExtra("nick", nick);
-        in.putExtra("fake" , "false");
+        in.putExtra("fake", "false");
         startActivity(in);
     }
 
-    public void closeMe(){
+    public void closeMe() {
         this.finish();
     }
 
@@ -226,28 +205,28 @@ public class Profile2 extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.profileLike:
-                if(like_current==false) {
-                    //saveData(true, LIKE_STATE);
+                if (like_current == false) {
+//saveData(true, LIKE_STATE);
                     new giveLike().execute();
-                    like_current=true;
+                    like_current = true;
                     butLike.setImageResource(R.drawable.like_fill);
-                }else{
-                    //saveData(false, LIKE_STATE);
+                } else {
+//saveData(false, LIKE_STATE);
                     new deleteLike().execute();
-                    like_current=false;
+                    like_current = false;
                     butLike.setImageResource(R.drawable.like);
                 }
                 break;
             case R.id.profileKiss:
-                if(kiss_current==false){
-                    //saveData(true, KISS_STATE);
+                if (kiss_current == false) {
+//saveData(true, KISS_STATE);
                     new giveKiss().execute();
-                    kiss_current=true;
+                    kiss_current = true;
                     butKiss.setImageResource(R.drawable.kiss_fill);
-                }else{
-                    //saveData(false, KISS_STATE);
+                } else {
+//saveData(false, KISS_STATE);
                     new deleteKiss().execute();
-                    kiss_current=false;
+                    kiss_current = false;
                     butKiss.setImageResource(R.drawable.kiss);
                 }
                 break;
@@ -256,9 +235,9 @@ public class Profile2 extends Activity implements View.OnClickListener{
         }
     }
 
-
     private class getProfile extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -267,36 +246,34 @@ public class Profile2 extends Activity implements View.OnClickListener{
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
         }
+
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
-
-            //ставим нужные нам параметры
+//ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "profile_get");
             jParser.setParam("userid", userId);
-            // Getting JSON from URL
+// Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
             pDialog.dismiss();
             String status = "";
-            if(json != null) {
-
+            if (json != null) {
                 try {
                     status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 if (status.equals("false")) {
                     try {
-                        String like="";
-                        String kiss="";
+                        String like = "";
+                        String kiss = "";
                         etName.setText(json.getString("name"));
                         tvProfStat.setText(json.getString("status"));
                         userId = json.getString("id");
@@ -304,88 +281,95 @@ public class Profile2 extends Activity implements View.OnClickListener{
                         kiss = json.getString("kiss");
                         picURL = json.getString("avatar");
                         picURLFull = json.getString("avatar_full");
-                        if(like.equals("1")){butLike.setImageResource(R.drawable.like_fill);like_current=true;}
-                        if(kiss.equals("1")){butKiss.setImageResource(R.drawable.kiss_fill);kiss_current=true;}
+                        if (like.equals("1")) {
+                            butLike.setImageResource(R.drawable.like_fill);
+                            like_current = true;
+                        }
+                        if (kiss.equals("1")) {
+                            butKiss.setImageResource(R.drawable.kiss_fill);
+                            kiss_current = true;
+                        }
                         Picasso mPicasso;
                         mPicasso = Picasso.with(getApplicationContext());
                         mPicasso.load(picURLFull).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
                         Picasso.with(getApplicationContext()).load(picURL).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(smallProfilePhoto);
-
                         etProfileCity.setText(json.getString("city"));
                         info.setText(json.getString("info"));
                         birthDay.setText(json.getString("age"));
                         Integer sex = json.getInt("sex");
                         String[] sexarray = getResources().getStringArray(R.array.sex);
-                        if(sex==1){profileSex.setText(sexarray[0]);}
-                        if(sex==0){profileSex.setText(sexarray[1]);}
-                        sex=json.getInt("lookingfor");
-                        if(sex==1){searchSex.setText(sexarray[0]);}
-                        if(sex==0){searchSex.setText(sexarray[1]);}
+                        if (sex == 1) {
+                            profileSex.setText(sexarray[0]);
+                        }
+                        if (sex == 0) {
+                            profileSex.setText(sexarray[1]);
+                        }
+                        sex = json.getInt("lookingfor");
+                        if (sex == 1) {
+                            searchSex.setText(sexarray[0]);
+                        }
+                        if (sex == 0) {
+                            searchSex.setText(sexarray[1]);
+                        }
                         String[] familyarray = getResources().getStringArray(R.array.family);
                         familyTv.setText(familyarray[json.getInt("sp")]);
                         hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));
                         hereForTv.setText(getStringFromArray(json.getString("herefor"), R.array.herefor));
-
-                        photosURLs[0]=json.getString("photo1");
-                        photosURLs[1]=json.getString("photo2");
-                        photosURLs[2]=json.getString("photo3");
-                        photosURLs[3]=json.getString("photo4");
-                        photosURLs[4]=json.getString("photo1_full");
-                        photosURLs[5]=json.getString("photo2_full");
-                        photosURLs[6]=json.getString("photo3_full");
-                        photosURLs[7]=json.getString("photo4_full");
+                        photosURLs[0] = json.getString("photo1");
+                        photosURLs[1] = json.getString("photo2");
+                        photosURLs[2] = json.getString("photo3");
+                        photosURLs[3] = json.getString("photo4");
+                        photosURLs[4] = picURL;
+                        photosURLs[5] = json.getString("photo1_full");
+                        photosURLs[6] = json.getString("photo2_full");
+                        photosURLs[7] = json.getString("photo3_full");
+                        photosURLs[8] = json.getString("photo4_full");
+                        photosURLs[9] = picURLFull;
                         mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
                         mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
                         mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
                         mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при совершении запроса!", Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"Проверьте Ваше подключение к Интернету!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернету!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private class giveLike extends AsyncTask<String, String, JSONObject> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("privatesend", "222");
-
         }
+
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
-
-            //ставим нужные нам параметры
+//ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "like_set");
-            //jParser.setParam("userid", myID);
+//jParser.setParam("userid", myID);
             jParser.setParam("userid", userId);
             jParser.setParam("type", "1");
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
             if (json != null) {
                 String status = "";
-
                 try {
                     status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 if (status.equals("false")) {
                     like_current = true;
                     Toast.makeText(getApplicationContext(), "Вы поставили пользователю лайк!", Toast.LENGTH_LONG).show();
@@ -393,46 +377,41 @@ public class Profile2 extends Activity implements View.OnClickListener{
                     butLike.setImageResource(R.drawable.like);
                     Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     private class giveKiss extends AsyncTask<String, String, JSONObject> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("privatesend", "222");
-
         }
+
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
-
-            //ставим нужные нам параметры
+//ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "like_set");
-            //jParser.setParam("userid", myID);
+//jParser.setParam("userid", myID);
             jParser.setParam("userid", userId);
             jParser.setParam("type", "2");
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
             if (json != null) {
                 String status = "";
-
                 try {
                     status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 if (status.equals("false")) {
                     kiss_current = true;
                     Toast.makeText(getApplicationContext(), "Вы отправили пользователю поцелуй!", Toast.LENGTH_LONG).show();
@@ -440,105 +419,91 @@ public class Profile2 extends Activity implements View.OnClickListener{
                     butKiss.setImageResource(R.drawable.kiss);
                     Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     private class deleteKiss extends AsyncTask<String, String, JSONObject> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("privatesend", "222");
-
         }
+
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
-
-            //ставим нужные нам параметры
+//ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "like_delete");
-            //jParser.setParam("userid", myID);
+//jParser.setParam("userid", myID);
             jParser.setParam("userid", userId);
             jParser.setParam("type", "2");
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
             if (json != null) {
                 String status = "";
-
                 try {
                     status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 if (status.equals("false")) {
                     butKiss.setImageResource(R.drawable.kiss);
                     kiss_current = false;
                     Toast.makeText(getApplicationContext(), "Вы забрали у пользователя поцелуй!", Toast.LENGTH_LONG).show();
                 } else {
-
                     Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     private class deleteLike extends AsyncTask<String, String, JSONObject> {
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("privatesend", "222");
-
         }
+
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
-
-            //ставим нужные нам параметры
+//ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "like_delete");
-            //jParser.setParam("userid", myID);
+//jParser.setParam("userid", myID);
             jParser.setParam("userid", userId);
             jParser.setParam("type", "1");
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
             if (json != null) {
                 String status = "";
-
                 try {
                     status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 if (status.equals("false")) {
                     butLike.setImageResource(R.drawable.like);
                     like_current = false;
                     Toast.makeText(getApplicationContext(), "Вы забрали у пользователя свой лайк!", Toast.LENGTH_LONG).show();
                 } else {
-
                     Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
@@ -550,19 +515,18 @@ public class Profile2 extends Activity implements View.OnClickListener{
         return activeNetworkInfo != null;
     }
 
-
-    private String getStringFromArray(String arrayPositions, int arrayId){
+    private String getStringFromArray(String arrayPositions, int arrayId) {
         String[] stringsArr = getResources().getStringArray(arrayId);
-        String str="";
-        String[] strArr=arrayPositions.split(",");
-        for(int i=0; i<5; i++){
-            if(Integer.parseInt(strArr[i])>0){
-                str=str+stringsArr[Integer.parseInt(strArr[i])]+",";
-            }else{
+        String str = "";
+        String[] strArr = arrayPositions.split(",");
+        for (int i = 0; i < 5; i++) {
+            if (Integer.parseInt(strArr[i]) > 0) {
+                str = str + stringsArr[Integer.parseInt(strArr[i])] + ",";
+            } else {
                 break;
             }
         }
-        if(str.length()>1) {
+        if (str.length() > 1) {
             str = str.substring(0, str.length() - 1);
         }
         return str;

@@ -17,7 +17,8 @@
         android:background="@drawable/corners2"
         android:hint="Login"
         android:text="649490712815"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:inputType="number" />
 
     <EditText
         android:layout_width="wrap_content"
