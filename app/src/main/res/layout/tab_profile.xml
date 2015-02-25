@@ -107,7 +107,7 @@
                     android:layout_alignLeft="@+id/etName"
                     android:layout_alignStart="@+id/etName" />
 
-                <TextView
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Счастье есть - его не может не быть"
@@ -214,21 +214,21 @@
                 android:gravity="center"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="О себе:"
+                android:id="@+id/textView"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp" />
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="О себе:"
-                    android:id="@+id/textView"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="5dp" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -377,21 +377,21 @@
                     android:background="@drawable/corners" />
             </TableRow>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Цель знакомства"
+                android:id="@+id/tvHerefor"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:maxLines="1" />
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Цель знакомства"
-                    android:id="@+id/tvHerefor"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="5dp"
-                    android:maxLines="1" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -404,23 +404,24 @@
                     android:hint="Цель знакомства" />
             </TableRow>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Интересы"
+                android:id="@+id/tvProfileHobbies"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:maxLines="1" />
+
             <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp" >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Интересы"
-                        android:id="@+id/tvProfileHobbies"
-                        android:textColor="#000000"
-                        android:textStyle="bold"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="5dp"
-                        android:maxLines="1" />
 
-                    <TextView
+                <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvPickedHobbies"
