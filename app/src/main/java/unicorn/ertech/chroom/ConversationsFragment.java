@@ -152,8 +152,8 @@ public class ConversationsFragment extends Fragment {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            JSONParser jParser = new JSONParser();
-
+            //JSONParser jParser = new JSONParser();
+            newJsonParser jParser = new newJsonParser();
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "pm_get");

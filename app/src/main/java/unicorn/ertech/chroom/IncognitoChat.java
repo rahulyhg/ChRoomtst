@@ -82,7 +82,7 @@ public class IncognitoChat extends Fragment{
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 2L * 1000);
+        }, 1L * 250, 4L * 1000);
     }
 
     @Override

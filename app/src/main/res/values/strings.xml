@@ -70,5 +70,7 @@
     <string name="exception">Exception: %1$s</string>
     <string name="title_activity_anon_messaging">anonMessaging</string>
     <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_anon_nickname">anon_nickname</string>
+    <string name="title_activity_sync_contacts">syncContacts</string>
 
 </resources>

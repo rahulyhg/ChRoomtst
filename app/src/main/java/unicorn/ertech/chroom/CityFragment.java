@@ -59,7 +59,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
     boolean stopTImer = false ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     String URL = "http://im.topufa.org/index.php";
-    String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID;
+    String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID,deleted_total ;
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 
     private ArrayList<HashMap<String, Object>> regionList;
@@ -96,7 +96,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 2L * 1000);
+        }, 1L * 250, 4L * 1000);
     }
 
     @Override
@@ -118,7 +118,8 @@ public class CityFragment extends android.support.v4.app.Fragment {
         lastID2 = "";
         lastID3 = "";
         lastID4 = "";
-        myID = "18";
+        myID = "18";deleted_total = "";
+
         regionList = new ArrayList<HashMap<String, Object>>();
 
         adapter = new chatAdapter(messages,getActivity().getApplicationContext());
@@ -254,6 +255,8 @@ public class CityFragment extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
+
+                JSONArray deleted = null;
             boolean flag = false;
             String lastid = null;
             JSONArray arr = null;
@@ -279,21 +282,37 @@ public class CityFragment extends android.support.v4.app.Fragment {
                     Log.e("msgNum", msgNum);
                     s = json.getString("data");
                     arr = new JSONArray(s);
+                    deleted_total = json.getString("total-deleted");
                     s = arr.get(0).toString();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             if (flag) {
+                if(!deleted_total.equals("0"))
+                {
+                    try {
+                        s = json.getString("deleted");
+                        deleted = new JSONArray(s);
+
+                        for(int i=0; i<Integer.parseInt(deleted_total);i++)
+                        {
+                            checkInList(deleted.get(i).toString());
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                     try {
                         messag = new JSONObject(arr.get(i).toString());
                         Log.e("messagcity", messag.toString());
                         if (firsTime) {
-                            messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
+                            messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
                         } else {
-                            messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
+                            messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
                         }
                         msgCount++;
@@ -307,6 +326,8 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 adapter.notifyDataSetChanged();
 
                 firsTime = false;
+
+
             }
 
         }
@@ -354,6 +375,18 @@ public class CityFragment extends android.support.v4.app.Fragment {
         s09.setOnClickListener(smile_click_listener);
         s10 = (ImageView) view.findViewById(R.id.s10);
         s10.setOnClickListener(smile_click_listener);
+    }
+
+    public void checkInList(String ID) {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).messageID.equals(ID))
+            {
+                messages.remove(i);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
     private View.OnClickListener smile_click_listener = new View.OnClickListener() {
         public void onClick(View v) {

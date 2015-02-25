@@ -57,7 +57,7 @@ public class AdsFragment extends Fragment {
         Timer myTimer;
         boolean firsTime;
         String URL = "http://im.topufa.org/index.php";
-        String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID;
+        String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, deleted_total;
         List<chatMessage> messages = new ArrayList<chatMessage>();
         private ArrayList<HashMap<String, Object>> citiList;
         final String SAVED_CITY = "city";
@@ -98,7 +98,7 @@ public class AdsFragment extends Fragment {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 2L * 1000);
+        }, 1L * 250, 4L * 1000);
     }
 
     @Override
@@ -120,6 +120,7 @@ public class AdsFragment extends Fragment {
         lastID2 = "";
         lastID3 = "";
         lastID4 = "";
+        deleted_total = "0";
         //myID = "1";
         //listArr = new ArrayList<String>();
         citiList = new ArrayList<HashMap<String, Object>>();
@@ -265,6 +266,8 @@ public class AdsFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
+
+            JSONArray deleted = null;
             boolean flag = false;
             String lastid = null;
             JSONArray arr = null;
@@ -290,22 +293,39 @@ public class AdsFragment extends Fragment {
                     Log.e("msgNum", msgNum);
                     s = json.getString("data");
                     arr = new JSONArray(s);
+                    deleted_total = json.getString("total-deleted");
                     s = arr.get(0).toString();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (flag && Integer.parseInt(msgNum) != 0) {
+
+            if (flag && Integer.parseInt(msgNum) != 0 || Integer.parseInt(deleted_total) !=0) {
                 Log.e("sendjson", "3333loop");
+                if(!deleted_total.equals("0"))
+                {
+                    try {
+                        s = json.getString("deleted");
+                        deleted = new JSONArray(s);
+
+                        for(int i=0; i<Integer.parseInt(deleted_total);i++)
+                        {
+                            checkInList(deleted.get(i).toString());
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                     try {
                         messag = new JSONObject(arr.get(i).toString());
                         Log.e("messagads", messag.toString());
                         if (firsTime) {
-                            messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
+                            messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
                         } else {
-                            messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
+                            messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
                         }
                         msgCount++;
                     } catch (JSONException e) {
@@ -316,10 +336,12 @@ public class AdsFragment extends Fragment {
                 }
                 Log.e("sendjson", "loop4");
 
-                adapter.notifyDataSetChanged();
 
                 firsTime = false;
+
+                adapter.notifyDataSetChanged();
             }
+
         }
 
         }
@@ -410,6 +432,18 @@ public class AdsFragment extends Fragment {
             }
         }
         stopTImer=false;
+    }
+
+    public void checkInList(String ID) {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).messageID.equals(ID))
+            {
+                messages.remove(i);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 
     @Override

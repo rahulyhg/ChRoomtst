@@ -83,9 +83,12 @@ public class SearchMain extends Fragment {
         ivContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                /*Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 pickIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-                startActivityForResult(pickIntent, PICK_RESULT);
+                startActivityForResult(pickIntent, PICK_RESULT);*/
+
+                Intent i = new Intent(context, syncContacts.class);
+                startActivity(i);
             }
         });
 

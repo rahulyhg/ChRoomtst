@@ -9,14 +9,15 @@ public class chatMessage {
     String uid;
     String from;
     String picURL;
-    String picURLFull;
+    String messageID;
 
-    public chatMessage(String UID, String FROM, String MSG, String pcURL)
+    public chatMessage(String UID, String FROM, String MSG, String pcURL, String mID)
     {
         this.uid = UID;
         this.from = FROM;
         this.message = MSG;
         this.picURL = pcURL;
+        this.messageID = mID;
     }
 
     public String getUid()

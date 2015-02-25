@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
     <application
         android:allowBackup="true"
@@ -130,15 +131,17 @@
             android:label="@string/title_activity_anon_messaging" >
         </activity>
         <activity android:name="com.vk.sdk.VKOpenAuthActivity" />
-        <activity android:name=".ShareLoginActivity"
+        <activity
+            android:name=".ShareLoginActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <data android:scheme="vk4795571" />
+
                 <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
 
         <service
@@ -150,6 +153,14 @@
         <activity
             android:name=".Notifications"
             android:label="@string/title_activity_notifications" >
+        </activity>
+        <activity
+            android:name=".anon_nickname"
+            android:label="@string/title_activity_anon_nickname" >
+        </activity>
+        <activity
+            android:name=".syncContacts"
+            android:label="@string/title_activity_sync_contacts" >
         </activity>
     </application>
 

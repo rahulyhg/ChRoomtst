@@ -50,6 +50,7 @@ public class JSONParser extends Application {
         // Создадим HttpClient и PostHandler
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
+        httppost.setHeader("Connection","Keep-Alive");
         HttpResponse response = null;
         try {
 

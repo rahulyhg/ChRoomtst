@@ -60,7 +60,7 @@ public class CountryFragment extends Fragment {
     Timer myTimer;
     boolean firsTime;
     String URL = "http://im.topufa.org/index.php";
-    String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID;
+    String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID,deleted_total ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     private ArrayList<HashMap<String, Object>> citiList;
     private static final String TITLE = "message_author"; // Верхний текст
@@ -97,7 +97,7 @@ public class CountryFragment extends Fragment {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 2L * 1000);
+        }, 1L * 250, 4L * 1000);
     }
 
     @Override
@@ -121,6 +121,7 @@ public class CountryFragment extends Fragment {
         lastID3 = "";
         lastID4 = "";
         myID = "1";
+        deleted_total = "";
         citiList = new ArrayList<HashMap<String, Object>>();
 
         ///lstAdptr = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listArr);
@@ -256,6 +257,8 @@ public class CountryFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
+                String deleted_total = "";
+                JSONArray deleted = null;
                 boolean flag = false;
                 String lastid = null;
                 JSONArray arr = null;
@@ -281,20 +284,36 @@ public class CountryFragment extends Fragment {
                         Log.e("msgNum", msgNum);
                         s = json.getString("data");
                         arr = new JSONArray(s);
+                        deleted_total = json.getString("total-deleted");
                         s = arr.get(0).toString();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 if (flag) {
+                    if(!deleted_total.equals("0"))
+                    {
+                        try {
+                            s = json.getString("deleted");
+                            deleted = new JSONArray(s);
+
+                            for(int i=0; i<Integer.parseInt(deleted_total);i++)
+                            {
+                                checkInList(deleted.get(i).toString());
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                         try {
                             messag = new JSONObject(arr.get(i).toString());
                             Log.e("messagcountry", messag.toString());
                             if (firsTime) {
-                                messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
+                                messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
                             } else {
-                                messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar")));
+                                messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"("+messag.getString("age")+")", messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
                             }
                             msgCount++;
                         } catch (JSONException e) {
@@ -307,6 +326,8 @@ public class CountryFragment extends Fragment {
                     adapter.notifyDataSetChanged();
 
                     firsTime = false;
+
+
                 }
             }
 
@@ -418,6 +439,18 @@ public class CountryFragment extends Fragment {
     private static void addPattern(Map<Pattern, Integer> map, String smile,
                                    int resource) {
         map.put(Pattern.compile(Pattern.quote(smile)), resource);
+    }
+
+    public void checkInList(String ID) {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).messageID.equals(ID))
+            {
+                messages.remove(i);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
     }
 
     public static boolean addSmiles(Context context, Spannable spannable) {
