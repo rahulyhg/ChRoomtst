@@ -398,6 +398,7 @@ public class Profile extends Activity {
                 etProfileCity.setText(json.getString("city"));
                 userName = json.getString("name");
                 userAbout = json.getString("info");
+                tvProfStat.setText(json.getString("status"));
                 birthDay.setText(json.getString("age"));
                 String sex = json.getString("sex");
                 profileSex.setSelection(0);
@@ -456,7 +457,7 @@ public class Profile extends Activity {
             jParser.setParam("sp", Integer.toString(sp));
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
-            jParser.setParam("status", etProfileAbout.getText().toString());
+            jParser.setParam("status", tvProfStat.getText().toString());
 // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;

@@ -72,7 +72,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder = (chatHolder) v.getTag();
         }
 
-        if(p.direction.equals("1"))
+        if(p.direction.equals("false"))
         {
             holder.Rl.setBackgroundResource(R.color.conversationsGrey);
         }

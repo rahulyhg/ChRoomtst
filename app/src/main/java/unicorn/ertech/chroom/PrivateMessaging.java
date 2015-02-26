@@ -3,6 +3,7 @@ package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -58,21 +60,28 @@ public class PrivateMessaging extends Activity {
     int msgCount = 0;
     int scrolling = 0;
     String lastBlock;
-    String picUrl;
+    String picUrl, myID;
     Date dateTime;
+    SharedPreferences userData;
+    final String USER = "user";
+    String fromDIALOGS;
 
     List<pmChatMessage> messages = new ArrayList<pmChatMessage>();
     pmChatAdapter adapter;
     Timer myTimer;
 
-    String token;
+    String token, sendTo;
     boolean firstTime = true;
-    String userId, msgNum, lastId, outMsg, fake;
+    String userId, msgNum, lastId, outMsg, mID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
+
+        userData = getSharedPreferences("user", MODE_PRIVATE);
+
+        myID = Integer.toString(userData.getInt(USER,0));
 
         butSend=(ImageButton)findViewById(R.id.buttonSend);
         butSmile=(Button)findViewById(R.id.buttonSmile);
@@ -123,9 +132,14 @@ public class PrivateMessaging extends Activity {
         Intent i = getIntent();
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
-        fake = i.getStringExtra("fake");
+        mID = i.getStringExtra("mID");
         nick.setText(i.getStringExtra("nick"));
         picUrl = i.getStringExtra("avatar");
+        fromDIALOGS = i.getStringExtra("fromDialogs");
+        if(fromDIALOGS.equals("false"))
+        {
+            sendTo = i.getStringExtra("userId");
+        }
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +189,9 @@ public class PrivateMessaging extends Activity {
             }
         });
 
-        new getEarlierMessages().execute();
+        if(fromDIALOGS.equals("true")) {
+            new getEarlierMessages().execute();
+        }
 
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
@@ -189,6 +205,8 @@ public class PrivateMessaging extends Activity {
                 }
             }
         }, 1L * 250, 2L * 1000);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
     }
 
@@ -206,14 +224,13 @@ public class PrivateMessaging extends Activity {
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "pm_send");
-            //jParser.setParam("userid", myID);
-            if(fake.equals("false")) {
-                jParser.setParam("sendto", userId);
-            }
-            else
+            jParser.setParam("action", "dialogs_send");
+            if(fromDIALOGS.equals("false"))
             {
-                jParser.setParam("fakeid", userId);
+                jParser.setParam("sendto", sendTo);
+            }
+            else {
+                jParser.setParam("dialogid", userId);
             }
             jParser.setParam("message", outMsg);
             //jParser.setParam("deviceid", "");
@@ -238,15 +255,19 @@ public class PrivateMessaging extends Activity {
                 }
 
                 if (status.equals("false")) {
+                    try {
+                        userId = json.getString("dialogid");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
                     pmChatMessage p = new pmChatMessage(userId, outMsg, "0");
                     messages.add(msgCount,p);
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
-                    if(fake.equals("false")) {
-                        conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0", fake, c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND));
-                        ConversationsFragment.newMsg(p2);
-                    }
+                    conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND));
+                    ConversationsFragment.newMsg(p2);
+
 
 
                     msgCount++;
@@ -267,7 +288,7 @@ public class PrivateMessaging extends Activity {
         }
     }
 
-    private class getEarlierMessages extends AsyncTask<String, String, JSONObject> {
+    private class getEarlierMessages extends AsyncTask<String, String, JSONObject> {/////////нужен свой ID
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -279,15 +300,9 @@ public class PrivateMessaging extends Activity {
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "pm_get");
-            if(fake.equals("true")) {
-                jParser.setParam("fakeid", userId);
-            }
-            else
-            {
-                jParser.setParam("userid", userId);
-            }
-            jParser.setParam("lastid", lastBlock);
+            jParser.setParam("action", "dialogs_get");
+            jParser.setParam("firstid", lastBlock);
+            jParser.setParam("dialogid", userId);
 
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
@@ -296,67 +311,58 @@ public class PrivateMessaging extends Activity {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
-                boolean flag = false;
-                String lastid = null;
-                JSONArray arr = null;
+                String realNum = "";
+                JSONArray real = null;
                 String s = null;
-                String status="";
+                String msgID = "";
+                JSONObject messag = null;
                 try {
-                    status = json.getString("error");
+                    s = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                if(status.equals("false")) {
-
-                    JSONObject messag = null;
+                if(s.equals("false")){
                     try {
-                        msgNum = json.getString("total");
-                        Log.e("msgNum", msgNum);
-                        Log.e("msgNumJson", json.toString());
+                        realNum = json.getString("total");
+                        lastBlock = json.getString("firstid");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     try {
-                        if(!msgNum.equals("0")) {
-                            flag = true;
+                        if(!realNum.equals("0")){
                             s = json.getString("data");
-                            arr = new JSONArray(s);
+                            real = new JSONArray(s);
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if (flag && Integer.parseInt(msgNum) != 0) {
+                    for (int i = 0; i < Integer.parseInt(realNum); i++) {
                         try {
-                            lastBlock = json.getString("lastid");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        for (int i = 0; i < Integer.parseInt(msgNum); i++) {
-
-                            try {
-                                messag = new JSONObject(arr.get(i).toString());
-
-                                pmChatMessage p = new pmChatMessage(messag.getString("uid"), messag.getString("message"), messag.getString("direct"));
-                                Log.e("addingMessage", messag.getString("message"));
-                                messages.add(0, p);
+                            messag = new JSONObject(real.get(i).toString());
+                            msgID = messag.getString("userid");
+                            if(msgID.equals(myID))
+                            {
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0");
+                                messages.add(0,p);
                                 msgCount++;
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (NullPointerException e) {
-                                Log.e("NullPointerException", e.toString());
+                            }
+                            else {
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
+                                messages.add(0,p);
+                                msgCount++;
                             }
 
-                        }
-                        adapter.notifyDataSetChanged();
-                        if (firstTime) {
-                            lvChat.setSelection(adapter.getCount());
-                            firstTime = false;
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            Log.e("NullPointerException", e.toString());
                         }
                     }
+
+                    adapter.notifyDataSetChanged();
+                    lvChat.setSelection(adapter.getCount());
                 }
             }
 
@@ -375,17 +381,9 @@ public class PrivateMessaging extends Activity {
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "pm_get");
-            jParser.setParam("new", "true");
-            if(fake.equals("true")) {
-                jParser.setParam("fakeid", userId);
-            }
-            else
-            {
-                jParser.setParam("userid", userId);
-            }
-            //jParser.setParam("lastid", lastBlock);
-
+            jParser.setParam("action", "dialogs_get");
+            jParser.setParam("dialogid", userId);
+            jParser.setParam("lastid", lastId);
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
@@ -393,57 +391,51 @@ public class PrivateMessaging extends Activity {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
-                boolean flag = false;
-                String lastid = null;
-                JSONArray arr = null;
+                String realNum = "";
+                JSONArray real = null;
                 String s = null;
                 JSONObject messag = null;
                 try {
-                    msgNum = json.getString("total");
-                    Log.e("msgNum",msgNum);
-                    Log.e("msgNumJson",json.toString());
+                    s = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                try {
-
-                    flag = true;
-                    s = json.getString("data");
-                    arr = new JSONArray(s);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (flag && Integer.parseInt(msgNum) !=0) {
+                if(s.equals("false")){
                     try {
-                        lastBlock = json.getString("lastid");
+                        realNum = json.getString("total");
+                        lastId = json.getString("lastid");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    for (int i = 0; i < Integer.parseInt(msgNum); i++) {
-
-                        try {
-                            messag = new JSONObject(arr.get(i).toString());
-
-                            pmChatMessage p = new pmChatMessage(messag.getString("uid"), messag.getString("message"), "1");
-                            Calendar c=Calendar.getInstance();int month = c.get(c.MONTH)+1;
-                            conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), messag.getString("message"),picUrl, "1",fake,c.get(c.YEAR)+"-"+month+"-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
-                            Log.e("addingMessage", messag.getString("message"));
-                            messages.add(msgCount, p);
-                            if(fake.equals("false")) {
-                                ConversationsFragment.newMsg(p2);
-                            }
-
-                            msgCount++;
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (NullPointerException e) {
-                            Log.e("NullPointerException", e.toString());
+                    try {
+                        if(!realNum.equals("0")){
+                            s = json.getString("data");
+                            real = new JSONArray(s);
                         }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                    if(firstTime == false) {
+                        for (int i = 0; i < Integer.parseInt(realNum); i++) {
+                            try {
+                                messag = new JSONObject(real.get(i).toString());
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
+                                messages.add(msgCount, p);
+                                msgCount++;
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (NullPointerException e) {
+                                Log.e("NullPointerException", e.toString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        firstTime = false;
+                    }
+
                     adapter.notifyDataSetChanged();
                     lvChat.setSelection(adapter.getCount());
                 }

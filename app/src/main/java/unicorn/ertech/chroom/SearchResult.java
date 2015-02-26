@@ -52,7 +52,7 @@ public class SearchResult extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
-                Log.e("NullPointerException1111", e.toString());
+                //Log.e("NullPointerException1111", e.toString());
             }
         }
         adapter = new SearchResultAdapter(results,this);

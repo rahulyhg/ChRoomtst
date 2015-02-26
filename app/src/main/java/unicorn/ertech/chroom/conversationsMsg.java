@@ -11,18 +11,17 @@ public class conversationsMsg implements Serializable {
     String from;
     String picURL;
     String direction;
-    String fake;
+    String msgId;
     String time;
-    String isRead;
 
-    public conversationsMsg(String UID, String FROM, String MSG, String pcURL, String DIR, String FAKE, String TIME)
+    public conversationsMsg(String UID, String FROM, String MSG, String pcURL, String DIR, String mID, String TIME)
     {
         this.uid = UID;
         this.from = FROM;
         this.message = MSG;
         this.picURL = pcURL;
         this.direction = DIR;
-        this.fake = FAKE;
+        this.msgId = mID;
         this.time = TIME;
     }
 

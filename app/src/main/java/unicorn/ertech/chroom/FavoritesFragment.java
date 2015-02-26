@@ -62,13 +62,14 @@ public class FavoritesFragment extends Fragment {
 
                 String UserId = adapter.getItem(position).uid;
                 String nick = adapter.getItem(position).from;
-                String fake = adapter.getItem(position).fake;
-                adapter.getItem(position).direction = "0";
+                String fake = adapter.getItem(position).msgId;
+                adapter.getItem(position).direction = "true";
                 Intent i = new Intent(getActivity(),PrivateMessaging.class);
                 i.putExtra("userId",UserId);
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
-                i.putExtra("fake",fake);
+                i.putExtra("mID",fake);
+                i.putExtra("fromDialogs","true");
                 i.putExtra("avatar",adapter.getItem(position).picURL);
                 adapter.notifyDataSetChanged();
                 startActivity(i);
@@ -76,7 +77,7 @@ public class FavoritesFragment extends Fragment {
             }
         });
 
-        updateList();
+
 
         return view;
     }
@@ -162,6 +163,11 @@ public class FavoritesFragment extends Fragment {
     {
         messages.clear();
         adapter.notifyDataSetChanged();
-        new Favorites().execute();
+    }
+
+    public  static void addList(conversationsMsg p)
+    {
+        messages.add(0,p);
+        adapter.notifyDataSetChanged();
     }
 }

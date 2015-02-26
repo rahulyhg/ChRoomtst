@@ -57,6 +57,7 @@ public class ConversationsFragment extends Fragment {
     String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();
     boolean stopTImer = false ;
+    List<Integer> favorites = new ArrayList<Integer>();
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -79,7 +80,6 @@ public class ConversationsFragment extends Fragment {
 
         dialogs = (ListView)view.findViewById(R.id.lvConversations);
 
-        ReadDialogsFromFile();
         adapter = new conversationsAdapter(messages,context);
         dialogs.setAdapter(adapter);
         token = Main.str;
@@ -91,13 +91,14 @@ public class ConversationsFragment extends Fragment {
 
                 String UserId = adapter.getItem(position).uid;
                 String nick = adapter.getItem(position).from;
-                String fake = adapter.getItem(position).fake;
-                adapter.getItem(position).direction = "0";
+                String fake = adapter.getItem(position).msgId;
+                adapter.getItem(position).direction = "true";
                 Intent i = new Intent(getActivity(),PrivateMessaging.class);
                 i.putExtra("userId",UserId);
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
-                i.putExtra("fake",fake);
+                i.putExtra("mID",fake);
+                i.putExtra("fromDialogs","true");
                 i.putExtra("avatar",adapter.getItem(position).picURL);
                 adapter.notifyDataSetChanged();
                 startActivity(i);
@@ -105,8 +106,9 @@ public class ConversationsFragment extends Fragment {
             }
         });
 
-
-
+        messages.clear();
+        favorites.clear();
+        new getLists().execute();
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
@@ -152,12 +154,11 @@ public class ConversationsFragment extends Fragment {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            //JSONParser jParser = new JSONParser();
-            newJsonParser jParser = new newJsonParser();
+            JSONParser jParser = new JSONParser();
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "pm_get");
             jParser.setParam("firstid", lastID4);
+            jParser.setParam("action", "dialogs_list");
             // Getting JSON from URL
 
             JSONObject json = jParser.getJSONFromUrl(URL);
@@ -169,47 +170,123 @@ public class ConversationsFragment extends Fragment {
                 boolean flag = false;
                 String lastid = null;
                 JSONArray real = null;
-                JSONArray fake = null;
                 String s = null;
                 JSONObject messag = null;
                 try {
-                    realNum = json.getString("real_total");
-                    fakeNum = json.getString("fake_total");
+                    s = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(s.equals("false")){
+                    try {
+                        realNum = json.getString("total");
+                        lastID4 = Integer.toString(json.getInt("lastid"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        if(!realNum.equals("0")){
+                            s = json.getString("data");
+                            real = new JSONArray(s);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < Integer.parseInt(realNum); i++) {
+                        try {
+                            messag = new JSONObject(real.get(i).toString());
+                            s = messag.getString("dialog_id");
+
+                            if(!favorites.contains(Integer.parseInt(s)))
+                            {
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"));
+                                messages.add(0, p);
+                            }
+                            else
+                            {
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"));
+                                FavoritesFragment.addList(p);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            Log.e("NullPointerException", e.toString());
+                        }
+                    }
+                    if(!realNum.equals("0")) {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+        }
+    }//конец asyncTask
+
+
+    private class getLists extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            FavoritesFragment.messages.clear();
+            super.onPreExecute();
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "dialogs_list");
+            // Getting JSON from URL
+
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                boolean flag = false;
+                String lastid = null;
+                JSONArray real = null;
+                String s = null;
+                JSONObject messag = null;
+                try {
+                    s = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(s.equals("false")){
+                try {
+                    realNum = json.getString("total");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 try {
-
-                    lastid = json.getString("firstid");
-                    Log.e("firstid", lastID4);
-                    if (lastID4.equals(lastid)) {
-                        //lastID4 = json.getString("lastid");
-                    } else {
-                        flag = true;
-                        lastID4 = json.getString("firstid");
                         if(!realNum.equals("0")){
-                            s = json.getString("real");
+                            s = json.getString("data");
                             real = new JSONArray(s);
                         }
 
-                        if(!fakeNum.equals("0")) {
-                            s = json.getString("fake");
-                            fake = new JSONArray(s);
-                        }
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (flag) {
                     for (int i = 0; i < Integer.parseInt(realNum); i++) {
                         try {
                             messag = new JSONObject(real.get(i).toString());
-                            Log.e("realOne", messag.toString());
-                            Calendar c=Calendar.getInstance();int month = c.get(c.MONTH)+1;
-                            conversationsMsg p = new conversationsMsg(messag.getString("uid"), messag.getString("nickname"),messag.getString("message"), messag.getString("avatar"),"1","false",messag.getString("time"));
+                            s = messag.getString("bookmarked");
 
-                            if(!checkInList(p)) {
+                            if(s.equals("false"))
+                            {
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"));
                                 messages.add(0, p);
+                            }
+                            else
+                            {
+                                favorites.add(Integer.parseInt(messag.getString("dialog_id")));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"));
+                                FavoritesFragment.addList(p);
                             }
 
                         } catch (JSONException e) {
@@ -219,26 +296,7 @@ public class ConversationsFragment extends Fragment {
                         }
                     }
 
-
-                    for (int i = 0; i < Integer.parseInt(fakeNum); i++) {
-                        try {
-                            messag = new JSONObject(fake.get(i).toString());
-                            Log.e("realOne", messag.toString());
-                            Calendar c=Calendar.getInstance();int month = c.get(c.MONTH)+1;
-                            conversationsMsg p = new conversationsMsg(messag.getString("uid"), messag.getString("nickname"),messag.getString("message"), messag.getString("avatar"),"1", "true",messag.getString("time"));
-                            if(!checkInList(p)) {
-                                messages.add(0, p);
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (NullPointerException e) {
-                            Log.e("NullPointerException", e.toString());
-                        }
-                    }
                     adapter.notifyDataSetChanged();
-                    WriteDialogsToFile();
                 }
             }
 
@@ -271,7 +329,6 @@ public class ConversationsFragment extends Fragment {
                 return;
             }
         }
-        WriteDialogsToFile();
     }
 
 
@@ -280,7 +337,7 @@ public class ConversationsFragment extends Fragment {
         boolean flag = false;
         for(int i=0; i<messages.size();i++)
         {
-            if(messages.get(i).uid.equals(msg.uid) && messages.get(i).fake.equals(msg.fake))
+            if(messages.get(i).uid.equals(msg.uid))
             {
                 messages.get(i).message = msg.message;
                 messages.get(i).time = msg.time;
@@ -292,8 +349,6 @@ public class ConversationsFragment extends Fragment {
                 flag = true;
             }
         }
-
-        WriteDialogsToFile();
         return  flag;
     }
 
@@ -305,18 +360,16 @@ public class ConversationsFragment extends Fragment {
             if(messages.get(i).uid.equals(p.uid))
             {
                 flag = false;
-                conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).fake,p.time);
+                conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).msgId,p.time);
                 messages.remove(i);
                 messages.add(0,m);
                 adapter.notifyDataSetChanged();
-                WriteDialogsToFile();
             }
         }
         if(flag)
         {
-            conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.fake,p.time);
+            conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.msgId,p.time);
             messages.add(0,m);
-            WriteDialogsToFile();
         }
     }
 

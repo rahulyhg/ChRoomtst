@@ -179,6 +179,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         in.putExtra("token", token);
         in.putExtra("avatar", picUrl);
         in.putExtra("nick", nick);
+        in.putExtra("fromDialogs","false");
         in.putExtra("fake", "false");
         startActivity(in);
     }

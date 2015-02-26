@@ -110,7 +110,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Счастье есть - его не может не быть"
+                    android:text=""
                     android:id="@+id/tvProfileStatus"
                     android:layout_alignParentBottom="true"
                     android:paddingTop="7dp"
