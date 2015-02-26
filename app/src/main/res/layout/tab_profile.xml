@@ -115,6 +115,7 @@
                     android:layout_alignParentBottom="true"
                     android:paddingTop="7dp"
                     android:paddingBottom="7dp"
+                    android:cursorVisible="false"
                     android:gravity="center_horizontal"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
@@ -122,6 +123,7 @@
                     android:background="@color/greenlight"
                     android:textStyle="bold"
                     android:visibility="visible"
+                    android:autoText="false"
                     android:textSize="12sp" />
             </RelativeLayout>
 

@@ -2,6 +2,7 @@
 <RelativeLayout android:gravity="top" android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/pm_bg">
 
     <ImageButton
@@ -56,6 +57,14 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
+
+    <com.facebook.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        facebook:confirm_logout="false"
+        facebook:fetch_user_info="true"
+        android:visibility="visible" />
 
 </RelativeLayout>
 

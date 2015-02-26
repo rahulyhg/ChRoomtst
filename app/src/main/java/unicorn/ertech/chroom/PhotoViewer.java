@@ -43,6 +43,11 @@ public class PhotoViewer extends Activity{
 
         View page = inflater.inflate(R.layout.photo_fragment, null);
         TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+        mPicasso.load(photoURLs[9]).into(imgview);
+        pages.add(page);
+
+        page = inflater.inflate(R.layout.photo_fragment, null);
+        imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
         mPicasso.load(photoURLs[5]).into(imgview);
         pages.add(page);
 
@@ -61,15 +66,10 @@ public class PhotoViewer extends Activity{
         mPicasso.load(photoURLs[8]).into(imgview);
         pages.add(page);
 
-        page = inflater.inflate(R.layout.photo_fragment, null);
-        imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-        mPicasso.load(photoURLs[9]).into(imgview);
-        pages.add(page);
-
         photoPagerAdapter pagerAdapter = new photoPagerAdapter(pages);
         ViewPager viewPager = (ViewPager)findViewById(R.id.pager_photo);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(getIntent().getIntExtra("id", 0));
 //matrix=new Matrix();
 //SGD=new ScaleGestureDetector(this, new ScaleListener());
     }

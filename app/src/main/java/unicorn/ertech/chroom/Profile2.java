@@ -79,12 +79,19 @@ public class Profile2 extends Activity implements View.OnClickListener {
         photo3 = (ImageView) findViewById(R.id.photo3);
         photo4 = (ImageView) findViewById(R.id.photo4);
         butSend = (Button) findViewById(R.id.butProfileSend);
+
         Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
         pic_width = metricsB.widthPixels;
         pic_width2 = (int) (150 * metricsB.density);
         photosURLs = new String[10];
+
+        photo1.setOnClickListener(photoClick);
+        photo2.setOnClickListener(photoClick);
+        photo3.setOnClickListener(photoClick);
+        photo4.setOnClickListener(photoClick);
+
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         TextView tvProfPhoto = (TextView) findViewById(R.id.tvProfilePhoto);
         TextView tvProfInfo = (TextView) findViewById(R.id.tvProfileInfo);
@@ -162,6 +169,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(), PhotoViewer.class);
                 in.putExtra("photos", photosURLs);
+                in.putExtra("id", 0);
                 startActivity(in);
             }
         });
@@ -172,6 +180,40 @@ public class Profile2 extends Activity implements View.OnClickListener {
             Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернету!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    protected View.OnClickListener photoClick = new View.OnClickListener(){
+        @Override
+        public void onClick(View v){
+            switch (v.getId()){
+                case R.id.photo1:
+                    Intent photoIntent = new Intent(getApplicationContext(), PhotoViewer.class);
+                    photoIntent.putExtra("photos", photosURLs);
+                    photoIntent.putExtra("id", 1);
+                    startActivity(photoIntent);
+                    break;
+                case R.id.photo2:
+                    Intent photoIntent2 = new Intent(getApplicationContext(), PhotoViewer.class);
+                    photoIntent2.putExtra("photos", photosURLs);
+                    photoIntent2.putExtra("id", 2);
+                    startActivity(photoIntent2);
+                    break;
+                case R.id.photo3:
+                    Intent photoIntent3 = new Intent(getApplicationContext(), PhotoViewer.class);
+                    photoIntent3.putExtra("photos", photosURLs);
+                    photoIntent3.putExtra("id", 3);
+                    startActivity(photoIntent3);
+                    break;
+                case R.id.photo4:
+                    Intent photoIntent4 = new Intent(getApplicationContext(), PhotoViewer.class);
+                    photoIntent4.putExtra("photos", photosURLs);
+                    photoIntent4.putExtra("id", 4);
+                    startActivity(photoIntent4);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public void sendMessage() {
         Intent in = new Intent(this, PrivateMessaging.class);

@@ -201,7 +201,15 @@ public class Profile extends Activity {
             }
         });
         profilePhoto = (ImageView) findViewById(R.id.ivProfilePhoto);
-//profilePhoto=(ImageView)etProfileCity.getText();
+        profilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), PhotoViewer.class);
+                i.putExtra("photos", photosURLs);
+                i.putExtra("id", 0);
+                startActivity(i);
+            }
+        });
         smallProfilePhoto = (ImageView) findViewById(R.id.profileSmallPhoto);
         smallProfilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
