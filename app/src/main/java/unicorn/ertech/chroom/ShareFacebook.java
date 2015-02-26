@@ -260,6 +260,7 @@ public class ShareFacebook extends FragmentActivity {
         if (enableButtons && user != null) {
             profilePictureView.setProfileId(user.getId());
             greeting.setText(getString(R.string.hello_user, user.getFirstName()));
+            performPublish(PendingAction.POST_STATUS_UPDATE, canPresentShareDialog);
         } else {
             profilePictureView.setProfileId(null);
             greeting.setText(null);

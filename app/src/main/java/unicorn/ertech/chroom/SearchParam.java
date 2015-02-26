@@ -33,8 +33,8 @@ public class SearchParam extends Fragment {
     private Context context;
     Button butSearch;
     TextView tvTitle;
-    Spinner sexSpinner, regionSpinner;
-    EditText city,age_from, age_till;
+    Spinner sexSpinner, regionSpinner, hereforSpinner;
+    EditText city, age_from, age_till;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
     String token;
@@ -66,6 +66,7 @@ public class SearchParam extends Fragment {
         cb = (CheckBox)view.findViewById(R.id.cbSearchOnline);
         sexSpinner = (Spinner)view.findViewById(R.id.spinSearchSex);
         regionSpinner = (Spinner)view.findViewById(R.id.spinSearchRegion);
+        hereforSpinner=(Spinner)view.findViewById(R.id.spinSearchHerefor);
         city = (EditText)view.findViewById(R.id.etSearchCity);
         age_from = (EditText)view.findViewById(R.id.etSearchAge1);
         age_till = (EditText)view.findViewById(R.id.etSearchAge2);
