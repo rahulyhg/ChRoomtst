@@ -37,7 +37,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
     private Context context;
 
     public conversationsAdapter(List<conversationsMsg> chat, Context ctx) {
-        super(ctx, R.layout.chat_layout, chat);
+        super(ctx, R.layout.conversations, chat);
         this.chat = chat;
         this.context = ctx;
     }
@@ -51,14 +51,14 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         if (convertView == null) {
             // This a new view we inflate the new layout
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.conversation_msg_layout, null);
+            v = inflater.inflate(R.layout.conversations, null);
 
             // Now we can fill the layout with the right values
-            TextView from = (TextView) v.findViewById(R.id.fromC);
-            TextView msg = (TextView) v.findViewById(R.id.messagC);
-            TextView time = (TextView) v.findViewById(R.id.timeC);
-            ImageView image = (ImageView)v.findViewById(R.id.imgC);
-            RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.layout_color);
+            TextView from = (TextView) v.findViewById(R.id.fromC2);
+            TextView msg = (TextView) v.findViewById(R.id.messagC2);
+            TextView time = (TextView) v.findViewById(R.id.timeC2);
+            ImageView image = (ImageView)v.findViewById(R.id.imgC2);
+            RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.conversations_color);
 
             holder.tvFrom = from;
             holder.tvMsg = msg;
@@ -74,11 +74,11 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
 
         if(p.direction.equals("false"))
         {
-            holder.Rl.setBackgroundResource(R.color.conversationsGrey);
+            holder.Rl.setBackgroundResource(R.color.conversationsReadNot);
         }
         else
         {
-            holder.Rl.setBackgroundResource(R.color.conversationsWhite);
+           holder.Rl.setBackgroundResource(R.color.conversationsRead);
         }
 
         holder.tvFrom.setText(p.from);
@@ -139,7 +139,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder.tvTime.setText(dateTime[0]);
         }
 
-        Picasso.with(getContext()).load(p.picURL).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(holder.img);
+        Picasso.with(getContext()).load(p.picURL).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 
         return v;

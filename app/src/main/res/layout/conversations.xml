@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id = "@+id/conversations_color"
+    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <ImageView
+        android:id="@+id/imgC2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:paddingLeft="0dip"
+        android:src="@drawable/ic_launcher"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:id="@+id/fromC2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imgC2"
+        android:layout_toRightOf="@+id/imgC2"
+        android:textStyle="bold"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/messagC2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fromC2"
+        android:layout_marginTop="2dip"
+        android:layout_toRightOf="@id/imgC2"
+        android:textStyle="italic"
+        android:gravity="left"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/timeC2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="right"
+        android:textColor="@color/black"
+        android:layout_alignBaseline="@+id/fromC2"
+        android:layout_alignBottom="@+id/fromC2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="5dp" />
+
+</RelativeLayout>

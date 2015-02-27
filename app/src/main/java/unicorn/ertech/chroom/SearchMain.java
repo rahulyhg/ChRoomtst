@@ -87,18 +87,21 @@ public class SearchMain extends Fragment {
                 pickIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
                 startActivityForResult(pickIntent, PICK_RESULT);*/
 
-                Intent i = new Intent(context, syncContacts.class);
-                startActivity(i);
+                Intent m = new Intent(context, VActivity.class);
+                startActivity(m);
             }
         });
 
         ivInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+                /*Intent smsIntent = new Intent(Intent.ACTION_VIEW);
                 smsIntent.setType("vnd.android-dir/mms-sms");
                 smsIntent.putExtra("sms_body", "Привет! Заходи в ChatRoom!");
-                startActivity(smsIntent);
+                startActivity(smsIntent);*/
+
+                Intent i = new Intent(context, syncContacts.class);
+                startActivity(i);
             }
         });
         ivRandom.setOnClickListener(new View.OnClickListener(){

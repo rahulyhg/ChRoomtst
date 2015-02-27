@@ -21,6 +21,13 @@ public class SetWallet extends Activity {
         TextView blackList=(TextView)findViewById(R.id.tvBlackList);
         TextView notif=(TextView)findViewById(R.id.tvNotifications);
         TextView anonNick = (TextView)findViewById(R.id.tvPrivateNick);
+        TextView delete = (TextView)findViewById(R.id.tvDeleteAcc);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOpen();
+            }
+        });
         anonNick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +71,12 @@ public class SetWallet extends Activity {
 
     public void anonNickOpen(){
         Intent i = new Intent(this, anon_nickname.class);
+        startActivity(i);
+    }
+
+    public  void deleteOpen()
+    {
+        Intent i = new Intent(this, deleteAcc.class);
         startActivity(i);
     }
 }

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -161,6 +161,14 @@
         <activity
             android:name=".syncContacts"
             android:label="@string/title_activity_sync_contacts" >
+        </activity>
+        <activity
+            android:name=".VActivity"
+            android:label="@string/title_activity_v" >
+        </activity>
+        <activity
+            android:name=".deleteAcc"
+            android:label="@string/title_activity_delete_acc" >
         </activity>
     </application>
 
