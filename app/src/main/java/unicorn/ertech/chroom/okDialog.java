@@ -107,7 +107,7 @@ public class okDialog extends Dialog {
     private void setUpTitle() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        Drawable icon = getContext().getResources().getDrawable(R.drawable.twitter_android);
+        Drawable icon = getContext().getResources().getDrawable(R.drawable.odn_android);
         
         mTitle = new TextView(getContext());
         

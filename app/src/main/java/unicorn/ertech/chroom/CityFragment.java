@@ -47,7 +47,7 @@ import java.util.regex.Pattern;
 public class CityFragment extends android.support.v4.app.Fragment {
     private Context context;
     EditText txtSend;
-    Button butSmile;
+    ImageButton butSmile;
     public int pageNumber;
     RelativeLayout rellay;
     int backColor;
@@ -107,7 +107,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
         context = view.getContext();
 
         final ImageButton butSend = (ImageButton) view.findViewById(R.id.button22);
-        butSmile = (Button) view.findViewById(R.id.butSmile2);
+        butSmile = (ImageButton) view.findViewById(R.id.butSmile2);
         lvChat = (ListView)view.findViewById(R.id.lvChat2);
         txtSend = (EditText) view.findViewById(R.id.editText1);
         firsTime = true;

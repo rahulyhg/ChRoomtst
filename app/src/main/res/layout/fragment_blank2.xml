@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/lvChat2"
-        android:layout_above="@+id/editText1" />
+        android:layout_above="@+id/button22" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -123,9 +123,9 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_toStartOf="@+id/button22" />
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text=":)"
             android:id="@+id/butSmile2"
             android:layout_alignParentBottom="false"
@@ -133,6 +133,9 @@
             android:layout_above="@+id/smileTable2"
             android:visibility="visible"
             android:layout_alignWithParentIfMissing="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:src="@drawable/smile_circle"
+            android:background="@color/white"
+            android:scaleType="fitCenter"/>
 
 </RelativeLayout>

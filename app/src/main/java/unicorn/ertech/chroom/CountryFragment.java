@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
  */
 public class CountryFragment extends Fragment {
     private Context context;
-    Button butSmile;
+    ImageButton butSmile;
     EditText txtSend;
     public int pageNumber;
     int backColor;
@@ -108,7 +108,7 @@ public class CountryFragment extends Fragment {
         context = view.getContext();
 
         final ImageButton butSend = (ImageButton) view.findViewById(R.id.button23);
-        butSmile=(Button)view.findViewById(R.id.butSmile3);
+        butSmile=(ImageButton)view.findViewById(R.id.butSmile3);
         lvChat = (ListView)view.findViewById(R.id.lvChat3);
         txtSend = (EditText) view.findViewById(R.id.editText3);
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable3);

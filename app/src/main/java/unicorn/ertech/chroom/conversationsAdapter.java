@@ -82,7 +82,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         }
 
         holder.tvFrom.setText(p.from);
-        holder.tvMsg.setText(p.message);
+        holder.tvMsg.setText(getSmiledText(getContext(),p.message));
         Calendar currTime = Calendar.getInstance();int cday = currTime.get(currTime.DAY_OF_MONTH);
         Calendar msgTime = Calendar.getInstance(); int cmonth = 1 + currTime.get(currTime.MONTH); int cyear = currTime.get(currTime.YEAR);
         String[] dateTime = p.time.split("%");
@@ -151,8 +151,16 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
     private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
 
     static {
-        addPattern(emoticons, ":)", R.drawable.kiss_fill);
-        addPattern(emoticons, ":-)", R.drawable.like_fill);
+        addPattern(emoticons, ":)", R.drawable.s01);
+        addPattern(emoticons, ":D", R.drawable.s02);
+        addPattern(emoticons, ":O", R.drawable.s03);
+        addPattern(emoticons, ":(", R.drawable.s04);
+        addPattern(emoticons, "*05*", R.drawable.s05);
+        addPattern(emoticons, "Z)", R.drawable.s06);
+        addPattern(emoticons, "*07*", R.drawable.s07);
+        addPattern(emoticons, "*08*", R.drawable.s08);
+        addPattern(emoticons, "*09*", R.drawable.s09);
+        addPattern(emoticons, "*love*", R.drawable.s10);
         // ...
     }
 

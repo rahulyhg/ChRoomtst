@@ -133,8 +133,8 @@ public class ShareNetworks extends Fragment {
     //twitter
     private Twitter mTwitter;
 
-    public static final String CONSUMER_KEY = "QbB5UmppahrslAET344vyyvBi";
-    public static final String CONSUMER_SECRET = "x3f9KBNNyIs9jdX8v7cdFvaJOgXUtGi8aNk6XflejL4OOiC73a";
+    public static final String CONSUMER_KEY = "Vur7gbEtoa1jf8iabBvyRCh7K";
+    public static final String CONSUMER_SECRET = "G4GnQbMw596bm0xXahzaV41fPfTSJeLbwLNQi470Kd28IgUfOW";
     public static final String CALLBACK_URL = "";
 
     private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -612,11 +612,11 @@ public class ShareNetworks extends Fragment {
                         }
                     });
             Bundle params = new Bundle();
-            params.putString("name", "Facebook SDK for Android");
-            params.putString("caption", "Build great social apps and get more installs.");
-            params.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-            params.putString("link", "https://developers.facebook.com/android");
-            params.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
+            params.putString("name", "IZUM");
+            params.putString("caption", "Get new IM");
+            params.putString("description", "Hello, world!");
+            params.putString("link", "http://im.topufa.org/");
+            params.putString("picture", "https://raw.githubusercontent.com/JawaJedi/ChRoomtst/master/logo.png");
 
             WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(context, Session.getActiveSession(), params)).setOnCompleteListener(new WebDialog.OnCompleteListener() {
 

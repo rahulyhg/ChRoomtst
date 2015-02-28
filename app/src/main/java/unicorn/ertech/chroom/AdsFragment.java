@@ -49,7 +49,7 @@ import java.util.regex.Pattern;
 public class AdsFragment extends Fragment {
         private Context context;
         public int pageNumber;
-        Button butSmile;
+        ImageButton butSmile;
         EditText txtSend;
         int msgCount;
         ListView lvChat;
@@ -108,7 +108,7 @@ public class AdsFragment extends Fragment {
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
         final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
-        butSmile = (Button) view.findViewById(R.id.butSmile);
+        butSmile = (ImageButton) view.findViewById(R.id.butSmile);
         lvChat = (ListView)view.findViewById(R.id.lvChat);
         txtSend = (EditText) view.findViewById(R.id.editText1);
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable1);

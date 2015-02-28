@@ -53,7 +53,7 @@ public class PrivateMessaging extends Activity {
     EditText txtSend;
     ImageButton butSend;
     ImageButton butLists;
-    Button butSmile;
+    ImageButton butSmile;
     String URL = "http://im.topufa.org/index.php";
     TextView nick;
     ImageView avatar;
@@ -84,7 +84,7 @@ public class PrivateMessaging extends Activity {
         myID = Integer.toString(userData.getInt(USER,0));
 
         butSend=(ImageButton)findViewById(R.id.buttonSend);
-        butSmile=(Button)findViewById(R.id.buttonSmile);
+        butSmile=(ImageButton)findViewById(R.id.buttonSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
         txtSend=(EditText)findViewById(R.id.sendText);
         nick = (TextView)findViewById(R.id.profileBack);
@@ -267,8 +267,6 @@ public class PrivateMessaging extends Activity {
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                     conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND));
                     ConversationsFragment.newMsg(p2);
-
-
 
                     msgCount++;
                     Log.e("privatesend","777");

@@ -18,9 +18,11 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -78,8 +80,8 @@ public class Profile extends Activity {
     EditText etProfileAbout;
     EditText etProfileCity;
     Button saveProfile;
-    Spinner profileSex, searchSex, familySpin;
-    int sex, ssex, sp, photo_type;
+    Spinner profileSex, searchSex, familySpin, regionSpin;
+    int sex, ssex, sp, photo_type, reg;
     int[] selectedHobbies, selectedHere;
     Picasso mPicasso;
     final String PHOTO_STATE = "photo";
@@ -120,11 +122,19 @@ public class Profile extends Activity {
         hobbiesTv = (TextView)findViewById(R.id.tvPickedHobbies);
         hereForTv=(TextView)findViewById(R.id.tvPickedHerefor);
         familySpin=(Spinner)findViewById(R.id.spinProfileRelationships);
+        regionSpin=(Spinner)findViewById(R.id.etProfileRegion);
         selectedHobbies= new int[5];
         selectedHere = new int[5];
         etName.setOnClickListener(showSaveButton); //показ кнопки сохранить при редактировании данных о себе
         etProfileCity.setOnClickListener(showSaveButton);
         etProfileAbout.setOnClickListener(showSaveButton);
+        tvProfStat.setOnClickListener(showSaveButton);
+        familySpin.setOnTouchListener(showSaveButton3);
+        //regionSpin.setOnItemClickListener(showSaveButton2);
+        regionSpin.setOnTouchListener(showSaveButton3);
+        searchSex.setOnTouchListener(showSaveButton3);
+        profileSex.setOnTouchListener(showSaveButton3);
+
         Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
@@ -444,6 +454,7 @@ public class Profile extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             sp=familySpin.getSelectedItemPosition();
+            reg=10*familySpin.getSelectedItemPosition();
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -463,6 +474,7 @@ public class Profile extends Activity {
             jParser.setParam("herefor4", Integer.toString(selectedHere[3]));
             jParser.setParam("herefor5", Integer.toString(selectedHere[4]));
             jParser.setParam("sp", Integer.toString(sp));
+            jParser.setParam("region", Integer.toString(reg));
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
             jParser.setParam("status", tvProfStat.getText().toString());
@@ -605,6 +617,22 @@ public class Profile extends Activity {
             saveProfile.setVisibility(View.VISIBLE);
         }
     };
+
+    AdapterView.OnItemClickListener showSaveButton2 = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView view, View view2, int pos, long lng){
+            saveProfile.setVisibility(View.VISIBLE);
+        }
+    };
+
+    View.OnTouchListener showSaveButton3 = new View.OnTouchListener(){
+        @Override
+        public boolean onTouch(View view2,MotionEvent event){
+            saveProfile.setVisibility(View.VISIBLE);
+            return false;
+        }
+    };
+
     private PopupWindow pwindo;
     private void initiatePopupWindow(final int arrayId, TextView targetTV, int[] targetArray, final int selector) {
         try {

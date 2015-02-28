@@ -3,12 +3,12 @@
     <color  name="white">#FFFFFF</color>
     <color  name="green">#0FB470</color>
     <color  name="black">#000000</color>
-    <color name="blue">#0026FF</color>
+    <color name="blue">#6383A8</color>
     <color name="orange">#EE7A00</color>
-    <color name="purple">#A8209E</color>
+    <color name="purple">#DC1C7C</color>
     <color name="greenglass">#770FB470</color>
-    <color name="purpleglass">#77A8209E</color>
-    <color name="blueglass">#770026FF</color>
+    <color name="purpleglass">#77DC1C7C</color>
+    <color name="blueglass">#776383A8</color>
     <color name="orangeglass">#77EE7A00</color>
     <color name="greenlight">#94DABD</color>
     <color name="orangelight">#E9A55F</color>

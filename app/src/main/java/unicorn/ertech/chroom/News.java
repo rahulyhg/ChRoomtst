@@ -127,6 +127,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
     @Override
     public void onResume(){
         super.onResume();
+        Log.d("news", adapter3.toString());
         SharedPreferences sPref;
         sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
@@ -143,6 +144,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         }else{
             tvNewsTitle.setBackgroundResource(R.drawable.g_strip);
         }
+        lvNews.refreshDrawableState();
     }
 
     private class GetRssFeed extends AsyncTask<String, Void, Void> {
