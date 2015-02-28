@@ -52,7 +52,7 @@ public class ConversationsFragment extends Fragment {
     static conversationsAdapter adapter;
     static List<conversationsMsg> messages = new ArrayList<conversationsMsg>();
     Timer myTimer;
-    String token, realNum, fakeNum, lastID4;
+    public static String token, realNum, fakeNum, lastID4;
     conversationsMsg agent;
     String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();

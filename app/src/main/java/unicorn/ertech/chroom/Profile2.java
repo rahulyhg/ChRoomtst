@@ -156,8 +156,8 @@ public class Profile2 extends Activity implements View.OnClickListener {
         final Intent i = getIntent();
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
-        picUrl = i.getStringExtra("avatar");
-        nick = i.getStringExtra("nick");
+        //picUrl = i.getStringExtra("avatar");
+        //nick = i.getStringExtra("nick");
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,6 +221,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         in.putExtra("token", token);
         in.putExtra("avatar", picUrl);
         in.putExtra("nick", nick);
+        in.putExtra("favorite","false");
         in.putExtra("fromDialogs","false");
         in.putExtra("fake", "false");
         startActivity(in);

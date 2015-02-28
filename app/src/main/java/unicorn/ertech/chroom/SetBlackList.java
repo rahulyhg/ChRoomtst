@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,11 +33,13 @@ public class SetBlackList extends Activity {
     public static ListView lvBlackList;
     public static List<BlackListItem> blackList = new ArrayList<BlackListItem>();
     public static BlackListAdapter adapter;
+    static Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_blacklist);
+        context = getApplicationContext();
         topRow=(RelativeLayout)findViewById(R.id.topRow);
         butBack=(Button)findViewById(R.id.setBack);
         lvBlackList=(ListView)findViewById(R.id.lvBlackList);
@@ -174,6 +178,11 @@ public class SetBlackList extends Activity {
                     }
 
                     adapter.notifyDataSetChanged();
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(context,"Ваш черный список пуст!", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
 

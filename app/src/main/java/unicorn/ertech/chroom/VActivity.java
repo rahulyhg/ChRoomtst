@@ -47,7 +47,8 @@ public class VActivity extends Activity {
     ArrayList<String> name = new ArrayList<String>();
     ArrayList<String> phone = new ArrayList<String>();
     ArrayList<String> phoneS = new ArrayList<String>();
-    ArrayList<String> id = new ArrayList<String>();
+    //	ArrayList<String> id = new ArrayList<String>();
+    ArrayList<String> idS = new ArrayList<String>();
     ArrayList<String> newPhone = new ArrayList<String>();
 
     ArrayList<String> newData = new ArrayList<String>();
@@ -80,7 +81,7 @@ public class VActivity extends Activity {
             name = new ArrayList<String>(cursor.getCount());
             phone = new ArrayList<String>(cursor.getCount());
             phoneS = new ArrayList<String>(cursor.getCount());
-            id =  new ArrayList<String>(cursor.getCount());
+            //     id =  new ArrayList<String>(cursor.getCount());
 
 
             if(cursor!=null && cursor.getCount()>0 && cursor.moveToFirst()){
@@ -90,9 +91,10 @@ public class VActivity extends Activity {
                     String phoneNumberB = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     String idB = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
 
-                    id.add(idB.toString());
+                    //    id.add(idB.toString());
                     name.add(nameB.toString());
                     phone.add(phoneNumberB.toString());
+                    phoneS.add("0");
 
                 }
 
@@ -142,10 +144,10 @@ public class VActivity extends Activity {
 
 
 
-        Toast toast = Toast.makeText(getApplicationContext(),
-                phoneS.size()+"  "  + name.size(), Toast.LENGTH_SHORT);
-        //toast.show();
-
+	/*	 Toast toast = Toast.makeText(getApplicationContext(),
+				 phoneS.size()+"  "  + name.size() + "  " + phone.size(), Toast.LENGTH_SHORT);
+   	              toast.show();
+		*/
 
         ListView lvMain = (ListView) findViewById(R.id.listView1);
 
@@ -153,15 +155,26 @@ public class VActivity extends Activity {
         ArrayList<String> Nname = new ArrayList<String>();
         ArrayList<String> Nphone = new ArrayList<String>();
         ArrayList<String> NphoneS = new ArrayList<String>();
+        //	ArrayList<String> idSS = new ArrayList<String>();
 
 
 
-
-        for (int i=0; i<phoneS.size();i++)
+        for (int i=0; i<phoneS.size()-1;i++)
         {
 
-            if (phoneS.get(i).toString().equals("1"))
+            if (!phoneS.get(i).toString().equals("0"))
             {
+
+	        	/*    toast = Toast.makeText(getApplicationContext(),
+	      				 phoneS.size()+"  "  + name.size() + "  " + phone.size(), Toast.LENGTH_SHORT);
+	         	              toast.show();
+
+	        	*/
+
+                //    phoneS.get(i)
+
+
+                //   idSS.add(idS.get(i));
                 Nname.add(name.get(i));
                 Nphone.add(phone.get(i));
                 NphoneS.add(phoneS.get(i));
@@ -170,7 +183,7 @@ public class VActivity extends Activity {
         }
 
 
-        if(Nname.size() !=0 )
+        if(Nname.size() > 0 )
         {
             MyThumbnaildapter	thadapter = new MyThumbnaildapter(
                     VActivity.this, R.layout.list_dtls,
@@ -205,6 +218,7 @@ public class VActivity extends Activity {
         List<String> name;
         List<String> phone;
         List<String> phoneS;
+        //	List<String> idSS;
 
 
         public MyThumbnaildapter(Context ct, int textViewResourceId,
@@ -213,6 +227,7 @@ public class VActivity extends Activity {
             this.name = name;
             this.phone = phone;
             this.phoneS = phoneS;
+            //	this.idSS = idSS;
 
         }
 
@@ -269,8 +284,8 @@ public class VActivity extends Activity {
 	            		contacts.setData(ContactsContract.Contacts.CONTENT_URI);
 	            		startActivity(contacts);
 	            		*/
-                    Intent myActivity = new Intent (Intent.ACTION_DIAL, Uri.parse( "tel:"+phone.get(position)+""));
-                    startActivity(myActivity);
+                    //     		Intent myActivity = new Intent (Intent.ACTION_DIAL, Uri.parse( "tel:"+phone.get(position)+""));
+                    //     		startActivity(myActivity);
 
 
 
@@ -282,18 +297,11 @@ public class VActivity extends Activity {
 
 
 
-                    if (phoneS.get(position).equals("1"))
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Уже добавлен " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    else
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Отправить sms номеру " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
 
 
                 }
@@ -303,38 +311,20 @@ public class VActivity extends Activity {
 
                 public void onClick(View v) {
 
-                    if (phoneS.get(position).equals("1"))
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Что то сделать " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    else
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Что то сделать " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-
-
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
                 }
             });
 
             Tphone.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-                    if (phoneS.get(position).equals("1"))
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Уже добавлен " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    else
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Отправить sms номеру " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
                 }
             });
 
@@ -344,14 +334,9 @@ public class VActivity extends Activity {
             Tname.setText("" + name.get(position));
             check.setText(phoneS.get(position));
 
-            if (phoneS.get(position).equals("1"))
-            {
-                check.setText("-");
-            }
-            if (phoneS.get(position).equals("0"))
-            {
-                check.setText("+");
-            }
+
+            check.setText("Профиль");
+
 
             return view;
         }
@@ -398,7 +383,7 @@ public class VActivity extends Activity {
                 tmp = ph;
 
                 nameValuePairs.add(new BasicNameValuePair("phones", ph));
-                nameValuePairs.add(new BasicNameValuePair("token", "56ada118ebe23a74dbb687fed86535cb26d5228e"));
+                nameValuePairs.add(new BasicNameValuePair("token", Main.str));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request
@@ -450,13 +435,6 @@ public class VActivity extends Activity {
 
 
 
-                                    for (int i=0; i<cursor.getCount();i++)
-                                    {
-
-                                        phoneS.add("0");
-
-                                    }
-
                                     for (int i=0; i<phone.size();i++)
                                     {
 
@@ -467,7 +445,8 @@ public class VActivity extends Activity {
 
                                             if (phone.get(i).toString().equals(newPhone.get(ii).toString()))
                                             {
-                                                phoneS.set(i, "1");
+
+                                                phoneS.set(i, idS.get(ii));
                                                 zaraza = zaraza +1;
 
                                             }
@@ -501,7 +480,7 @@ public class VActivity extends Activity {
                                     for (int i=0; i<cursor.getCount();i++)
                                     {
 
-                                        phoneS.add("0");
+                                        //   phoneS.add("0");
 
                                     }
 
@@ -544,18 +523,19 @@ public class VActivity extends Activity {
             if (check.equals("true"))
             {
                 Toast toast = Toast.makeText(getApplicationContext(),
-                        "Повторений - " +zaraza, Toast.LENGTH_SHORT);
+                        status, Toast.LENGTH_SHORT);
                 toast.show();
+            }
+            else
+            {
+                set();
             }
 
 
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Они уже пользуются этим приложением!", Toast.LENGTH_LONG);
-            toast.show();
 
             progressDialog.dismiss();
 
-            set();
+
 
 
 
@@ -580,6 +560,7 @@ public class VActivity extends Activity {
         Pphone = jNews.getString("phone");
 
         newPhone.add(Pphone);
+        idS.add(Pid);
 
     }
 }

@@ -210,6 +210,8 @@ public class PrivateMessaging extends Activity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+
+
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -460,6 +462,51 @@ public class PrivateMessaging extends Activity {
         }
     }//конец asyncTask
 
+    private class remove extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", Main.str);
+            jParser.setParam("action", "list_delete");
+            jParser.setParam("list", "1");
+            jParser.setParam("deleteid",userId);
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(Main.URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                String status = null;
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(status.equals("false"))
+                {
+                    favorite = "false";
+                    FavoritesFragment.findNremove(userId);
+                    Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Ошибка при удалении из списка!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+        }
+    }//конец asyncTask
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -647,6 +694,7 @@ public class PrivateMessaging extends Activity {
                 }
 
                 if (status.equals("false")) {
+                    favorite = "true";
                     ConversationsFragment.findNremove(userId);
                     Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -695,7 +743,7 @@ public class PrivateMessaging extends Activity {
                 }
 
                 if (status.equals("false")) {
-                    FavoritesFragment.updateList();
+
                     Toast.makeText(getApplicationContext(), "Пользователь успешно добавлен в черный список!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
@@ -705,6 +753,8 @@ public class PrivateMessaging extends Activity {
             }
         }
     }
+
+
 
     //Всплывающее меню
     private void showPopupMenu(View v) {
@@ -718,11 +768,29 @@ public class PrivateMessaging extends Activity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId() == R.id.menu_favorites) {
-                            new setFavorite().execute();
+
+                            if(favorite.equals("true"))
+                            {
+                                Toast.makeText(getApplicationContext(), "Пользователь и так находится у Вас в избранном!", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                new setFavorite().execute();
+                            }
                         }
                          if(item.getItemId() == R.id.menu_blacklist) {
                              new setBlackList().execute();
                          }
+                        if(item.getItemId() == R.id.menu_out_from_favorites) {
+                            if(favorite.equals("true"))
+                            {
+                                new remove().execute();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Пользователь и так не находится у Вас в избранном!", Toast.LENGTH_LONG).show();
+                            }
+                        }
 
 
 

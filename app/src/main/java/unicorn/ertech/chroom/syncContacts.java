@@ -148,6 +148,8 @@ public class syncContacts extends Activity {
 
 	       */
 
+
+
         if (phoneS.size() > 0)
         {
 
@@ -293,9 +295,10 @@ public class syncContacts extends Activity {
                     }
                     else
                     {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Отправить sms номеру " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
+                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
+                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
+                        startActivity(intent);
                     }
 
 
@@ -314,9 +317,10 @@ public class syncContacts extends Activity {
                     }
                     else
                     {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Отправить sms номеру " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
+                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
+                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
+                        startActivity(intent);
                     }
 
 
@@ -334,9 +338,10 @@ public class syncContacts extends Activity {
                     }
                     else
                     {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Отправить sms номеру " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
+                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
+                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
+                        startActivity(intent);
                     }
                 }
             });
@@ -401,7 +406,7 @@ public class syncContacts extends Activity {
                 tmp = ph;
 
                 nameValuePairs.add(new BasicNameValuePair("phones", ph));
-                nameValuePairs.add(new BasicNameValuePair("token", "56ada118ebe23a74dbb687fed86535cb26d5228e"));
+                nameValuePairs.add(new BasicNameValuePair("token", Main.str));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request

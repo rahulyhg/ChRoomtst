@@ -89,6 +89,19 @@ public class FavoritesFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    public static void findNremove(String id)//удаляет чела с id из сиписка диалогов
+    {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).uid.equals(id))
+            {
+                messages.remove(i);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
     public  static void addList(conversationsMsg p)
     {
         if(!checkInList(p)) {
