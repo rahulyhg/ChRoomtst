@@ -70,7 +70,7 @@ public class PrivateMessaging extends Activity {
     pmChatAdapter adapter;
     Timer myTimer;
 
-    String token, sendTo;
+    String token, sendTo, userProfile, favorite;
     boolean firstTime = true;
     String userId, msgNum, lastId, outMsg, mID;
 
@@ -103,7 +103,7 @@ public class PrivateMessaging extends Activity {
             public void onClick(View v) {
                 Context context = getApplicationContext();
                 Intent i = new Intent(context,Profile2.class);
-                i.putExtra("userId",userId);
+                i.putExtra("userId",userProfile);
                 i.putExtra("token",token);
                 i.putExtra("nick",nick.getText());
                 i.putExtra("avatar",picUrl);
@@ -132,7 +132,9 @@ public class PrivateMessaging extends Activity {
         Intent i = getIntent();
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
+        favorite = i.getStringExtra("favorite");
         mID = i.getStringExtra("mID");
+        userProfile = i.getStringExtra("userPROFILE");
         nick.setText(i.getStringExtra("nick"));
         picUrl = i.getStringExtra("avatar");
         fromDIALOGS = i.getStringExtra("fromDialogs");
@@ -208,6 +210,8 @@ public class PrivateMessaging extends Activity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+
+
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -265,8 +269,14 @@ public class PrivateMessaging extends Activity {
                     messages.add(msgCount,p);
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
-                    conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND));
-                    ConversationsFragment.newMsg(p2);
+                    conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
+                    if(favorite.equals("true"))
+                    {
+                        FavoritesFragment.newMsg(p2);
+                    }
+                    else {
+                        ConversationsFragment.newMsg(p2);
+                    }
 
                     msgCount++;
                     Log.e("privatesend","777");
@@ -323,6 +333,7 @@ public class PrivateMessaging extends Activity {
                     try {
                         realNum = json.getString("total");
                         lastBlock = json.getString("firstid");
+                        lastId = json.getString("lastid");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -346,6 +357,7 @@ public class PrivateMessaging extends Activity {
                                 msgCount++;
                             }
                             else {
+                                userProfile = messag.getString("userid");
                                 pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
                                 messages.add(0,p);
                                 msgCount++;
@@ -358,9 +370,13 @@ public class PrivateMessaging extends Activity {
                             Log.e("NullPointerException", e.toString());
                         }
                     }
+                    if(firstTime)
+                    {
+                        lvChat.setSelection(adapter.getCount());
+                    }
 
                     adapter.notifyDataSetChanged();
-                    lvChat.setSelection(adapter.getCount());
+
                 }
             }
 
@@ -435,8 +451,55 @@ public class PrivateMessaging extends Activity {
                     }
 
                     adapter.notifyDataSetChanged();
-                    lvChat.setSelection(adapter.getCount());
+                    if(!realNum.equals("0")) {
+                        lvChat.setSelection(adapter.getCount());
+                    }
                 }
+            }
+
+        }
+    }//конец asyncTask
+
+    private class remove extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", Main.str);
+            jParser.setParam("action", "list_delete");
+            jParser.setParam("list", "1");
+            jParser.setParam("deleteid",userId);
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(Main.URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                String status = null;
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(status.equals("false"))
+                {
+                    favorite = "false";
+                    FavoritesFragment.findNremove(userId);
+                    Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Ошибка при удалении из списка!", Toast.LENGTH_LONG).show();
+                }
+
             }
 
         }
@@ -629,7 +692,8 @@ public class PrivateMessaging extends Activity {
                 }
 
                 if (status.equals("false")) {
-                    FavoritesFragment.updateList();
+                    favorite = "true";
+                    ConversationsFragment.findNremove(userId);
                     Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
@@ -677,7 +741,7 @@ public class PrivateMessaging extends Activity {
                 }
 
                 if (status.equals("false")) {
-                    FavoritesFragment.updateList();
+
                     Toast.makeText(getApplicationContext(), "Пользователь успешно добавлен в черный список!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
@@ -687,6 +751,8 @@ public class PrivateMessaging extends Activity {
             }
         }
     }
+
+
 
     //Всплывающее меню
     private void showPopupMenu(View v) {
@@ -699,13 +765,30 @@ public class PrivateMessaging extends Activity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        //Toast.makeText(getApplicationContext(),String.valueOf(item.getItemId()), Toast.LENGTH_LONG).show();
                         if(item.getItemId() == R.id.menu_favorites) {
-                            new setFavorite().execute();
+
+                            if(favorite.equals("true"))
+                            {
+                                Toast.makeText(getApplicationContext(), "Пользователь и так находится у Вас в избранном!", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                new setFavorite().execute();
+                            }
                         }
                          if(item.getItemId() == R.id.menu_blacklist) {
                              new setBlackList().execute();
                          }
+                        if(item.getItemId() == R.id.menu_out_from_favorites) {
+                            if(favorite.equals("true"))
+                            {
+                                new remove().execute();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Пользователь и так не находится у Вас в избранном!", Toast.LENGTH_LONG).show();
+                            }
+                        }
 
 
 

@@ -54,6 +54,7 @@ public class Main extends TabActivity {
     final String SAVED_SOUND="sound";
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
+    final String SAVED_LASTID="lastid";
 
 
     ImageButton butProfile;
@@ -161,8 +162,10 @@ public class Main extends TabActivity {
         {
             if(Notif.getString(SAVED_NOTIF,"").equals("true"))
             {
+                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+                ed2.commit();
                 Intent srvs = new Intent(this, notif.class);
-                startService(srvs);
+                //startService(srvs);
             }
         }
         else
@@ -171,9 +174,11 @@ public class Main extends TabActivity {
             ed2.putString(SAVED_SOUND,"true");
             ed2.putString(SAVED_VIBRO,"true");
             ed2.putString(SAVED_INDICATOR,"true");
+            ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
             ed2.commit();
 
             Intent srvs = new Intent(this, notif.class);
+            srvs.putExtra("lastid",ConversationsFragment.lastID4);
             startService(srvs);
         }
 

@@ -11,13 +11,13 @@ import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,18 +37,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class syncContacts extends Activity {
+public class VActivity extends Activity {
 
     ArrayList<String> name = new ArrayList<String>();
     ArrayList<String> phone = new ArrayList<String>();
     ArrayList<String> phoneS = new ArrayList<String>();
-    ArrayList<String> id = new ArrayList<String>();
-
+    //	ArrayList<String> id = new ArrayList<String>();
+    ArrayList<String> idS = new ArrayList<String>();
     ArrayList<String> newPhone = new ArrayList<String>();
+
+    ArrayList<String> newData = new ArrayList<String>();
+
 
     ProgressDialog progressDialog;
 
@@ -58,33 +62,44 @@ public class syncContacts extends Activity {
     Cursor cursor;
 
 
+    int zaraza = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sync_contacts_layout);
+        setContentView(R.layout.vactivity_layout);
 
 
-
-        cursor = getContentResolver().query(   ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-        name = new ArrayList<String>(cursor.getCount());
-        phone = new ArrayList<String>(cursor.getCount());
-        phoneS = new ArrayList<String>(cursor.getCount());
-        id =  new ArrayList<String>(cursor.getCount());
+        try
+        {
 
 
-        if(cursor!=null && cursor.getCount()>0 && cursor.moveToFirst()){
+            progressDialog = ProgressDialog.show(this,
+                    "Соединение", "Пожалуйста, подождите", true);
 
-            while (cursor.moveToNext()) {
-                String nameB =cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String phoneNumberB = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                String idB = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+            cursor = getContentResolver().query(   ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+            name = new ArrayList<String>(cursor.getCount());
+            phone = new ArrayList<String>(cursor.getCount());
+            phoneS = new ArrayList<String>(cursor.getCount());
+            //     id =  new ArrayList<String>(cursor.getCount());
 
-                id.add(idB.toString());
-                name.add(nameB.toString());
-                phone.add(phoneNumberB.toString());
 
+            if(cursor!=null && cursor.getCount()>0 && cursor.moveToFirst()){
+
+                while (cursor.moveToNext()) {
+                    String nameB =cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    String phoneNumberB = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    String idB = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+
+                    //    id.add(idB.toString());
+                    name.add(nameB.toString());
+                    phone.add(phoneNumberB.toString());
+                    phoneS.add("0");
+
+                }
+
+                new send().execute();
             }
-        }
 
 
 
@@ -99,16 +114,13 @@ public class syncContacts extends Activity {
         }*/
 
 
-  /*       Intent m = new Intent(this, VActivity.class);
-    	 startActivity(m);   */
-        progressDialog = ProgressDialog.show(this,
-                "Соединение", "Пожалуйста, подождите", true);
 
 
-        try
-        {
 
-            new send().execute();
+
+
+
+
 
         } catch (Exception e) {
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -131,76 +143,72 @@ public class syncContacts extends Activity {
     {
 
 
-        @SuppressWarnings("unused")
+
+	/*	 Toast toast = Toast.makeText(getApplicationContext(),
+				 phoneS.size()+"  "  + name.size() + "  " + phone.size(), Toast.LENGTH_SHORT);
+   	              toast.show();
+		*/
+
         ListView lvMain = (ListView) findViewById(R.id.listView1);
 
 
         ArrayList<String> Nname = new ArrayList<String>();
         ArrayList<String> Nphone = new ArrayList<String>();
         ArrayList<String> NphoneS = new ArrayList<String>();
+        //	ArrayList<String> idSS = new ArrayList<String>();
 
 
 
-/*
-			  Toast toast = Toast.makeText(getApplicationContext(),
-					  phoneS.get(phoneS.size())+"", Toast.LENGTH_SHORT);
-		   	              toast.show();
-
-	       */
-
-
-
-        if (phoneS.size() > 0)
+        for (int i=0; i<phoneS.size()-1;i++)
         {
 
-            for (int i=0; i<phoneS.size()-1;i++)
+            if (!phoneS.get(i).toString().equals("0"))
             {
 
-                if (phoneS.get(i).toString().equals("0"))
-                {
-                    Nname.add(name.get(i));
-                    Nphone.add(phone.get(i));
-                    NphoneS.add(phoneS.get(i));
-                }
+	        	/*    toast = Toast.makeText(getApplicationContext(),
+	      				 phoneS.size()+"  "  + name.size() + "  " + phone.size(), Toast.LENGTH_SHORT);
+	         	              toast.show();
 
+	        	*/
+
+                //    phoneS.get(i)
+
+
+                //   idSS.add(idS.get(i));
+                Nname.add(name.get(i));
+                Nphone.add(phone.get(i));
+                NphoneS.add(phoneS.get(i));
             }
 
-
-            if(Nname.size() != 0 )
-            {
-                MyThumbnaildapter	thadapter = new MyThumbnaildapter(
-                        syncContacts.this, R.layout.list_dtls,
-                        Nname, Nphone, NphoneS);
+        }
 
 
-                lvMain.setAdapter(thadapter);
+        if(Nname.size() > 0 )
+        {
+            MyThumbnaildapter	thadapter = new MyThumbnaildapter(
+                    VActivity.this, R.layout.list_dtls,
+                    Nname, Nphone, NphoneS);
 
-            }
-            else
-            {
-                Toast toast111 = Toast.makeText(getApplicationContext(),
-                        "Ничего не найдено", Toast.LENGTH_SHORT);
-                toast111.show();
-            }
+
+            lvMain.setAdapter(thadapter);
 
         }
         else
         {
-            Toast toast111 = Toast.makeText(getApplicationContext(),
-                    "В телефонной книге нет номеров", Toast.LENGTH_SHORT);
-            toast111.show();
+            Toast toast1 = Toast.makeText(getApplicationContext(),
+                    "Ничего не найдено", Toast.LENGTH_SHORT);
+            toast1.show();
         }
 
 
 
 
-    }
 
 
-    public void open(View v)
-    {
-        Intent m = new Intent(this, VActivity.class);
-        startActivity(m);
+
+
+
+
     }
 
 
@@ -210,6 +218,7 @@ public class syncContacts extends Activity {
         List<String> name;
         List<String> phone;
         List<String> phoneS;
+        //	List<String> idSS;
 
 
         public MyThumbnaildapter(Context ct, int textViewResourceId,
@@ -218,6 +227,7 @@ public class syncContacts extends Activity {
             this.name = name;
             this.phone = phone;
             this.phoneS = phoneS;
+            //	this.idSS = idSS;
 
         }
 
@@ -227,7 +237,7 @@ public class syncContacts extends Activity {
                             ViewGroup parent) {
             View view = null;
 
-            LayoutInflater inflater = (LayoutInflater) syncContacts.this.getApplicationContext().getSystemService(
+            LayoutInflater inflater = (LayoutInflater) VActivity.this.getApplicationContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
 
 
@@ -274,8 +284,8 @@ public class syncContacts extends Activity {
 	            		contacts.setData(ContactsContract.Contacts.CONTENT_URI);
 	            		startActivity(contacts);
 	            		*/
-                    Intent myActivity = new Intent (Intent.ACTION_DIAL, Uri.parse( "tel:"+phone.get(position)+""));
-                    startActivity(myActivity);
+                    //     		Intent myActivity = new Intent (Intent.ACTION_DIAL, Uri.parse( "tel:"+phone.get(position)+""));
+                    //     		startActivity(myActivity);
 
 
 
@@ -287,19 +297,11 @@ public class syncContacts extends Activity {
 
 
 
-                    if (phoneS.get(position).equals("1"))
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Уже добавлен " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    else
-                    {
-                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
-                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
-                        startActivity(intent);
-                    }
+
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
 
 
                 }
@@ -309,40 +311,20 @@ public class syncContacts extends Activity {
 
                 public void onClick(View v) {
 
-                    if (phoneS.get(position).equals("1"))
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Уже добавлен " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    else
-                    {
-                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
-                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
-                        startActivity(intent);
-                    }
-
-
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
                 }
             });
 
             Tphone.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-                    if (phoneS.get(position).equals("1"))
-                    {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                "Уже добавлен " + phone.get(position), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                    else
-                    {
-                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
-                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
-                        startActivity(intent);
-                    }
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
                 }
             });
 
@@ -352,14 +334,9 @@ public class syncContacts extends Activity {
             Tname.setText("" + name.get(position));
             check.setText(phoneS.get(position));
 
-            if (phoneS.get(position).equals("1"))
-            {
-                check.setText("УЖЕ ДОБАВЛЕН");
-            }
-            if (phoneS.get(position).equals("0"))
-            {
-                check.setText("+");
-            }
+
+            check.setText("Профиль");
+
 
             return view;
         }
@@ -413,7 +390,10 @@ public class syncContacts extends Activity {
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
 
-                //    data = EntityUtils.toString(entity);
+
+                //   System.out.println(EntityUtils.toString(entity).toString());
+
+                //   data = EntityUtils.toString(entity) + "";
                 if (entity != null) {
                     try {
                         jObject = new JSONObject(EntityUtils.toString(entity));
@@ -453,13 +433,6 @@ public class syncContacts extends Activity {
                                     }
 
 
-                                    for (int i=0; i<cursor.getCount();i++)
-                                    {
-
-                                        phoneS.add("0");
-
-                                    }
-
 
 
                                     for (int i=0; i<phone.size();i++)
@@ -468,17 +441,23 @@ public class syncContacts extends Activity {
                                         for (int ii=0; ii<newPhone.size();ii++)
                                         {
 
-                                            System.out.println(phone.get(i) + "   " + newPhone.get(ii).toString());
+                                            //        	   System.out.println(phone.get(i) + "   " + newPhone.get(ii).toString());
 
                                             if (phone.get(i).toString().equals(newPhone.get(ii).toString()))
-
                                             {
-                                                phoneS.set(i, "1");
+
+                                                phoneS.set(i, idS.get(ii));
+                                                zaraza = zaraza +1;
+
                                             }
                                             else
                                             {
+                                                //  phoneS.add("0");
 
                                             }
+
+
+
                                         }
                                     }
 
@@ -489,8 +468,8 @@ public class syncContacts extends Activity {
                                 }
 
                             }
-
                             else
+                            //if (check.equals("true"))
                             {
                                 if (jObject.getString("error_code") != null)
                                 {
@@ -501,7 +480,7 @@ public class syncContacts extends Activity {
                                     for (int i=0; i<cursor.getCount();i++)
                                     {
 
-                                        phoneS.add("0");
+                                        //   phoneS.add("0");
 
                                     }
 
@@ -547,10 +526,16 @@ public class syncContacts extends Activity {
                         status, Toast.LENGTH_SHORT);
                 toast.show();
             }
+            else
+            {
+                set();
+            }
+
+
 
             progressDialog.dismiss();
 
-            set();
+
 
 
 
@@ -575,7 +560,7 @@ public class syncContacts extends Activity {
         Pphone = jNews.getString("phone");
 
         newPhone.add(Pphone);
+        idS.add(Pid);
 
     }
-
 }

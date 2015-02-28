@@ -72,5 +72,7 @@
     <string name="title_activity_notifications">Notifications</string>
     <string name="title_activity_anon_nickname">anon_nickname</string>
     <string name="title_activity_sync_contacts">syncContacts</string>
+    <string name="title_activity_v">VActivity</string>
+    <string name="title_activity_delete_acc">deleteAcc</string>
 
 </resources>

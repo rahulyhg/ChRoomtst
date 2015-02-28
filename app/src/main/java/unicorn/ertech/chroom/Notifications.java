@@ -25,6 +25,7 @@ public class Notifications extends Activity {
     final String SAVED_SOUND="sound";
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
+    final String SAVED_LASTID="lastid";
 
     SharedPreferences Notif;
     SharedPreferences.Editor ed2;
@@ -118,6 +119,7 @@ public class Notifications extends Activity {
                     indicator.setEnabled(true); indicator.setVisibility(View.VISIBLE);
                     ed2.putString(SAVED_NOTIF,"true");
                     ed2.putString(SAVED_SOUND,"true");
+                    ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
                     ed2.commit();
 
                     Intent srvs = new Intent(getApplicationContext(), notif.class);

@@ -185,7 +185,7 @@ public class anonMessaging extends ActionBarActivity {
                     messages.add(msgCount,p);
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
-                    conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), outMsg,picUrl, "0",fake,c.get(c.YEAR)+"-"+month+ "-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
+                    //conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), outMsg,picUrl, "0",fake,c.get(c.YEAR)+"-"+month+ "-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
 
                     msgCount++;
                     Log.e("privatesend","777");
@@ -356,7 +356,7 @@ public class anonMessaging extends ActionBarActivity {
 
                             pmChatMessage p = new pmChatMessage(messag.getString("uid"), messag.getString("message"), "1");
                             Calendar c=Calendar.getInstance();int month = c.get(c.MONTH)+1;
-                            conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), messag.getString("message"),picUrl, "1",fake,c.get(c.YEAR)+"-"+month+"-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
+                           // conversationsMsg p2 = new conversationsMsg(userId,nick.getText().toString(), messag.getString("message"),picUrl, "1",fake,c.get(c.YEAR)+"-"+month+"-"+c.get(c.DAY_OF_MONTH)+"%"+c.get(c.HOUR_OF_DAY)+":"+c.get(c.MINUTE)+":"+c.get(c.SECOND));
                             Log.e("addingMessage", messag.getString("message"));
                             messages.add(msgCount, p);
                             msgCount++;

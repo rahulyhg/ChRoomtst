@@ -68,6 +68,8 @@ public class FavoritesFragment extends Fragment {
                 i.putExtra("userId",UserId);
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
+                i.putExtra("favorite","true");
+                i.putExtra("userPROFILE",adapter.getItem(position).userid);
                 i.putExtra("mID",fake);
                 i.putExtra("fromDialogs","true");
                 i.putExtra("avatar",adapter.getItem(position).picURL);
@@ -81,93 +83,70 @@ public class FavoritesFragment extends Fragment {
 
         return view;
     }
-
-    public void getfavorites()
-    {
-        new Favorites().execute();
-    }
-
-    private static class Favorites extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONParser jParser = new JSONParser();
-
-            //ставим нужные нам параметры
-            jParser.setParam("token", token);
-            jParser.setParam("action", "list_get");
-            jParser.setParam("list", "1");
-            // Getting JSON from URL
-            JSONObject json = jParser.getJSONFromUrl(URL);
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            if(json!=null) {
-                String status = null;
-                String num = null;
-                JSONArray arr = null;
-                JSONObject messag = null;
-                try {
-                    status = json.getString("error");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if(status.equals("false"))
-                {
-                    try {
-                        num = json.getString("total");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(!num.equals("0"))
-                    {
-                        try {
-                            arr = json.getJSONArray("data");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        for (int i = 0; i < Integer.parseInt(num); i++) {
-                            try {
-                                messag = new JSONObject(arr.get(i).toString());
-                                conversationsMsg p = new conversationsMsg(messag.getString("id"), messag.getString("name"),messag.getString("message"), messag.getString("avatar"),"1","false",messag.getString("time"));
-
-                                    messages.add(0, p);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (NullPointerException e) {
-                                Log.e("NullPointerException", e.toString());
-                            }
-                        }
-
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-
-
-
-            }
-
-        }
-    }//конец asyncTask
-
     public  static void updateList()
     {
         messages.clear();
         adapter.notifyDataSetChanged();
     }
 
+    public static void findNremove(String id)//удаляет чела с id из сиписка диалогов
+    {
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).uid.equals(id))
+            {
+                messages.remove(i);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+        }
+    }
+
     public  static void addList(conversationsMsg p)
     {
-        messages.add(0,p);
+        if(!checkInList(p)) {
+            messages.add(0, p);
+        }
         adapter.notifyDataSetChanged();
+    }
+
+    private static boolean checkInList(conversationsMsg msg) {
+        boolean flag = false;
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).uid.equals(msg.uid))
+            {
+                messages.get(i).message = msg.message;
+                messages.get(i).time = msg.time;
+                conversationsMsg m = messages.get(i);
+                m.direction = "false";
+                messages.remove(i);
+                messages.add(0,m);
+                adapter.notifyDataSetChanged();
+                flag = true;
+            }
+        }
+        return  flag;
+    }
+
+    public static void newMsg(conversationsMsg p)
+    {
+        boolean flag = true;
+        for(int i=0; i<messages.size();i++)
+        {
+            if(messages.get(i).uid.equals(p.uid))
+            {
+                flag = false;
+                conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).msgId,p.time,p.userid);
+                messages.remove(i);
+                messages.add(0,m);
+                adapter.notifyDataSetChanged();
+            }
+        }
+        if(flag)
+        {
+            conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.msgId,p.time, p.userid);
+            messages.add(0,m);
+        }
     }
 }

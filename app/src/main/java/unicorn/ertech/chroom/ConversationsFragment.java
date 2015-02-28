@@ -52,7 +52,7 @@ public class ConversationsFragment extends Fragment {
     static conversationsAdapter adapter;
     static List<conversationsMsg> messages = new ArrayList<conversationsMsg>();
     Timer myTimer;
-    String token, realNum, fakeNum, lastID4;
+    public static String token, realNum, fakeNum, lastID4;
     conversationsMsg agent;
     String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();
@@ -97,7 +97,9 @@ public class ConversationsFragment extends Fragment {
                 i.putExtra("userId",UserId);
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
+                i.putExtra("favorite","false");
                 i.putExtra("mID",fake);
+                i.putExtra("userPROFILE",adapter.getItem(position).userid);
                 i.putExtra("fromDialogs","true");
                 i.putExtra("avatar",adapter.getItem(position).picURL);
                 adapter.notifyDataSetChanged();
@@ -140,7 +142,6 @@ public class ConversationsFragment extends Fragment {
             {
                 messages.remove(i);
                 adapter.notifyDataSetChanged();
-                WriteDialogsToFile();
                 return;
             }
         }
@@ -158,7 +159,7 @@ public class ConversationsFragment extends Fragment {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("firstid", lastID4);
-            jParser.setParam("action", "dialogs_list");
+            jParser.setParam("action", "dialogs_get");
             // Getting JSON from URL
 
             JSONObject json = jParser.getJSONFromUrl(URL);
@@ -200,12 +201,14 @@ public class ConversationsFragment extends Fragment {
 
                             if(!favorites.contains(Integer.parseInt(s)))
                             {
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"));
-                                messages.add(0, p);
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"),messag.getString("id"));
+                                if(!checkInList(p)) {
+                                    messages.add(0, p);
+                                }
                             }
                             else
                             {
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"),messag.getString("id"));
                                 FavoritesFragment.addList(p);
                             }
 
@@ -260,6 +263,7 @@ public class ConversationsFragment extends Fragment {
                 if(s.equals("false")){
                 try {
                     realNum = json.getString("total");
+                    lastID4 = Integer.toString(json.getInt("lastid"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -279,13 +283,13 @@ public class ConversationsFragment extends Fragment {
 
                             if(s.equals("false"))
                             {
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
                                 messages.add(0, p);
                             }
                             else
                             {
                                 favorites.add(Integer.parseInt(messag.getString("dialog_id")));
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
                                 FavoritesFragment.addList(p);
                             }
 
@@ -342,7 +346,7 @@ public class ConversationsFragment extends Fragment {
                 messages.get(i).message = msg.message;
                 messages.get(i).time = msg.time;
                 conversationsMsg m = messages.get(i);
-                m.direction = "1";
+                m.direction = "false";
                 messages.remove(i);
                 messages.add(0,m);
                 adapter.notifyDataSetChanged();
@@ -360,7 +364,7 @@ public class ConversationsFragment extends Fragment {
             if(messages.get(i).uid.equals(p.uid))
             {
                 flag = false;
-                conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).msgId,p.time);
+                conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).msgId,p.time,p.userid);
                 messages.remove(i);
                 messages.add(0,m);
                 adapter.notifyDataSetChanged();
@@ -368,7 +372,7 @@ public class ConversationsFragment extends Fragment {
         }
         if(flag)
         {
-            conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.msgId,p.time);
+            conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.msgId,p.time, p.userid);
             messages.add(0,m);
         }
     }

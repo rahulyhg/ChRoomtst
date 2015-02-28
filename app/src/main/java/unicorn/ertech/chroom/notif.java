@@ -37,6 +37,7 @@ public class notif extends Service {
     String lastid="";
     String token="";
     Timer  myTimer;
+    final String SAVED_LASTID="lastid";
     final String SAVED_SOUND="sound";
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
@@ -55,7 +56,9 @@ public class notif extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "onStartCommand");
         userData = getSharedPreferences("userdata", MODE_PRIVATE);
+        Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         if((userData.contains(SAVED_TOKEN))) {
+            lastID4 = Notif.getString(SAVED_LASTID,"");
             token = userData.getString(SAVED_TOKEN, "");
             myTimer = new Timer();
             someTask();
@@ -101,7 +104,8 @@ public class notif extends Service {
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "pm_get");
+            jParser.setParam("action", "dialogs_get");
+            jParser.setParam("background", "true");
             jParser.setParam("firstid", lastID4);
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(Main.URL);
@@ -120,19 +124,18 @@ public class notif extends Service {
                 if(s.equals("false"))
                 {
                     try {
-                        realNum = json.getString("real_total");
-                        fakeNum = json.getString("fake_total");
+                        realNum = json.getString("total");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                     try {
-                        lastID4 = json.getString("firstid");
+                        lastID4 = json.getString("lastid");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    if (!realNum.equals("0")) {
+                    if (!realNum.equals("null")) {
                         Log.e("notif_num", realNum);
                         Log.e("notif_token", token);
                         Log.e("notif_lastId", lastID4);

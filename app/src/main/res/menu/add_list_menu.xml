@@ -8,5 +8,8 @@
             <item
                 android:id="@+id/menu_blacklist"
                 android:title="В чёрный список"/>
+            <item
+                android:id="@+id/menu_out_from_favorites"
+                android:title="Убрать из избранного"/>
         </group>
     </menu>
