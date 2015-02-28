@@ -54,10 +54,10 @@ public class ConversationsFragment extends Fragment {
     Timer myTimer;
     public static String token, realNum, fakeNum, lastID4;
     conversationsMsg agent;
-    String URL = "http://im.topufa.org/index.php";
+    static String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();
     boolean stopTImer = false ;
-    List<Integer> favorites = new ArrayList<Integer>();
+    static List<Integer> favorites = new ArrayList<Integer>();
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -134,6 +134,15 @@ public class ConversationsFragment extends Fragment {
         return activeNetworkInfo != null;
     }
 
+    public  static void update()
+    {
+        messages.clear();
+        favorites.clear();
+        FavoritesFragment.messages.clear();
+        FavoritesFragment.adapter.notifyDataSetChanged();
+        new getLists().execute();
+    }
+
     public static void findNremove(String id)//удаляет чела с id из сиписка диалогов
     {
         for(int i=0; i<messages.size();i++)
@@ -179,6 +188,7 @@ public class ConversationsFragment extends Fragment {
                     e.printStackTrace();
                 }
                 if(s.equals("false")){
+
                     try {
                         realNum = json.getString("total");
                         lastID4 = Integer.toString(json.getInt("lastid"));
@@ -228,7 +238,7 @@ public class ConversationsFragment extends Fragment {
     }//конец asyncTask
 
 
-    private class getLists extends AsyncTask<String, String, JSONObject> {
+    public static class getLists extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
             FavoritesFragment.messages.clear();

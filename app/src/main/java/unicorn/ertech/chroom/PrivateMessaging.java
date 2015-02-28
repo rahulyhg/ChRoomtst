@@ -66,6 +66,7 @@ public class PrivateMessaging extends Activity {
     final String USER = "user";
     String fromDIALOGS;
 
+    conversationsMsg p3;
     List<pmChatMessage> messages = new ArrayList<pmChatMessage>();
     pmChatAdapter adapter;
     Timer myTimer;
@@ -270,6 +271,7 @@ public class PrivateMessaging extends Activity {
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                     conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
+                    p3 = p2;
                     if(favorite.equals("true"))
                     {
                         FavoritesFragment.newMsg(p2);
@@ -363,6 +365,10 @@ public class PrivateMessaging extends Activity {
                                 msgCount++;
                             }
 
+                            Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
+                            conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
+                            p3 = p2;
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -434,6 +440,9 @@ public class PrivateMessaging extends Activity {
                         for (int i = 0; i < Integer.parseInt(realNum); i++) {
                             try {
                                 messag = new JSONObject(real.get(i).toString());
+                                Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
+                                conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
+                                p3 = p2;
                                 pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
                                 messages.add(msgCount, p);
                                 msgCount++;
@@ -493,6 +502,7 @@ public class PrivateMessaging extends Activity {
                 {
                     favorite = "false";
                     FavoritesFragment.findNremove(userId);
+                    ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
                 }
                 else
@@ -693,7 +703,7 @@ public class PrivateMessaging extends Activity {
 
                 if (status.equals("false")) {
                     favorite = "true";
-                    ConversationsFragment.findNremove(userId);
+                    ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
