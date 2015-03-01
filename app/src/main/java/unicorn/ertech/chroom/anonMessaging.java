@@ -42,7 +42,7 @@ public class anonMessaging extends ActionBarActivity {
     ListView lvChat;
     EditText txtSend;
     ImageButton butSend;
-    Button butSmile;
+    ImageButton butSmile;
     String URL = "http://im.topufa.org/index.php";
     TextView nick;
     ImageView avatar;
@@ -66,7 +66,7 @@ public class anonMessaging extends ActionBarActivity {
         setContentView(R.layout.private_chat);
 
         butSend=(ImageButton)findViewById(R.id.buttonSend);
-        butSmile=(Button)findViewById(R.id.buttonSmile);
+        butSmile=(ImageButton)findViewById(R.id.buttonSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
         txtSend=(EditText)findViewById(R.id.sendText);
         nick = (TextView)findViewById(R.id.profileBack);
