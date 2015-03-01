@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.*;
@@ -90,6 +91,7 @@ public class PrivateMessaging extends Activity {
         nick = (TextView)findViewById(R.id.profileBack);
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         butLists=(ImageButton)findViewById(R.id.ibStar);
+        final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
         dateTime = new Date();
 
         butLists.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +112,7 @@ public class PrivateMessaging extends Activity {
                 startActivity(i);
             }
         });
-
+        findSmiles();
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,8 +169,15 @@ public class PrivateMessaging extends Activity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                initiatePopupWindow();
+                if (smileTable.getVisibility() == View.GONE) {
+                    smileTable.setVisibility(View.VISIBLE);
+                } else {
+                    smileTable.setVisibility(View.GONE);
+                }
+                butSend.refreshDrawableState();
+                butSmile.refreshDrawableState();
+                txtSend.refreshDrawableState();
+                //smileTable.refreshDrawableState();
             }
         });
 
@@ -514,92 +523,69 @@ public class PrivateMessaging extends Activity {
 
 
 
-    private PopupWindow pwindo;
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 
-    private void initiatePopupWindow() {
-        try {
-// We need to get the instance of the LayoutInflater
-            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //View view = inflater.inflate(R.layout.fragment_blank, container, false);
-            View layout = inflater.inflate(R.layout.smile_popup,  null, false);
-            Display display = getWindowManager().getDefaultDisplay();
-            DisplayMetrics metricsB = new DisplayMetrics();
-            display.getMetrics(metricsB);
-            int window_width = metricsB.widthPixels;
-            int window_height = metricsB.heightPixels;
-            pwindo = new PopupWindow(layout, window_width, window_height, true);
-            pwindo.showAsDropDown(butSmile,0,-window_height);
-            Button smileCancel = (Button) layout.findViewById(R.id.button3);
-            smileCancel.setOnClickListener(smile_click_listener);
-            layout.setOnClickListener(smile_click_listener);
-            s01 = (ImageView) layout.findViewById(R.id.s01);
-            s01.setOnClickListener(smile_click_listener);
-            s02 = (ImageView) layout.findViewById(R.id.s02);
-            s02.setOnClickListener(smile_click_listener);
-            s03 = (ImageView) layout.findViewById(R.id.s03);
-            s03.setOnClickListener(smile_click_listener);
-            s04 = (ImageView) layout.findViewById(R.id.s04);
-            s04.setOnClickListener(smile_click_listener);
-            s05 = (ImageView) layout.findViewById(R.id.s05);
-            s05.setOnClickListener(smile_click_listener);
-            s06 = (ImageView) layout.findViewById(R.id.s06);
-            s06.setOnClickListener(smile_click_listener);
-            s07 = (ImageView) layout.findViewById(R.id.s07);
-            s07.setOnClickListener(smile_click_listener);
-            s08 = (ImageView) layout.findViewById(R.id.s08);
-            s08.setOnClickListener(smile_click_listener);
-            s09 = (ImageView) layout.findViewById(R.id.s09);
-            s09.setOnClickListener(smile_click_listener);
-            s10 = (ImageView) layout.findViewById(R.id.s10);
-            s10.setOnClickListener(smile_click_listener);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void findSmiles(){
+        s01 = (ImageView) findViewById(R.id.s0p1);
+        s01.setOnClickListener(smile_click_listener);
+        s02 = (ImageView) findViewById(R.id.s0p2);
+        s02.setOnClickListener(smile_click_listener);
+        s03 = (ImageView) findViewById(R.id.s0p3);
+        s03.setOnClickListener(smile_click_listener);
+        s04 = (ImageView) findViewById(R.id.s0p4);
+        s04.setOnClickListener(smile_click_listener);
+        s05 = (ImageView) findViewById(R.id.s0p5);
+        s05.setOnClickListener(smile_click_listener);
+        s06 = (ImageView) findViewById(R.id.s0p6);
+        s06.setOnClickListener(smile_click_listener);
+        s07 = (ImageView) findViewById(R.id.s0p7);
+        s07.setOnClickListener(smile_click_listener);
+        s08 = (ImageView) findViewById(R.id.s0p8);
+        s08.setOnClickListener(smile_click_listener);
+        s09 = (ImageView) findViewById(R.id.s0p9);
+        s09.setOnClickListener(smile_click_listener);
+        s10 = (ImageView) findViewById(R.id.s0p0);
+        s10.setOnClickListener(smile_click_listener);
     }
-
     private View.OnClickListener smile_click_listener = new View.OnClickListener() {
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.s01:
+                case R.id.s0p1:
                     txtSend.append(":)");
                     break;
-                case R.id.s02:
+                case R.id.s0p2:
                     txtSend.append(":D");
                     break;
-                case R.id.s03:
+                case R.id.s0p3:
                     txtSend.append(":O");
                     break;
-                case R.id.s04:
+                case R.id.s0p4:
                     txtSend.append(":(");
                     break;
-                case R.id.s05:
+                case R.id.s0p5:
                     txtSend.append("*05*");
                     break;
-                case R.id.s06:
+                case R.id.s0p6:
                     txtSend.append("Z)");
                     break;
-                case R.id.s07:
+                case R.id.s0p7:
                     txtSend.append("*07*");
                     break;
-                case R.id.s08:
+                case R.id.s0p8:
                     txtSend.append("*08*");
                     break;
-                case R.id.s09:
+                case R.id.s0p9:
                     txtSend.append("*09*");
                     break;
-                case R.id.s10:
+                case R.id.s0p0:
                     txtSend.append("*love*");
                     break;
                 default:
-                    pwindo.dismiss();
                     break;
             }
             txtSend.setText(getSmiledText(getApplicationContext(),txtSend.getText()));
         }
     };
-
     //
     //Ниже часть, связанная с отображением смайлов в edittext
     //

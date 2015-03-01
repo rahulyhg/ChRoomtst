@@ -373,8 +373,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/spinnerProfileSex"
                     android:entries="@array/sex"
-                    android:spinnerMode="dialog"
-                    android:padding="7dp"
+                    android:spinnerMode="dropdown"
                     android:layout_marginLeft="15dp"
                     android:background="@drawable/corners" />
             </TableRow>

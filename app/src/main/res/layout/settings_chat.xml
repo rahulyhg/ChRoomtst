@@ -29,7 +29,8 @@
         android:showDividers="middle"
         android:layout_weight="50"
         android:layout_gravity="top"
-        android:weightSum="50">
+        android:weightSum="50"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="fill_parent"
