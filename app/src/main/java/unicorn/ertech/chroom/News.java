@@ -74,16 +74,16 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         if (sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tvNewsTitle.setBackgroundResource(R.drawable.b_string);
+                tvNewsTitle.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                tvNewsTitle.setBackgroundResource(R.drawable.g_strip);
+                tvNewsTitle.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                tvNewsTitle.setBackgroundResource(R.drawable.o_strip);
+                tvNewsTitle.setBackgroundResource(R.color.orange);
             } else if (col == 3) {
-                tvNewsTitle.setBackgroundResource(R.drawable.p_string);
+                tvNewsTitle.setBackgroundResource(R.color.purple);
             }
         } else {
-            tvNewsTitle.setBackgroundResource(R.drawable.g_strip);
+            tvNewsTitle.setBackgroundResource(R.color.green);
         }
 
         swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
@@ -92,7 +92,8 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         swipeLayout.setDistanceToTriggerSync(20);
 
         lvNews.setAdapter(adapter3);
-        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
 
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,13 +109,15 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
             }
         });
 
+        lvNews.refreshDrawableState();
         return view;
     }
 
     @Override
     public void onRefresh() {
         swipeLayout.setRefreshing(true);
-        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -133,16 +136,16 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tvNewsTitle.setBackgroundResource(R.drawable.b_string);
+                tvNewsTitle.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                tvNewsTitle.setBackgroundResource(R.drawable.g_strip);
+                tvNewsTitle.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                tvNewsTitle.setBackgroundResource(R.drawable.o_strip);
+                tvNewsTitle.setBackgroundResource(R.color.orange);
             } else if (col == 3) {
-                tvNewsTitle.setBackgroundResource(R.drawable.p_string);
+                tvNewsTitle.setBackgroundResource(R.color.purple);
             }
         }else{
-            tvNewsTitle.setBackgroundResource(R.drawable.g_strip);
+            tvNewsTitle.setBackgroundResource(R.color.green);
         }
         lvNews.refreshDrawableState();
     }

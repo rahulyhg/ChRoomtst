@@ -146,23 +146,23 @@ public class SearchMain extends Fragment {
                 ivParam.setImageResource(R.drawable.search_paramb);
                 ivRandom.setImageResource(R.drawable.search_randomb);
                 ivSoc.setImageResource(R.drawable.search_socb);
-                tvSearchTitle.setBackgroundResource(R.drawable.b_string);
+                tvSearchTitle.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
                 ivContacts.setImageResource(R.drawable.search_cont);
                 ivInvite.setImageResource(R.drawable.search_invite);
                 ivParam.setImageResource(R.drawable.search_param);
                 ivSoc.setImageResource(R.drawable.search_soc);
                 ivRandom.setImageResource(R.drawable.search_random);
-                tvSearchTitle.setBackgroundResource(R.drawable.g_strip);
+                tvSearchTitle.setBackgroundResource(R.color.green);
             } else if (col == 3) {
                 ivContacts.setImageResource(R.drawable.search_contp);
                 ivInvite.setImageResource(R.drawable.search_invitep);
                 ivParam.setImageResource(R.drawable.search_paramp);
                 ivSoc.setImageResource(R.drawable.search_socp);
                 ivRandom.setImageResource(R.drawable.search_randomp);
-                tvSearchTitle.setBackgroundResource(R.drawable.p_string);
+                tvSearchTitle.setBackgroundResource(R.color.purple);
             } else if(col == 2){
-                tvSearchTitle.setBackgroundResource(R.drawable.o_strip);
+                tvSearchTitle.setBackgroundResource(R.color.orange);
                 ivContacts.setImageResource(R.drawable.search_conto);
                 ivInvite.setImageResource(R.drawable.search_inviteo);
                 ivParam.setImageResource(R.drawable.search_paramo);

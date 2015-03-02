@@ -40,7 +40,6 @@
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="match_parent"
-            android:text="+"
             android:id="@+id/butFile"
             android:background="@drawable/but_green"
             android:textStyle="bold"
@@ -48,6 +47,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:padding="5dp"
             android:src="@drawable/screpka"
             android:scaleType="fitCenter" />
 
@@ -72,7 +72,8 @@
             android:layout_toStartOf="@+id/butFile"
             android:src="@drawable/star"
             android:background="@drawable/but_green"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:layout_marginRight="5dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -80,7 +81,7 @@
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/pm_bg"
+        android:background="@color/white"
         android:orientation="vertical"
         android:layout_alignParentLeft="false"
         android:layout_marginLeft="0dp"
@@ -93,7 +94,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lvChat"
-            android:layout_above="@+id/buttonSmile"
+            android:layout_above="@+id/sendText"
             android:divider="@android:color/transparent" />
 
         <ImageButton
@@ -114,7 +115,8 @@
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/buttonSend"
             android:layout_toRightOf="@+id/buttonSmile"
-            android:layout_toEndOf="@+id/buttonSmile" />
+            android:layout_toEndOf="@+id/buttonSmile"
+            android:minHeight="50dp" />
 
         <ImageButton
             android:layout_width="50dp"

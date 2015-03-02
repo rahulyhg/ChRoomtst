@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -21,14 +22,14 @@ public class SetCol extends Activity {
     Button butBlue;
     Button butOrange;
     Button butPurple;
-    Button butBack;
+    ImageButton butBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_color);
         topRow=(RelativeLayout)findViewById(R.id.topRow_sc);
-        butBack=(Button)findViewById(R.id.setBack);
+        butBack=(ImageButton)findViewById(R.id.setBack);
         butGreen = (Button)findViewById(R.id.setGreen);
         butBlue = (Button)findViewById(R.id.setBlue);
         butOrange = (Button)findViewById(R.id.setOrange);
@@ -59,7 +60,6 @@ public class SetCol extends Activity {
                     ed.putInt(SAVED_COLOR, 0);
                     ed.commit();
                     topRow.setBackgroundResource(R.color.green);
-                    butBack.setBackgroundResource(R.color.green);
                     break;
                 case R.id.setBlue:
                     sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
@@ -67,7 +67,6 @@ public class SetCol extends Activity {
                     ed1.putInt(SAVED_COLOR, 1);
                     ed1.commit();
                     topRow.setBackgroundResource(R.color.blue);
-                    butBack.setBackgroundResource(R.color.blue);
                     break;
                 case R.id.setOrange:
                     sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
@@ -75,14 +74,12 @@ public class SetCol extends Activity {
                     ed2.putInt(SAVED_COLOR, 2);
                     ed2.commit();
                     topRow.setBackgroundResource(R.color.orange);
-                    butBack.setBackgroundResource(R.color.orange);
                     break;
                 case R.id.setPurple:
                     sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
                     SharedPreferences.Editor ed3 = sPref.edit();
                     ed3.putInt(SAVED_COLOR, 3);
                     topRow.setBackgroundResource(R.color.purple);
-                    butBack.setBackgroundResource(R.color.purple);
                     ed3.commit();
                     break;
                 default:

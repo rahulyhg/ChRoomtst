@@ -46,16 +46,16 @@ public class IncognitoTab extends FragmentActivity{
         if (sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                incognitoTitle.setBackgroundResource(R.drawable.b_string);
+                incognitoTitle.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                incognitoTitle.setBackgroundResource(R.drawable.g_strip);
+                incognitoTitle.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                incognitoTitle.setBackgroundResource(R.drawable.o_strip);
+                incognitoTitle.setBackgroundResource(R.color.orange);
             } else if (col == 3) {
-                incognitoTitle.setBackgroundResource(R.drawable.p_string);
+                incognitoTitle.setBackgroundResource(R.color.purple);
             }
         } else {
-            incognitoTitle.setBackgroundResource(R.drawable.g_strip);
+            incognitoTitle.setBackgroundResource(R.color.green);
         }
     }
 

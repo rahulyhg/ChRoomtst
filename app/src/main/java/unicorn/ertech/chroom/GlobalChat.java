@@ -71,13 +71,13 @@ public class GlobalChat extends FragmentActivity{
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tabStrip.setBackgroundResource(R.drawable.b_string);
+                tabStrip.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                tabStrip.setBackgroundResource(R.drawable.g_strip);
+                tabStrip.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                tabStrip.setBackgroundResource(R.drawable.o_strip);
+                tabStrip.setBackgroundResource(R.color.orange);
             } else if (col == 4) {
-                tabStrip.setBackgroundResource(R.drawable.p_string);
+                tabStrip.setBackgroundResource(R.color.purple);
             }
         }
         pager.setOffscreenPageLimit(3);
@@ -144,18 +144,20 @@ public class GlobalChat extends FragmentActivity{
     @Override
     public  void onResume(){
         super.onResume();
+        tabStrip.setTextColor(getResources().getColor(R.color.white));
+        tabStrip.setTabIndicatorColorResource(R.color.white);
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tabStrip.setBackgroundResource(R.drawable.b_string);
+                tabStrip.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                tabStrip.setBackgroundResource(R.drawable.g_strip);
+                tabStrip.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                tabStrip.setBackgroundResource(R.drawable.o_strip);
-            } else if (col == 3) {
-                tabStrip.setBackgroundResource(R.drawable.p_string);
+                tabStrip.setBackgroundResource(R.color.orange);
+            } else if (col == 4) {
+                tabStrip.setBackgroundResource(R.color.purple);
             }
         }
     }

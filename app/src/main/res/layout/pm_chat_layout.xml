@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:padding="30dp"
-        android:textSize="20sp" />
+        android:textSize="17sp" />
 
 </LinearLayout>

@@ -97,13 +97,6 @@ public class Main extends TabActivity {
         Intent globalIntent = new Intent(this, Search.class);
         globaltab.setContent(globalIntent);
 
-        // Вкладка
-        searchtab = tabHost.newTabSpec("News");
-        //View tabView3;
-        //tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
-        //searchtab.setIndicator(tabView3);
-        Intent searchIntent = new Intent(this, NewsContainer.class);
-        searchtab.setContent(searchIntent);
 
         // Вкладка
         newstab = tabHost.newTabSpec("Global");
@@ -112,6 +105,14 @@ public class Main extends TabActivity {
         newstab.setIndicator(tabView4);*/
         Intent newsIntent = new Intent(this, GlobalChat.class);
         newstab.setContent(newsIntent);
+
+        // Вкладка
+        searchtab = tabHost.newTabSpec("News");
+        //View tabView3;
+        //tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
+        //searchtab.setIndicator(tabView3);
+        Intent searchIntent = new Intent(this, NewsContainer.class);
+        searchtab.setContent(searchIntent);
 
         // Вкладка
         incognitotab = tabHost.newTabSpec("Incognito");
@@ -188,9 +189,13 @@ public class Main extends TabActivity {
 
         View view = LayoutInflater.from(context).inflate(R.layout.tabs_lay, null);
         ImageView iv = (ImageView) view.findViewById(R.id.imageView2);
+        ImageView left = (ImageView) view.findViewById(R.id.imageView3);
+        ImageView right = (ImageView) view.findViewById(R.id.imageView4);
         //TextView tv = (TextView) view.findViewById(R.id.tabsText);
         //tv.setText(text);
         iv.setImageResource(id);
+        left.setImageResource(R.drawable.gradients);
+        right.setImageResource(R.drawable.gradients2);
         return view;
     }
 
@@ -291,8 +296,8 @@ public class Main extends TabActivity {
                 tabHost.clearAllTabs();
                 tabHost.addTab(privatetab);
                 tabHost.addTab(globaltab);
-                tabHost.addTab(searchtab);
                 tabHost.addTab(newstab);
+                tabHost.addTab(searchtab);
                 tabHost.addTab(incognitotab);
                 break;
             case 1:

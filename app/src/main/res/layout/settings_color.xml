@@ -10,15 +10,13 @@
         android:background="@color/green"
         android:id="@+id/topRow_sc">
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:id="@+id/setBack"
-            android:text="←"
-            android:background="@color/green"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:src="@drawable/back_left"
+            android:padding="7dp"
+            android:background="@android:color/transparent" />
     </RelativeLayout>
 
     <LinearLayout

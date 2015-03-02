@@ -412,7 +412,7 @@ public class PrivateMessaging extends Activity {
             jParser.setParam("token", token);
             jParser.setParam("action", "dialogs_get");
             jParser.setParam("dialogid", userId);
-            jParser.setParam("lastid", lastId);
+            jParser.setParam("lastid", "");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;

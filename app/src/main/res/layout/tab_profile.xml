@@ -138,9 +138,9 @@
                 android:text="Фотографии"
                 android:id="@+id/tvProfilePhoto"
                 android:textAlignment="center"
-                android:background="@drawable/g_strip"
+                android:background="@color/green"
                 android:visibility="visible"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:textStyle="bold" />
 
@@ -210,9 +210,9 @@
                 android:text="Информация"
                 android:id="@+id/tvProfileInfo"
                 android:textAlignment="center"
-                android:background="@drawable/g_strip"
+                android:background="@color/green"
                 android:visibility="visible"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:gravity="center"
                 android:textStyle="bold" />
 
@@ -419,8 +419,9 @@
             <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:padding="7dp"
                     android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" >
+                    android:layout_marginBottom="5dp" >
 
                 <TextView
                         android:layout_width="match_parent"

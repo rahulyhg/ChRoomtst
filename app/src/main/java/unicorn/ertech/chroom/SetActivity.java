@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import android.widget.TextView;
 public class SetActivity extends Activity {
     SharedPreferences sPref;
     RelativeLayout topRow;
-    Button butBack;
+    ImageButton butBack;
     final String SAVED_COLOR = "color";
 
     @Override
@@ -25,22 +26,18 @@ public class SetActivity extends Activity {
         //setContentView(R.layout.tab_incognito);
 
         topRow = (RelativeLayout)findViewById(R.id.topRow);
-        butBack=(Button)findViewById(R.id.setBack);
+        butBack=(ImageButton)findViewById(R.id.setBack);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)){
             int col = sPref.getInt(SAVED_COLOR,0);
             if(col==1){
                 topRow.setBackgroundResource(R.color.blue);
-                butBack.setBackgroundResource(R.color.blue);
             }else if(col==0){
                 topRow.setBackgroundResource(R.color.green);
-                butBack.setBackgroundResource(R.color.green);
             }else if(col==2){
                 topRow.setBackgroundResource(R.color.orange);
-                butBack.setBackgroundResource(R.color.orange);
             }else if(col==3){
                 topRow.setBackgroundResource(R.color.purple);
-                butBack.setBackgroundResource(R.color.purple);
             }
         }
         butBack.setOnClickListener(new View.OnClickListener() {

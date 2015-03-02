@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -29,7 +30,7 @@ public class SetBlackList extends Activity {
     SharedPreferences sPref;
     final String SAVED_COLOR = "color";
     RelativeLayout topRow;
-    Button butBack;
+    ImageButton butBack;
     public static ListView lvBlackList;
     public static List<BlackListItem> blackList = new ArrayList<BlackListItem>();
     public static BlackListAdapter adapter;
@@ -41,7 +42,7 @@ public class SetBlackList extends Activity {
         setContentView(R.layout.settings_blacklist);
         context = getApplicationContext();
         topRow=(RelativeLayout)findViewById(R.id.topRow);
-        butBack=(Button)findViewById(R.id.setBack);
+        butBack=(ImageButton)findViewById(R.id.setBack);
         lvBlackList=(ListView)findViewById(R.id.lvBlackList);
         adapter = new BlackListAdapter(blackList,this);
         lvBlackList.setAdapter(adapter);
@@ -81,19 +82,15 @@ public class SetBlackList extends Activity {
             switch (col) {
                 case 0:
                     topRow.setBackgroundResource(R.color.green);
-                    butBack.setBackgroundResource(R.color.green);
                     break;
                 case 1:
                     topRow.setBackgroundResource(R.color.blue);
-                    butBack.setBackgroundResource(R.color.blue);
                     break;
                 case 2:
                     topRow.setBackgroundResource(R.color.orange);
-                    butBack.setBackgroundResource(R.color.orange);
                     break;
                 case 3:
                     topRow.setBackgroundResource(R.color.purple);
-                    butBack.setBackgroundResource(R.color.purple);
                     break;
                 default:
                     break;

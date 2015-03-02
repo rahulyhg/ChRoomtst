@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -17,7 +18,7 @@ public class SetWallet extends Activity {
         setContentView(R.layout.settings_private);
         //setContentView(R.layout.tab_incognito);
 
-        Button butBack=(Button)findViewById(R.id.setBack);
+        ImageButton butBack=(ImageButton)findViewById(R.id.setBack);
         TextView blackList=(TextView)findViewById(R.id.tvBlackList);
         TextView notif=(TextView)findViewById(R.id.tvNotifications);
         TextView anonNick = (TextView)findViewById(R.id.tvPrivateNick);

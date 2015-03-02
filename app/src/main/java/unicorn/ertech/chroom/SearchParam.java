@@ -91,20 +91,20 @@ public class SearchParam extends Fragment {
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tvTitle.setBackgroundResource(R.drawable.b_string);
+                tvTitle.setBackgroundResource(R.color.blue);
                 butSearch.setBackgroundResource(R.drawable.but_blue);
             } else if (col == 0) {
-                tvTitle.setBackgroundResource(R.drawable.g_strip);
+                tvTitle.setBackgroundResource(R.color.green);
                 butSearch.setBackgroundResource(R.drawable.but_green);
             } else if (col == 2) {
-                tvTitle.setBackgroundResource(R.drawable.o_strip);
+                tvTitle.setBackgroundResource(R.color.orange);
                 butSearch.setBackgroundResource(R.drawable.but_orange);
             } else if (col == 3) {
-                tvTitle.setBackgroundResource(R.drawable.p_string);
+                tvTitle.setBackgroundResource(R.color.purple);
                 butSearch.setBackgroundResource(R.drawable.but_purple);
             }
         }else{
-            tvTitle.setBackgroundResource(R.drawable.g_strip);
+            tvTitle.setBackgroundResource(R.color.green);
         }
     }
 

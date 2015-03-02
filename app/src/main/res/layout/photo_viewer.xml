@@ -3,26 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
-    <LinearLayout
-        android:id="@+id/LinearLayout01"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-        <Button
-            android:id="@+id/ButtonPrev"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="&lt;&lt;" />
-        <Button
-            android:id="@+id/ButtonForward"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text=">>" />
-    </LinearLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_photo"
         android:layout_width="match_parent"

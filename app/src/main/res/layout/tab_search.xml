@@ -14,9 +14,9 @@
         android:text="@string/Search_set"
         android:id="@+id/tvSearchTitle"
         android:textAlignment="center"
-        android:background="@drawable/g_strip"
+        android:background="@color/green"
         android:visibility="visible"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:gravity="center"
         android:textStyle="bold" />
 

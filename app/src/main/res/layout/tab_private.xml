@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/pm_bg">
+    android:background="@color/white">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_priv"
@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="27dp"
             android:layout_gravity="top"
-            android:background="@drawable/g_strip">
+            android:background="@color/green">
         </android.support.v4.view.PagerTabStrip>
     </android.support.v4.view.ViewPager>
 

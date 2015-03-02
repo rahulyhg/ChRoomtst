@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/white"
+    android:padding="8dp"
     android:layout_height="match_parent">
 
     <ImageView
@@ -19,7 +20,6 @@
         android:layout_alignTop="@+id/img"
         android:layout_toRightOf="@+id/img"
         android:layout_weight="1"
-        android:textStyle="bold"
         android:textColor="@color/black" />
 
     <TextView

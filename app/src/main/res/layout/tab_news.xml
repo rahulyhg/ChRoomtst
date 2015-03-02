@@ -8,9 +8,9 @@
         android:layout_height="27dp"
         android:id="@+id/tvNewsTitle"
         android:textAlignment="center"
-        android:background="@drawable/g_strip"
+        android:background="@color/green"
         android:visibility="visible"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:text="Новости"
         android:gravity="center"
         android:textStyle="bold" />

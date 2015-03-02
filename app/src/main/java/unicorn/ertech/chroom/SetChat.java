@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -18,7 +19,7 @@ public class SetChat extends Activity {
     final String SAVED_COLOR = "color";
     final String SAVED_CITY = "city";
     RelativeLayout topRow;
-    Button butBack;
+    ImageButton butBack;
     Spinner spinner;
 
     @Override
@@ -26,7 +27,7 @@ public class SetChat extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_chat);
         topRow=(RelativeLayout)findViewById(R.id.topRow_sch);
-        butBack=(Button)findViewById(R.id.setBack);
+        butBack=(ImageButton)findViewById(R.id.setBack);
         setColor();
         spinner=(Spinner)findViewById(R.id.spinnerChatCities);
         final SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
@@ -59,19 +60,15 @@ public class SetChat extends Activity {
             switch (col) {
                 case 0:
                     topRow.setBackgroundResource(R.color.green);
-                    butBack.setBackgroundResource(R.color.green);
                     break;
                 case 1:
                     topRow.setBackgroundResource(R.color.blue);
-                    butBack.setBackgroundResource(R.color.blue);
                     break;
                 case 2:
                     topRow.setBackgroundResource(R.color.orange);
-                    butBack.setBackgroundResource(R.color.orange);
                     break;
                 case 3:
                     topRow.setBackgroundResource(R.color.purple);
-                    butBack.setBackgroundResource(R.color.purple);
                     break;
                 default:
                     break;
