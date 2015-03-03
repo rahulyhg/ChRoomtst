@@ -3,6 +3,7 @@ package unicorn.ertech.chroom;
 import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -58,7 +59,13 @@ public class ConversationsFragment extends Fragment {
     newJsonParser jps = new newJsonParser();
     boolean stopTImer = false ;
     static List<Integer> favorites = new ArrayList<Integer>();
-
+    SharedPreferences Notif;
+    SharedPreferences.Editor ed2;
+    final String SAVED_NOTIF="notif";
+    final String SAVED_SOUND="sound";
+    final String SAVED_VIBRO="vibro";
+    final String SAVED_INDICATOR="indicator";
+    final String SAVED_LASTID="lastid";
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -168,6 +175,7 @@ public class ConversationsFragment extends Fragment {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("firstid", lastID4);
+
             jParser.setParam("action", "dialogs_get");
             // Getting JSON from URL
 
@@ -177,6 +185,7 @@ public class ConversationsFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
+                Log.e("lastID4", json.toString());
                 boolean flag = false;
                 String lastid = null;
                 JSONArray real = null;
@@ -208,7 +217,7 @@ public class ConversationsFragment extends Fragment {
                         try {
                             messag = new JSONObject(real.get(i).toString());
                             s = messag.getString("dialog_id");
-
+                            Log.e("messag", messag.toString());
                             if(!favorites.contains(Integer.parseInt(s)))
                             {
                                 conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"),messag.getString("id"));
@@ -347,7 +356,7 @@ public class ConversationsFragment extends Fragment {
 
 
 
-   public boolean checkInList(conversationsMsg msg) {
+   public static boolean checkInList(conversationsMsg msg) {
         boolean flag = false;
         for(int i=0; i<messages.size();i++)
         {
@@ -355,10 +364,10 @@ public class ConversationsFragment extends Fragment {
             {
                 messages.get(i).message = msg.message;
                 messages.get(i).time = msg.time;
+                messages.get(i).direction = "false";
                 conversationsMsg m = messages.get(i);
-                m.direction = "false";
                 messages.remove(i);
-                messages.add(0,m);
+                messages.add(0, m);
                 adapter.notifyDataSetChanged();
                 flag = true;
             }
@@ -412,32 +421,7 @@ public class ConversationsFragment extends Fragment {
 
     }
 
-    private static void WriteDialogsToFile()
-    {
-        String filePath = context.getFilesDir().getPath().toString() + FILENAME;
-        File file = new File(filePath);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            try {
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(messages);
-                oos.flush();
-                oos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-    }
 
     @Override
     public void onDestroy(){
@@ -449,15 +433,26 @@ public class ConversationsFragment extends Fragment {
     }
     @Override
     public void onPause(){
-        //myTimer.cancel();
-        WriteDialogsToFile();
         stopTImer=true;
+        Notif = context.getSharedPreferences("notifications",context.MODE_PRIVATE);
+        ed2 = Notif.edit();
+        if(Notif.contains(SAVED_NOTIF))
+        {
+            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
+            {
+                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+                ed2.commit();
+
+            }
+        }
         super.onPause();
     }
 
     @Override
     public void onResume() {
         stopTImer=false;
+
         super.onResume();
     }
+
 }

@@ -74,7 +74,7 @@ public class PhotoViewer extends Activity{
 //SGD=new ScaleGestureDetector(this, new ScaleListener());
     }
     public void onClick(View v) {
-        switch (v.getId()) {
+        /*switch (v.getId()) {
             case R.id.ButtonForward:
                 setPositionNext();
                 mPicasso.load(photoURLs[position+4]).into(imgview);
@@ -86,7 +86,7 @@ public class PhotoViewer extends Activity{
                 break;
             default:
                 break;
-        }
+        }*/
     }
     public void setPositionNext() {
         position++;

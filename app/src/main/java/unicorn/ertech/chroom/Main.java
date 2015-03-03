@@ -56,6 +56,8 @@ public class Main extends TabActivity {
     final String SAVED_INDICATOR="indicator";
     final String SAVED_LASTID="lastid";
 
+    public static Intent srvs;
+
 
     ImageButton butProfile;
     ImageButton butSupport;
@@ -156,18 +158,12 @@ public class Main extends TabActivity {
                 startActivity(in);
             }
         });
-
+        srvs = new Intent(this, notif.class);
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         ed2 = Notif.edit();
         if(Notif.contains(SAVED_NOTIF))
         {
-            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
-            {
-                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
-                ed2.commit();
-                Intent srvs = new Intent(this, notif.class);
-                //startService(srvs);
-            }
+
         }
         else
         {
@@ -178,8 +174,6 @@ public class Main extends TabActivity {
             ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
             ed2.commit();
 
-            Intent srvs = new Intent(this, notif.class);
-            srvs.putExtra("lastid",ConversationsFragment.lastID4);
             startService(srvs);
         }
 

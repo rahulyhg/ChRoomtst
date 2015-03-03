@@ -135,7 +135,7 @@ public class notif extends Service {
                         e.printStackTrace();
                     }
 
-                    if (!realNum.equals("null")) {
+                    if (!realNum.equals("0")) {
                         Log.e("notif_num", realNum);
                         Log.e("notif_token", token);
                         Log.e("notif_lastId", lastID4);

@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,12 +61,20 @@ public class PrivateMessaging extends Activity {
     ImageView avatar;
     int msgCount = 0;
     int scrolling = 0;
-    String lastBlock;
+    int lastBlock = 0;
     String picUrl, myID;
     Date dateTime;
     SharedPreferences userData;
     final String USER = "user";
     String fromDIALOGS;
+
+    SharedPreferences Notif;
+    SharedPreferences.Editor ed2;
+    final String SAVED_NOTIF="notif";
+    final String SAVED_SOUND="sound";
+    final String SAVED_VIBRO="vibro";
+    final String SAVED_INDICATOR="indicator";
+    final String SAVED_LASTID="lastid";
 
     conversationsMsg p3;
     List<pmChatMessage> messages = new ArrayList<pmChatMessage>();
@@ -74,13 +83,15 @@ public class PrivateMessaging extends Activity {
 
     String token, sendTo, userProfile, favorite;
     boolean firstTime = true;
+    boolean NotOut = true;
     String userId, msgNum, lastId, outMsg, mID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
-
+        Intent srvs = new Intent(this, notif.class);
+        stopService(srvs);
         userData = getSharedPreferences("user", MODE_PRIVATE);
 
         myID = Integer.toString(userData.getInt(USER,0));
@@ -131,7 +142,6 @@ public class PrivateMessaging extends Activity {
         adapter = new pmChatAdapter(messages,getApplicationContext());
         lvChat.setAdapter(adapter);
         lastId = "0";
-        lastBlock = "0";
         Intent i = getIntent();
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
@@ -195,7 +205,9 @@ public class PrivateMessaging extends Activity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 if (firstVisibleItem == 0 && scrolling > firstVisibleItem) {
-                    new getEarlierMessages().execute();
+                    if(lastBlock!=-1) {
+                        new getEarlierMessages().execute();
+                    }
                 }
                 scrolling = firstVisibleItem;
             }
@@ -308,9 +320,15 @@ public class PrivateMessaging extends Activity {
     }
 
     private class getEarlierMessages extends AsyncTask<String, String, JSONObject> {/////////нужен свой ID
+        private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog = new ProgressDialog(PrivateMessaging.this);
+            pDialog.setMessage("Загрузка сообщений ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
 
         }
         @Override
@@ -320,7 +338,8 @@ public class PrivateMessaging extends Activity {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "dialogs_get");
-            jParser.setParam("firstid", lastBlock);
+            jParser.setParam("page", String.valueOf(lastBlock));
+            Log.e("lastB", String.valueOf(lastBlock));
             jParser.setParam("dialogid", userId);
 
             // Getting JSON from URL
@@ -330,6 +349,7 @@ public class PrivateMessaging extends Activity {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
+
                 String realNum = "";
                 JSONArray real = null;
                 String s = null;
@@ -343,15 +363,20 @@ public class PrivateMessaging extends Activity {
                 if(s.equals("false")){
                     try {
                         realNum = json.getString("total");
-                        lastBlock = json.getString("firstid");
+                        Log.e("num", realNum);
                         lastId = json.getString("lastid");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     try {
                         if(!realNum.equals("0")){
+                            lastBlock++;
                             s = json.getString("data");
                             real = new JSONArray(s);
+                        }
+                        else {
+                            lastBlock=-1;
                         }
 
                     } catch (JSONException e) {
@@ -389,7 +414,7 @@ public class PrivateMessaging extends Activity {
                     {
                         lvChat.setSelection(adapter.getCount());
                     }
-
+                    pDialog.dismiss();
                     adapter.notifyDataSetChanged();
 
                 }
@@ -433,6 +458,10 @@ public class PrivateMessaging extends Activity {
                     try {
                         realNum = json.getString("total");
                         lastId = json.getString("lastid");
+                        if(Integer.parseInt(lastId)>Integer.parseInt(ConversationsFragment.lastID4)) {
+                            ConversationsFragment.lastID4 = lastId;
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -450,8 +479,15 @@ public class PrivateMessaging extends Activity {
                             try {
                                 messag = new JSONObject(real.get(i).toString());
                                 Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
-                                conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
-                                p3 = p2;
+                                conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), messag.getString("message"), picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
+                                if(NotOut) {
+                                    if (favorite.equals("false")) {
+                                        ConversationsFragment.newMsg(p2);
+                                    } else {
+                                        FavoritesFragment.newMsg(p2);
+                                    }
+                                }
+
                                 pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
                                 messages.add(msgCount, p);
                                 msgCount++;
@@ -718,7 +754,7 @@ public class PrivateMessaging extends Activity {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "list_add");
-            jParser.setParam("addid", userId);
+            jParser.setParam("addid", userProfile);
             jParser.setParam("list", "2");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
@@ -741,6 +777,52 @@ public class PrivateMessaging extends Activity {
                     Toast.makeText(getApplicationContext(), "Пользователь успешно добавлен в черный список!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+    private class clearHistory extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "dialogs_swipe");
+            jParser.setParam("dialogid", userId);
+            // Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    msgCount=0;
+                    messages.clear();
+                    adapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "Истоия сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ошибка при очистке!", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
@@ -773,8 +855,11 @@ public class PrivateMessaging extends Activity {
                             }
                         }
                          if(item.getItemId() == R.id.menu_blacklist) {
-                             new setBlackList().execute();
-                         }
+                            new setBlackList().execute();
+                        }
+                        if(item.getItemId() == R.id.menu_clear_history) {
+                            new clearHistory().execute();
+                        }
                         if(item.getItemId() == R.id.menu_out_from_favorites) {
                             if(favorite.equals("true"))
                             {
@@ -799,5 +884,41 @@ public class PrivateMessaging extends Activity {
             }
         });
         popupMenu.show();
+    }
+
+    @Override
+    public void onPause()
+    {
+        Notif = getSharedPreferences("notifications",MODE_PRIVATE);
+        ed2 = Notif.edit();
+        if(Notif.contains(SAVED_NOTIF))
+        {
+            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
+            {
+                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+                ed2.commit();
+                Intent srvs = new Intent(this, notif.class);
+                startService(srvs);
+            }
+        }
+            NotOut = false;
+        super.onPause();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Intent srvs = new Intent(this, notif.class);
+        stopService(srvs);
+        NotOut = true;
+    }
+
+    @Override
+    public void onDestroy(){
+        myTimer.cancel();
+
+        Log.e("json", "destroy");
+        super.onDestroy();
     }
 }
