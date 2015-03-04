@@ -64,6 +64,7 @@ public class PrivateMessaging extends Activity {
     int lastBlock = 0;
     String picUrl, myID;
     Date dateTime;
+    String shake;
     SharedPreferences userData;
     final String USER = "user";
     String fromDIALOGS;
@@ -156,13 +157,7 @@ public class PrivateMessaging extends Activity {
             sendTo = i.getStringExtra("userId");
         }
 
-        String shake = i.getStringExtra("shake");
-
-        if(shake.equals("true"))
-        {
-
-            //new OutMsg().execute();
-        }
+        shake = i.getStringExtra("shake");
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +167,6 @@ public class PrivateMessaging extends Activity {
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 if(isNetworkAvailable()) {
                     outMsg = txtSend.getText().toString();
-                    Log.e("privatesend", "111");
                     new OutMsg().execute();
                     imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
 
@@ -258,22 +252,22 @@ public class PrivateMessaging extends Activity {
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "dialogs_send");
-            if(fromDIALOGS.equals("false"))
-            {
-                jParser.setParam("sendto", sendTo);
+            if (!shake.equals("true")){
+                jParser.setParam("action", "dialogs_send");
+                if (fromDIALOGS.equals("false")) {
+                    jParser.setParam("sendto", sendTo);
+                } else {
+                    jParser.setParam("dialogid", userId);
             }
-            else {
-                jParser.setParam("dialogid", userId);
+            }
+            else
+            {
+                jParser.setParam("action", "get_support");
+                jParser.setParam("sendto", sendTo);
+                jParser.setParam("type", "1");
             }
             jParser.setParam("message", outMsg);
-            //jParser.setParam("deviceid", "");
-            // Getting JSON from URL
-            Log.e("sendjson", "1111");
-            Log.e("privatesend","333");
             JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("receivedjson", "2222");
-            Log.e("privatesend","444");
             return json;
         }
         @Override
@@ -317,7 +311,18 @@ public class PrivateMessaging extends Activity {
                     Log.e("privatesend","999");
                     txtSend.setText("");
                 } else {
-                    Toast.makeText(getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                    try {
+                        status = json.getString("error_code");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(status.equals("65"))
+                    {
+                        Toast.makeText(getApplicationContext(), "Нельзя отправлять больше 5 сообщений в день службе поддержки!", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
             else
@@ -796,10 +801,16 @@ public class PrivateMessaging extends Activity {
 
 
     private class clearHistory extends AsyncTask<String, String, JSONObject> {
-
+        private ProgressDialog pDialog;
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
+            pDialog = new ProgressDialog(PrivateMessaging.this);
+            pDialog.setMessage("Удаление переписки ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
         }
 
         @Override
@@ -811,12 +822,13 @@ public class PrivateMessaging extends Activity {
             jParser.setParam("action", "dialogs_swipe");
             jParser.setParam("dialogid", userId);
             // Getting JSON from URL
-            JSONObject json = jParser.getJSONFromUrl(URL);
-            return json;
+            JSONObject json1 = jParser.getJSONFromUrl(URL);
+            return json1;
         }
 
         @Override
         protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
             if (json != null) {
                 String status = "";
 
@@ -868,7 +880,13 @@ public class PrivateMessaging extends Activity {
                             new setBlackList().execute();
                         }
                         if(item.getItemId() == R.id.menu_clear_history) {
-                            new clearHistory().execute();
+                            if(shake.equals("false")) {
+                                new clearHistory().execute();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Нельзя удалять историю переписки со службой поддержки!", Toast.LENGTH_LONG).show();
+                            }
                         }
                         if(item.getItemId() == R.id.menu_out_from_favorites) {
                             if(favorite.equals("true"))

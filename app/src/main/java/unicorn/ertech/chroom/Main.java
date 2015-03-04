@@ -153,6 +153,7 @@ public class Main extends TabActivity {
                 i.putExtra("token",str);
                 i.putExtra("nick","Служба поддержки");
                 i.putExtra("favorite","false");
+                i.putExtra("shake", "true");//значит служба поддержки
                 i.putExtra("fromDialogs","false");
                 startActivity(i);
             }

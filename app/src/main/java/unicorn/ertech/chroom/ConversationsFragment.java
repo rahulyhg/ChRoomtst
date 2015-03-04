@@ -107,7 +107,7 @@ public class ConversationsFragment extends Fragment {
                 i.putExtra("nick",nick);
                 i.putExtra("favorite","false");
                 i.putExtra("mID",fake);
-                i.putExtra("shake", "false");
+                i.putExtra("shake", "false");//если true - значит служба поддержки
                 i.putExtra("userPROFILE",adapter.getItem(position).userid);
                 i.putExtra("fromDialogs","true");
                 i.putExtra("avatar",adapter.getItem(position).picURL);

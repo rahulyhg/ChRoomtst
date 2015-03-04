@@ -273,7 +273,7 @@ public class SearchRandom extends Fragment {
                         i.putExtra("favorite","false");
                         i.putExtra("fromDialogs","false");
                         i.putExtra("token", Main.str);
-                        i.putExtra("shake", "true");
+                        i.putExtra("shake", "false");
                         i.putExtra("avatar", avatar);
                         startActivity(i);
                     }
