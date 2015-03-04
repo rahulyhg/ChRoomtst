@@ -222,6 +222,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         in.putExtra("avatar", picUrl);
         in.putExtra("nick", nick);
         in.putExtra("favorite","false");
+        in.putExtra("shake", "false");
         in.putExtra("fromDialogs","false");
         in.putExtra("fake", "false");
         startActivity(in);

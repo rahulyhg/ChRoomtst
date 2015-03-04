@@ -56,6 +56,8 @@ public class Main extends TabActivity {
     final String SAVED_INDICATOR="indicator";
     final String SAVED_LASTID="lastid";
 
+    public static Intent srvs;
+
 
     ImageButton butProfile;
     ImageButton butSupport;
@@ -144,8 +146,15 @@ public class Main extends TabActivity {
         butSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), Support.class);
-                startActivity(in);
+                /*Intent in = new Intent(getApplicationContext(), Support.class);
+                startActivity(in);*/
+                Intent i = new Intent(getApplicationContext(), PrivateMessaging.class);
+                i.putExtra("userId","0");
+                i.putExtra("token",str);
+                i.putExtra("nick","Служба поддержки");
+                i.putExtra("favorite","false");
+                i.putExtra("fromDialogs","false");
+                startActivity(i);
             }
         });
 
@@ -156,18 +165,12 @@ public class Main extends TabActivity {
                 startActivity(in);
             }
         });
-
+        srvs = new Intent(this, notif.class);
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         ed2 = Notif.edit();
         if(Notif.contains(SAVED_NOTIF))
         {
-            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
-            {
-                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
-                ed2.commit();
-                Intent srvs = new Intent(this, notif.class);
-                //startService(srvs);
-            }
+
         }
         else
         {
@@ -178,8 +181,6 @@ public class Main extends TabActivity {
             ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
             ed2.commit();
 
-            Intent srvs = new Intent(this, notif.class);
-            srvs.putExtra("lastid",ConversationsFragment.lastID4);
             startService(srvs);
         }
 

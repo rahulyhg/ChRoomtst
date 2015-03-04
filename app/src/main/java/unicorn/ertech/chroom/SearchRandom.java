@@ -270,8 +270,10 @@ public class SearchRandom extends Fragment {
                         Intent i = new Intent(getActivity().getApplicationContext(), PrivateMessaging.class);
                         i.putExtra("nick", s);
                         i.putExtra("userId", id);
-                        i.putExtra("fake", "false");
+                        i.putExtra("favorite","false");
+                        i.putExtra("fromDialogs","false");
                         i.putExtra("token", Main.str);
+                        i.putExtra("shake", "true");
                         i.putExtra("avatar", avatar);
                         startActivity(i);
                     }

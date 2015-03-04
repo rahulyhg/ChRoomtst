@@ -69,6 +69,7 @@ public class FavoritesFragment extends Fragment {
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
                 i.putExtra("favorite","true");
+                i.putExtra("shake", "false");
                 i.putExtra("userPROFILE",adapter.getItem(position).userid);
                 i.putExtra("mID",fake);
                 i.putExtra("fromDialogs","true");
