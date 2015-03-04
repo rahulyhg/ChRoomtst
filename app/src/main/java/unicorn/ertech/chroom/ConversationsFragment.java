@@ -1,5 +1,6 @@
 package unicorn.ertech.chroom;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
@@ -106,6 +107,7 @@ public class ConversationsFragment extends Fragment {
                 i.putExtra("nick",nick);
                 i.putExtra("favorite","false");
                 i.putExtra("mID",fake);
+                i.putExtra("shake", "false");
                 i.putExtra("userPROFILE",adapter.getItem(position).userid);
                 i.putExtra("fromDialogs","true");
                 i.putExtra("avatar",adapter.getItem(position).picURL);
@@ -433,7 +435,7 @@ public class ConversationsFragment extends Fragment {
     }
     @Override
     public void onPause(){
-        stopTImer=true;
+        //stopTImer=true;
         Notif = context.getSharedPreferences("notifications",context.MODE_PRIVATE);
         ed2 = Notif.edit();
         if(Notif.contains(SAVED_NOTIF))
@@ -451,7 +453,8 @@ public class ConversationsFragment extends Fragment {
     @Override
     public void onResume() {
         stopTImer=false;
-
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(0);
         super.onResume();
     }
 

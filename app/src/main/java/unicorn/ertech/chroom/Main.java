@@ -146,8 +146,15 @@ public class Main extends TabActivity {
         butSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), Support.class);
-                startActivity(in);
+                /*Intent in = new Intent(getApplicationContext(), Support.class);
+                startActivity(in);*/
+                Intent i = new Intent(getApplicationContext(), PrivateMessaging.class);
+                i.putExtra("userId","0");
+                i.putExtra("token",str);
+                i.putExtra("nick","Служба поддержки");
+                i.putExtra("favorite","false");
+                i.putExtra("fromDialogs","false");
+                startActivity(i);
             }
         });
 

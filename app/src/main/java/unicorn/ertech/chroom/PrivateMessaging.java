@@ -155,6 +155,14 @@ public class PrivateMessaging extends Activity {
         {
             sendTo = i.getStringExtra("userId");
         }
+
+        String shake = i.getStringExtra("shake");
+
+        if(shake.equals("true"))
+        {
+
+            //new OutMsg().execute();
+        }
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
@@ -386,18 +394,18 @@ public class PrivateMessaging extends Activity {
                         try {
                             messag = new JSONObject(real.get(i).toString());
                             msgID = messag.getString("userid");
-                            if(msgID.equals(myID))
-                            {
-                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0");
-                                messages.add(0,p);
-                                msgCount++;
-                            }
-                            else {
-                                userProfile = messag.getString("userid");
-                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
-                                messages.add(0,p);
-                                msgCount++;
-                            }
+                            if (!messag.getString("message").equals("1/!")){
+                                if (msgID.equals(myID)) {
+                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0");
+                                    messages.add(0, p);
+                                    msgCount++;
+                                } else {
+                                    userProfile = messag.getString("userid");
+                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
+                                    messages.add(0, p);
+                                    msgCount++;
+                                }
+                        }
 
                             Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                             conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
@@ -480,11 +488,13 @@ public class PrivateMessaging extends Activity {
                                 messag = new JSONObject(real.get(i).toString());
                                 Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                                 conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), messag.getString("message"), picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
-                                if(NotOut) {
-                                    if (favorite.equals("false")) {
-                                        ConversationsFragment.newMsg(p2);
-                                    } else {
-                                        FavoritesFragment.newMsg(p2);
+                                if (!messag.getString("message").equals("1/!")) {
+                                    if (NotOut) {
+                                        if (favorite.equals("false")) {
+                                            ConversationsFragment.newMsg(p2);
+                                        } else {
+                                            FavoritesFragment.newMsg(p2);
+                                        }
                                     }
                                 }
 
