@@ -1,20 +1,28 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+
+    <com.kpbird.triangletabs.PagerSlidingTabStrip
+        android:id="@+id/pagerTabStrip"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        custom:pstsTextAllCaps="true"
+        custom:pstsIndicatorColor="#FF3F9FE0"
+        custom:pstsDividerColor="#FF3F9FE0"
+        custom:pstsUnderlineColor="#FF3F9FE0"
+        custom:pstsTriangleIndicator="true"
+        custom:pstsShouldExpand="true"
+        custom:pstsIndicatorHeight="15dp"
+        />
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pagerTabStrip"
-            android:layout_width="match_parent"
-            android:layout_height="27dp"
-            android:layout_gravity="top"
-            android:background="@color/green">
-        </android.support.v4.view.PagerTabStrip>
+
     </android.support.v4.view.ViewPager>
+
 
 </LinearLayout>

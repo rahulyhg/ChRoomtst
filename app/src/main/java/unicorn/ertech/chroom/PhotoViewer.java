@@ -75,15 +75,6 @@ public class PhotoViewer extends Activity{
     }
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.ButtonForward:
-                setPositionNext();
-                mPicasso.load(photoURLs[position+4]).into(imgview);
-                break;
-            case R.id.ButtonPrev:
-                setPositionPrev();
-                mPicasso.load(photoURLs[position+4]).into(imgview);
-//imgswitcher.setImageResource(mImageIds[position]);
-                break;
             default:
                 break;
         }

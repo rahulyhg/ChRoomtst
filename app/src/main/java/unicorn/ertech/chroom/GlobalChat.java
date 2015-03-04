@@ -15,6 +15,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 
+import com.astuetz.PagerSlidingTabStrip;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +67,10 @@ public class GlobalChat extends FragmentActivity{
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
-        tabStrip = (PagerTabStrip)findViewById(R.id.pagerTabStrip);
+        // Bind the tabs to the ViewPager
+        com.kpbird.triangletabs.PagerSlidingTabStrip tabs = (com.kpbird.triangletabs.PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip);
+        tabs.setViewPager(pager);
+        //tabStrip = (PagerTabStrip)findViewById(R.id.pagerTabStrip);
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
@@ -82,7 +87,7 @@ public class GlobalChat extends FragmentActivity{
         }
         pager.setOffscreenPageLimit(3);
         pager.setCurrentItem(1);
-        pager.setOnPageChangeListener(new OnPageChangeListener() {
+        /*pager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
@@ -98,7 +103,7 @@ public class GlobalChat extends FragmentActivity{
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        });
+        });*/
     }
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -144,8 +149,8 @@ public class GlobalChat extends FragmentActivity{
     @Override
     public  void onResume(){
         super.onResume();
-        tabStrip.setTextColor(getResources().getColor(R.color.white));
-        tabStrip.setTabIndicatorColorResource(R.color.white);
+        //tabStrip.setTextColor(getResources().getColor(R.color.white));
+        //tabStrip.setTabIndicatorColorResource(R.color.white);
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
