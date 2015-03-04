@@ -15,8 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 
-import com.astuetz.PagerSlidingTabStrip;
-
 import java.util.ArrayList;
 import java.util.List;
 
