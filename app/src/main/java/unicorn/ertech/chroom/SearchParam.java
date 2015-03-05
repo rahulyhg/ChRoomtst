@@ -34,6 +34,7 @@ public class SearchParam extends Fragment {
     private Context context;
     Button butSearch;
     TextView tvTitle;
+    public static JSONParser jParser = null;
     Spinner sexSpinner, regionSpinner, hereforSpinner;
     EditText city, age_from, age_till;
     final String SAVED_COLOR = "color";
@@ -151,7 +152,7 @@ public class SearchParam extends Fragment {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            JSONParser jParser = new JSONParser();
+            jParser = new JSONParser();
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);

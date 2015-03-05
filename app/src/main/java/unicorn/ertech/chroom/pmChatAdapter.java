@@ -1,4 +1,5 @@
 package unicorn.ertech.chroom;
+import android.app.Application;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
@@ -70,7 +71,7 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         }
         holder.tvMsg.setLayoutParams(lp);
         holder.tvMsg.setPadding(15, 15, 15, 15);
-        holder.tvMsg.setText("" + p.message + "");
+        holder.tvMsg.setText(getSmiledText(getContext(),p.message));
         return convertView;
     }
     private static final Spannable.Factory spannableFactory = Spannable.Factory
