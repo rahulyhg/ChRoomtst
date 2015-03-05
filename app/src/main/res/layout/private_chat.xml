@@ -89,13 +89,18 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/topRowChat"
         android:layout_above="@+id/smileTablePm">
-
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container_private"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttonSend">
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lvChat"
             android:layout_above="@+id/sendText"
             android:divider="@android:color/transparent" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <ImageButton
             android:layout_width="50dp"

@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +42,7 @@ public class SearchParam extends Fragment {
     List<sResult> results  = new ArrayList<sResult>();
     CheckBox cb;
     String sex,region, online;
+    List<NameValuePair> request = new ArrayList<NameValuePair>(2);
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -70,9 +72,23 @@ public class SearchParam extends Fragment {
         city = (EditText)view.findViewById(R.id.etSearchCity);
         age_from = (EditText)view.findViewById(R.id.etSearchAge1);
         age_till = (EditText)view.findViewById(R.id.etSearchAge2);
-        online = "0";
+        online = "1";
         setColor();
         token = Main.str;
+
+        cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cb.isChecked())
+                {
+                    online="0";
+                }
+                else
+                {
+                    online="1";
+                }
+            }
+        });
 
         butSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,16 +129,9 @@ public class SearchParam extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            String s = sexSpinner.getSelectedItem().toString();
+            String s = String.valueOf(sexSpinner.getSelectedItemId());
             //region = regionSpinner.getSelectedItem().toString();
             region = "10";
-            if(cb.isChecked())
-            {
-                online = "0";
-            }
-            else {online = "0";}
-
-
 
             if(s.equals("М")) {
                 sex = "1";
@@ -147,18 +156,25 @@ public class SearchParam extends Fragment {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "global_search");
-            jParser.setParam("sex", sex);
+
+            if(sexSpinner.getSelectedItemId()!=2) {
+                jParser.setParam("sex", String.valueOf(sexSpinner.getSelectedItemId()));
+            }
+            else
+            {
+                //jParser.setParam("sex","");
+            }
+
             jParser.setParam("region", region);
             jParser.setParam("online", online);
-            jParser.setParam("page", "0");
+            jParser.setParam("herefor",String.valueOf(hereforSpinner.getSelectedItemId()));
             jParser.setParam("city", city.getText().toString());
             jParser.setParam("age_from", age_from.getText().toString());
             jParser.setParam("age_till", age_till.getText().toString());
-            //jParser.setParam("deviceid", "");
             // Getting JSON from URL
-            Log.e("sendjson", "1111");
+            request = jParser.nameValuePairs;
+            jParser.setParam("page", "0");
             JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("receivedjson", "2222");
             return json;
         }
         @Override
@@ -181,6 +197,7 @@ public class SearchParam extends Fragment {
                     e.printStackTrace();
                 }
                 if(num.equals("0")) {
+                    //Toast.makeText(getActivity().getApplicationContext(), String.valueOf(sexSpinner.getSelectedItemId()), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getActivity().getApplicationContext(), "Никто не удовлетворяет вашим параметрам!", Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -210,6 +227,7 @@ public class SearchParam extends Fragment {
                     Intent i = new Intent(getActivity().getApplicationContext(),SearchResult.class);
                     i.putExtra("results",s);
                     i.putExtra("total",num);
+                    i.putExtra("request",request.toString());
                     startActivity(i);
                 }
             }

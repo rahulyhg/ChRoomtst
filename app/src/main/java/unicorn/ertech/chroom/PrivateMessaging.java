@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
@@ -50,7 +52,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Timur on 22.01.2015.
  */
-public class PrivateMessaging extends Activity {
+public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnRefreshListener{
     ListView lvChat;
     EditText txtSend;
     ImageButton butSend;
@@ -68,6 +70,7 @@ public class PrivateMessaging extends Activity {
     SharedPreferences userData;
     final String USER = "user";
     String fromDIALOGS;
+    SwipeRefreshLayout swipeLayout;
 
     SharedPreferences Notif;
     SharedPreferences.Editor ed2;
@@ -157,6 +160,11 @@ public class PrivateMessaging extends Activity {
             sendTo = i.getStringExtra("userId");
         }
 
+        swipeLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container_private);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.green, R.color.blue, R.color.orange, R.color.purple);
+        swipeLayout.setDistanceToTriggerSync(20);
+
         shake = i.getStringExtra("shake");
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
@@ -199,7 +207,7 @@ public class PrivateMessaging extends Activity {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    scrolling = 0;
+                    //scrolling = 0;
                 }
             }
 
@@ -208,10 +216,10 @@ public class PrivateMessaging extends Activity {
 
                 if (firstVisibleItem == 0 && scrolling > firstVisibleItem) {
                     if(lastBlock!=-1) {
-                        new getEarlierMessages().execute();
+                       // new getEarlierMessages().execute();
                     }
                 }
-                scrolling = firstVisibleItem;
+                //scrolling = firstVisibleItem;
             }
         });
 
@@ -235,6 +243,20 @@ public class PrivateMessaging extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
 
+
+    }
+
+    @Override
+    public void onRefresh() {
+            swipeLayout.setRefreshing(true);
+            new getEarlierMessages().execute();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    swipeLayout.setRefreshing(false);
+                    //parser.parseAsync();
+                }
+            }, 1000);
 
     }
 
@@ -385,11 +407,12 @@ public class PrivateMessaging extends Activity {
                     try {
                         if(!realNum.equals("0")){
                             lastBlock++;
+                            scrolling = Integer.parseInt(realNum);
                             s = json.getString("data");
                             real = new JSONArray(s);
                         }
                         else {
-                            lastBlock=-1;
+                            scrolling = 0;
                         }
 
                     } catch (JSONException e) {
@@ -423,12 +446,28 @@ public class PrivateMessaging extends Activity {
                             Log.e("NullPointerException", e.toString());
                         }
                     }
+
+                    adapter.notifyDataSetChanged();
+
                     if(firstTime)
                     {
                         lvChat.setSelection(adapter.getCount());
+                        if(Integer.parseInt(realNum)==0)
+                        {
+                            Toast.makeText(getApplicationContext(), "Истоия переписки пуста!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        lvChat.setSelection(scrolling);
+                        if(Integer.parseInt(realNum)==0)
+                        {
+                            Toast.makeText(getApplicationContext(), "Больше сообщений нет!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     pDialog.dismiss();
-                    adapter.notifyDataSetChanged();
+
+
 
                 }
             }
@@ -822,8 +861,8 @@ public class PrivateMessaging extends Activity {
             jParser.setParam("action", "dialogs_swipe");
             jParser.setParam("dialogid", userId);
             // Getting JSON from URL
-            JSONObject json1 = jParser.getJSONFromUrl(URL);
-            return json1;
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
         }
 
         @Override

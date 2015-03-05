@@ -34,7 +34,7 @@ public class JSONParser extends Application {
     JSONObject jsonObject = new JSONObject();
     static String json;
     static String js;
-    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+    public List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
     // конструктор
     public JSONParser() {
         json = "";
