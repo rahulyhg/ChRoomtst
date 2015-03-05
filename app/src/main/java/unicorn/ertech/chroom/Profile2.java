@@ -344,17 +344,17 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         Integer sex = json.getInt("sex");
                         String[] sexarray = getResources().getStringArray(R.array.sex);
                         if (sex == 1) {
-                            profileSex.setText(sexarray[0]);
+                            profileSex.setText(sexarray[1]);
                         }
                         if (sex == 0) {
-                            profileSex.setText(sexarray[1]);
+                            profileSex.setText(sexarray[0]);
                         }
                         sex = json.getInt("lookingfor");
                         if (sex == 1) {
-                            searchSex.setText(sexarray[0]);
+                            searchSex.setText(sexarray[1]);
                         }
                         if (sex == 0) {
-                            searchSex.setText(sexarray[1]);
+                            searchSex.setText(sexarray[0]);
                         }
                         String[] familyarray = getResources().getStringArray(R.array.family);
                         familyTv.setText(familyarray[json.getInt("sp")]);

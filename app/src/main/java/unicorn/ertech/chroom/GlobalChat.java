@@ -48,6 +48,7 @@ public class GlobalChat extends FragmentActivity{
 
     ViewPager pager;
     PagerAdapter pagerAdapter;
+    com.kpbird.triangletabs.PagerSlidingTabStrip tabs;
     final String SAVED_CITY = "city";
 
     @Override
@@ -66,7 +67,7 @@ public class GlobalChat extends FragmentActivity{
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         // Bind the tabs to the ViewPager
-        com.kpbird.triangletabs.PagerSlidingTabStrip tabs = (com.kpbird.triangletabs.PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip);
+        tabs = (com.kpbird.triangletabs.PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip);
         tabs.setViewPager(pager);
         //tabStrip = (PagerTabStrip)findViewById(R.id.pagerTabStrip);
         SharedPreferences sPref;
@@ -74,13 +75,13 @@ public class GlobalChat extends FragmentActivity{
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tabStrip.setBackgroundResource(R.color.blue);
+                tabs.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                tabStrip.setBackgroundResource(R.color.green);
+                tabs.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                tabStrip.setBackgroundResource(R.color.orange);
+                tabs.setBackgroundResource(R.color.orange);
             } else if (col == 4) {
-                tabStrip.setBackgroundResource(R.color.purple);
+                tabs.setBackgroundResource(R.color.purple);
             }
         }
         pager.setOffscreenPageLimit(3);
@@ -147,20 +148,20 @@ public class GlobalChat extends FragmentActivity{
     @Override
     public  void onResume(){
         super.onResume();
-        //tabStrip.setTextColor(getResources().getColor(R.color.white));
-        //tabStrip.setTabIndicatorColorResource(R.color.white);
+        tabs.setTextColor(getResources().getColor(R.color.white));
+        //tabs.setBackgroundResource(R.color.green);
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tabStrip.setBackgroundResource(R.color.blue);
+                tabs.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
-                tabStrip.setBackgroundResource(R.color.green);
+                tabs.setBackgroundResource(R.color.green);
             } else if (col == 2) {
-                tabStrip.setBackgroundResource(R.color.orange);
+                tabs.setBackgroundResource(R.color.orange);
             } else if (col == 4) {
-                tabStrip.setBackgroundResource(R.color.purple);
+                tabs.setBackgroundResource(R.color.purple);
             }
         }
     }

@@ -240,9 +240,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         }
         if (triangleIndicator) {
             Rect r = new Rect();
-            int left = (int) lineLeft + (int) (((lineRight - lineLeft) / 2) - (indicatorHeight / 2)) - 20;
+            int left = (int) lineLeft + (int) (((lineRight - lineLeft) / 2) - (indicatorHeight / 2))-16;
             int top = height - indicatorHeight;
-            int right = (int) left + indicatorHeight + 30;
+            int right = (int) left + indicatorHeight + 33;
             int bottom = height;
             r.set(left, top, right, bottom);
             Path path = getEquilateralTriangle(r);

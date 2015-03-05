@@ -37,7 +37,9 @@
             android:layout_above="@+id/smileTable4"
             android:visibility="visible"
             android:layout_alignWithParentIfMissing="true"
-            android:layout_toStartOf="@+id/button24" />
+            android:layout_toStartOf="@+id/button24"
+            android:background="@drawable/cornerstxt"
+            android:minHeight="50dp" />
 
         <ImageButton
             android:layout_width="50dp"

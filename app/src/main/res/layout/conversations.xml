@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:textColor="@color/grey"
+        android:textColor="#AAAAAA"
         android:layout_alignBaseline="@+id/fromC2"
         android:layout_alignBottom="@+id/fromC2"
         android:layout_alignParentRight="true"

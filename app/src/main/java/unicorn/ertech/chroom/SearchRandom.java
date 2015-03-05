@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class SearchRandom extends Fragment {
     String URL = "http://im.topufa.org/index.php";
     int tryCount=0;
     int realTry=0;
+    Animation myAnim;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -67,6 +70,23 @@ public class SearchRandom extends Fragment {
         sensorGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
         buttonStart = (ImageView)view.findViewById(R.id.ivSearchRnd);
+        myAnim = AnimationUtils.loadAnimation(context, R.anim.vibro_anim);
+        myAnim.setRepeatCount(10);
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                buttonStart.startAnimation(myAnim);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        buttonStart.startAnimation(myAnim);
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

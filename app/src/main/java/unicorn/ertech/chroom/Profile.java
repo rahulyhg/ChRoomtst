@@ -1,7 +1,10 @@
 package unicorn.ertech.chroom;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -94,6 +97,9 @@ public class Profile extends Activity {
     String userAbout;
     public String token;
     int userID;
+
+    AlertDialog.Builder ad;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,6 +253,7 @@ public class Profile extends Activity {
                 mPicasso.load(tmp_path).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
             }
         }
+
         Button butBack = (Button) findViewById(R.id.profileBack);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,33 +262,68 @@ public class Profile extends Activity {
             }
         });
     }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        final String[] mActions ={"Загрузить", "Открыть"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выберите действие");
+        builder.setItems(mActions, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                // TODO Auto-generated method stub
+                switch(item){
+                    case 0:
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                        break;
+                    case 1:
+                        Intent photoIntent = new Intent(getApplicationContext(), PhotoViewer.class);
+                        photoIntent.putExtra("photos", photosURLs);
+                        photoIntent.putExtra("id", photo_type);
+                        startActivity(photoIntent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        builder.setCancelable(false);
+        return builder.create();
+    }
+
     protected View.OnClickListener photoClick = new View.OnClickListener(){
         @Override
         public void onClick(View v){
             switch (v.getId()){
                 case R.id.photo1:
                     photo_type=1;
-                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
-                    photoPickerIntent.setType("image/*");
-                    startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                    showDialog(1);
+                    //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                    //photoPickerIntent.setType("image/*");
+                    //startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
                     break;
                 case R.id.photo2:
                     photo_type=2;
-                    Intent photoPickerIntent2 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
-                    photoPickerIntent2.setType("image/*");
-                    startActivityForResult(photoPickerIntent2, GALLERY_REQUEST);
+                    showDialog(1);
+                    //Intent photoPickerIntent2 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                    //photoPickerIntent2.setType("image/*");
+                    //startActivityForResult(photoPickerIntent2, GALLERY_REQUEST);
                     break;
                 case R.id.photo3:
                     photo_type=3;
-                    Intent photoPickerIntent3 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
-                    photoPickerIntent3.setType("image/*");
-                    startActivityForResult(photoPickerIntent3, GALLERY_REQUEST);
+                    showDialog(1);
+                    //Intent photoPickerIntent3 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                    //photoPickerIntent3.setType("image/*");
+                    //startActivityForResult(photoPickerIntent3, GALLERY_REQUEST);
                     break;
                 case R.id.photo4:
                     photo_type=4;
-                    Intent photoPickerIntent4 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
-                    photoPickerIntent4.setType("image/*");
-                    startActivityForResult(photoPickerIntent4, GALLERY_REQUEST);
+                    showDialog(1);
+                    //Intent photoPickerIntent4 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                    //photoPickerIntent4.setType("image/*");
+                    //startActivityForResult(photoPickerIntent4, GALLERY_REQUEST);
                     break;
                 default:
                     break;
@@ -418,11 +460,11 @@ public class Profile extends Activity {
                 userAbout = json.getString("info");
                 tvProfStat.setText(json.getString("status"));
                 birthDay.setText(json.getString("age"));
-                String sex = json.getString("sex");
-                profileSex.setSelection(0);
+                int sex = json.getInt("sex");
                 Log.e("selectedItem", profileSex.getSelectedItem()+"");
-                if(sex.equals("1")){profileSex.setSelection(0);}
-                if(sex.equals("0")){profileSex.setSelection(1);}
+                profileSex.setSelection(sex);
+                sex = json.getInt("lookingfor");
+                searchSex.setSelection(sex);
                 familySpin.setSelection(json.getInt("sp"));
                 hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));
                 hereForTv.setText(getStringFromArray(json.getString("herefor"), R.array.herefor));
@@ -750,6 +792,7 @@ myTv.setText(stringsArr[tmp]);
             e.printStackTrace();
         }
     }
+
     private String getStringFromArray(String arrayPositions, int arrayId){
         String[] stringsArr = getResources().getStringArray(arrayId);
         String str="";
