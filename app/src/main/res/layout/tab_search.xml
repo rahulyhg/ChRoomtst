@@ -34,35 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Семейное положение:"
-                android:id="@+id/tvSearchFamily"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/etSearchFamily"
-                android:entries="@array/family"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/corners"
-                android:cursorVisible="false"
-                android:autoText="false"
-                android:layout_marginRight="5dp"
-                android:spinnerMode="dropdown" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
             android:gravity="center_vertical" >
 
             <TextView
