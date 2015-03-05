@@ -8,14 +8,15 @@
     <com.kpbird.triangletabs.PagerSlidingTabStrip
         android:id="@+id/pagerTabStrip"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        custom:pstsTextAllCaps="true"
-        custom:pstsIndicatorColor="#FF3F9FE0"
-        custom:pstsDividerColor="#FF3F9FE0"
-        custom:pstsUnderlineColor="#FF3F9FE0"
+        android:layout_height="30dp"
+        android:background="@color/green"
+        custom:pstsTextAllCaps="false"
+        custom:pstsIndicatorColor="@color/white"
+        custom:pstsUnderlineColor="@color/white"
         custom:pstsTriangleIndicator="true"
         custom:pstsShouldExpand="true"
-        custom:pstsIndicatorHeight="15dp"
+        custom:pstsUnderlineHeight="1dp"
+        custom:pstsIndicatorHeight="7dp"
         />
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

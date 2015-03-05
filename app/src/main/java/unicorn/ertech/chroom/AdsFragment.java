@@ -427,6 +427,9 @@ public class AdsFragment extends Fragment {
             String tmp = Integer.toString(sPref.getInt(SAVED_CITY,11));
             if(!room.equals(tmp)){
                 room=tmp;
+                firsTime=true;
+                msgCount=0;
+                messages.clear();
                 lastID1="0";
                 adapter.notifyDataSetChanged();
             }

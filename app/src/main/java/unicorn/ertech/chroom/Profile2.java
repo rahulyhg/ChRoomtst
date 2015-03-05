@@ -337,7 +337,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         Picasso mPicasso;
                         mPicasso = Picasso.with(getApplicationContext());
                         mPicasso.load(picURLFull).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
-                        Picasso.with(getApplicationContext()).load(picURL).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(smallProfilePhoto);
+                        mPicasso.load(picURL).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(smallProfilePhoto);
                         etProfileCity.setText(json.getString("city"));
                         info.setText(json.getString("info"));
                         birthDay.setText(json.getString("age"));

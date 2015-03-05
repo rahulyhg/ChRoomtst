@@ -150,6 +150,7 @@ public class GlobalChat extends FragmentActivity{
         super.onResume();
         tabs.setTextColor(getResources().getColor(R.color.white));
         //tabs.setBackgroundResource(R.color.green);
+        tabs.notifyDataSetChanged();
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
