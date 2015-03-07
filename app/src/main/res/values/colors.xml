@@ -5,11 +5,12 @@
     <color  name="black">#000000</color>
     <color name="blue">#6383A8</color>
     <color name="orange">#EE7A00</color>
-    <color name="purple">#DC1C7C</color>
+    <color name="purple">#FBA2DA</color>
     <color name="greenglass">#770FB470</color>
-    <color name="purpleglass">#77DC1C7C</color>
+    <color name="purpleglass">#77FBA2DA</color>
     <color name="blueglass">#776383A8</color>
     <color name="orangeglass">#77EE7A00</color>
+    <color name="blackglass">#77333333</color>
     <color name="greenlight">#94DABD</color>
     <color name="orangelight">#E9A55F</color>
     <color name="purplelight">#E7AFE2</color>

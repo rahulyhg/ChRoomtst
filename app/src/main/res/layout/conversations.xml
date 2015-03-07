@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fromC2"
         android:layout_marginTop="2dip"
+        android:paddingLeft="7dp"
         android:layout_toRightOf="@id/imgC2"
         android:textStyle="italic"
         android:gravity="left"

@@ -13,7 +13,19 @@
         android:id="@+id/lvChat3"
         android:layout_above="@+id/button23" />
 
-        <ImageButton
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivGrad3"
+        android:layout_above="@+id/smileTable3"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/white"
+        android:src="@drawable/tmp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="-20dp"
+        android:layout_alignTop="@+id/editText3" />
+
+    <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/button23"
@@ -39,7 +51,8 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_toStartOf="@+id/button23"
             android:background="@drawable/cornerstxt"
-            android:minHeight="50dp" />
+            android:minHeight="50dp"
+            android:maxHeight="150dp" />
 
         <ImageButton
             android:layout_width="50dp"

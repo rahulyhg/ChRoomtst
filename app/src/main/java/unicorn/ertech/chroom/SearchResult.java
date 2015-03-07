@@ -2,14 +2,29 @@ package unicorn.ertech.chroom;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -31,6 +46,9 @@ public class SearchResult extends Activity {
     JSONObject reqJson = null;
     int count = 0;
     boolean state = true;
+    PopupWindow filterPopup;
+    Button backButton;
+    ImageButton butFilter;
 
     /** Called when the activity is first created. */
     @Override
@@ -38,6 +56,20 @@ public class SearchResult extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
 
+        backButton=(Button)findViewById(R.id.searchBack);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeMe();
+            }
+        });
+        butFilter=(ImageButton)findViewById(R.id.butFilter);
+        butFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilter();
+            }
+        });
         final GridView gridview = (GridView) findViewById(R.id.gridView);
 
         gridview.setNumColumns(3);
@@ -89,9 +121,6 @@ public class SearchResult extends Activity {
                 scrolling = firstVisibleItem;
             }
         });
-
-
-
     }
 
     private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
@@ -188,5 +217,49 @@ public class SearchResult extends Activity {
                 Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void initiatePopupWindow() {
+        try {
+// We need to get the instance of the LayoutInflater
+            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.tab_search, null, false);
+            Display display = getWindowManager().getDefaultDisplay();
+            DisplayMetrics metricsB = new DisplayMetrics();
+            display.getMetrics(metricsB);
+            int window_width = metricsB.widthPixels;
+            int window_height = metricsB.heightPixels;
+            filterPopup = new PopupWindow(layout, 3*window_width/2, 3*window_height/2, true);
+            filterPopup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            Button butSearch=(Button)layout.findViewById(R.id.butSearch);
+            TextView tvTitle=(TextView)layout.findViewById(R.id.tvSearchTitle);
+            CheckBox cb = (CheckBox)layout.findViewById(R.id.cbSearchOnline);
+            Spinner sexSpinner = (Spinner)layout.findViewById(R.id.spinSearchSex);
+            Spinner regionSpinner = (Spinner)layout.findViewById(R.id.spinSearchRegion);
+            Spinner hereforSpinner=(Spinner)layout.findViewById(R.id.spinSearchHerefor);
+            EditText city = (EditText)layout.findViewById(R.id.etSearchCity);
+            EditText age_from = (EditText)layout.findViewById(R.id.etSearchAge1);
+            EditText age_till = (EditText)layout.findViewById(R.id.etSearchAge2);
+            String online = "1";
+            String token = Main.str;
+
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+filterPopup.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeMe(){
+        this.finish();
+    }
+
+    private void showFilter(){
+        initiatePopupWindow();
     }
 }

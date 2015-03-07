@@ -66,6 +66,8 @@ public class Main extends TabActivity {
 
     final String SAVED_COLOR = "color";
 
+    View tabViewTMP;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +94,7 @@ public class Main extends TabActivity {
         privatetab.setContent(privateIntent);
 
         // Вкладка
-        globaltab = tabHost.newTabSpec("Private");
+        globaltab = tabHost.newTabSpec("Global");
         //View tabView2;
         //tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon2s);
         //globaltab.setIndicator(tabView2);
@@ -101,7 +103,7 @@ public class Main extends TabActivity {
 
 
         // Вкладка
-        newstab = tabHost.newTabSpec("Global");
+        newstab = tabHost.newTabSpec("News");
         /*View tabView4;
         tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon4s);
         newstab.setIndicator(tabView4);*/
@@ -109,7 +111,7 @@ public class Main extends TabActivity {
         newstab.setContent(newsIntent);
 
         // Вкладка
-        searchtab = tabHost.newTabSpec("News");
+        searchtab = tabHost.newTabSpec("Search");
         //View tabView3;
         //tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
         //searchtab.setIndicator(tabView3);
@@ -282,19 +284,19 @@ public class Main extends TabActivity {
     }
 
     protected void tabsSetColor(int color){
-        View tabView3;
         switch (color){
             case 0:
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
-                searchtab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon1s);
-                privatetab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon2s);
-                globaltab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon4s);
-                newstab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon5s);
-                incognitotab.setIndicator(tabView3);
+                int i=0;
+                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
+                searchtab.setIndicator(tabViewTMP);
+                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon1s);
+                privatetab.setIndicator(tabViewTMP);
+                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon2s);
+                globaltab.setIndicator(tabViewTMP);
+                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon4s);
+                newstab.setIndicator(tabViewTMP);
+                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon5s);
+                incognitotab.setIndicator(tabViewTMP);
                 tabHost.clearAllTabs();
                 tabHost.addTab(privatetab);
                 tabHost.addTab(globaltab);
@@ -303,16 +305,17 @@ public class Main extends TabActivity {
                 tabHost.addTab(incognitotab);
                 break;
             case 1:
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3sb);
-                searchtab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon1sb);
-                privatetab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon2sb);
-                globaltab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon4sb);
-                newstab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
-                incognitotab.setIndicator(tabView3);
+                View tabView1;
+                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon3sb);
+                searchtab.setIndicator(tabView1);
+                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon1sb);
+                privatetab.setIndicator(tabView1);
+                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon2sb);
+                globaltab.setIndicator(tabView1);
+                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon4sb);
+                newstab.setIndicator(tabView1);
+                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
+                incognitotab.setIndicator(tabView1);
                 tabHost.clearAllTabs();
                 tabHost.addTab(privatetab);
                 tabHost.addTab(globaltab);
@@ -321,16 +324,17 @@ public class Main extends TabActivity {
                 tabHost.addTab(incognitotab);
                 break;
             case 2:
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3so);
-                searchtab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon1so);
-                privatetab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon2so);
-                globaltab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon4so);
-                newstab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon5so);
-                incognitotab.setIndicator(tabView3);
+                View tabView2;
+                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon3so);
+                searchtab.setIndicator(tabView2);
+                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon1so);
+                privatetab.setIndicator(tabView2);
+                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon2so);
+                globaltab.setIndicator(tabView2);
+                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon4so);
+                newstab.setIndicator(tabView2);
+                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon5so);
+                incognitotab.setIndicator(tabView2);
                 tabHost.clearAllTabs();
                 tabHost.addTab(privatetab);
                 tabHost.addTab(globaltab);
@@ -339,16 +343,17 @@ public class Main extends TabActivity {
                 tabHost.addTab(incognitotab);
                 break;
             case 3:
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3sp);
-                searchtab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon1sp);
-                privatetab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon2sp);
-                globaltab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon4sp);
-                newstab.setIndicator(tabView3);
-                tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon5sp);
-                incognitotab.setIndicator(tabView3);
+                View tabView4;
+                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon3sp);
+                searchtab.setIndicator(tabView4);
+                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon1sp);
+                privatetab.setIndicator(tabView4);
+                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon2sp);
+                globaltab.setIndicator(tabView4);
+                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon4sp);
+                newstab.setIndicator(tabView4);
+                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon5sp);
+                incognitotab.setIndicator(tabView4);
                 tabHost.clearAllTabs();
                 tabHost.addTab(privatetab);
                 tabHost.addTab(globaltab);

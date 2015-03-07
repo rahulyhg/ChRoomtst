@@ -11,50 +11,63 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvChat4"
-        android:layout_above="@+id/button24" />
+        android:layout_above="@+id/smileTable4" />
 
-        <ImageButton
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivGrad4"
+        android:layout_above="@+id/smileTable4"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/white"
+        android:src="@drawable/tmp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="-20dp"
+        android:layout_alignTop="@+id/editText4" />
+
+    <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/button24"
-            android:layout_above="@+id/smileTable4"
-            android:visibility="visible"
+        android:visibility="visible"
             android:layout_alignWithParentIfMissing="true"
-            android:layout_alignParentBottom="false"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/knopka200"
             android:scaleType="fitCenter"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+        android:layout_above="@+id/smileTable4" />
 
-        <EditText
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=":)"
+        android:id="@+id/butSmile4"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="visible"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/smile_circle"
+        android:background="@color/white"
+        android:scaleType="fitCenter"
+        android:layout_above="@+id/smileTable4" />
+
+    <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText4"
-            android:layout_alignParentBottom="false"
+            android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/butSmile4"
             android:layout_toLeftOf="@+id/button24"
-            android:layout_above="@+id/smileTable4"
-            android:visibility="visible"
-            android:layout_alignWithParentIfMissing="true"
+        android:visibility="visible"
+            android:layout_alignWithParentIfMissing="false"
             android:layout_toStartOf="@+id/button24"
             android:background="@drawable/cornerstxt"
-            android:minHeight="50dp" />
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text=":)"
-            android:id="@+id/butSmile4"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentLeft="true"
-            android:layout_above="@+id/smileTable4"
-            android:visibility="visible"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/smile_circle"
-            android:background="@color/white"
-            android:scaleType="fitCenter"/>
+            android:minHeight="50dp"
+        android:layout_above="@+id/smileTable4"
+        android:maxHeight="150dp" />
 
     <TableLayout
         android:layout_width="match_parent"

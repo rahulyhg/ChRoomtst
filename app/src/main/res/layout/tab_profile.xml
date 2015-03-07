@@ -63,7 +63,8 @@
                     android:layout_height="match_parent"
                     android:id="@+id/profileGlass"
                     android:background="#770FB470"
-                    android:visibility="visible">
+                    android:visibility="visible"
+                    android:layout_above="@+id/tvProfileStatus">
                     </ImageView>
 
                 <ImageView
@@ -120,7 +121,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/white"
-                    android:background="@color/greenlight"
+                    android:background="@color/blackglass"
                     android:textStyle="bold"
                     android:visibility="visible"
                     android:autoText="false"

@@ -289,7 +289,7 @@ public class Profile extends Activity {
                 }
             }
         });
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         return builder.create();
     }
 
@@ -453,13 +453,15 @@ public class Profile extends Activity {
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
+                String city;
                 Log.e("profile", json.getString("name"));
                 Log.e("profile", json.getString("info"));
-                etProfileCity.setText(json.getString("city"));
+                city=json.getString("city");
+                etProfileCity.setText(city);
                 userName = json.getString("name");
                 userAbout = json.getString("info");
                 tvProfStat.setText(json.getString("status"));
-                birthDay.setText(json.getString("age"));
+                birthDay.setText(city+" | "+json.getString("age"));
                 int sex = json.getInt("sex");
                 Log.e("selectedItem", profileSex.getSelectedItem()+"");
                 profileSex.setSelection(sex);
@@ -477,12 +479,22 @@ public class Profile extends Activity {
                 photosURLs[6]=json.getString("photo2_full");
                 photosURLs[7]=json.getString("photo3_full");
                 photosURLs[8]=json.getString("photo4_full");
-                photosURLs[9]=json.getString("avatar_full");;
-                mPicasso.load(json.getString("photo4")).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
-                mPicasso.load(json.getString("photo3")).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
-                mPicasso.load(json.getString("photo2")).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
-                mPicasso.load(json.getString("photo1")).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
-                mPicasso.load(json.getString("avatar")).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
+                photosURLs[9]=json.getString("avatar_full");
+                if(!photosURLs[3].equals("http://im.topufa.org/")){
+                    mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                }
+                if(!photosURLs[2].equals("http://im.topufa.org/")){
+                    mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                }
+                if(!photosURLs[1].equals("http://im.topufa.org/")){
+                    mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                }
+                if(!photosURLs[0].equals("http://im.topufa.org/")){
+                    mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                }
+                if(!photosURLs[4].equals("http://im.topufa.org/")){
+                    mPicasso.load(photosURLs[4]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
+                }
                 Log.e("selectedItem", profileSex.getSelectedItem() + "");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());

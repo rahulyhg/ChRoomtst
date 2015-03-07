@@ -16,7 +16,7 @@
         android:textIsSelectable="false"
         android:background="@drawable/corners2"
         android:hint="Login"
-        android:text="649490712815"
+        android:text="875667830813"
         android:singleLine="true"
         android:inputType="number" />
 
