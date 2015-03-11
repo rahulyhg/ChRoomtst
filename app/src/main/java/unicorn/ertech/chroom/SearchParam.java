@@ -34,15 +34,15 @@ public class SearchParam extends Fragment {
     private Context context;
     Button butSearch;
     TextView tvTitle;
-    public static JSONParser jParser = null;
-    Spinner sexSpinner, regionSpinner, hereforSpinner;
-    EditText city, age_from, age_till;
+    public static JSONParser jParserReserve = null;
+    static Spinner sexSpinner, regionSpinner, hereforSpinner;
+    static EditText city, age_from, age_till;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
-    String token;
+    static String token;
     List<sResult> results  = new ArrayList<sResult>();
     CheckBox cb;
-    String sex,region, online;
+    static String sex,region, online;
     List<NameValuePair> request = new ArrayList<NameValuePair>(2);
 
     /** Handle the results from the voice recognition activity. */
@@ -134,14 +134,6 @@ public class SearchParam extends Fragment {
             //region = regionSpinner.getSelectedItem().toString();
             region = "10";
 
-            if(s.equals("М")) {
-                sex = "1";
-            }
-            else
-            {
-                sex = "0";
-            }
-
             pDialog = new ProgressDialog(context);
             pDialog.setMessage("Ищем ...");
             pDialog.setIndeterminate(false);
@@ -152,7 +144,7 @@ public class SearchParam extends Fragment {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            jParser = new JSONParser();
+            JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
@@ -172,6 +164,8 @@ public class SearchParam extends Fragment {
             jParser.setParam("city", city.getText().toString());
             jParser.setParam("age_from", age_from.getText().toString());
             jParser.setParam("age_till", age_till.getText().toString());
+
+
             // Getting JSON from URL
             request = jParser.nameValuePairs;
             jParser.setParam("page", "0");
@@ -243,5 +237,26 @@ public class SearchParam extends Fragment {
     public void onResume(){
         super.onResume();
         setColor();
+    }
+
+    public static void getParams(JSONParser jPars)
+    {
+        jPars.setParam("token", token);
+        jPars.setParam("action", "global_search");
+
+        if(sexSpinner.getSelectedItemId()!=2) {
+            jPars.setParam("sex", String.valueOf(sexSpinner.getSelectedItemId()));
+        }
+        else
+        {
+            //jParser.setParam("sex","");
+        }
+
+        jPars.setParam("region", region);
+        jPars.setParam("online", online);
+        jPars.setParam("herefor",String.valueOf(hereforSpinner.getSelectedItemId()));
+        jPars.setParam("city", city.getText().toString());
+        jPars.setParam("age_from", age_from.getText().toString());
+        jPars.setParam("age_till", age_till.getText().toString());
     }
 }

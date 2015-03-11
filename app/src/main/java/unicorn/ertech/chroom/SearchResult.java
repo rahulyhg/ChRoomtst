@@ -153,8 +153,8 @@ public class SearchResult extends Activity {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
-            JSONParser jParser = SearchParam.jParser;
-            jParser.nameValuePairs.remove("page");
+            JSONParser jParser = new JSONParser();
+            SearchParam.getParams(jParser);
             jParser.setParam("page",String.valueOf(page));
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(Main.URL);
