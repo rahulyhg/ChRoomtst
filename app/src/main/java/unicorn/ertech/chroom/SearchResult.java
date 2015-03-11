@@ -260,6 +260,7 @@ filterPopup.dismiss();
     }
 
     private void showFilter(){
-        initiatePopupWindow();
+        //initiatePopupWindow();
+        this.finish();
     }
 }
