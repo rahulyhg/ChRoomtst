@@ -917,6 +917,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     msgCount=0;
                     messages.clear();
                     adapter.notifyDataSetChanged();
+                    ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Истоия сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при очистке!", Toast.LENGTH_LONG).show();
