@@ -92,8 +92,8 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         swipeLayout.setDistanceToTriggerSync(20);
 
         lvNews.setAdapter(adapter3);
-        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
-        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
+        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
 
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,8 +116,8 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
     @Override
     public void onRefresh() {
         swipeLayout.setRefreshing(true);
-        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
-        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
+        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -161,7 +161,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
                 RssReader rssReader = new RssReader(params[0]);
                 RssItem item;
                 int rssSize = rssReader.getItems().size();
-                for (int j=0; j<rssSize; j++){
+                for (int j=0; j<rssSize-1; j++){
                     item=rssReader.getItems().get(j);
                     newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
                     news_list.add(currentItem);
@@ -181,7 +181,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
 
     protected boolean checkRepeat(String URL){
         boolean flag=false;
-        for(int i=0; i<news_list.size(); i++){
+        for(int i=0; i<news_list.size()-1; i++){
             if(news_list.get(i).getURL().equals(URL)){
                 flag=true;
                 break;

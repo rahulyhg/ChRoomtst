@@ -1,55 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/rect"
     android:background="@color/white">
 
 
-
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/incognito_jm"
-        android:id="@+id/ivIncognitoJm"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="25dp"
-        android:scaleType="fitCenter" />
+        android:showDividers="beginning"
+        android:id="@+id/layIncognitoJm"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="30dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivIncognitoMj"
-        android:src="@drawable/incognito_mj"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="50dp"
-        android:scaleType="fitCenter" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/incognito_jm"
+            android:id="@+id/ivIncognitoJm"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivIncognitoRand"
-        android:src="@drawable/incognito_rnd"
-        android:scaleType="fitCenter"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/ivIncognitoJm"
-        android:layout_alignStart="@+id/ivIncognitoJm"
-        android:layout_marginBottom="70dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ищу парня"
+            android:id="@+id/tvSubIncognitoJm"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+    </LinearLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivIncognitoChat"
-        android:src="@drawable/incognito_chat"
-        android:layout_alignTop="@+id/ivIncognitoRand"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginBottom="60dp"
-        android:scaleType="fitCenter" />
-</RelativeLayout>
+        android:showDividers="beginning"
+        android:id="@+id/layIncognitoMj"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="30dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivIncognitoMj"
+            android:src="@drawable/incognito_mj"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ищу девушку"
+            android:id="@+id/tvSubIncognitoMj"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="beginning"
+        android:id="@+id/layIncognitoRand"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="30dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivIncognitoRand"
+            android:src="@drawable/search_random"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Встряска"
+            android:id="@+id/tvSubIncognitoRand"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="beginning"
+        android:id="@+id/layIncognitoChat"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="30dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivIncognitoChat"
+            android:src="@drawable/icon5a"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Анонимный чат"
+            android:id="@+id/tvSubIncognitoChat"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

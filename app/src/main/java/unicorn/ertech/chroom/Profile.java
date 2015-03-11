@@ -177,29 +177,33 @@ public class Profile extends Activity {
             if (col == 1) {
                 topRow.setBackgroundResource(R.color.blue);
                 back.setBackgroundResource(R.color.blue);
-                tvProfInfo.setBackgroundResource(R.drawable.b_string);
-                tvProfPhoto.setBackgroundResource(R.drawable.b_string);
+                saveProfile.setBackgroundResource(R.color.blue);
+                tvProfInfo.setBackgroundResource(R.color.blue);
+                tvProfPhoto.setBackgroundResource(R.color.blue);
                 tvProfStat.setBackgroundResource(R.color.bluelight);
                 profileGlass.setBackgroundResource(R.color.blueglass);
             } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 back.setBackgroundResource(R.color.green);
-                tvProfInfo.setBackgroundResource(R.drawable.g_strip);
-                tvProfPhoto.setBackgroundResource(R.drawable.g_strip);
+                tvProfInfo.setBackgroundResource(R.color.green);
+                tvProfPhoto.setBackgroundResource(R.color.green);
+                saveProfile.setBackgroundResource(R.color.green);
                 tvProfStat.setBackgroundResource(R.color.greenlight);
                 profileGlass.setBackgroundResource(R.color.greenglass);
             } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 back.setBackgroundResource(R.color.orange);
-                tvProfInfo.setBackgroundResource(R.drawable.o_strip);
-                tvProfPhoto.setBackgroundResource(R.drawable.o_strip);
+                tvProfInfo.setBackgroundResource(R.color.orange);
+                saveProfile.setBackgroundResource(R.color.orange);
+                tvProfPhoto.setBackgroundResource(R.color.orange);
                 tvProfStat.setBackgroundResource(R.color.orangelight);
                 profileGlass.setBackgroundResource(R.color.orangeglass);
             } else if (col == 3) {
                 topRow.setBackgroundResource(R.color.purple);
                 back.setBackgroundResource(R.color.purple);
-                tvProfInfo.setBackgroundResource(R.drawable.p_string);
-                tvProfPhoto.setBackgroundResource(R.drawable.p_string);
+                tvProfInfo.setBackgroundResource(R.color.purple);
+                saveProfile.setBackgroundResource(R.color.purple);
+                tvProfPhoto.setBackgroundResource(R.color.purple);
                 tvProfStat.setBackgroundResource(R.color.purplelight);
                 profileGlass.setBackgroundResource(R.color.purpleglass);
             }

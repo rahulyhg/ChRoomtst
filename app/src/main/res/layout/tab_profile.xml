@@ -227,23 +227,17 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp" />
 
-            <TableRow
-                android:layout_width="fill_parent"
+            <EditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etProfileAbout"
-                    android:layout_marginLeft="15dp"
-                    android:autoText="false"
-                    android:padding="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@android:color/transparent"
-                    android:hint="О себе" />
-            </TableRow>
+                android:id="@+id/etProfileAbout"
+                android:autoText="false"
+                android:background="@android:color/transparent"
+                android:hint="О себе"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="7dp" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -390,21 +384,16 @@
                 android:paddingTop="5dp"
                 android:maxLines="1" />
 
-            <TableRow
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvPickedHerefor"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="5dp"
-                    android:padding="7dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Цель знакомства" />
-            </TableRow>
+                android:id="@+id/tvPickedHerefor"
+                android:background="@android:color/transparent"
+                android:hint="Цель знакомства"
+                android:paddingTop="7dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="7dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -417,24 +406,17 @@
                 android:paddingTop="5dp"
                 android:maxLines="1" />
 
-            <TableRow
-                    android:layout_width="fill_parent"
+            <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="7dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" >
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvPickedHobbies"
-                        android:layout_marginLeft="15dp"
-                        android:entries="@array/hobbies"
-                        android:layout_marginRight="5dp"
-                        android:padding="7dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Интересы" />
-            </TableRow>
+                    android:id="@+id/tvPickedHobbies"
+                android:entries="@array/hobbies"
+                android:background="@android:color/transparent"
+                    android:hint="Интересы"
+                android:paddingLeft="15dp"
+                android:paddingRight="7dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp" />
 
         </LinearLayout>
         </LinearLayout>

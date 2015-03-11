@@ -12,11 +12,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +47,9 @@ public class SearchMain extends Fragment {
     final String SAVED_COLOR = "color";
     ImageView ivInvite;
     SharedPreferences sPref;
-    TextView tvSearchTitle;
+    TextView tvSearchTitle, tvCont;
     private UiLifecycleHelper uiHelper;
+    LinearLayout layCont, layRand, layInvite, layParam, laySoc;
     String URL = "http://im.topufa.org/index.php";
 
 
@@ -77,6 +80,56 @@ public class SearchMain extends Fragment {
         ivInvite = (ImageView)view.findViewById(R.id.ivSearchInvite);
         ivSoc = (ImageView)view.findViewById(R.id.ivSearchSoc);
         tvSearchTitle = (TextView)view.findViewById(R.id.tvSearchTitle);
+
+        layCont=(LinearLayout)view.findViewById(R.id.laySearchCont);
+        layRand=(LinearLayout)view.findViewById(R.id.laySearchRand);
+        layParam=(LinearLayout)view.findViewById(R.id.laySearchParam);
+        layInvite=(LinearLayout)view.findViewById(R.id.laySearchInvite);
+        laySoc=(LinearLayout)view.findViewById(R.id.laySearchSoc);
+        layCont.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent m = new Intent(context, VActivity.class);
+                startActivity(m);
+            }
+        });
+        layInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+                smsIntent.setType("vnd.android-dir/mms-sms");
+                smsIntent.putExtra("sms_body", "Привет! Заходи в ChatRoom!");
+                startActivity(smsIntent);*/
+
+                Intent i = new Intent(context, syncContacts.class);
+                startActivity(i);
+            }
+        });
+
+        layRand.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Search search_parent = (Search)getActivity();
+                search_parent.startRandom();
+            }
+        });
+
+        layParam.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Search search_parent = (Search)getActivity();
+                search_parent.startParam();
+            }
+        });
+
+        laySoc.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //publishFeedDialog();
+                Search search_parent = (Search)getActivity();
+                search_parent.startShare();
+            };
+        });
 
         setColor();
 
@@ -171,8 +224,6 @@ public class SearchMain extends Fragment {
             }
         }
     }
-
-
 
     @Override
     public  void onResume(){

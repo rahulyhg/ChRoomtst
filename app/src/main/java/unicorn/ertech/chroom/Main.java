@@ -298,11 +298,11 @@ public class Main extends TabActivity {
                 tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon5s);
                 incognitotab.setIndicator(tabViewTMP);
                 tabHost.clearAllTabs();
-                tabHost.addTab(privatetab);
-                tabHost.addTab(globaltab);
-                tabHost.addTab(newstab);
-                tabHost.addTab(searchtab);
-                tabHost.addTab(incognitotab);
+                tabHost.addTab(privatetab); //личка
+                tabHost.addTab(globaltab); //поиск
+                tabHost.addTab(newstab); //общий чат
+                tabHost.addTab(searchtab); //новости
+                tabHost.addTab(incognitotab); //инкогнито
                 break;
             case 1:
                 View tabView1;
@@ -317,11 +317,11 @@ public class Main extends TabActivity {
                 tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
                 incognitotab.setIndicator(tabView1);
                 tabHost.clearAllTabs();
-                tabHost.addTab(privatetab);
-                tabHost.addTab(globaltab);
-                tabHost.addTab(searchtab);
-                tabHost.addTab(newstab);
-                tabHost.addTab(incognitotab);
+                tabHost.addTab(privatetab); //личка
+                tabHost.addTab(globaltab); //поиск
+                tabHost.addTab(newstab); //общий чат
+                tabHost.addTab(searchtab); //новости
+                tabHost.addTab(incognitotab); //инкогнито
                 break;
             case 2:
                 View tabView2;
@@ -336,11 +336,11 @@ public class Main extends TabActivity {
                 tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon5so);
                 incognitotab.setIndicator(tabView2);
                 tabHost.clearAllTabs();
-                tabHost.addTab(privatetab);
-                tabHost.addTab(globaltab);
-                tabHost.addTab(searchtab);
-                tabHost.addTab(newstab);
-                tabHost.addTab(incognitotab);
+                tabHost.addTab(privatetab); //личка
+                tabHost.addTab(globaltab); //поиск
+                tabHost.addTab(newstab); //общий чат
+                tabHost.addTab(searchtab); //новости
+                tabHost.addTab(incognitotab); //инкогнито
                 break;
             case 3:
                 View tabView4;
@@ -355,11 +355,11 @@ public class Main extends TabActivity {
                 tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon5sp);
                 incognitotab.setIndicator(tabView4);
                 tabHost.clearAllTabs();
-                tabHost.addTab(privatetab);
-                tabHost.addTab(globaltab);
-                tabHost.addTab(searchtab);
-                tabHost.addTab(newstab);
-                tabHost.addTab(incognitotab);
+                tabHost.addTab(privatetab); //личка
+                tabHost.addTab(globaltab); //поиск
+                tabHost.addTab(newstab); //общий чат
+                tabHost.addTab(searchtab); //новости
+                tabHost.addTab(incognitotab); //инкогнито
                 break;
             default:
                 break;

@@ -13,8 +13,10 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -23,7 +25,8 @@ import java.util.List;
 public class PrivateChat extends FragmentActivity {
     static final String TAG = "myLogs";
     final String SAVED_COLOR = "color";
-    PagerTabStrip tabStrip;
+    com.kpbird.triangletabs.PagerSlidingTabStrip tabStrip;
+    long time1, time2;
     //static final int PAGE_COUNT = 4;
 
     /** идентификатор первого фрагмента Личный чат. */
@@ -56,25 +59,23 @@ public class PrivateChat extends FragmentActivity {
         pager = (ViewPager) findViewById(R.id.pager_priv);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
-        tabStrip = (PagerTabStrip)findViewById(R.id.pagerTabStrip_priv);
-        SharedPreferences sPref;
+        tabStrip = (com.kpbird.triangletabs.PagerSlidingTabStrip)findViewById(R.id.pagerTabStrip_priv);
+        tabStrip.setViewPager(pager);
+        /*SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tabStrip.setBackgroundResource(R.color.blue);
+                tabStrip.setTabBackground(R.color.blue);
             } else if (col == 0) {
-                tabStrip.setBackgroundResource(R.color.green);
+                tabStrip.setTabBackground(R.color.green);
             } else if (col == 2) {
-                tabStrip.setBackgroundResource(R.color.orange);
+                tabStrip.setTabBackground(R.color.orange);
             } else if (col == 4) {
-                tabStrip.setBackgroundResource(R.color.purple);
+                tabStrip.setTabBackground(R.color.purple);
             }
-        }
-
-        tabStrip.setTextColor(getResources().getColor(R.color.white));
-        tabStrip.setTabIndicatorColorResource(R.color.white);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        }*/
+        /*pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
@@ -90,7 +91,7 @@ public class PrivateChat extends FragmentActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        });
+        });*/
     }
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -127,19 +128,27 @@ public class PrivateChat extends FragmentActivity {
     @Override
     public  void onResume(){
         super.onResume();
+        time1=0; time2=0;
+        tabStrip.setTextColor(getResources().getColor(R.color.white));
+        tabStrip.notifyDataSetChanged();
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
+                //tabs.setTabBackground(R.color.blue);
                 tabStrip.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
                 tabStrip.setBackgroundResource(R.color.green);
+                //tabs.setTabBackground(R.color.green);
             } else if (col == 2) {
+                //tabs.setTabBackground(R.color.orange);
                 tabStrip.setBackgroundResource(R.color.orange);
-            } else if (col == 4) {
+            } else if (col == 3) {
+                //tabs.setTabBackground(R.color.purple);
                 tabStrip.setBackgroundResource(R.color.purple);
             }
+            tabStrip.setIndicatorColorResource(R.color.white);
         }
     }
 
@@ -147,7 +156,20 @@ public class PrivateChat extends FragmentActivity {
     public void onBackPressed() {
         // TODO Auto-generated method stub
         // super.onBackPressed();
-        openQuitDialog();
+        Calendar calend = Calendar.getInstance();
+        if(time1==0){
+            time1=calend.getTimeInMillis();
+            Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+        }else{
+            time2=calend.getTimeInMillis();
+            if(time2-time1<=2000){
+                finish();
+            }else{
+                time1=time2;
+                Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+            }
+        }
+        //openQuitDialog();
     }
 
     private void openQuitDialog() {

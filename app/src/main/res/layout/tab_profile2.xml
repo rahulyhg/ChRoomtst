@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:id="@+id/ivProfilePhoto"
             android:background="@color/white"
-            android:src="@drawable/camera128"
+            android:src="@drawable/nophoto"
             android:visibility="visible"
             android:scaleType="centerCrop" />
 
@@ -99,7 +99,6 @@
             android:layout_height="75dp"
             android:id="@+id/profileSmallPhoto"
             android:background="@drawable/circle"
-            android:src="@drawable/camera128"
             android:scaleType="centerCrop"
             android:layout_alignTop="@+id/etName"
             android:layout_alignParentLeft="true"
@@ -194,7 +193,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/photo1"
                     android:background="@drawable/circle"
-                    android:src="@drawable/camera128"
+                    android:src="@drawable/nophoto"
                     android:scaleType="centerInside"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
@@ -207,7 +206,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/photo2"
                     android:background="@drawable/circle"
-                    android:src="@drawable/camera128"
+                    android:src="@drawable/nophoto"
                     android:scaleType="centerInside"
                     android:layout_alignTop="@+id/photo1"
                     android:layout_toRightOf="@+id/photo1"
@@ -220,7 +219,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/photo3"
                     android:background="@drawable/circle"
-                    android:src="@drawable/camera128"
+                    android:src="@drawable/nophoto"
                     android:scaleType="centerInside"
                     android:layout_alignTop="@+id/photo4"
                     android:layout_alignParentRight="true"
@@ -233,7 +232,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/photo4"
                     android:background="@drawable/circle"
-                    android:src="@drawable/camera128"
+                    android:src="@drawable/nophoto"
                     android:scaleType="centerInside"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/photo3"
@@ -263,24 +262,17 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp" />
 
-            <TableRow
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="5dp" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etProfile2About"
-                    android:layout_marginLeft="15dp"
-                    android:autoText="false"
-                    android:padding="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@android:color/transparent"
-                    android:hint="О себе" />
-            </TableRow>
+                android:id="@+id/etProfile2About"
+                android:autoText="false"
+                android:background="@android:color/transparent"
+                android:hint="О себе"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="7dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -292,25 +284,18 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp" />
 
-            <TableRow
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="5dp" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etProfile2Region"
-                    android:layout_marginLeft="15dp"
-                    android:cursorVisible="false"
-                    android:autoText="false"
-                    android:padding="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Регион" />
-            </TableRow>
+                android:id="@+id/etProfile2Region"
+                android:cursorVisible="false"
+                android:autoText="false"
+                android:background="@android:color/transparent"
+                android:hint="Регион"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="7dp" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -437,21 +422,16 @@
                 android:paddingTop="5dp"
                 android:maxLines="1" />
 
-            <TableRow
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etProfile2Herefor"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="5dp"
-                    android:padding="7dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Цель знакомства" />
-            </TableRow>
+                android:id="@+id/etProfile2Herefor"
+                android:background="@android:color/transparent"
+                android:hint="Цель знакомства"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="7dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -464,26 +444,18 @@
                 android:paddingTop="5dp"
                 android:maxLines="1" />
 
-            <TableRow
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_vertical"
-                android:padding="7dp"
-                android:layout_marginBottom="5dp" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/etProfile2Hobbies"
-                    android:layout_marginLeft="15dp"
-                    android:cursorVisible="false"
-                    android:autoText="false"
-                    android:padding="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Астрономия" />
-            </TableRow>
+                android:id="@+id/etProfile2Hobbies"
+                android:cursorVisible="false"
+                android:autoText="false"
+                android:background="@android:color/transparent"
+                android:hint="Астрономия"
+                android:paddingLeft="15dp"
+                android:paddingTop="7dp"
+                android:paddingRight="7dp"
+                android:paddingBottom="7dp" />
 
         </LinearLayout>
         </LinearLayout>

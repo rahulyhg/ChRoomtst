@@ -89,7 +89,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         //Раскоментить, когда разберёмся со временем
         //
 
-        /*Calendar msgTime = Calendar.getInstance(); int cmonth = 1 + currTime.get(currTime.MONTH); int cyear = currTime.get(currTime.YEAR);
+        Calendar msgTime = Calendar.getInstance(); int cmonth = 1 + currTime.get(currTime.MONTH); int cyear = currTime.get(currTime.YEAR);
         String[] dateTime = p.time.split("%");
         String[] time = dateTime[1].split(":");
         String[] date = dateTime[0].split("-");
@@ -109,10 +109,10 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         msgTime.set(Calendar.MONTH,Integer.parseInt(date[1])); int month = Integer.parseInt(date[1]);if(month<10&&date[1].length()==1){date[1]="0"+date[1];}
         msgTime.set(Calendar.DAY_OF_MONTH,Integer.parseInt(date[2])); int day = Integer.parseInt(date[2]);if(day<10&&date[2].length()==1){date[2]="0"+date[2];}
         dateTime[0]=date[0]+"-"+date[1]+"-"+date[2];
-*/
+
         holder.tvTime.setGravity(Gravity.RIGHT);
         holder.tvMsg.setGravity(Gravity.LEFT);
-        /*if(year == cyear)
+        if(year == cyear)
         {
             if(month == cmonth)
             {
@@ -143,7 +143,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         {
             holder.tvTime.setText(dateTime[0]);
         }
-*/
+
         Picasso.with(getContext()).load(p.picURL).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 

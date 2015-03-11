@@ -100,32 +100,32 @@ public class Profile2 extends Activity implements View.OnClickListener {
             if (col == 1) {
                 topRow.setBackgroundResource(R.color.blue);
                 back.setBackgroundResource(R.color.blue);
-                tvProfInfo.setBackgroundResource(R.drawable.b_string);
-                tvProfPhoto.setBackgroundResource(R.drawable.b_string);
+                tvProfInfo.setBackgroundResource(R.color.blue);
+                tvProfPhoto.setBackgroundResource(R.color.blue);
                 tvProfStat.setBackgroundResource(R.color.bluelight);
                 profileGlass.setBackgroundResource(R.color.blueglass);
                 butSend.setBackgroundResource(R.drawable.but_blue);
             } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 back.setBackgroundResource(R.color.green);
-                tvProfInfo.setBackgroundResource(R.drawable.g_strip);
-                tvProfPhoto.setBackgroundResource(R.drawable.g_strip);
+                tvProfInfo.setBackgroundResource(R.color.green);
+                tvProfPhoto.setBackgroundResource(R.color.green);
                 tvProfStat.setBackgroundResource(R.color.greenlight);
                 profileGlass.setBackgroundResource(R.color.greenglass);
                 butSend.setBackgroundResource(R.drawable.but_green);
             } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 back.setBackgroundResource(R.color.orange);
-                tvProfInfo.setBackgroundResource(R.drawable.o_strip);
-                tvProfPhoto.setBackgroundResource(R.drawable.o_strip);
+                tvProfInfo.setBackgroundResource(R.color.orange);
+                tvProfPhoto.setBackgroundResource(R.color.orange);
                 tvProfStat.setBackgroundResource(R.color.orangelight);
                 profileGlass.setBackgroundResource(R.color.orangeglass);
                 butSend.setBackgroundResource(R.drawable.but_orange);
             } else if (col == 3) {
                 topRow.setBackgroundResource(R.color.purple);
                 back.setBackgroundResource(R.color.purple);
-                tvProfInfo.setBackgroundResource(R.drawable.p_string);
-                tvProfPhoto.setBackgroundResource(R.drawable.p_string);
+                tvProfInfo.setBackgroundResource(R.color.purple);
+                tvProfPhoto.setBackgroundResource(R.color.purple);
                 tvProfStat.setBackgroundResource(R.color.purplelight);
                 profileGlass.setBackgroundResource(R.color.purpleglass);
                 butSend.setBackgroundResource(R.drawable.but_purple);
@@ -336,6 +336,12 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         }
                         Picasso mPicasso;
                         mPicasso = Picasso.with(getApplicationContext());
+                        if(!picURLFull.equals("http://im.topufa.org/")){
+                            mPicasso.load(picURLFull).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
+                        }
+                        if(!picURL.equals("http://im.topufa.org/")){
+                            mPicasso.load(picURL).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(smallProfilePhoto);
+                        }
                         mPicasso.load(picURLFull).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
                         mPicasso.load(picURL).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(smallProfilePhoto);
                         etProfileCity.setText(json.getString("city"));
@@ -370,10 +376,18 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         photosURLs[7] = json.getString("photo3_full");
                         photosURLs[8] = json.getString("photo4_full");
                         photosURLs[9] = picURLFull;
-                        mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
-                        mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
-                        mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
-                        mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                        if(!photosURLs[3].equals("http://im.topufa.org/")){
+                            mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                        }
+                        if(!photosURLs[2].equals("http://im.topufa.org/")){
+                            mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                        }
+                        if(!photosURLs[1].equals("http://im.topufa.org/")){
+                            mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                        }
+                        if(!photosURLs[0].equals("http://im.topufa.org/")){
+                            mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     String picUrl, myID;
     Date dateTime;
     String shake;
+    RelativeLayout topRow;
     SharedPreferences userData;
     final String USER = "user";
     String fromDIALOGS;
@@ -78,12 +80,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     final String SAVED_SOUND="sound";
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
+    final String SAVED_COLOR = "color";
     final String SAVED_LASTID="lastid";
 
     conversationsMsg p3;
     List<pmChatMessage> messages = new ArrayList<pmChatMessage>();
     pmChatAdapter adapter;
     Timer myTimer;
+    Button butBack;
 
     String token, sendTo, userProfile, favorite;
     boolean firstTime = true;
@@ -108,6 +112,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         butLists=(ImageButton)findViewById(R.id.ibStar);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
+        topRow=(RelativeLayout)findViewById(R.id.topRowChat);
         dateTime = new Date();
 
         butLists.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +120,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             public void onClick(View v) {
                 showPopupMenu(v);
             }});
-        final Button  butBack=(Button)findViewById(R.id.butNewsBack);
+        butBack=(Button)findViewById(R.id.butNewsBack);
         nick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,11 +246,42 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         }, 1L * 250, 2L * 1000);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-
-
+        setColor();
     }
 
+    private void setColor(){
+        SharedPreferences sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if (sPref.contains(SAVED_COLOR)) {
+            int col = sPref.getInt(SAVED_COLOR, 0);
+            if (col == 1) {
+                topRow.setBackgroundResource(R.color.blue);
+                butBack.setBackgroundResource(R.drawable.but_blue);
+                nick.setBackgroundResource(R.drawable.but_blue);
+                avatar.setBackgroundResource(R.drawable.but_blue);
+                butLists.setBackgroundResource(R.drawable.but_blue);
+            } else if (col == 0) {
+                topRow.setBackgroundResource(R.color.green);
+                butBack.setBackgroundResource(R.drawable.but_green);
+                nick.setBackgroundResource(R.drawable.but_green);
+                avatar.setBackgroundResource(R.drawable.but_green);
+                butLists.setBackgroundResource(R.drawable.but_green);
+            } else if (col == 2) {
+                topRow.setBackgroundResource(R.color.orange);
+                butBack.setBackgroundResource(R.drawable.but_orange);
+                nick.setBackgroundResource(R.drawable.but_orange);
+                avatar.setBackgroundResource(R.drawable.but_orange);
+                butLists.setBackgroundResource(R.drawable.but_orange);
+            } else if(col == 3){
+                topRow.setBackgroundResource(R.color.purple);
+                butBack.setBackgroundResource(R.drawable.but_purple);
+                nick.setBackgroundResource(R.drawable.but_purple);
+                avatar.setBackgroundResource(R.drawable.but_purple);
+                butLists.setBackgroundResource(R.drawable.but_purple);
+            }
+        }else{
+            topRow.setBackgroundResource(R.color.green);
+        }
+    }
     @Override
     public void onRefresh() {
             swipeLayout.setRefreshing(true);

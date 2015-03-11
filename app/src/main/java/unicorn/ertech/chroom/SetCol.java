@@ -46,9 +46,29 @@ public class SetCol extends Activity {
         butPurple.setOnClickListener(setColor);
         butGreen.setOnClickListener(setColor);
 
-
+        setColor();
     }
 
+    private void setColor(){
+        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
+        int col=sPref.getInt(SAVED_COLOR, 0);
+        switch (col) {
+            case 0:
+                topRow.setBackgroundResource(R.color.green);
+                break;
+            case 1:
+                topRow.setBackgroundResource(R.color.blue);
+                break;
+            case 2:
+                topRow.setBackgroundResource(R.color.orange);
+                break;
+            case 3:
+                topRow.setBackgroundResource(R.color.purple);
+                break;
+            default:
+                break;
+        }
+    };
 
     private View.OnClickListener setColor = new View.OnClickListener(){
         @Override
