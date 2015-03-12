@@ -258,7 +258,7 @@ public class anonMessaging extends Activity {
 
                             if(s.equals("7"))//собеседник вышел из переписки
                             {
-                                Toast.makeText(getApplicationContext(), "Собеседник вышел из чата!", Toast.LENGTH_LONG).show();
+                                openLeaveDialog();
                             }
 
                             if(s.equals("4"))//профили взаимно открыты
@@ -328,6 +328,26 @@ public class anonMessaging extends Activity {
         });
 
         quitDialog.show();
+    }
+
+    private void openLeaveDialog() {
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
+                anonMessaging.this);
+        quitDialog.setTitle("Собеседник покинул беседу!");
+
+        quitDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                close();
+            }
+        });
+
+        quitDialog.show();
+    }
+
+    void close()
+    {
+        this.finish();
     }
 
     private class confirm extends AsyncTask<String, String, JSONObject> {
