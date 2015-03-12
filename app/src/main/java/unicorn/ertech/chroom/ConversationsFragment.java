@@ -291,6 +291,7 @@ public class ConversationsFragment extends Fragment {
                 try {
                         if(!realNum.equals("0")){
                             s = json.getString("data");
+                            Log.e("getList", s);
                             real = new JSONArray(s);
                         }
 
