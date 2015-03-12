@@ -119,6 +119,7 @@ public class anon_nickname extends Activity {
                 if(status.equals("false"))
                 {
                     Toast.makeText(getApplicationContext(), "Анонимный ник успешно изменён!", Toast.LENGTH_LONG).show();
+                    close();
                 }
                 else
                 {
@@ -133,5 +134,10 @@ public class anon_nickname extends Activity {
                 = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    void close()
+    {
+        this.finish();
     }
 }

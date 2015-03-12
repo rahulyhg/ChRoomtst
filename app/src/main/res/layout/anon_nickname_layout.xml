@@ -45,7 +45,8 @@
         <EditText
             android:layout_width="276dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etNick" />
+            android:id="@+id/etNick"
+            android:gravity="center" />
 
         <Button
             android:layout_width="162dp"

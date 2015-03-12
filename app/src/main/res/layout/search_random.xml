@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:divider="@drawable/rect"
+    android:background="@color/white"
+    android:weightSum="50">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,55 +21,176 @@
         android:textStyle="bold" />
 
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/search_param"
-        android:id="@+id/ivSearchParam"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp" />
+        android:showDividers="beginning"
+        android:id="@+id/laySearchParam"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="7dp"
+        android:clickable="true"
+        android:layout_weight="7"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivSearchCont"
-        android:src="@drawable/search_cont"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_param"
+            android:id="@+id/ivSearchParam"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivSearchRand"
-        android:src="@drawable/search_random"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Поиск по параметрам"
+            android:id="@+id/tvSubSearchParam"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+    </LinearLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivSearchSoc"
-        android:src="@drawable/search_soc"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="50dp" />
+        android:id="@+id/laySearchCont"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:background="@drawable/but_gray"
+        android:layout_weight="7"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivSearchCont"
+            android:src="@drawable/search_cont"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Поиск по контактам"
+            android:id="@+id/tvSubSearchCont"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivSearchInvite"
-        android:src="@drawable/search_invite"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="20dp" />
-</RelativeLayout>
+        android:id="@+id/laySearchInvite"
+        android:baselineAligned="false"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:layout_weight="7"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivSearchInvite"
+            android:src="@drawable/search_invite"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Пригласить по SMS"
+            android:id="@+id/tvSubSearchInvite"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/but_gray"
+        android:id="@+id/laySearchSoc"
+        android:layout_weight="7"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivSearchSoc"
+            android:src="@drawable/search_soc"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible"
+            android:background="@drawable/but_gray"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Поделиться в социальных сетях"
+            android:id="@+id/tvSubSearchSoc"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp"
+            android:background="@drawable/but_gray" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/laySearchRand"
+        android:layout_weight="7"
+        android:gravity="center_vertical"
+        android:background="@drawable/but_gray"
+        android:paddingLeft="30dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivSearchRand"
+            android:src="@drawable/search_random"
+            android:layout_margin="10dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Встряска"
+            android:id="@+id/tvSubSearchRand"
+            android:textColor="#222222"
+            android:textSize="20sp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</LinearLayout>

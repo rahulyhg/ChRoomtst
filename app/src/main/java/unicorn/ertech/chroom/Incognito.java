@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -29,6 +30,7 @@ public class Incognito extends Fragment {
     ImageView ivJM;
     final String SAVED_COLOR = "color";
     SharedPreferences sPref;
+    LinearLayout layRandom, layChat, layMj, layJm;
     String URL = "http://im.topufa.org/index.php";
 
 
@@ -57,8 +59,20 @@ public class Incognito extends Fragment {
         ivChat = (ImageView) view.findViewById(R.id.ivIncognitoChat);
         ivMJ = (ImageView) view.findViewById(R.id.ivIncognitoMj);
         ivJM = (ImageView) view.findViewById(R.id.ivIncognitoJm);
+        layRandom=(LinearLayout)view.findViewById(R.id.layIncognitoRand);
+        layChat=(LinearLayout)view.findViewById(R.id.layIncognitoChat);
+        layJm=(LinearLayout)view.findViewById(R.id.layIncognitoJm);
+        layMj=(LinearLayout)view.findViewById(R.id.layIncognitoMj);
         setColor();
+
         ivRandom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IncognitoTab incognito_parent = (IncognitoTab) getActivity();
+                incognito_parent.startRandom();
+            }
+        });
+        layRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 IncognitoTab incognito_parent = (IncognitoTab) getActivity();
@@ -72,8 +86,20 @@ public class Incognito extends Fragment {
                 incognito_parent.startChat();
             }
         });
-
+        layChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IncognitoTab incognito_parent = (IncognitoTab) getActivity();
+                incognito_parent.startChat();
+            }
+        });
         ivMJ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchingMj().execute();
+            }
+        });
+        layMj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SearchingMj().execute();
@@ -81,6 +107,12 @@ public class Incognito extends Fragment {
         });
 
         ivJM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new SearchingJm().execute();
+            }
+        });
+        layJm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SearchingJm().execute();
@@ -96,23 +128,23 @@ public class Incognito extends Fragment {
             if (col == 1) {
                 ivMJ.setImageResource(R.drawable.incognito_mjb);
                 ivJM.setImageResource(R.drawable.incognito_jmb);
-                ivChat.setImageResource(R.drawable.incognito_chatb);
-                ivRandom.setImageResource(R.drawable.incognito_rndb);
+                ivChat.setImageResource(R.drawable.icon5ab);
+                ivRandom.setImageResource(R.drawable.search_randomb);
             } else if (col == 0) {
                 ivMJ.setImageResource(R.drawable.incognito_mj);
                 ivJM.setImageResource(R.drawable.incognito_jm);
-                ivChat.setImageResource(R.drawable.incognito_chat);
-                ivRandom.setImageResource(R.drawable.incognito_rnd);
+                ivChat.setImageResource(R.drawable.icon5a);
+                ivRandom.setImageResource(R.drawable.search_random);
             } else if (col == 3) {
                 ivMJ.setImageResource(R.drawable.incognito_mjp);
                 ivJM.setImageResource(R.drawable.incognito_jmp);
-                ivChat.setImageResource(R.drawable.incognito_chatp);
-                ivRandom.setImageResource(R.drawable.incognito_rndp);
+                ivChat.setImageResource(R.drawable.icon5ap);
+                ivRandom.setImageResource(R.drawable.search_randomp);
             }else if(col==2){
                 ivMJ.setImageResource(R.drawable.incognito_mjo);
                 ivJM.setImageResource(R.drawable.incognito_jmo);
-                ivChat.setImageResource(R.drawable.incognito_chato);
-                ivRandom.setImageResource(R.drawable.incognito_rndo);
+                ivChat.setImageResource(R.drawable.icon5ao);
+                ivRandom.setImageResource(R.drawable.search_randomo);
             }
         }
     }

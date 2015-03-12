@@ -11,6 +11,7 @@
         android:layout_height="30dp"
         android:background="@color/green"
         custom:pstsTextAllCaps="false"
+        custom:pstsDividerColor="@android:color/transparent"
         custom:pstsIndicatorColor="@color/white"
         custom:pstsUnderlineColor="@color/white"
         custom:pstsTriangleIndicator="true"

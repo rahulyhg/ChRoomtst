@@ -14,11 +14,12 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:id="@+id/setBack"
-            android:padding="7dp"
-            android:background="@drawable/back_left"
+            android:padding="10dp"
+            android:background="@android:color/transparent"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:text="&lt;" />
     </RelativeLayout>
 
     <LinearLayout

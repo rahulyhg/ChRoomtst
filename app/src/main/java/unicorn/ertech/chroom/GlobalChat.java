@@ -14,8 +14,10 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -50,6 +52,7 @@ public class GlobalChat extends FragmentActivity{
     PagerAdapter pagerAdapter;
     com.kpbird.triangletabs.PagerSlidingTabStrip tabs;
     final String SAVED_CITY = "city";
+    long time1, time2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +73,20 @@ public class GlobalChat extends FragmentActivity{
         tabs = (com.kpbird.triangletabs.PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip);
         tabs.setViewPager(pager);
         //tabStrip = (PagerTabStrip)findViewById(R.id.pagerTabStrip);
-        SharedPreferences sPref;
+        /*SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
-                tabs.setBackgroundResource(R.color.blue);
+                tabs.setTabBackground(R.color.blue);
             } else if (col == 0) {
-                tabs.setBackgroundResource(R.color.green);
+                tabs.setTabBackground(R.color.green);
             } else if (col == 2) {
-                tabs.setBackgroundResource(R.color.orange);
+                tabs.setTabBackground(R.color.orange);
             } else if (col == 4) {
-                tabs.setBackgroundResource(R.color.purple);
+                tabs.setTabBackground(R.color.purple);
             }
-        }
+        }*/
         pager.setOffscreenPageLimit(3);
         pager.setCurrentItem(1);
         /*pager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -148,22 +151,29 @@ public class GlobalChat extends FragmentActivity{
     @Override
     public  void onResume(){
         super.onResume();
+        Log.i("globalresume","glogalresume");
         tabs.setTextColor(getResources().getColor(R.color.white));
         //tabs.setBackgroundResource(R.color.green);
         tabs.notifyDataSetChanged();
+        time1=0; time2=0;
         SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
             int col = sPref.getInt(SAVED_COLOR, 0);
             if (col == 1) {
+                //tabs.setTabBackground(R.color.blue);
                 tabs.setBackgroundResource(R.color.blue);
             } else if (col == 0) {
                 tabs.setBackgroundResource(R.color.green);
+                //tabs.setTabBackground(R.color.green);
             } else if (col == 2) {
+                //tabs.setTabBackground(R.color.orange);
                 tabs.setBackgroundResource(R.color.orange);
-            } else if (col == 4) {
+            } else if (col == 3) {
+                //tabs.setTabBackground(R.color.purple);
                 tabs.setBackgroundResource(R.color.purple);
             }
+            tabs.setIndicatorColorResource(R.color.white);
         }
     }
 
@@ -171,7 +181,20 @@ public class GlobalChat extends FragmentActivity{
     public void onBackPressed() {
         // TODO Auto-generated method stub
         // super.onBackPressed();
-        openQuitDialog();
+        Calendar calend = Calendar.getInstance();
+        if(time1==0){
+            time1=calend.getTimeInMillis();
+            Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+        }else{
+            time2=calend.getTimeInMillis();
+            if(time2-time1<=2000){
+                finish();
+            }else{
+                time1=time2;
+                Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+            }
+        }
+        //openQuitDialog();
     }
 
     private void openQuitDialog() {

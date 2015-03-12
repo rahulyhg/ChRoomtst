@@ -8,11 +8,9 @@
 
     <ListView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/lvChat2"
-        android:layout_below="@+id/smileTable2"
-        android:layout_toRightOf="@+id/smileTable2"
-        android:layout_toEndOf="@+id/smileTable2"
+        android:layout_above="@+id/smileTable2"
         android:background="@color/white" />
 
     <ImageView

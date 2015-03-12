@@ -28,7 +28,6 @@
     <ImageButton
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text=">"
         android:id="@+id/button2"
         android:layout_above="@+id/smileTable1"
         android:visibility="visible"

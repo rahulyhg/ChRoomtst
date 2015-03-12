@@ -31,6 +31,9 @@
         android:id="@+id/editTexti"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/button2i"
-        android:layout_toLeftOf="@+id/button2i" />
+        android:layout_toLeftOf="@+id/button2i"
+        android:background="@drawable/cornerstxt"
+        android:minHeight="50dp"
+        android:maxHeight="150dp" />
 
 </RelativeLayout>
