@@ -11,7 +11,7 @@
         android:background="@color/green"
         android:id="@+id/topRow">
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:id="@+id/profileBack"
@@ -19,7 +19,10 @@
             android:textStyle="bold"
             android:text="←"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:src="@drawable/back_left"
+            android:padding="10dp"
+            android:scaleType="fitCenter" />
     </RelativeLayout>
     <ScrollView
         android:layout_width="wrap_content"
@@ -49,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/profileGlass"
-            android:background="#770FB470"
+            android:background="@color/whiteglass"
             android:visibility="visible">
             </ImageView>
 
@@ -145,10 +148,14 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textColor="@color/white"
-            android:background="@color/greenlight"
+            android:background="@color/blackglass"
             android:textStyle="bold"
             android:visibility="visible"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:minHeight="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:maxHeight="100dp" />
     </RelativeLayout>
 
 

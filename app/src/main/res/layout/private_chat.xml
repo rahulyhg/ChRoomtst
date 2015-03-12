@@ -47,7 +47,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:padding="5dp"
+            android:padding="10dp"
             android:src="@drawable/screpka"
             android:scaleType="fitCenter" />
 
@@ -73,7 +73,8 @@
             android:src="@drawable/star"
             android:background="@drawable/but_green"
             android:scaleType="centerInside"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:padding="10dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -93,8 +94,8 @@
             android:id="@+id/swipe_container_private"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/sendText"
-            android:layout_marginBottom="10dp">
+            android:layout_above="@+id/imageView5"
+            android:layout_marginBottom="15dp">
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -124,7 +125,9 @@
             android:layout_alignParentEnd="true"
             android:src="@drawable/knopka200"
             android:scaleType="fitCenter"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -135,7 +138,10 @@
             android:layout_toRightOf="@+id/buttonSmile"
             android:layout_toEndOf="@+id/buttonSmile"
             android:minHeight="50dp"
-            android:background="@drawable/cornerstxt" />
+            android:background="@drawable/cornerstxt"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
 
         <ImageButton
             android:layout_width="50dp"
@@ -147,7 +153,9 @@
             android:layout_alignParentStart="true"
             android:src="@drawable/smile_circle"
             android:background="@android:color/transparent"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp" />
 
     </RelativeLayout>
 

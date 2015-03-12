@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -72,7 +73,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         profileSex = (TextView) findViewById(R.id.etProfile2Sex);
         searchSex = (TextView) findViewById(R.id.etProfile2SearchSex);
         RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
-        Button back = (Button) findViewById(R.id.profileBack);
+        ImageButton back = (ImageButton) findViewById(R.id.profileBack);
         profileGlass = (ImageView) findViewById(R.id.profileGlass);
         photo1 = (ImageView) findViewById(R.id.photo1);
         photo2 = (ImageView) findViewById(R.id.photo2);
@@ -102,32 +103,32 @@ public class Profile2 extends Activity implements View.OnClickListener {
                 back.setBackgroundResource(R.color.blue);
                 tvProfInfo.setBackgroundResource(R.color.blue);
                 tvProfPhoto.setBackgroundResource(R.color.blue);
-                tvProfStat.setBackgroundResource(R.color.bluelight);
-                profileGlass.setBackgroundResource(R.color.blueglass);
+                //tvProfStat.setBackgroundResource(R.color.bluelight);
+                //profileGlass.setBackgroundResource(R.color.blueglass);
                 butSend.setBackgroundResource(R.drawable.but_blue);
             } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 back.setBackgroundResource(R.color.green);
                 tvProfInfo.setBackgroundResource(R.color.green);
                 tvProfPhoto.setBackgroundResource(R.color.green);
-                tvProfStat.setBackgroundResource(R.color.greenlight);
-                profileGlass.setBackgroundResource(R.color.greenglass);
+                //tvProfStat.setBackgroundResource(R.color.greenlight);
+                //profileGlass.setBackgroundResource(R.color.greenglass);
                 butSend.setBackgroundResource(R.drawable.but_green);
             } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 back.setBackgroundResource(R.color.orange);
                 tvProfInfo.setBackgroundResource(R.color.orange);
                 tvProfPhoto.setBackgroundResource(R.color.orange);
-                tvProfStat.setBackgroundResource(R.color.orangelight);
-                profileGlass.setBackgroundResource(R.color.orangeglass);
+                //tvProfStat.setBackgroundResource(R.color.orangelight);
+                //profileGlass.setBackgroundResource(R.color.orangeglass);
                 butSend.setBackgroundResource(R.drawable.but_orange);
             } else if (col == 3) {
                 topRow.setBackgroundResource(R.color.purple);
                 back.setBackgroundResource(R.color.purple);
                 tvProfInfo.setBackgroundResource(R.color.purple);
                 tvProfPhoto.setBackgroundResource(R.color.purple);
-                tvProfStat.setBackgroundResource(R.color.purplelight);
-                profileGlass.setBackgroundResource(R.color.purpleglass);
+                //tvProfStat.setBackgroundResource(R.color.purplelight);
+                //profileGlass.setBackgroundResource(R.color.purpleglass);
                 butSend.setBackgroundResource(R.drawable.but_purple);
             }
         }
@@ -146,7 +147,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         butKiss.setOnClickListener(this);
         profilePhoto = (ImageView) findViewById(R.id.ivProfilePhoto);
         smallProfilePhoto = (ImageView) findViewById(R.id.profileSmallPhoto);
-        Button butBack = (Button) findViewById(R.id.profileBack);
+        ImageButton butBack = (ImageButton) findViewById(R.id.profileBack);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

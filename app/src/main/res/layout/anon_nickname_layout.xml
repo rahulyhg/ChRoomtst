@@ -10,7 +10,7 @@
         android:background="@color/green"
         android:id="@+id/topRow_sp">
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:id="@+id/setBack"
@@ -18,7 +18,20 @@
             android:background="@color/green"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:src="@drawable/back_left"
+            android:scaleType="fitCenter"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Анонимный ник"
+            android:id="@+id/textView17"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/setBack"
+            android:layout_toEndOf="@+id/setBack"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
     <LinearLayout
@@ -29,7 +42,8 @@
         android:layout_gravity="center"
         android:divider="#00ffffff"
         android:showDividers="middle"
-        android:layout_weight="50">
+        android:layout_weight="50"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -45,12 +59,14 @@
         <EditText
             android:layout_width="276dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etNick" />
+            android:id="@+id/etNick"
+            android:gravity="center" />
 
         <Button
-            android:layout_width="162dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Готово"
-            android:id="@+id/readyButton" />
+            android:id="@+id/readyButton"
+            android:background="@drawable/cornerstxt" />
     </LinearLayout>
 </LinearLayout>

@@ -20,7 +20,8 @@
         android:layout_alignTop="@+id/imgSex"
         android:layout_toRightOf="@+id/imgSex"
         android:layout_weight="1"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginLeft="7dp" />
 
     <TextView
         android:id="@+id/messagAnon"
@@ -32,6 +33,7 @@
         android:layout_toRightOf="@id/imgSex"
         android:textStyle="italic"
         android:gravity="left"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginLeft="7dp" />
 
 </RelativeLayout>

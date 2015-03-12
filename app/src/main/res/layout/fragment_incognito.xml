@@ -24,8 +24,8 @@
         android:paddingLeft="30dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:src="@drawable/incognito_jm"
             android:id="@+id/ivIncognitoJm"
             android:scaleType="fitCenter"
@@ -38,7 +38,8 @@
             android:id="@+id/tvSubIncognitoJm"
             android:layout_gravity="center"
             android:textColor="#222222"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginLeft="7dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,8 +57,8 @@
         android:paddingLeft="30dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivIncognitoMj"
             android:src="@drawable/incognito_mj"
             android:scaleType="fitCenter" />
@@ -69,7 +70,8 @@
             android:id="@+id/tvSubIncognitoMj"
             android:layout_gravity="center"
             android:textColor="#222222"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginLeft="5dp" />
 
     </LinearLayout>
 
@@ -88,8 +90,8 @@
         android:paddingLeft="30dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivIncognitoRand"
             android:src="@drawable/search_random"
             android:scaleType="fitCenter" />
@@ -101,7 +103,8 @@
             android:id="@+id/tvSubIncognitoRand"
             android:layout_gravity="center"
             android:textColor="#222222"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginLeft="5dp" />
 
     </LinearLayout>
 
@@ -120,8 +123,8 @@
         android:paddingLeft="30dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivIncognitoChat"
             android:src="@drawable/icon5a"
             android:scaleType="fitCenter" />
@@ -133,6 +136,7 @@
             android:id="@+id/tvSubIncognitoChat"
             android:layout_gravity="center"
             android:textColor="#222222"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginLeft="5dp" />
     </LinearLayout>
 </LinearLayout>

@@ -32,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -107,7 +108,7 @@ public class Profile extends Activity {
 //setContentView(R.layout.tab_incognito);
         mPicasso = Picasso.with(getApplicationContext());
         RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
-        Button back = (Button) findViewById(R.id.profileBack);
+        ImageButton back = (ImageButton) findViewById(R.id.profileBack);
         profileGlass = (ImageView) findViewById(R.id.profileGlass);
         photo1 = (ImageView) findViewById(R.id.photo1);
         photo2 = (ImageView) findViewById(R.id.photo2);
@@ -180,32 +181,32 @@ public class Profile extends Activity {
                 saveProfile.setBackgroundResource(R.color.blue);
                 tvProfInfo.setBackgroundResource(R.color.blue);
                 tvProfPhoto.setBackgroundResource(R.color.blue);
-                tvProfStat.setBackgroundResource(R.color.bluelight);
-                profileGlass.setBackgroundResource(R.color.blueglass);
+                //tvProfStat.setBackgroundResource(R.color.bluelight);
+                //profileGlass.setBackgroundResource(R.color.blueglass);
             } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 back.setBackgroundResource(R.color.green);
                 tvProfInfo.setBackgroundResource(R.color.green);
                 tvProfPhoto.setBackgroundResource(R.color.green);
                 saveProfile.setBackgroundResource(R.color.green);
-                tvProfStat.setBackgroundResource(R.color.greenlight);
-                profileGlass.setBackgroundResource(R.color.greenglass);
+                //tvProfStat.setBackgroundResource(R.color.greenlight);
+                //profileGlass.setBackgroundResource(R.color.greenglass);
             } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 back.setBackgroundResource(R.color.orange);
                 tvProfInfo.setBackgroundResource(R.color.orange);
                 saveProfile.setBackgroundResource(R.color.orange);
                 tvProfPhoto.setBackgroundResource(R.color.orange);
-                tvProfStat.setBackgroundResource(R.color.orangelight);
-                profileGlass.setBackgroundResource(R.color.orangeglass);
+                //tvProfStat.setBackgroundResource(R.color.orangelight);
+                //profileGlass.setBackgroundResource(R.color.orangeglass);
             } else if (col == 3) {
                 topRow.setBackgroundResource(R.color.purple);
                 back.setBackgroundResource(R.color.purple);
                 tvProfInfo.setBackgroundResource(R.color.purple);
                 saveProfile.setBackgroundResource(R.color.purple);
                 tvProfPhoto.setBackgroundResource(R.color.purple);
-                tvProfStat.setBackgroundResource(R.color.purplelight);
-                profileGlass.setBackgroundResource(R.color.purpleglass);
+                //tvProfStat.setBackgroundResource(R.color.purplelight);
+                //profileGlass.setBackgroundResource(R.color.purpleglass);
             }
         }
         saveProfile.setVisibility(View.INVISIBLE);
@@ -258,7 +259,7 @@ public class Profile extends Activity {
             }
         }
 
-        Button butBack = (Button) findViewById(R.id.profileBack);
+        ImageButton butBack = (ImageButton) findViewById(R.id.profileBack);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -512,7 +513,7 @@ public class Profile extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             sp=familySpin.getSelectedItemPosition();
-            reg=10*familySpin.getSelectedItemPosition();
+            reg=10*regionSpin.getSelectedItemPosition();
         }
         @Override
         protected JSONObject doInBackground(String... args) {

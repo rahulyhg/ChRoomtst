@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -28,7 +29,7 @@ public class anon_nickname extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.anon_nickname_layout);
 
-        Button butBack=(Button)findViewById(R.id.setBack);
+        ImageButton butBack=(ImageButton)findViewById(R.id.setBack);
         Button readyBut=(Button)findViewById(R.id.readyButton);
         nick = (EditText)findViewById(R.id.etNick);
         readyBut.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +120,7 @@ public class anon_nickname extends Activity {
                 if(status.equals("false"))
                 {
                     Toast.makeText(getApplicationContext(), "Анонимный ник успешно изменён!", Toast.LENGTH_LONG).show();
+                    close();
                 }
                 else
                 {
@@ -133,5 +135,10 @@ public class anon_nickname extends Activity {
                 = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    void close()
+    {
+        this.finish();
     }
 }

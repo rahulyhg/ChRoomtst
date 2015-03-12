@@ -97,7 +97,7 @@ public class SearchRandom extends Fragment {
                 sensorManager.registerListener(listener, sensorGravity,
                         SensorManager.SENSOR_DELAY_NORMAL);
 
-                new Searching().execute();
+
 
 
             }
@@ -147,6 +147,7 @@ public class SearchRandom extends Fragment {
                             /*Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                             long milliseconds = 1000;
                             v.vibrate(milliseconds);*/
+                            new Searching().execute();
                             sensorManager.unregisterListener(listener);
                     }
                     break;

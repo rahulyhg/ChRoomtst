@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/img"
         android:layout_toRightOf="@+id/img"
-        android:layout_weight="1"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginLeft="7dp" />
 
     <TextView
         android:id="@+id/messag"
@@ -30,8 +30,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="2dip"
         android:layout_toRightOf="@id/img"
-        android:textStyle="italic"
         android:gravity="left"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_marginLeft="9dp" />
 
 </RelativeLayout>

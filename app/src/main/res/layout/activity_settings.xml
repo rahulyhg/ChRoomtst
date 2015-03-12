@@ -19,6 +19,16 @@
             android:scaleType="fitCenter"
             android:padding="10dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Настройки"
+            android:id="@+id/textView23"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/setBack"
+            android:layout_toEndOf="@+id/setBack" />
+
 
     </RelativeLayout>
 
@@ -44,8 +54,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/privatnost"
                 android:id="@+id/ivSetPrivate"
                 android:scaleType="fitCenter"
@@ -76,8 +86,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/koshelek"
                 android:id="@+id/ivSetWallet"
                 android:scaleType="fitCenter"
@@ -108,8 +118,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/koshelek"
                 android:id="@+id/ivSetChatSet"
                 android:scaleType="fitCenter"
@@ -139,8 +149,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/cvet_chata"
                 android:id="@+id/ivSetColor"
                 android:scaleType="fitCenter"
@@ -170,8 +180,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/like2"
                 android:id="@+id/ivSetRate"
                 android:scaleType="fitCenter"
@@ -202,8 +212,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/o_kompanii"
                 android:id="@+id/ivSetAbout"
                 android:scaleType="fitCenter"
@@ -234,8 +244,8 @@
             android:background="@drawable/but_gray">
 
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/vihod_exit"
                 android:id="@+id/ivSetExit"
                 android:scaleType="fitCenter"
