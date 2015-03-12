@@ -112,36 +112,30 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
 
         holder.tvTime.setGravity(Gravity.RIGHT);
         holder.tvMsg.setGravity(Gravity.LEFT);
-        if(year == cyear)
-        {
-            if(month == cmonth)
-            {
-                if(day == cday)
-                {
-                    holder.tvTime.setText(dateTime[1]);
-                }
-                else
-                {
-                    day++;
-                    if(day == cday)
-                    {
-                        holder.tvTime.setText("Вчера");
+        if(!date[0].equals("0000")) {
+            if (year == cyear) {
+                if (month == cmonth) {
+                    if (day == cday) {
+                        holder.tvTime.setText(dateTime[1]);
+                    } else {
+                        day++;
+                        if (day == cday) {
+                            holder.tvTime.setText("Вчера");
+                        } else {
+                            holder.tvTime.setText(dateTime[0]);
+                        }
                     }
-                    else
-                    {
-                        holder.tvTime.setText(dateTime[0]);
-                    }
-                }
 
-            }
-            else
-            {
+                } else {
+                    holder.tvTime.setText(dateTime[0]);
+                }
+            } else {
                 holder.tvTime.setText(dateTime[0]);
             }
         }
         else
         {
-            holder.tvTime.setText(dateTime[0]);
+            holder.tvTime.setText("");
         }
 
         Picasso.with(getContext()).load(p.picURL).transform(new PicassoRoundTransformation()).fit().into(holder.img);

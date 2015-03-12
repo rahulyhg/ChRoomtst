@@ -46,6 +46,7 @@ public class SearchResult extends Activity {
     JSONObject reqJson = null;
     int count = 0;
     boolean state = true;
+    boolean notAll = true;
     PopupWindow filterPopup;
     Button backButton;
     ImageButton butFilter;
@@ -115,7 +116,9 @@ public class SearchResult extends Activity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (scrolling < firstVisibleItem && state) {
                         state = false;
+                    if(notAll) {
                         new Searching().execute();
+                    }
 
                 }
                 scrolling = firstVisibleItem;
@@ -180,6 +183,7 @@ public class SearchResult extends Activity {
                     e.printStackTrace();
                 }
                 if(num.equals("0")) {
+                    notAll=false;
                     //Toast.makeText(getActivity().getApplicationContext(), String.valueOf(sexSpinner.getSelectedItemId()), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), "Больше нет результатов!", Toast.LENGTH_SHORT).show();
                 }
