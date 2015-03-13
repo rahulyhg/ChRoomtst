@@ -156,6 +156,11 @@ public class SearchResult extends Activity {
         }
         @Override
         protected JSONObject doInBackground(String... args) {
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             JSONParser jParser = new JSONParser();
             SearchParam.getParams(jParser);
             jParser.setParam("page",String.valueOf(page));
@@ -167,7 +172,7 @@ public class SearchResult extends Activity {
         protected void onPostExecute(JSONObject json) {
             //pDialog.dismiss();
             String status = "";
-
+            Log.e("otvet", json.toString());
             try {
                 status = json.getString("error");
             } catch (JSONException e) {
