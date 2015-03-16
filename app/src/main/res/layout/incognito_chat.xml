@@ -14,26 +14,148 @@
         android:layout_above="@+id/editTexti"
         android:background="@color/white" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView16"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/white"
+        android:src="@drawable/tmp2"
+        android:scaleType="fitXY"
+        android:layout_marginTop="-10dp"
+        android:layout_alignTop="@+id/editTexti"
+        android:layout_alignBottom="@+id/editTexti"
+        android:maxHeight="160dp" />
+
     <ImageButton
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/button2i"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/knopka200"
         android:scaleType="fitCenter"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_above="@+id/smileTablei" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=":)"
+        android:id="@+id/butSmilei"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/smileTablei"
+        android:visibility="visible"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/smile_circle"
+        android:background="@color/white"
+        android:scaleType="fitCenter"
+        android:padding="5dp"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTexti"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_toStartOf="@+id/button2i"
         android:layout_toLeftOf="@+id/button2i"
         android:background="@drawable/cornerstxt"
-        android:minHeight="50dp"
-        android:maxHeight="150dp" />
+        android:minHeight="40dp"
+        android:maxHeight="150dp"
+        android:layout_toRightOf="@+id/butSmilei"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_above="@+id/smileTablei"
+        android:layout_alignWithParentIfMissing="true" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/white"
+        android:id="@+id/smileTablei"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i1"
+                android:src="@drawable/s01" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i2"
+                android:src="@drawable/s02" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i3"
+                android:src="@drawable/s03" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i4"
+                android:src="@drawable/s04" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i5"
+                android:src="@drawable/s05" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i6"
+                android:src="@drawable/s06" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i7"
+                android:src="@drawable/s07" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i8"
+                android:src="@drawable/s08" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i9"
+                android:src="@drawable/s09" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/s0i0"
+                android:src="@drawable/s10" />
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>

@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 
 public class Notifications extends Activity {
@@ -26,20 +28,24 @@ public class Notifications extends Activity {
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
     final String SAVED_LASTID="lastid";
+    final String SAVED_COLOR="color";
 
-    SharedPreferences Notif;
+    SharedPreferences Notif, sPref;
     SharedPreferences.Editor ed2;
+
+    RelativeLayout topRow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        Button butBack=(Button)findViewById(R.id.setBack);
+        ImageButton butBack=(ImageButton)findViewById(R.id.setBack);
         notifications = (CheckBox)findViewById(R.id.checkBox1);
         sound = (CheckBox)findViewById(R.id.checkBox2);
         vibro = (CheckBox)findViewById(R.id.checkBox3);
         indicator = (CheckBox)findViewById(R.id.checkBox4);
+        topRow=(RelativeLayout)findViewById(R.id.topRow_sp);
 
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         ed2 = Notif.edit();
@@ -194,6 +200,8 @@ public class Notifications extends Activity {
                 closeMe();
             }
         });
+
+        setColor();
     }
 
 
@@ -222,4 +230,25 @@ public class Notifications extends Activity {
     public void closeMe(){
         this.finish();
     }
+
+    private void setColor(){
+        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
+        int col=sPref.getInt(SAVED_COLOR, 0);
+        switch (col) {
+            case 0:
+                topRow.setBackgroundResource(R.color.green);
+                break;
+            case 1:
+                topRow.setBackgroundResource(R.color.blue);
+                break;
+            case 2:
+                topRow.setBackgroundResource(R.color.orange);
+                break;
+            case 3:
+                topRow.setBackgroundResource(R.color.purple);
+                break;
+            default:
+                break;
+        }
+    };
 }

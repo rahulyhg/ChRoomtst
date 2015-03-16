@@ -49,14 +49,15 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         holder.tvMsg.setMaxWidth((int)test);
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.tvMsg.getLayoutParams();
         String k = holder.tvMsg.getText().toString();
-        if (k.length() == 1)
+        holder.tvMsg.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
+        /*if (k.length() == 1)
         {
             holder.tvMsg.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
         }
         else
         {
             holder.tvMsg.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
-        }
+        }*/
 //Check whether message is mine to show green background and align to right
         if(p.direction.equals("0"))
         {

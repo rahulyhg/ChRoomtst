@@ -171,6 +171,12 @@ public class SearchRandom extends Fragment {
     public void onResume() {
         super.onResume();
         setColor();
+        sensorManager.registerListener(listener, sensorAccel,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(listener, sensorLinAccel,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(listener, sensorGravity,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override

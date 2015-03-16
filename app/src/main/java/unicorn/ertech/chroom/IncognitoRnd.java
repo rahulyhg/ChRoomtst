@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ public class IncognitoRnd  extends Fragment {
     Sensor sensorAccel;
     Sensor sensorLinAccel;
     Sensor sensorGravity;
+    Animation myAnim;
     ImageView buttonStart;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
@@ -76,6 +79,23 @@ public class IncognitoRnd  extends Fragment {
         Typeface tface = Typeface.createFromAsset(getActivity().getAssets(), "FiraSans-Regular.ttf");
         tvText.setTypeface(tface);
         buttonStart = (ImageView) view.findViewById(R.id.ivIncognitoRnd);
+        myAnim = AnimationUtils.loadAnimation(context, R.anim.vibro_anim);
+        myAnim.setRepeatCount(10);
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                buttonStart.startAnimation(myAnim);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        buttonStart.startAnimation(myAnim);
         SharedPreferences sPref;
         sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
         if (sPref.contains(SAVED_COLOR)) {
@@ -148,6 +168,7 @@ public class IncognitoRnd  extends Fragment {
                         /*Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
                         long milliseconds = 1000;
                         v.vibrate(milliseconds);*/
+                        new Searching().execute();
                         sensorManager.unregisterListener(listener);
                     }
                     break;
@@ -316,5 +337,11 @@ public class IncognitoRnd  extends Fragment {
                 buttonStart.setImageResource(R.drawable.search_randomp);
             }
         }
+        sensorManager.registerListener(listener, sensorAccel,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(listener, sensorLinAccel,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(listener, sensorGravity,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 }

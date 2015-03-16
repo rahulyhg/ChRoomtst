@@ -133,7 +133,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:maxHeight="100dp"
-                    android:maxLines="3" />
+                    android:maxLength="120" />
             </RelativeLayout>
 
         <LinearLayout
@@ -341,8 +341,9 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/spinProfileSearchSex"
                         android:entries="@array/sex"
-                        android:spinnerMode="dropdown"
+                        android:spinnerMode="dialog"
                         android:layout_marginLeft="15dp"
+                        android:padding="7dp"
                         android:background="@drawable/corners" />
                 </TableRow>
 
@@ -366,8 +367,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/spinnerProfileSex"
                     android:entries="@array/sex"
-                    android:spinnerMode="dropdown"
+                    android:spinnerMode="dialog"
                     android:layout_marginLeft="15dp"
+                    android:padding="7dp"
                     android:background="@drawable/corners" />
             </TableRow>
 

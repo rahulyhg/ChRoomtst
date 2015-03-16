@@ -25,73 +25,123 @@
             android:text="Цветовая схема"
             android:id="@+id/textView19"
             android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/setBack"
-            android:layout_toEndOf="@+id/setBack" />
+            android:layout_centerInParent="true"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:divider="@drawable/rect"
-        android:showDividers="middle"
         android:layout_weight="50"
         android:layout_gravity="top"
-        android:weightSum="50">
+        android:weightSum="50"
+        android:background="@color/white">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Цветовая схема"
-            android:id="@+id/tvSetColorLogo"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:layout_gravity="top"
-            android:layout_weight="10" />
+            android:layout_weight="8"
+            android:layout_marginTop="45dp">
 
-        <Button
-            android:layout_width="422dp"
-            android:layout_height="wrap_content"
-            android:text="Зелёный"
-            android:id="@+id/setGreen"
-            android:background="@drawable/but_green"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:layout_weight="10" />
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/setGreen"
+                android:background="@drawable/but_green_c"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:layout_marginLeft="75dp" />
 
-        <Button
-            android:layout_width="419dp"
-            android:layout_height="wrap_content"
-            android:text="Синий"
-            android:id="@+id/setBlue"
-            android:background="@drawable/but_blue"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:layout_weight="10" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Зелёный"
+                android:id="@+id/textView26"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-        <Button
-            android:layout_width="426dp"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Оранжевый"
-            android:id="@+id/setOrange"
-            android:background="@drawable/but_orange"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:layout_weight="10" />
+            android:layout_weight="8" >
 
-        <Button
-            android:layout_width="422dp"
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/setBlue"
+                android:background="@drawable/but_blue_c"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:layout_marginLeft="75dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Синий"
+                android:id="@+id/textView27"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Фиолетовый"
-            android:id="@+id/setPurple"
-            android:background="@drawable/but_purple"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:layout_weight="10" />
+            android:layout_weight="8" >
+
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/setOrange"
+                android:background="@drawable/but_orange_c"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:layout_marginLeft="75dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Оранжевый"
+                android:id="@+id/textView28"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8" >
+
+            <Button
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/setPurple"
+                android:background="@drawable/but_purple_c"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/white"
+                android:layout_marginLeft="75dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Розовый"
+                android:id="@+id/textView29"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

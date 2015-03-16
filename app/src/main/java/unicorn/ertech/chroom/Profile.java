@@ -534,6 +534,8 @@ public class Profile extends Activity {
             jParser.setParam("herefor5", Integer.toString(selectedHere[4]));
             jParser.setParam("sp", Integer.toString(sp));
             jParser.setParam("region", Integer.toString(reg));
+            jParser.setParam("sex", profileSex.getSelectedItem().toString());
+            jParser.setParam("lookingfor", searchSex.getSelectedItem().toString());
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
             jParser.setParam("status", tvProfStat.getText().toString());

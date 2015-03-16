@@ -5,42 +5,9 @@
     android:orientation="vertical"
     android:showDividers="middle"
     android:divider="@drawable/rect"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:weightSum="50">
 
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:showDividers="beginning"
-        android:id="@+id/layIncognitoJm"
-        android:background="@drawable/but_gray"
-        android:layout_gravity="center_vertical"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="30dp">
-
-        <ImageView
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:src="@drawable/incognito_jm"
-            android:id="@+id/ivIncognitoJm"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ищу парня"
-            android:id="@+id/tvSubIncognitoJm"
-            android:layout_gravity="center"
-            android:textColor="#222222"
-            android:textSize="20sp"
-            android:layout_marginLeft="7dp" />
-    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -54,14 +21,20 @@
         android:gravity="center_vertical"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
-        android:paddingLeft="30dp">
+        android:paddingLeft="50dp"
+        android:layout_weight="7"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:id="@+id/ivIncognitoMj"
             android:src="@drawable/incognito_mj"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,6 +53,44 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:showDividers="beginning"
+        android:id="@+id/layIncognitoJm"
+        android:background="@drawable/but_gray"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingLeft="50dp"
+        android:layout_weight="7">
+
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:src="@drawable/incognito_jm"
+            android:id="@+id/ivIncognitoJm"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ищу парня"
+            android:id="@+id/tvSubIncognitoJm"
+            android:layout_gravity="center"
+            android:textColor="#222222"
+            android:textSize="20sp"
+            android:layout_marginLeft="7dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="beginning"
         android:id="@+id/layIncognitoRand"
         android:background="@drawable/but_gray"
         android:layout_gravity="center_vertical"
@@ -87,14 +98,19 @@
         android:gravity="center_vertical"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
-        android:paddingLeft="30dp">
+        android:paddingLeft="50dp"
+        android:layout_weight="7">
 
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:id="@+id/ivIncognitoRand"
             android:src="@drawable/search_random"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,14 +136,19 @@
         android:gravity="center_vertical"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
-        android:paddingLeft="30dp">
+        android:paddingLeft="50dp"
+        android:layout_weight="7">
 
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:id="@+id/ivIncognitoChat"
             android:src="@drawable/icon5a"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -25,9 +25,8 @@
             android:text="Приватность"
             android:id="@+id/textView21"
             android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/setBack"
-            android:layout_toEndOf="@+id/setBack" />
+            android:layout_centerInParent="true"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -48,10 +47,9 @@
             android:id="@+id/tvPrivateNick"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:gravity="center" />
+            android:paddingLeft="75dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -60,12 +58,11 @@
             android:id="@+id/tvBlackList"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000000"
             android:clickable="true"
             android:focusable="true"
-            android:gravity="center" />
+            android:paddingLeft="75dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -76,10 +73,9 @@
             android:id="@+id/tvNotifications"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:gravity="center" />
+            android:paddingLeft="75dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -88,9 +84,8 @@
             android:id="@+id/tvDeleteAcc"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="#000000"
-            android:gravity="center" />
+            android:paddingLeft="75dp" />
     </LinearLayout>
 </LinearLayout>

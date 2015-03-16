@@ -10,14 +10,26 @@
         android:background="@color/green"
         android:id="@+id/topRow_sp">
 
-        <Button
+        <ImageButton
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:id="@+id/setBack"
             android:text="←"
-            android:background="@color/green"
+            android:background="@android:color/transparent"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
+            android:textSize="20sp"
+            android:src="@drawable/back_left"
+            android:scaleType="fitCenter"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Настройка оповещений"
+            android:id="@+id/textView24"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
             android:textSize="20sp" />
     </RelativeLayout>
 
@@ -25,60 +37,68 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:gravity="center"
         android:layout_gravity="center"
-        android:divider="@drawable/rect"
-        android:showDividers="middle"
-        android:layout_weight="50">
+        android:layout_weight="50"
+        android:background="@color/white">
 
 
         <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="21sp"
             android:textColor="#000000"
-            android:gravity="center"
             android:text="Оповещения"
             android:id="@+id/checkBox1"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:button="@drawable/checkbox_selector_set"
+            android:checked="false"
+            android:elegantTextHeight="false"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="25dp" />
 
         <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="21sp"
             android:textColor="#000000"
-            android:gravity="center"
             android:text="Звук"
-            android:id="@+id/checkBox2"/>
+            android:id="@+id/checkBox2"
+            android:button="@drawable/checkbox_selector_set"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="25dp" />
 
         <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="21sp"
             android:textColor="#000000"
-            android:gravity="center"
             android:text="Вибрация"
-            android:id="@+id/checkBox3" />
+            android:id="@+id/checkBox3"
+            android:button="@drawable/checkbox_selector_set"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="25dp" />
 
         <CheckBox
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="21sp"
             android:textColor="#000000"
-            android:gravity="center"
             android:text="Индикатор"
-            android:id="@+id/checkBox4" />
+            android:id="@+id/checkBox4"
+            android:button="@drawable/checkbox_selector_set"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="25dp" />
     </LinearLayout>
 </LinearLayout>

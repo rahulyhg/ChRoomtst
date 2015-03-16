@@ -25,7 +25,6 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:showDividers="beginning"
         android:id="@+id/laySearchParam"
         android:background="@drawable/but_gray"
         android:layout_gravity="center_vertical"
@@ -33,11 +32,11 @@
         android:clickable="true"
         android:layout_weight="7"
         android:gravity="center_vertical"
-        android:paddingLeft="30dp">
+        android:paddingLeft="40dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/search_param"
             android:id="@+id/ivSearchParam"
             android:layout_alignParentTop="true"
@@ -68,11 +67,11 @@
         android:background="@drawable/but_gray"
         android:layout_weight="7"
         android:gravity="center_vertical"
-        android:paddingLeft="30dp">
+        android:paddingLeft="40dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivSearchCont"
             android:src="@drawable/search_cont"
             android:layout_alignParentTop="true"
@@ -104,11 +103,11 @@
         android:clickable="true"
         android:layout_weight="7"
         android:gravity="center_vertical"
-        android:paddingLeft="30dp">
+        android:paddingLeft="40dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivSearchInvite"
             android:src="@drawable/search_invite"
             android:layout_alignParentBottom="true"
@@ -138,11 +137,11 @@
         android:id="@+id/laySearchSoc"
         android:layout_weight="7"
         android:gravity="center_vertical"
-        android:paddingLeft="30dp">
+        android:paddingLeft="40dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivSearchSoc"
             android:src="@drawable/search_soc"
             android:layout_marginRight="10dp"
@@ -173,11 +172,11 @@
         android:layout_weight="7"
         android:gravity="center_vertical"
         android:background="@drawable/but_gray"
-        android:paddingLeft="30dp">
+        android:paddingLeft="40dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:id="@+id/ivSearchRand"
             android:src="@drawable/search_random"
             android:layout_margin="10dp"

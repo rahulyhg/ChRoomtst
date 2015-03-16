@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -332,10 +333,10 @@ public class VActivity extends Activity {
 
             Tphone.setText("" + phone.get(position));
             Tname.setText("" + name.get(position));
-            check.setText(phoneS.get(position));
+            //check.setText(phoneS.get(position));
 
 
-            check.setText("Профиль");
+            //check.setText("Профиль");
 
 
             return view;

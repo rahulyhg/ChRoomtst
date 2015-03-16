@@ -20,9 +20,9 @@
         android:layout_above="@+id/smileTable1"
         android:layout_alignWithParentIfMissing="true"
         android:background="@color/white"
-        android:src="@drawable/tmp"
+        android:src="@drawable/tmp2"
         android:scaleType="fitXY"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-10dp"
         android:layout_alignTop="@+id/editText1" />
 
     <ImageButton
@@ -38,7 +38,6 @@
         android:src="@drawable/knopka200"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
-        android:layout_marginBottom="5dp"
         android:padding="5dp" />
 
     <EditText
@@ -53,7 +52,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_toStartOf="@+id/button2"
         android:background="@drawable/cornerstxt"
-        android:minHeight="50dp"
+        android:minHeight="40dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         android:maxHeight="150dp"
@@ -75,7 +74,6 @@
         android:src="@drawable/smile_circle"
         android:background="@color/white"
         android:scaleType="fitCenter"
-        android:layout_marginBottom="5dp"
         android:padding="5dp" />
 
 

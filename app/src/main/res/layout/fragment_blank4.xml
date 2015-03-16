@@ -20,9 +20,9 @@
         android:layout_above="@+id/smileTable4"
         android:layout_alignWithParentIfMissing="true"
         android:background="@color/white"
-        android:src="@drawable/tmp"
+        android:src="@drawable/tmp2"
         android:scaleType="fitXY"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-10dp"
         android:layout_alignTop="@+id/editText4" />
 
     <ImageButton
@@ -38,7 +38,6 @@
             android:scaleType="fitCenter"
             android:background="@android:color/transparent"
         android:layout_above="@+id/smileTable4"
-        android:layout_marginBottom="5dp"
         android:padding="5dp" />
 
     <ImageButton
@@ -55,8 +54,7 @@
         android:background="@color/white"
         android:scaleType="fitCenter"
         android:layout_above="@+id/smileTable4"
-        android:padding="5dp"
-        android:layout_marginBottom="5dp" />
+        android:padding="5dp" />
 
     <EditText
             android:layout_width="fill_parent"
@@ -69,7 +67,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_toStartOf="@+id/button24"
             android:background="@drawable/cornerstxt"
-            android:minHeight="50dp"
+            android:minHeight="40dp"
         android:layout_above="@+id/smileTable4"
         android:maxHeight="150dp"
         android:layout_marginLeft="5dp"

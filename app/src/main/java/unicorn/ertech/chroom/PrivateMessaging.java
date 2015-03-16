@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.*;
@@ -87,7 +88,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     List<pmChatMessage> messages = new ArrayList<pmChatMessage>();
     pmChatAdapter adapter;
     Timer myTimer;
-    Button butBack;
+    ImageButton butBack;
+    TableRow BB;
 
     String token, sendTo, userProfile, favorite;
     boolean firstTime = true;
@@ -111,6 +113,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         nick = (TextView)findViewById(R.id.profileBack);
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         butLists=(ImageButton)findViewById(R.id.ibStar);
+        BB=(TableRow)findViewById(R.id.big_button);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
         dateTime = new Date();
@@ -120,8 +123,10 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             public void onClick(View v) {
                 showPopupMenu(v);
             }});
-        butBack=(Button)findViewById(R.id.butNewsBack);
-        nick.setOnClickListener(new View.OnClickListener() {
+        butBack=(ImageButton)findViewById(R.id.butNewsBack);
+        findSmiles();
+
+        BB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = getApplicationContext();
@@ -131,13 +136,6 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 i.putExtra("nick",nick.getText());
                 i.putExtra("avatar",picUrl);
                 startActivity(i);
-            }
-        });
-        findSmiles();
-        avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                butBack.callOnClick();
             }
         });
 
@@ -195,14 +193,25 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onClick(View v) {
+
+                Log.i("size of listview", Integer.toString(lvChat.getHeight()));
+                Log.i("size of listview", Integer.toString(lvChat.getMeasuredHeight()));
                 if (smileTable.getVisibility() == View.GONE) {
+                    //int position=
+                            lvChat.getLastVisiblePosition();
+                    lvChat.refreshDrawableState();
                     smileTable.setVisibility(View.VISIBLE);
+                    //lvChat.smoothScrollToPosition(position+1);
                 } else {
                     smileTable.setVisibility(View.GONE);
                 }
                 butSend.refreshDrawableState();
                 butSmile.refreshDrawableState();
                 txtSend.refreshDrawableState();
+                Log.i("size of listview2", Integer.toString(lvChat.getHeight()));
+                Log.i("size of listview2", Integer.toString(lvChat.getMeasuredHeight()));
+                Log.i("size of listview3", Integer.toString(lvChat.getHeight()));
+
                 //smileTable.refreshDrawableState();
             }
         });
@@ -256,27 +265,23 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             if (col == 1) {
                 topRow.setBackgroundResource(R.color.blue);
                 butBack.setBackgroundResource(R.drawable.but_blue);
-                nick.setBackgroundResource(R.drawable.but_blue);
-                avatar.setBackgroundResource(R.drawable.but_blue);
                 butLists.setBackgroundResource(R.drawable.but_blue);
+                BB.setBackgroundResource(R.drawable.but_blue);
             } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 butBack.setBackgroundResource(R.drawable.but_green);
-                nick.setBackgroundResource(R.drawable.but_green);
-                avatar.setBackgroundResource(R.drawable.but_green);
                 butLists.setBackgroundResource(R.drawable.but_green);
+                BB.setBackgroundResource(R.drawable.but_green);
             } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 butBack.setBackgroundResource(R.drawable.but_orange);
-                nick.setBackgroundResource(R.drawable.but_orange);
-                avatar.setBackgroundResource(R.drawable.but_orange);
                 butLists.setBackgroundResource(R.drawable.but_orange);
+                BB.setBackgroundResource(R.drawable.but_orange);
             } else if(col == 3){
                 topRow.setBackgroundResource(R.color.purple);
                 butBack.setBackgroundResource(R.drawable.but_purple);
-                nick.setBackgroundResource(R.drawable.but_purple);
-                avatar.setBackgroundResource(R.drawable.but_purple);
                 butLists.setBackgroundResource(R.drawable.but_purple);
+                BB.setBackgroundResource(R.drawable.but_purple);
             }
         }else{
             topRow.setBackgroundResource(R.color.green);

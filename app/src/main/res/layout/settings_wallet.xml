@@ -27,9 +27,8 @@
             android:text="Кошелёк"
             android:id="@+id/textView22"
             android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/setBack"
-            android:layout_toEndOf="@+id/setBack" />
+            android:layout_centerInParent="true"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <LinearLayout

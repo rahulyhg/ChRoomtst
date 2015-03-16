@@ -2,6 +2,7 @@ package unicorn.ertech.chroom;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -23,15 +25,20 @@ import org.json.JSONObject;
 public class anon_nickname extends Activity {
 
     EditText nick;
+    SharedPreferences sPref;
+    ImageButton butBack;
+    RelativeLayout topRow;
+    final String SAVED_COLOR="color";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.anon_nickname_layout);
 
-        ImageButton butBack=(ImageButton)findViewById(R.id.setBack);
+        butBack=(ImageButton)findViewById(R.id.setBack);
         Button readyBut=(Button)findViewById(R.id.readyButton);
         nick = (EditText)findViewById(R.id.etNick);
+        topRow =(RelativeLayout)findViewById(R.id.topRow_sp);
         readyBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,8 +64,29 @@ public class anon_nickname extends Activity {
                 closeMe();
             }
         });
+        setColor();
     }
 
+    private void setColor(){
+        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
+        int col=sPref.getInt(SAVED_COLOR, 0);
+        switch (col) {
+            case 0:
+                topRow.setBackgroundResource(R.color.green);
+                break;
+            case 1:
+                topRow.setBackgroundResource(R.color.blue);
+                break;
+            case 2:
+                topRow.setBackgroundResource(R.color.orange);
+                break;
+            case 3:
+                topRow.setBackgroundResource(R.color.purple);
+                break;
+            default:
+                break;
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

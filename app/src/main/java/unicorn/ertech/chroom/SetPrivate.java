@@ -1,6 +1,8 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ public class SetPrivate extends Activity {
     SharedPreferences sPref;
     final String SAVED_COLOR = "color";
     RelativeLayout topRow;
+    AlertDialog.Builder ad;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,23 @@ public class SetPrivate extends Activity {
             }
         });
         topRow=(RelativeLayout)findViewById(R.id.topRow_sp);
+
+        ad = new AlertDialog.Builder(this);
+        ad.setTitle("Удаление профиля");  // заголовок
+        ad.setMessage("Вы уверены, что хотите удалить профиль?"); // сообщение
+        ad.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+            }
+        });
+        ad.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int arg1) {
+            }
+        });
+        ad.setCancelable(true);
+        ad.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+            }
+        });
     }
 
     public void closeMe(){

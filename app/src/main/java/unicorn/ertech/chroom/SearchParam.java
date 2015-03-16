@@ -110,9 +110,11 @@ public class SearchParam extends Fragment {
             if (col == 1) {
                 tvTitle.setBackgroundResource(R.color.blue);
                 butSearch.setBackgroundResource(R.drawable.but_blue);
+                hereforSpinner.setBackgroundResource(R.drawable.spinner_with_arrows_b);
             } else if (col == 0) {
                 tvTitle.setBackgroundResource(R.color.green);
                 butSearch.setBackgroundResource(R.drawable.but_green);
+                hereforSpinner.setBackgroundResource(R.drawable.spinner_with_arrows);
             } else if (col == 2) {
                 tvTitle.setBackgroundResource(R.color.orange);
                 butSearch.setBackgroundResource(R.drawable.but_orange);

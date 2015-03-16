@@ -22,92 +22,72 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Настройки чатов"
+            android:text="Выбор региона чатов"
             android:id="@+id/textView18"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/setBack"
-            android:layout_toEndOf="@+id/setBack"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:divider="@drawable/rect"
-        android:showDividers="middle"
         android:layout_weight="50"
         android:layout_gravity="top"
         android:weightSum="50"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Выбор отображаемых чатов"
-            android:id="@+id/tvSetChatLogo"
-            android:layout_margin="15dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:layout_gravity="top"
-            android:layout_weight="10" />
+            android:text="Регион"
+            android:id="@+id/textView14"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp" />
 
-        <TableRow
+        <Spinner
             android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:id="@+id/spinnerChatRegions"
+            android:entries="@array/regions"
+            android:spinnerMode="dialog"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="10"
-            android:gravity="center_vertical" >
+            android:text="Город"
+            android:id="@+id/textView13"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Город"
-                android:id="@+id/textView13"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnerChatCities"
-                android:entries="@array/cities"
-                android:spinnerMode="dropdown"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/corners" />
-        </TableRow>
-
-        <TableRow
+        <Spinner
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:layout_weight="10"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Регион"
-                android:id="@+id/textView14"
-                android:textColor="@color/black"
-                android:layout_marginLeft="10dp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnerChatRegions"
-                android:entries="@array/regions"
-                android:spinnerMode="dropdown"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/corners" />
-        </TableRow>
+            android:layout_height="50dp"
+            android:id="@+id/spinnerChatCities"
+            android:entries="@array/cities"
+            android:spinnerMode="dialog"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_horizontal" />
 
 
     </LinearLayout>
+
 </LinearLayout>

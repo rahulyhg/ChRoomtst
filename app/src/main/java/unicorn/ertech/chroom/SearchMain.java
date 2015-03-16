@@ -179,13 +179,6 @@ public class SearchMain extends Fragment {
                 search_parent.startShare();
             };
         });
-
-        Animation pulse = AnimationUtils.loadAnimation(getActivity(), R.anim.pulse_animation);
-        Animation slide = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_animation);
-
-        // при запуске начинаем с эффекта увеличения
-        ivSoc.startAnimation(pulse);
-        ivRandom.startAnimation(slide);
         return view;
     }
 
