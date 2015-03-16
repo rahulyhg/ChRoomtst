@@ -82,7 +82,7 @@ public class SearchParam extends Fragment {
             public void onClick(View v) {
                 if(cb.isChecked())
                 {
-                    online="0";
+                    online="";
                 }
                 else
                 {
@@ -134,7 +134,7 @@ public class SearchParam extends Fragment {
             super.onPreExecute();
             String s = String.valueOf(sexSpinner.getSelectedItemId());
             //region = regionSpinner.getSelectedItem().toString();
-            region = "10";
+            region = "";
 
             pDialog = new ProgressDialog(context);
             pDialog.setMessage("Ищем ...");
@@ -162,7 +162,13 @@ public class SearchParam extends Fragment {
 
             jParser.setParam("region", region);
             jParser.setParam("online", online);
-            jParser.setParam("herefor",String.valueOf(hereforSpinner.getSelectedItemId()));
+            if(hereforSpinner.getSelectedItemId()==0)
+            {
+                jParser.setParam("herefor", "");
+            }
+            else {
+                jParser.setParam("herefor", String.valueOf(hereforSpinner.getSelectedItemId()));
+            }
             jParser.setParam("city", city.getText().toString());
             jParser.setParam("age_from", age_from.getText().toString());
             jParser.setParam("age_till", age_till.getText().toString());

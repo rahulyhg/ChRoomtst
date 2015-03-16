@@ -256,6 +256,11 @@ public class anonMessaging extends Activity {
                                 openQuitDialog();
                             }
 
+                            if(s.equals("7"))//собеседник вышел из переписки
+                            {
+                                openLeaveDialog();
+                            }
+
                             if(s.equals("4"))//профили взаимно открыты
                             {
                                 Intent in = new Intent(getApplicationContext(),Profile2.class);
@@ -291,8 +296,15 @@ public class anonMessaging extends Activity {
 
     @Override
     public void onDestroy(){
+        new leaving().execute();
         myTimer.cancel();
-        Log.e("json", "destroy");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause(){
+        myTimer.cancel();
+
         super.onDestroy();
     }
 
@@ -316,6 +328,26 @@ public class anonMessaging extends Activity {
         });
 
         quitDialog.show();
+    }
+
+    private void openLeaveDialog() {
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
+                anonMessaging.this);
+        quitDialog.setTitle("Собеседник покинул беседу!");
+
+        quitDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                close();
+            }
+        });
+
+        quitDialog.show();
+    }
+
+    void close()
+    {
+        this.finish();
     }
 
     private class confirm extends AsyncTask<String, String, JSONObject> {
@@ -404,6 +436,56 @@ public class anonMessaging extends Activity {
                     else {
                         Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
                     }
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class leaving extends AsyncTask<String, String, JSONObject> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", Main.str);
+            jParser.setParam("action", "anonimus_pm_send");
+            jParser.setParam("fakeid", userId);
+            jParser.setParam("status", "7");
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+                Log.e("privatesend","555");
+
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (status.equals("false")) {
+                    //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
+                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0");
+                    messages.add(msgCount,p);
+                    msgCount++;
+                    adapter.notifyDataSetChanged();
+                    lvChat.setSelection(adapter.getCount());
+                    txtSend.setText("");
+                } else {
+                    Toast.makeText(getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
                 }
             }
             else

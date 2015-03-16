@@ -539,6 +539,8 @@ public class Profile extends Activity {
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
             jParser.setParam("status", tvProfStat.getText().toString());
+            jParser.setParam("sex",String.valueOf(profileSex.getSelectedItemId()));
+            jParser.setParam("lookingfor",String.valueOf(searchSex.getSelectedItemId()));
 // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
