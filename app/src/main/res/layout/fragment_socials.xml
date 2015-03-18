@@ -14,8 +14,11 @@
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:background="@drawable/but_gray"
+        android:id="@+id/layVk">
 
         <ImageButton
             android:id="@+id/vkontakte_button"
@@ -40,8 +43,11 @@
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:background="@drawable/but_gray"
+        android:id="@+id/layFace">
 
         <ImageButton
             android:id="@+id/facebook_button"
@@ -66,8 +72,11 @@
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:background="@drawable/but_gray"
+        android:id="@+id/layTwit">
 
         <ImageButton
             android:id="@+id/twitter_button"
@@ -92,8 +101,11 @@
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:background="@drawable/but_gray"
+        android:id="@+id/layOk">
 
         <ImageButton
             android:id="@+id/odk_button"

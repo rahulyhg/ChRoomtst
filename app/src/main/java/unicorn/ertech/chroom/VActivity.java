@@ -333,10 +333,11 @@ public class VActivity extends Activity {
 
             Tphone.setText("" + phone.get(position));
             Tname.setText("" + name.get(position));
-            //check.setText(phoneS.get(position));
+            check.setText(phoneS.get(position));
+            check.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.back_right), null);
 
 
-            //check.setText("Профиль");
+            check.setText("Профиль");
 
 
             return view;
@@ -470,7 +471,7 @@ public class VActivity extends Activity {
 
                             }
                             else
-                            //if (check.equals("true"))
+                            if (check.equals("true"))
                             {
                                 if (jObject.getString("error_code") != null)
                                 {

@@ -193,15 +193,16 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onClick(View v) {
-
+                int savedPosition = lvChat.getFirstVisiblePosition();
+                View firstVisibleView = lvChat.getChildAt(0);
+                int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();
                 Log.i("size of listview", Integer.toString(lvChat.getHeight()));
                 Log.i("size of listview", Integer.toString(lvChat.getMeasuredHeight()));
                 if (smileTable.getVisibility() == View.GONE) {
-                    //int position=
-                            lvChat.getLastVisiblePosition();
-                    lvChat.refreshDrawableState();
+                    //int position=lvChat.getFirstVisiblePosition();
                     smileTable.setVisibility(View.VISIBLE);
                     //lvChat.smoothScrollToPosition(position+1);
+                    //lvChat.setSelectionFromTop(position, 20);
                 } else {
                     smileTable.setVisibility(View.GONE);
                 }
@@ -212,6 +213,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 Log.i("size of listview2", Integer.toString(lvChat.getMeasuredHeight()));
                 Log.i("size of listview3", Integer.toString(lvChat.getHeight()));
 
+                if (savedPosition >= 0) { //initialized to -1
+                    lvChat.setSelectionFromTop(savedPosition, savedListTop);
+                }
                 //smileTable.refreshDrawableState();
             }
         });

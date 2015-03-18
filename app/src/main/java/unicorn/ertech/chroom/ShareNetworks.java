@@ -181,6 +181,10 @@ public class ShareNetworks extends Fragment {
         view.findViewById(R.id.facebook_button).setOnClickListener(fb);
         view.findViewById(R.id.twitter_button).setOnClickListener(twitter);
         view.findViewById(R.id.odk_button).setOnClickListener(ok);
+        view.findViewById(R.id.layVk).setOnClickListener(vk);
+        view.findViewById(R.id.layFace).setOnClickListener(fb);
+        view.findViewById(R.id.layTwit).setOnClickListener(twitter);
+        view.findViewById(R.id.layOk).setOnClickListener(ok);
 
         canPresentShareDialog = FacebookDialog.canPresentShareDialog(getActivity(),
                 FacebookDialog.ShareDialogFeature.SHARE_DIALOG);

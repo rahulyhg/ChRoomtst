@@ -72,6 +72,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         birthDay = (TextView) findViewById(R.id.tvBirthday2);
         profileSex = (TextView) findViewById(R.id.etProfile2Sex);
         searchSex = (TextView) findViewById(R.id.etProfile2SearchSex);
+        searchSex.selecti
         RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
         ImageButton back = (ImageButton) findViewById(R.id.profileBack);
         profileGlass = (ImageView) findViewById(R.id.profileGlass);

@@ -351,15 +351,17 @@ public class syncContacts extends Activity {
 
             Tphone.setText("" + phone.get(position));
             Tname.setText("" + name.get(position));
-            //check.setText(phoneS.get(position));
+            check.setText(phoneS.get(position));
 
             if (phoneS.get(position).equals("1"))
             {
-                //check.setText("УЖЕ ДОБАВЛЕН");
+                check.setText("УЖЕ ДОБАВЛЕН");
             }
             if (phoneS.get(position).equals("0"))
             {
-                check.setBackgroundResource(R.drawable.back_right);
+                check.setText("Пригласить");
+                //check.setBackgroundResource(R.drawable.back_right);
+                //check.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.back_right), null);
             }
 
             return view;

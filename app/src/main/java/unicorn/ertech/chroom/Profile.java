@@ -27,6 +27,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -266,6 +267,17 @@ public class Profile extends Activity {
                 closeMe();
             }
         });
+
+        MyCustomAdapter3 adapter2 = new MyCustomAdapter3(this,
+                R.layout.spinner_without_arrows, getResources().getStringArray(R.array.sex));
+        profileSex.setAdapter(adapter2);
+        searchSex.setAdapter(adapter2);
+        GeoAdapter adapter = new GeoAdapter(this,
+                R.layout.spinner_without_bg, getResources().getStringArray(R.array.sex));
+        regionSpin.setAdapter(adapter);
+        //GeoAdapter2 adapter3 = new GeoAdapter2(this,
+        //        R.layout.spinner_without_bg, getResources().getStringArray(R.array.sex));
+        //etProfileCity.setAdapter(adapter3);
     }
 
     @Override
@@ -833,5 +845,117 @@ str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
             str = str.substring(0, str.length() - 1);
         }
         return str;
+    }
+
+    private class MyCustomAdapter3 extends ArrayAdapter<String> {
+
+        public MyCustomAdapter3(Context context, int textViewResourceId,
+                                String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.sex)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_without_arrows, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.tvWA);
+            label.setText(getResources().getStringArray(R.array.sex)[position]);
+            return row;
+        }
+    }
+
+    private class GeoAdapter extends ArrayAdapter<String> {
+        public GeoAdapter(Context context, int textViewResourceId,
+                                String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_without_bg, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.tvWB);
+            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            return row;
+        }
+    }
+
+    private class GeoAdapter2 extends ArrayAdapter<String> {
+        public GeoAdapter2(Context context, int textViewResourceId,
+                          String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_without_bg, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.tvWB);
+            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            return row;
+        }
     }
 }

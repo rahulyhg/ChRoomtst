@@ -111,16 +111,20 @@ public class SearchParam extends Fragment {
                 tvTitle.setBackgroundResource(R.color.blue);
                 butSearch.setBackgroundResource(R.drawable.but_blue);
                 hereforSpinner.setBackgroundResource(R.drawable.spinner_with_arrows_b);
+                cb.setButtonDrawable(R.drawable.checkbox_selector_b);
             } else if (col == 0) {
                 tvTitle.setBackgroundResource(R.color.green);
                 butSearch.setBackgroundResource(R.drawable.but_green);
                 hereforSpinner.setBackgroundResource(R.drawable.spinner_with_arrows);
+                cb.setButtonDrawable(R.drawable.checkbox_selector_g);
             } else if (col == 2) {
                 tvTitle.setBackgroundResource(R.color.orange);
                 butSearch.setBackgroundResource(R.drawable.but_orange);
+                cb.setButtonDrawable(R.drawable.checkbox_selector_o);
             } else if (col == 3) {
                 tvTitle.setBackgroundResource(R.color.purple);
                 butSearch.setBackgroundResource(R.drawable.but_purple);
+                cb.setButtonDrawable(R.drawable.checkbox_selector_p);
             }
         }else{
             tvTitle.setBackgroundResource(R.color.green);

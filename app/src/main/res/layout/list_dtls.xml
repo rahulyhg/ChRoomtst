@@ -68,11 +68,10 @@
                 android:clickable="true"
                 android:text="check"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:textColor="#ffffff"
-
+                android:drawableRight="@drawable/back_right"
                 android:textSize="20sp"
-                android:src="@drawable/profile_pic" />
+                android:gravity="center_vertical" />
 
         </LinearLayout>
 

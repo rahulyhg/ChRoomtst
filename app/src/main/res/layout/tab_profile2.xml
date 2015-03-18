@@ -265,7 +265,6 @@
                 android:text="О себе:"
                 android:id="@+id/tvProfileAbout"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp" />
 
@@ -287,7 +286,6 @@
                 android:text="Регион:"
                 android:id="@+id/tvProfileRegion"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp" />
 
@@ -317,7 +315,6 @@
                     android:text="Город:"
                     android:id="@+id/tvProfileCity"
                     android:textColor="#000000"
-                    android:textStyle="bold"
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp" />
 
@@ -340,7 +337,6 @@
                 android:text="Семейное положение"
                 android:id="@+id/tvProfileRelationships"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:maxLines="1" />
@@ -378,7 +374,6 @@
                     android:text="Пол:"
                     android:id="@+id/tvProfileSex"
                     android:textColor="#000000"
-                    android:textStyle="bold"
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp" />
 
@@ -404,7 +399,6 @@
                     android:text="Ищу:"
                     android:id="@+id/tvProfile2SearchSex"
                     android:textColor="#000000"
-                    android:textStyle="bold"
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp" />
 
@@ -424,7 +418,6 @@
                 android:text="Цель знакомства"
                 android:id="@+id/tvProfile2Herefor"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:maxLines="1" />
@@ -446,7 +439,6 @@
                 android:text="Интересы"
                 android:id="@+id/tvProfile2Hobbies"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:maxLines="1" />

@@ -71,14 +71,14 @@ public class Reset extends Activity{
         protected void onPostExecute(JSONObject json) {
             try {
                 error=json.getBoolean("error");
-                Log.e("saveToken", token);
+                //Log.e("saveToken", token);
             }catch (JSONException e) {
                 Log.e("saveToken", e.toString());
             }
             if(error==false){
                 Intent i = new Intent(getApplicationContext(), Login.class);
                 startActivity(i);
-                getParent().finish();
+                //getParent().finish();
             }
             }
         }
