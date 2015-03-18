@@ -288,7 +288,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (flag) {
+            if (flag && Integer.parseInt(msgNum) != 0 || Integer.parseInt(deleted_total) !=0) {
                 if(!deleted_total.equals("0"))
                 {
                     try {
