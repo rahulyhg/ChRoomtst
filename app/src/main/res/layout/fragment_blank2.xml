@@ -4,13 +4,14 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvChat2"
-        android:layout_above="@+id/smileTable2"
+        android:layout_above="@+id/butSmile2"
         android:background="@color/white" />
 
     <ImageView

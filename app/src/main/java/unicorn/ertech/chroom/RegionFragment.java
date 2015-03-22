@@ -60,7 +60,7 @@ public class RegionFragment extends Fragment {
     Timer myTimer;
     boolean firsTime;
     String URL = "http://im.topufa.org/index.php";
-    String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID,deleted_total;
+    String lastID1, lastID2,lastID3,lastID4, msgNum, room="3159", outMsg, token, myID,deleted_total;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     private ArrayList<HashMap<String, Object>> countryList;
     private static final String TITLE = "message_author"; // Верхний текст
@@ -89,7 +89,7 @@ public class RegionFragment extends Fragment {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
-                    room = "1";
+                    //room = "3159";
                     if(!stopTImer) {
                         new globalChat3().execute();
                     }
@@ -114,7 +114,7 @@ public class RegionFragment extends Fragment {
         firsTime = true;
         token = Main.str;
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable4);
-        room = "1";
+        room = "3159";
         msgCount=0;
         lastID1 = "";
         lastID2 = "";
@@ -156,7 +156,7 @@ public class RegionFragment extends Fragment {
             public void onClick(View v) {
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                room = "1";
+                room = "3159";
                 outMsg = txtSend.getText().toString();
                 new OutMsg().execute();
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
@@ -248,7 +248,7 @@ public class RegionFragment extends Fragment {
             jParser.setParam("token", token);
             jParser.setParam("action", "globe_get");
             jParser.setParam("lastid", lastID3);
-            jParser.setParam("room", "1");
+            jParser.setParam("room", "3159");
             jParser.setParam("deviceid", "");
             //jParser.setParam("device_id", "dsfadfg");
             // Getting JSON from URL
@@ -258,7 +258,7 @@ public class RegionFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
-                String deleted_total = "";
+                //String deleted_total = "0";
                 JSONArray deleted = null;
                 boolean flag = false;
                 String lastid = null;
@@ -291,7 +291,7 @@ public class RegionFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (flag && Integer.parseInt(msgNum) != 0 || Integer.parseInt(deleted_total) !=0) {
+                if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
                     if(!deleted_total.equals("0"))
                     {
                         try {

@@ -39,7 +39,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:id="@+id/settingsButton"
-            android:src="@drawable/shesternya"
+            android:src="@drawable/menu_tochki"
             android:background="@color/green"
             android:scaleType="fitCenter"
             android:layout_alignParentRight="true"

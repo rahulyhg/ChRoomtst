@@ -32,7 +32,7 @@ import java.util.Calendar;
 public class Profile2 extends Activity implements View.OnClickListener {
     SharedPreferences sPref;
     boolean like_current;
-    boolean kiss_current;
+    boolean kiss_current, fromMessaging;
     ImageView butKiss;
     ImageView butLike;
     ImageView profilePhoto;
@@ -43,7 +43,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
     ImageView photo3;
     ImageView photo4;
     TextView tvProfStat;
-    String token, userId, nick;
+    String token, userId, nick,userProfile;
     String[] photosURLs;
     String picUrl;
     Picasso mPicasso;
@@ -72,7 +72,8 @@ public class Profile2 extends Activity implements View.OnClickListener {
         birthDay = (TextView) findViewById(R.id.tvBirthday2);
         profileSex = (TextView) findViewById(R.id.etProfile2Sex);
         searchSex = (TextView) findViewById(R.id.etProfile2SearchSex);
-        searchSex.selecti
+        searchSex.setText("Не выбрано");
+        profileSex.setText("Не выбрано");
         RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
         ImageButton back = (ImageButton) findViewById(R.id.profileBack);
         profileGlass = (ImageView) findViewById(R.id.profileGlass);
@@ -158,6 +159,8 @@ public class Profile2 extends Activity implements View.OnClickListener {
         final Intent i = getIntent();
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
+        userProfile=i.getStringExtra("userPROFILE");
+        fromMessaging=i.getBooleanExtra("fromMessaging", false);
         //picUrl = i.getStringExtra("avatar");
         //nick = i.getStringExtra("nick");
         butSend.setOnClickListener(new View.OnClickListener() {
@@ -218,16 +221,21 @@ public class Profile2 extends Activity implements View.OnClickListener {
     };
 
     public void sendMessage() {
-        Intent in = new Intent(this, PrivateMessaging.class);
-        in.putExtra("userId", userId);
-        in.putExtra("token", token);
-        in.putExtra("avatar", picUrl);
-        in.putExtra("nick", nick);
-        in.putExtra("favorite","false");
-        in.putExtra("shake", "false");
-        in.putExtra("fromDialogs","false");
-        in.putExtra("fake", "false");
-        startActivity(in);
+        if(fromMessaging){
+            this.finish();
+        }else {
+            Intent in = new Intent(this, PrivateMessaging.class);
+            in.putExtra("userId", userId);
+            in.putExtra("token", token);
+            in.putExtra("avatar", photosURLs[4]);
+            in.putExtra("nick", nick);
+            in.putExtra("favorite", "false");
+            in.putExtra("shake", "false");
+            in.putExtra("fromDialogs", "false");
+            in.putExtra("fake", "false");
+            in.putExtra("userPROFILE", userProfile);
+            startActivity(in);
+        }
     }
 
     public void closeMe() {
@@ -321,7 +329,8 @@ public class Profile2 extends Activity implements View.OnClickListener {
                     try {
                         String like = "";
                         String kiss = "";
-                        etName.setText(json.getString("name"));
+                        nick=json.getString("name");
+                        etName.setText(nick);
                         tvProfStat.setText(json.getString("status"));
                         userId = json.getString("id");
                         like = json.getString("like");

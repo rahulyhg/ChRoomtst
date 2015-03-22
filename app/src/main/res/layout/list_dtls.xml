@@ -64,18 +64,23 @@
                 android:id="@+id/check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#ff9011"
+                android:background="@android:color/transparent"
                 android:clickable="true"
                 android:text="check"
                 android:paddingLeft="10dp"
-                android:textColor="#ffffff"
-                android:drawableRight="@drawable/back_right"
-                android:textSize="20sp"
-                android:gravity="center_vertical" />
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView7"
+            android:src="@drawable/back_right"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp" />
 
 
     </LinearLayout>

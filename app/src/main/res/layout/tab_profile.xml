@@ -125,7 +125,7 @@
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/white"
                     android:background="@color/blackglass"
-                    android:textStyle="bold"
+                    android:textStyle="bold|italic"
                     android:visibility="visible"
                     android:autoText="false"
                     android:textSize="12sp"

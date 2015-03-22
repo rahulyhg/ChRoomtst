@@ -36,14 +36,7 @@ public class SetChat extends Activity {
         setColor();
         spinner=(Spinner)findViewById(R.id.spinnerChatCities);
         spinnerReg=(Spinner)findViewById(R.id.spinnerChatRegions);
-        final SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
-        if(sPref2.contains(SAVED_CITY)){
-            spinner.setSelection(sPref2.getInt(SAVED_CITY, 11)-11);
-        }
-        // Настраиваем адаптер
-        //ArrayAdapter<?> adapter =
-                //ArrayAdapter.createFromResource(this, R.array.cities, R.layout.spinner_with_arrows);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         MyCustomAdapter adapter = new MyCustomAdapter(this,
                 R.layout.spinner_with_arrows, getResources().getStringArray(R.array.cities));
         spinner.setAdapter(adapter);
@@ -51,6 +44,11 @@ public class SetChat extends Activity {
                 R.layout.spinner_with_arrows, getResources().getStringArray(R.array.regions));
         spinnerReg.setAdapter(adapter2);
 
+
+        final SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
+        if(sPref2.contains(SAVED_CITY)){
+            spinner.setSelection(sPref2.getInt(SAVED_CITY, 11)-11);
+        }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
 

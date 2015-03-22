@@ -114,15 +114,6 @@ public class VActivity extends Activity {
 
         }*/
 
-
-
-
-
-
-
-
-
-
         } catch (Exception e) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Ошибка на сервере", Toast.LENGTH_SHORT);
@@ -248,6 +239,7 @@ public class VActivity extends Activity {
             TextView Tphone = (TextView) view.findViewById(R.id.phone);
             TextView check = (TextView) view.findViewById(R.id.check);
             TextView Tname = (TextView) view.findViewById(R.id.name);
+            ImageView arrow=(ImageView)view.findViewById(R.id.imageView7);
 
 
             Tname.setOnClickListener(new View.OnClickListener() {
@@ -319,6 +311,17 @@ public class VActivity extends Activity {
                 }
             });
 
+            arrow.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+
+                    Intent i = new Intent(getApplicationContext(),Profile2.class);
+                    i.putExtra("userId",phoneS.get(position));
+                    i.putExtra("token",Main.str);
+                    startActivity(i);
+                }
+            });
+
             Tphone.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
@@ -334,7 +337,7 @@ public class VActivity extends Activity {
             Tphone.setText("" + phone.get(position));
             Tname.setText("" + name.get(position));
             check.setText(phoneS.get(position));
-            check.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.back_right), null);
+            //check.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.back_right), null);
 
 
             check.setText("Профиль");

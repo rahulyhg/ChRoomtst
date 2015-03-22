@@ -129,12 +129,13 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         BB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getApplicationContext();
-                Intent i = new Intent(context,Profile2.class);
+                Intent i = new Intent(getApplicationContext(),Profile2.class);
                 i.putExtra("userId",userProfile);
                 i.putExtra("token",token);
-                i.putExtra("nick",nick.getText());
+                i.putExtra("nick",nick.getText().toString());
                 i.putExtra("avatar",picUrl);
+                i.putExtra("userPROFILE", userProfile);
+                i.putExtra("fromMessaging", true);
                 startActivity(i);
             }
         });
@@ -153,7 +154,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
         favorite = i.getStringExtra("favorite");
-        mID = i.getStringExtra("mID");
+        //mID = i.getStringExtra("mID");
         userProfile = i.getStringExtra("userPROFILE");
         nick.setText(i.getStringExtra("nick"));
         picUrl = i.getStringExtra("avatar");
@@ -169,6 +170,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         swipeLayout.setDistanceToTriggerSync(20);
 
         shake = i.getStringExtra("shake");
+        if(shake.equals("true")){
+            butLists.setVisibility(View.INVISIBLE);
+        }
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
@@ -179,8 +183,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 if(isNetworkAvailable()) {
                     outMsg = txtSend.getText().toString();
                     new OutMsg().execute();
-                    imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
-
+                    //imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
                 }
                 else
                 {
@@ -193,13 +196,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onClick(View v) {
-                int savedPosition = lvChat.getFirstVisiblePosition();
+                int position;
+                int savedPosition = lvChat.getLastVisiblePosition();
                 View firstVisibleView = lvChat.getChildAt(0);
                 int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();
                 Log.i("size of listview", Integer.toString(lvChat.getHeight()));
                 Log.i("size of listview", Integer.toString(lvChat.getMeasuredHeight()));
                 if (smileTable.getVisibility() == View.GONE) {
-                    //int position=lvChat.getFirstVisiblePosition();
+                    position=lvChat.getLastVisiblePosition();
                     smileTable.setVisibility(View.VISIBLE);
                     //lvChat.smoothScrollToPosition(position+1);
                     //lvChat.setSelectionFromTop(position, 20);
@@ -213,9 +217,10 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 Log.i("size of listview2", Integer.toString(lvChat.getMeasuredHeight()));
                 Log.i("size of listview3", Integer.toString(lvChat.getHeight()));
 
-                if (savedPosition >= 0) { //initialized to -1
-                    lvChat.setSelectionFromTop(savedPosition, savedListTop);
-                }
+                lvChat.setSelection(adapter.getCount());
+                //if (savedPosition >= 0) { //initialized to -1
+                //    lvChat.setSelectionFromTop(savedPosition, savedListTop);
+                //}
                 //smileTable.refreshDrawableState();
             }
         });

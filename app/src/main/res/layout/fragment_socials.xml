@@ -5,8 +5,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:weightSum="100"
-    android:gravity="center_vertical">
+    android:weightSum="50"
+    android:showDividers="middle"
+    android:divider="@drawable/rect">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -18,7 +19,8 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:background="@drawable/but_gray"
-        android:id="@+id/layVk">
+        android:id="@+id/layVk"
+        android:layout_weight="7">
 
         <ImageButton
             android:id="@+id/vkontakte_button"
@@ -47,13 +49,14 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:background="@drawable/but_gray"
-        android:id="@+id/layFace">
+        android:id="@+id/layFace"
+        android:layout_weight="7">
 
         <ImageButton
             android:id="@+id/facebook_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/fb_but"
+            android:background="@drawable/facebook_android"
             android:layout_marginLeft="15dp" />
 
         <TextView
@@ -76,13 +79,14 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:background="@drawable/but_gray"
-        android:id="@+id/layTwit">
+        android:id="@+id/layTwit"
+        android:layout_weight="7">
 
         <ImageButton
             android:id="@+id/twitter_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/tw_but"
+            android:background="@drawable/twitter_android"
             android:layout_marginLeft="15dp" />
 
         <TextView
@@ -105,13 +109,14 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:background="@drawable/but_gray"
-        android:id="@+id/layOk">
+        android:id="@+id/layOk"
+        android:layout_weight="7">
 
         <ImageButton
             android:id="@+id/odk_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/odk_but"
+            android:background="@drawable/odn_android"
             android:layout_marginLeft="15dp" />
 
         <TextView

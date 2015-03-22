@@ -278,6 +278,12 @@ public class SearchRandom extends Fragment {
                     if (num.equals("0")) {
                         Toast.makeText(getActivity().getApplicationContext(), "Нет результатов!", Toast.LENGTH_SHORT).show();
                         realTry=0;
+                        sensorManager.registerListener(listener, sensorAccel,
+                                SensorManager.SENSOR_DELAY_NORMAL);
+                        sensorManager.registerListener(listener, sensorLinAccel,
+                                SensorManager.SENSOR_DELAY_NORMAL);
+                        sensorManager.registerListener(listener, sensorGravity,
+                                SensorManager.SENSOR_DELAY_NORMAL);
                     } else {
                         String s = "", avatar = "", id = "";
                         JSONObject messag = null;

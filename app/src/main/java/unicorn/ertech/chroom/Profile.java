@@ -512,6 +512,9 @@ public class Profile extends Activity {
                 if(!photosURLs[4].equals("http://im.topufa.org/")){
                     mPicasso.load(photosURLs[4]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
                 }
+                if(!photosURLs[9].equals("http://im.topufa.org/")){
+                    mPicasso.load(photosURLs[9]).resize(pic_width, 0).noFade().into(profilePhoto);
+                }
                 Log.e("selectedItem", profileSex.getSelectedItem() + "");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
@@ -725,6 +728,7 @@ public class Profile extends Activity {
             final ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
             LinearLayout.LayoutParams myParams= new LinearLayout.LayoutParams(window_width/3*2, window_height/3*2);
             myParams.gravity= Gravity.CENTER;
+            //pwindo.
             choiceList.setLayoutParams(myParams);
             String[] stringsArr2 = getResources().getStringArray(arrayId);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_multiple_choice, stringsArr2);

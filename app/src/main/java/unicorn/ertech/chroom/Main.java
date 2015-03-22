@@ -233,11 +233,6 @@ public class Main extends TabActivity {
     public static void checkConnection() {
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.color_scheme_pick, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
 
     protected  void setColor(){
         sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);

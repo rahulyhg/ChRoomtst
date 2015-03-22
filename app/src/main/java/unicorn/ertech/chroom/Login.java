@@ -44,7 +44,7 @@ import java.io.OutputStreamWriter;
 public class Login extends Activity {
 
     Button logButton;
-    Button regButton;
+    TextView regButton;
     EditText log, pass;
     TextView resetPass;
     CheckBox checkSavePass;
@@ -66,7 +66,7 @@ public class Login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //if (getIntent().getBooleanExtra("finish", true)){finish();}
+        if (getIntent().getBooleanExtra("finish", false)){this.finish();}
         setContentView(R.layout.activity_login);
 
         //getActionBar().hide();
@@ -74,7 +74,7 @@ public class Login extends Activity {
         logButton = (Button)findViewById(R.id.logButton);
         log = (EditText)findViewById(R.id.logText);
         pass = (EditText)findViewById(R.id.pasText);
-        regButton = (Button)findViewById(R.id.regButton);
+        regButton = (TextView)findViewById(R.id.regButton);
         resetPass = (TextView)findViewById(R.id.tvResetPassword);
         checkSavePass=(CheckBox)findViewById(R.id.checkBoxSavePass);
 
@@ -82,13 +82,16 @@ public class Login extends Activity {
         if(userData.contains(SAVED_LOGIN)){
             log.setText(userData.getString(SAVED_LOGIN,""));
         }
-        if((userData.contains(SAVED_PASSWORD))&&(checkSavePass.isChecked())){
-            log.setText(userData.getString(SAVED_PASSWORD,""));
+        if((userData.contains(SAVED_PASSWORD))){
+            if(!userData.getString(SAVED_PASSWORD, "0").equals("0")){
+                pass.setText(userData.getString(SAVED_PASSWORD,""));
+                token=userData.getString(SAVED_TOKEN, "");
+                aaTask= new auto_auth();
+                aaTask.execute();
+        }
         }
         if((userData.contains(SAVED_TOKEN))){
-            token=userData.getString(SAVED_TOKEN, "");
-            aaTask= new auto_auth();
-            aaTask.execute();
+
         }
 
         logButton.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +201,9 @@ public class Login extends Activity {
             pDialog.show();
             SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем логин
             ed2.putString(SAVED_LOGIN, log.getText().toString());
+            if(checkSavePass.isChecked()){
+                ed2.putString(SAVED_PASSWORD, pass.getText().toString());
+            }else{ed2.putString(SAVED_PASSWORD, "0");}
             ed2.commit();
         }
         @Override
@@ -225,9 +231,9 @@ public class Login extends Activity {
                 error=json.getBoolean("error");
 
                 SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем токен и пароль
-                if(checkSavePass.isChecked()) {
-                    ed2.putString(SAVED_PASSWORD, pass.getText().toString());
-                }
+                //if(checkSavePass.isChecked()) {
+                //    ed2.putString(SAVED_PASSWORD, pass.getText().toString());
+                //}
                 ed2.putString(SAVED_TOKEN, token);
                 ed2.commit();
 

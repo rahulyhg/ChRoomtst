@@ -7,14 +7,22 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +52,7 @@ public class SearchParam extends Fragment {
     CheckBox cb;
     static String sex,region, online;
     List<NameValuePair> request = new ArrayList<NameValuePair>(2);
+    int currentColorSpinner;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -73,6 +82,7 @@ public class SearchParam extends Fragment {
         city = (EditText)view.findViewById(R.id.etSearchCity);
         age_from = (EditText)view.findViewById(R.id.etSearchAge1);
         age_till = (EditText)view.findViewById(R.id.etSearchAge2);
+        TextView age_from2 = (TextView)view.findViewById(R.id.tvSearchAge1);
         online = "1";
         setColor();
         token = Main.str;
@@ -90,7 +100,13 @@ public class SearchParam extends Fragment {
                 }
             }
         });
-
+        age_from2.setClickable(true);
+        age_from2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initiatePopupWindow();
+            }
+        });
         butSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,25 +126,40 @@ public class SearchParam extends Fragment {
             if (col == 1) {
                 tvTitle.setBackgroundResource(R.color.blue);
                 butSearch.setBackgroundResource(R.drawable.but_blue);
-                hereforSpinner.setBackgroundResource(R.drawable.spinner_with_arrows_b);
                 cb.setButtonDrawable(R.drawable.checkbox_selector_b);
+                currentColorSpinner=R.layout.spinner_with_arrows_b;
             } else if (col == 0) {
                 tvTitle.setBackgroundResource(R.color.green);
                 butSearch.setBackgroundResource(R.drawable.but_green);
-                hereforSpinner.setBackgroundResource(R.drawable.spinner_with_arrows);
                 cb.setButtonDrawable(R.drawable.checkbox_selector_g);
+                currentColorSpinner=R.layout.spinner_with_arrows_g;
             } else if (col == 2) {
                 tvTitle.setBackgroundResource(R.color.orange);
                 butSearch.setBackgroundResource(R.drawable.but_orange);
                 cb.setButtonDrawable(R.drawable.checkbox_selector_o);
+                currentColorSpinner=R.layout.spinner_with_arrows_o;
             } else if (col == 3) {
                 tvTitle.setBackgroundResource(R.color.purple);
                 butSearch.setBackgroundResource(R.drawable.but_purple);
                 cb.setButtonDrawable(R.drawable.checkbox_selector_p);
+                currentColorSpinner=R.layout.spinner_with_arrows_p;
             }
         }else{
             tvTitle.setBackgroundResource(R.color.green);
+            currentColorSpinner=R.layout.spinner_with_arrows_g;
         }
+        //SpinnersCustomAdapterCities adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
+          //      currentColorSpinner, getResources().getStringArray(R.array.cities));
+        //city.setAdapter(adapter);
+        SpinnersCustomAdapter adapter2 = new SpinnersCustomAdapter(getActivity().getApplicationContext(),
+                currentColorSpinner, getResources().getStringArray(R.array.regions));
+        regionSpinner.setAdapter(adapter2);
+        SpinnersCustomAdapterSex adapter3 = new SpinnersCustomAdapterSex(getActivity().getApplicationContext(),
+                currentColorSpinner, getResources().getStringArray(R.array.sex));
+        sexSpinner.setAdapter(adapter3);
+        SpinnersCustomAdapterHerefor adapter4 = new SpinnersCustomAdapterHerefor(getActivity().getApplicationContext(),
+                currentColorSpinner, getResources().getStringArray(R.array.herefor));
+        hereforSpinner.setAdapter(adapter4);
     }
 
     private class Searching extends AsyncTask<String, String, JSONObject> {
@@ -270,5 +301,183 @@ public class SearchParam extends Fragment {
         jPars.setParam("city", city.getText().toString());
         jPars.setParam("age_from", age_from.getText().toString());
         jPars.setParam("age_till", age_till.getText().toString());
+    }
+
+    private class SpinnersCustomAdapter extends ArrayAdapter<String> {
+
+        public SpinnersCustomAdapter(Context context, int textViewResourceId,
+                                String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(currentColorSpinner, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView34);
+            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            return row;
+        }
+    }
+
+    private class SpinnersCustomAdapterCities extends ArrayAdapter<String> {
+
+        public SpinnersCustomAdapterCities(Context context, int textViewResourceId,
+                                     String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(currentColorSpinner, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView34);
+            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            return row;
+        }
+    }
+
+    private class SpinnersCustomAdapterSex extends ArrayAdapter<String> {
+
+        public SpinnersCustomAdapterSex(Context context, int textViewResourceId,
+                                           String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.sex)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(currentColorSpinner, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView34);
+            label.setText(getResources().getStringArray(R.array.sex)[position]);
+            return row;
+        }
+    }
+
+    private class SpinnersCustomAdapterHerefor extends ArrayAdapter<String> {
+
+        public SpinnersCustomAdapterHerefor(Context context, int textViewResourceId,
+                                        String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.herefor)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View row = inflater.inflate(currentColorSpinner, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView34);
+            label.setText(getResources().getStringArray(R.array.herefor)[position]);
+            return row;
+        }
+    }
+
+    private PopupWindow pwindo;
+    private void initiatePopupWindow() {
+        try {
+// We need to get the instance of the LayoutInflater
+            LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//View view = inflater.inflate(R.layout.fragment_blank, container, false);
+            View layout = inflater.inflate(R.layout.numbers_picker, null, false);
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            DisplayMetrics metricsB = new DisplayMetrics();
+            display.getMetrics(metricsB);
+            int window_width = metricsB.widthPixels;
+            int window_height = metricsB.heightPixels;
+            pwindo = new PopupWindow(layout, window_width, window_height, true);
+            pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pwindo.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

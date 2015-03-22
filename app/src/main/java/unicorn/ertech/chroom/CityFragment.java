@@ -59,7 +59,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
     boolean stopTImer = false ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     String URL = "http://im.topufa.org/index.php";
-    String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, myID,deleted_total ;
+    String lastID1, lastID2,lastID3,lastID4, msgNum="0", room, outMsg, token, myID,deleted_total="0" ;
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 
     private ArrayList<HashMap<String, Object>> regionList;
@@ -88,7 +88,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
-                    room = "10";
+                    room = "3296";
                     if(!stopTImer) {
                         new globalChat2().execute();
                     }
@@ -256,7 +256,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
 
-                JSONArray deleted = null;
+            JSONArray deleted = null;
             boolean flag = false;
             String lastid = null;
             JSONArray arr = null;
@@ -288,7 +288,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (flag && Integer.parseInt(msgNum) != 0 || Integer.parseInt(deleted_total) !=0) {
+            if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
                 if(!deleted_total.equals("0"))
                 {
                     try {

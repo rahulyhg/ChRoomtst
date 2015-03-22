@@ -82,7 +82,8 @@
             android:layout_marginTop="17dp"
             android:layout_below="@+id/profileLike"
             android:layout_alignLeft="@+id/profileLike"
-            android:layout_alignStart="@+id/profileLike" />
+            android:layout_alignStart="@+id/profileLike"
+            android:visibility="gone" />
 
         <ImageButton
             android:layout_width="45dp"
@@ -92,9 +93,9 @@
             android:layout_gravity="center_horizontal"
             android:background="#0000FF00"
             android:scaleType="fitCenter"
-            android:layout_marginTop="17dp"
-            android:layout_below="@+id/profileGift"
-            android:layout_alignLeft="@+id/profileGift"
+            android:layout_marginTop="70dp"
+            android:layout_below="@+id/profileLike"
+            android:layout_alignLeft="@+id/profileLike"
             android:layout_alignStart="@+id/profileGift" />
 
         <ImageView
@@ -149,7 +150,7 @@
             android:layout_alignParentEnd="true"
             android:textColor="@color/white"
             android:background="@color/blackglass"
-            android:textStyle="bold"
+            android:textStyle="bold|italic"
             android:visibility="visible"
             android:textSize="12sp"
             android:minHeight="40dp"

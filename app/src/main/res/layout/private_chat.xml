@@ -112,12 +112,12 @@
             android:id="@+id/swipe_container_private"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/sendText"
-            android:clipChildren="false"
-            android:paddingBottom="5dp">
+            android:layout_above="@+id/buttonSmile"
+            android:paddingBottom="5dp"
+            android:layoutMode="clipBounds">
         <ListView
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/lvChat"
             android:divider="@android:color/transparent"
             android:drawSelectorOnTop="false"

@@ -83,6 +83,7 @@ public class AdsFragment extends Fragment {
         }else{
             room="11";
         }
+        room="3345";
         // messagesNews.add(0,"News");
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
@@ -300,7 +301,7 @@ public class AdsFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            if (flag && Integer.parseInt(msgNum) != 0 || Integer.parseInt(deleted_total) !=0) {
+            if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
                 Log.e("sendjson", "3333loop");
                 if(!deleted_total.equals("0"))
                 {
@@ -422,7 +423,7 @@ public class AdsFragment extends Fragment {
 
     public void onResume(){
         super.onResume();
-        SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
+        /*SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
         if(sPref.contains(SAVED_CITY)){
             String tmp = Integer.toString(sPref.getInt(SAVED_CITY,11));
             if(!room.equals(tmp)){
@@ -433,7 +434,7 @@ public class AdsFragment extends Fragment {
                 lastID1="0";
                 adapter.notifyDataSetChanged();
             }
-        }
+        }*/
         stopTImer=false;
     }
 

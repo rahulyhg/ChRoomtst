@@ -238,6 +238,7 @@ public class syncContacts extends Activity {
             TextView Tphone = (TextView) view.findViewById(R.id.phone);
             TextView check = (TextView) view.findViewById(R.id.check);
             TextView Tname = (TextView) view.findViewById(R.id.name);
+            ImageView arrow = (ImageView)view.findViewById(R.id.imageView7);
 
 
             Tname.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +308,28 @@ public class syncContacts extends Activity {
             });
 
             check.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+
+                    if (phoneS.get(position).equals("1"))
+                    {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Уже добавлен " + phone.get(position), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    else
+                    {
+                        Uri smsUri = Uri.parse("smsto:"+phone.get(position));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
+                        intent.putExtra("sms_body", "Привет! Я установил приложение IZUM! Присоединяйся");
+                        startActivity(intent);
+                    }
+
+
+                }
+            });
+
+            arrow.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
 

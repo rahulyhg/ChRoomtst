@@ -53,8 +53,6 @@
         android:layout_toStartOf="@+id/button2"
         android:background="@drawable/cornerstxt"
         android:minHeight="40dp"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
         android:maxHeight="150dp"
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"

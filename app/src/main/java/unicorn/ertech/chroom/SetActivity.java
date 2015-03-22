@@ -92,7 +92,7 @@ public class SetActivity extends Activity {
 
     private void closeAll(){
         Intent intent = new Intent(this, Login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("finish", true);
         startActivity(intent);
     }

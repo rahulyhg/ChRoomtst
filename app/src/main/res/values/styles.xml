@@ -14,6 +14,7 @@
         <item name="android:paddingBottom">4dp</item>
         <item name="android:gravity">center</item>
         <item name="android:popupBackground">#DFFFFFFF</item>
+        <item name="android:textColor">#CDCDCD</item>
     </style>
 
     <style name="spinner_style2">
