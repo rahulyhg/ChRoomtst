@@ -61,6 +61,7 @@ public class Reg1 extends Activity {
 
     private class RegSend extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
+        private String phone;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -68,13 +69,14 @@ public class Reg1 extends Activity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
+            phone="7"+phonenumber.getText().toString();
 
         }
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
             jParser.setParam("action", "auth_singup");
-            jParser.setParam("phone", phonenumber.getText().toString());
+            jParser.setParam("phone", phone);
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
@@ -89,7 +91,6 @@ public class Reg1 extends Activity {
             }
             try {
                 error=json.getBoolean("error");
-                Log.e("saveToken", token);
             }catch (JSONException e) {
                 Log.e("saveToken", e.toString());
             }

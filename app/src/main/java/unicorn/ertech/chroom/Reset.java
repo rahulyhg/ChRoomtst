@@ -3,6 +3,7 @@ package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -51,24 +52,30 @@ public class Reset extends Activity{
 
 
     private class ResetSend extends AsyncTask<String, String, JSONObject> {
-
+        private String phone;
+        private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            pDialog = new ProgressDialog(Reset.this);
+            pDialog.setIndeterminate(false);
+            pDialog.show();
+            phone="7"+phonenumber.getText().toString();
         }
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
             //ставим нужные нам параметры
             jParser.setParam("action", "auth_singup");
-            jParser.setParam("phone", phonenumber.getText().toString());
+            jParser.setParam("phone", phone);
+            jParser.setParam("force", "true");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
             try {
                 error=json.getBoolean("error");
                 //Log.e("saveToken", token);

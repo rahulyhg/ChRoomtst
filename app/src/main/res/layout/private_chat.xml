@@ -108,21 +108,24 @@
         android:layout_alignParentTop="false"
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/topRowChat">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lvChat"
+            android:divider="@android:color/transparent"
+            android:drawSelectorOnTop="false"
+            android:layout_above="@+id/buttonSmile"
+            android:stackFromBottom="true" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_container_private"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/buttonSmile"
             android:paddingBottom="5dp"
-            android:layoutMode="clipBounds">
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvChat"
-            android:divider="@android:color/transparent"
-            android:drawSelectorOnTop="false"
-            android:focusable="false" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:layoutMode="clipBounds"
+            android:visibility="gone"></android.support.v4.widget.SwipeRefreshLayout>
 
         <ImageView
             android:layout_width="match_parent"

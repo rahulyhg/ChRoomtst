@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,13 @@ public class SetActivity extends Activity {
         TextView txtWallet=(TextView)findViewById(R.id.tvWallet);
         Button setColor=(Button)findViewById(R.id.tvColor);
         Button setChat=(Button)findViewById(R.id.tvChatSet);
+
+        LinearLayout laySetClose = (LinearLayout)findViewById(R.id.laySetExit);
+        LinearLayout laySetPrivate = (LinearLayout)findViewById(R.id.laySetPrivate);
+        LinearLayout laySetColor = (LinearLayout)findViewById(R.id.laySetColor);
+        LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
+        LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
+
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +78,7 @@ public class SetActivity extends Activity {
                 showActivity(SetChat.class);
             }
         });
-        txtPrivate.setOnClickListener(new View.OnClickListener() {
+        txtWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showActivity(SetWallet.class);
@@ -83,6 +91,36 @@ public class SetActivity extends Activity {
             }
         });
 
+        laySetClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeAll();
+            }
+        });
+        laySetPrivate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(SetPrivate.class);
+            }
+        });
+        laySetChatSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(SetChat.class);
+            }
+        });
+        laySetWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(SetWallet.class);
+            }
+        });
+        laySetColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(SetCol.class);
+            }
+        });
 
     }
 
@@ -91,10 +129,15 @@ public class SetActivity extends Activity {
     }
 
     private void closeAll(){
+        SharedPreferences userData = getSharedPreferences("userdata", MODE_PRIVATE);
+        SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем токен
+        ed2.remove("token");
+        ed2.commit();
         Intent intent = new Intent(this, Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("finish", true);
+        intent.putExtra("finish", false);
         startActivity(intent);
+        this.finish();
     }
 
     private void showActivity(Class activ){

@@ -4,6 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".Login"
+    android:visibility="visible"
     android:background="@drawable/logbg">
 
     <EditText
@@ -25,7 +26,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
         android:background="@drawable/corners2w"
         android:ems="10"
         android:id="@+id/pasText"
@@ -47,9 +48,9 @@
         android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:layout_below="@+id/pasText"
-        android:layout_alignRight="@+id/regButton"
+        android:layout_alignRight="@+id/logText"
         android:layout_alignEnd="@+id/regButton"
-        android:layout_alignLeft="@+id/regButton"
+        android:layout_alignLeft="@+id/logText"
         android:layout_alignStart="@+id/regButton" />
 
     <TextView
@@ -59,13 +60,10 @@
         android:id="@+id/regButton"
         android:textColor="@color/white"
         android:layout_below="@+id/logButton"
-        android:layout_alignLeft="@+id/pasText"
-        android:layout_alignStart="@+id/pasText"
-        android:layout_alignRight="@+id/pasText"
-        android:layout_alignEnd="@+id/pasText"
         android:layout_marginTop="10dp"
         android:textSize="17sp"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -80,12 +78,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Забыли пароль?"
+        android:text=" ?"
         android:id="@+id/tvResetPassword"
-        android:layout_below="@+id/regButton"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:layout_alignRight="@+id/pasText"
+        android:layout_alignEnd="@+id/pasText"
+        android:layout_alignTop="@+id/pasText"
+        android:layout_alignBottom="@+id/pasText"
+        android:gravity="center"
+        android:layout_marginRight="15dp" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -95,15 +96,16 @@
         android:layout_below="@+id/pasText"
         android:layout_alignLeft="@+id/pasText"
         android:layout_alignStart="@+id/pasText"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView8"
         android:layout_alignTop="@+id/regButton"
-        android:layout_toRightOf="@+id/checkBoxSavePass"
-        android:layout_toEndOf="@+id/checkBoxSavePass"
-        android:src="@drawable/back_white" />
+        android:src="@drawable/back_white"
+        android:layout_toRightOf="@+id/regButton"
+        android:paddingTop="3dp"
+        android:layout_marginLeft="5dp" />
 
 </RelativeLayout>

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import android.app.Activity;
 
 import com.facebook.AppEventsLogger;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,10 +67,19 @@ public class Login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent().getBooleanExtra("finish", false)){this.finish();}
+
         setContentView(R.layout.activity_login);
 
         //getActionBar().hide();
+        userData = getSharedPreferences("userdata", MODE_PRIVATE);
+        if((userData.contains(SAVED_TOKEN))){
+            if(!userData.getString(SAVED_TOKEN, "0").equals("0")){
+                token=userData.getString(SAVED_TOKEN, "");
+                aaTask= new auto_auth();
+                aaTask.execute();
+            }
+        }
+
 
         logButton = (Button)findViewById(R.id.logButton);
         log = (EditText)findViewById(R.id.logText);
@@ -78,22 +88,25 @@ public class Login extends Activity {
         resetPass = (TextView)findViewById(R.id.tvResetPassword);
         checkSavePass=(CheckBox)findViewById(R.id.checkBoxSavePass);
 
-        userData = getSharedPreferences("userdata", MODE_PRIVATE);
+
         if(userData.contains(SAVED_LOGIN)){
             log.setText(userData.getString(SAVED_LOGIN,""));
         }
-        if((userData.contains(SAVED_PASSWORD))){
-            if(!userData.getString(SAVED_PASSWORD, "0").equals("0")){
-                pass.setText(userData.getString(SAVED_PASSWORD,""));
-                token=userData.getString(SAVED_TOKEN, "");
-                aaTask= new auto_auth();
-                aaTask.execute();
-        }
-        }
-        if((userData.contains(SAVED_TOKEN))){
 
-        }
 
+
+        /*log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                log.setHint("");
+            }
+        });
+        pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pass.setHint("");
+            }
+        });*/
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,24 +238,16 @@ public class Login extends Activity {
             pDialog.dismiss();
             boolean error;
             error=true;
+            String avatar="";
+            int errorCode=0;
             try {
+                error=json.getBoolean("error");
+                if(error==true){
+                    errorCode=json.getInt("error_code");
+                }
                 token = json.getString("token");
                 userID=json.getInt("id");
-                error=json.getBoolean("error");
-
-                SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем токен и пароль
-                //if(checkSavePass.isChecked()) {
-                //    ed2.putString(SAVED_PASSWORD, pass.getText().toString());
-                //}
-                ed2.putString(SAVED_TOKEN, token);
-                ed2.commit();
-
-                sPref = getSharedPreferences("user", MODE_PRIVATE); //Сохраняем ID юзера, для доступа в профиле
-                SharedPreferences.Editor ed = sPref.edit();
-                ed.putInt(USER, userID);
-                ed.commit();
-
-                Log.e("saveToken", token);
+                avatar=json.getString("avatar");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
             }
@@ -250,23 +255,41 @@ public class Login extends Activity {
                 if (token.equals("false")) {
                     Toast.makeText(getApplicationContext(), "Необходима авторизация!", Toast.LENGTH_LONG).show();
                 } else {
-                    //writeFile();
+                    SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем токен и пароль
+                    if(checkSavePass.isChecked()) {
+                        ed2.putString(SAVED_PASSWORD, pass.getText().toString());
+                    }
+                    ed2.putString(SAVED_TOKEN, token);
+                    ed2.commit();
+                    sPref = getSharedPreferences("user", MODE_PRIVATE); //Сохраняем ID юзера, для доступа в профиле
+                    SharedPreferences.Editor ed = sPref.edit();
+                    ed.putInt(USER, userID);
+                    ed.putString("avatar_link", avatar);
+                    ed.commit();
+                    Log.e("saveToken", token);
                     Intent i = new Intent(getApplicationContext(), Main.class);
                     i.putExtra("Token", token);
                     startActivity(i);
                     Log.e("writefile", token);
+                }
+            }else{
+                if(errorCode==41){
+                    Toast.makeText(getApplicationContext(), "Неверный логин/пароль", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Неизвестная ошибка, код: "+Integer.toString(errorCode), Toast.LENGTH_LONG).show();
                 }
             }
         }
     }
 
     private class auto_auth extends AsyncTask<String, String, JSONObject>{
+        ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
+            pDialog = new ProgressDialog(Login.this);
+            pDialog.setIndeterminate(false);
+            pDialog.show();
             super.onPreExecute();
-            SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем логин
-            ed2.putString(SAVED_LOGIN, log.getText().toString());
-            ed2.commit();
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -279,6 +302,7 @@ public class Login extends Activity {
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            pDialog.dismiss();
             if (json != null){
                 boolean result;
             result = true;
@@ -325,4 +349,9 @@ public class Login extends Activity {
     }
 
 
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if (getIntent().getBooleanExtra("finish", true)){this.finish();}
+    }
 }

@@ -10,7 +10,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +26,8 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -55,6 +59,7 @@ public class Main extends TabActivity {
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
     final String SAVED_LASTID="lastid";
+    int pic_width2;
 
     public static Intent srvs;
 
@@ -187,6 +192,19 @@ public class Main extends TabActivity {
             startService(srvs);
         }
 
+        Picasso mPicasso = Picasso.with(getApplicationContext());
+        Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
+        DisplayMetrics metricsB = new DisplayMetrics();
+        display.getMetrics(metricsB);
+        pic_width2=(int)(50*metricsB.density);
+        SharedPreferences userData;
+        userData = getSharedPreferences("user", MODE_PRIVATE);
+        if(userData.contains("avatar_link")){
+            String url = userData.getString("avatar_link", "");
+            if(!url.equals("")){
+                mPicasso.load(url).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(butProfile);
+            }
+        }
     }
 
     private static View createTabView(final Context context, final String text, int id) {
@@ -413,6 +431,24 @@ public class Main extends TabActivity {
     public void onPause(){
 
         super.onPause();
+    }
+
+    @Override
+    public void onStart(){
+        super.onPause();
+        SharedPreferences userData;
+        userData = getSharedPreferences("user", MODE_PRIVATE);
+        if(userData.contains("avatar_link")){
+            Picasso mPicasso = Picasso.with(getApplicationContext());
+            Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
+            DisplayMetrics metricsB = new DisplayMetrics();
+            display.getMetrics(metricsB);
+            pic_width2=(int)(50*metricsB.density);
+            String url = userData.getString("avatar_link", "");
+            if(!url.equals("")){
+                mPicasso.load(url).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(butProfile);
+            }
+        }
     }
 
     /*

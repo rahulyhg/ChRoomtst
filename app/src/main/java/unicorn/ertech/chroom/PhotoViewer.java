@@ -40,31 +40,41 @@ public class PhotoViewer extends Activity{
 
         LayoutInflater inflater = LayoutInflater.from(this);
         List<View> pages = new ArrayList<View>();
+        View page;
+        if(!photoURLs[9].equals("http://im.topufa.org/")) {
+            page = inflater.inflate(R.layout.photo_fragment, null);
+            TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            mPicasso.load(photoURLs[9]).into(imgview);
+            pages.add(page);
+        }
 
-        View page = inflater.inflate(R.layout.photo_fragment, null);
-        TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-        mPicasso.load(photoURLs[9]).into(imgview);
-        pages.add(page);
+        if(!photoURLs[5].equals("http://im.topufa.org/")) {
+            page = inflater.inflate(R.layout.photo_fragment, null);
+            imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            mPicasso.load(photoURLs[5]).into(imgview);
+            pages.add(page);
+        }
 
-        page = inflater.inflate(R.layout.photo_fragment, null);
-        imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-        mPicasso.load(photoURLs[5]).into(imgview);
-        pages.add(page);
+        if(!photoURLs[6].equals("http://im.topufa.org/")) {
+            page = inflater.inflate(R.layout.photo_fragment, null);
+            imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            mPicasso.load(photoURLs[6]).into(imgview);
+            pages.add(page);
+        }
 
-        page = inflater.inflate(R.layout.photo_fragment, null);
-        imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-        mPicasso.load(photoURLs[6]).into(imgview);
-        pages.add(page);
+        if(!photoURLs[7].equals("http://im.topufa.org/")) {
+            page = inflater.inflate(R.layout.photo_fragment, null);
+            imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            mPicasso.load(photoURLs[7]).into(imgview);
+            pages.add(page);
+        }
 
-        page = inflater.inflate(R.layout.photo_fragment, null);
-        imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-        mPicasso.load(photoURLs[7]).into(imgview);
-        pages.add(page);
-
-        page = inflater.inflate(R.layout.photo_fragment, null);
-        imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-        mPicasso.load(photoURLs[8]).into(imgview);
-        pages.add(page);
+        if(!photoURLs[8].equals("http://im.topufa.org/")) {
+            page = inflater.inflate(R.layout.photo_fragment, null);
+            imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            mPicasso.load(photoURLs[8]).into(imgview);
+            pages.add(page);
+        }
 
         photoPagerAdapter pagerAdapter = new photoPagerAdapter(pages);
         ViewPager viewPager = (ViewPager)findViewById(R.id.pager_photo);

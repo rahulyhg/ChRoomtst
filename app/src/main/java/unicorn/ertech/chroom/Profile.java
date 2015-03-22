@@ -388,6 +388,7 @@ public class Profile extends Activity {
                         switch (photo_type) {
                             case 1:
                                 mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                                photosURLs[5]=pathToUserPhoto;
                                 break;
                             case 2:
                                 mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
@@ -515,6 +516,10 @@ public class Profile extends Activity {
                 if(!photosURLs[9].equals("http://im.topufa.org/")){
                     mPicasso.load(photosURLs[9]).resize(pic_width, 0).noFade().into(profilePhoto);
                 }
+                sPref = getSharedPreferences("user", MODE_PRIVATE); //Сохраняем ID юзера, для доступа в профиле
+                SharedPreferences.Editor ed = sPref.edit();
+                ed.putString("avatar_link", photosURLs[4]);
+                ed.commit();
                 Log.e("selectedItem", profileSex.getSelectedItem() + "");
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
@@ -549,8 +554,6 @@ public class Profile extends Activity {
             jParser.setParam("herefor5", Integer.toString(selectedHere[4]));
             jParser.setParam("sp", Integer.toString(sp));
             jParser.setParam("region", Integer.toString(reg));
-            jParser.setParam("sex", profileSex.getSelectedItem().toString());
-            jParser.setParam("lookingfor", searchSex.getSelectedItem().toString());
             jParser.setParam("city", etProfileCity.getText().toString());
             jParser.setParam("info", etProfileAbout.getText().toString());
             jParser.setParam("status", tvProfStat.getText().toString());
