@@ -69,7 +69,7 @@ public class SetActivity extends Activity {
         txtPrivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showActivity(SetPrivate.class);
+                showActivity(SetWallet.class);
             }
         });
         setChat.setOnClickListener(new View.OnClickListener() {
