@@ -115,6 +115,8 @@ public class SearchParam extends Fragment {
 
             }
         });
+
+
         return view;
     }
 
@@ -467,9 +469,16 @@ public class SearchParam extends Fragment {
             display.getMetrics(metricsB);
             int window_width = metricsB.widthPixels;
             int window_height = metricsB.heightPixels;
+            List<String> list = new ArrayList<String>();
+            for (int i = 10; i < 99; i++){
+                list.add(Integer.toString(i));
+            }
+
             pwindo = new PopupWindow(layout, window_width, window_height, true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
+            RollView roll = (RollView)layout.findViewById(R.id.rollView_a);
+            roll.setList(list);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

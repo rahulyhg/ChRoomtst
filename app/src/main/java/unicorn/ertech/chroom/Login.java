@@ -68,9 +68,6 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_login);
-
-        //getActionBar().hide();
         userData = getSharedPreferences("userdata", MODE_PRIVATE);
         if((userData.contains(SAVED_TOKEN))){
             if(!userData.getString(SAVED_TOKEN, "0").equals("0")){
@@ -80,6 +77,7 @@ public class Login extends Activity {
             }
         }
 
+        setContentView(R.layout.activity_login);
 
         logButton = (Button)findViewById(R.id.logButton);
         log = (EditText)findViewById(R.id.logText);
