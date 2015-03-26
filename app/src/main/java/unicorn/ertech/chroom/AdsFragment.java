@@ -1,5 +1,6 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -76,7 +77,13 @@ public class AdsFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         pageNumber=0;
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
+        //token = Main.str;
         SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
         if(sPref.contains(SAVED_CITY)){
             room=Integer.toString(sPref.getInt(SAVED_CITY,11));
@@ -114,7 +121,7 @@ public class AdsFragment extends Fragment {
         txtSend = (EditText) view.findViewById(R.id.editText1);
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable1);
         firsTime = true;
-        token = Main.str;
+        //token = Main.str;
         //room = "11";
         msgCount=0;
         lastID1 = "";

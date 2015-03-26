@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import net.simonvt.numberpicker.NumberPicker;
 
@@ -159,13 +160,13 @@ public class RollView extends LinearLayout implements AbsListView.OnScrollListen
 
         for (View v : listViews){
             int centerOfViewY = v.getBottom() - (mParams.height / 2);
-            ShadowTextView tv = (ShadowTextView) v.getTag();
+            TextView tv = (TextView) v.getTag();
             float coefficient = (Math.abs(centerOfViewY - centerLineY)) / (float)centerLineY;
             float scale = 0;
             //Если коэффициент больше 1 - значит элемент за пределами видимости
             if (coefficient < 1)
                 scale = Math.abs(coefficient - 1);
-            tv.setAlpha(scale);
+            //tv.setAlpha(scale);
             //Определяем элемент с наибольшим размером текста для доводки к нему
             float textSize = CENTRAL_TEXT_SIZE * scale;
             if (textSize > maxTextSize){
@@ -174,7 +175,7 @@ public class RollView extends LinearLayout implements AbsListView.OnScrollListen
             }
             tv.setTextSize(textSize);
             //Перерисовка теней
-            tv.redraw();
+            //tv.redraw();
         }
     }
 
@@ -195,7 +196,7 @@ public class RollView extends LinearLayout implements AbsListView.OnScrollListen
                 convertView = mInflater.inflate(R.layout.roll_view_adapter, null);
                 convertView.setLayoutParams(mParams);
             }
-            ShadowTextView tv = (ShadowTextView) convertView.findViewById(R.id.textShadow);
+            TextView tv = (TextView) convertView.findViewById(R.id.textShadow);
             tv.setTag(position); // записываем позицию элемента
             tv.setText(getItem(position));
             convertView.setTag(tv); //записываем ссылку на TextView в тег

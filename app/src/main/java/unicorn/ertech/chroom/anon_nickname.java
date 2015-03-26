@@ -28,13 +28,19 @@ public class anon_nickname extends Activity {
     SharedPreferences sPref;
     ImageButton butBack;
     RelativeLayout topRow;
+    String token;
     final String SAVED_COLOR="color";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.anon_nickname_layout);
-
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         butBack=(ImageButton)findViewById(R.id.setBack);
         Button readyBut=(Button)findViewById(R.id.readyButton);
         nick = (EditText)findViewById(R.id.etNick);
@@ -126,7 +132,8 @@ public class anon_nickname extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+
+            jParser.setParam("token", token);
             jParser.setParam("action", "profile_set");
             jParser.setParam("nick",nick.getText().toString());
             // Getting JSON from URL

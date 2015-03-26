@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -78,6 +79,12 @@ public class anonMessaging extends Activity {
         butStar=(ImageButton)findViewById(R.id.ibStar);
         dateTime = new Date();
 
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         adapter = new pmChatAdapter(messages,getApplicationContext());
         lvChat.setAdapter(adapter);
         lastId = "0";
@@ -162,7 +169,7 @@ public class anonMessaging extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "anonimus_pm_send");
             //jParser.setParam("userid", myID);
             jParser.setParam("fakeid", userId);
@@ -265,7 +272,7 @@ public class anonMessaging extends Activity {
                             {
                                 Intent in = new Intent(getApplicationContext(),Profile2.class);
                                 in.putExtra("userId",messag.getString("uid"));
-                                in.putExtra("token",Main.str);
+                                in.putExtra("token",token);
                                 in.putExtra("nick",nick.getText());
                                 in.putExtra("avatar",picUrl);
                                 startActivity(in);
@@ -362,7 +369,7 @@ public class anonMessaging extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "anonimus_pm_send");
             jParser.setParam("fakeid", userId);
             jParser.setParam("status", "4");
@@ -404,7 +411,7 @@ public class anonMessaging extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "anonimus_pm_send");
             jParser.setParam("fakeid", userId);
             jParser.setParam("status", "3");
@@ -457,7 +464,7 @@ public class anonMessaging extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "anonimus_pm_send");
             jParser.setParam("fakeid", userId);
             jParser.setParam("status", "7");

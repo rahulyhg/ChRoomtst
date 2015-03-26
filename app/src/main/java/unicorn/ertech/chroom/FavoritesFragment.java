@@ -1,7 +1,9 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,7 +54,12 @@ public class FavoritesFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_priv2, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         favotites = (ListView)view.findViewById(R.id.lvFavorites);
         adapter = new conversationsAdapter(messages,context);
         favotites.setAdapter(adapter);

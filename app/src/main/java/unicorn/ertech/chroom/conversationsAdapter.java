@@ -3,6 +3,8 @@ package unicorn.ertech.chroom;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,8 +139,11 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         {
             holder.tvTime.setText("");
         }
-
-        Picasso.with(getContext()).load(p.picURL).transform(new PicassoRoundTransformation()).fit().into(holder.img);
+        //Display display = getActivity().getWindowManager().getDefaultDisplay(); //определяем ширину экрана
+        //DisplayMetrics metricsB = new DisplayMetrics();
+       // display.getMetrics(metricsB);
+       // pic_width2=(int)(50*metricsB.density);
+        Picasso.with(getContext()).load(p.picURL).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
 
 
         return v;

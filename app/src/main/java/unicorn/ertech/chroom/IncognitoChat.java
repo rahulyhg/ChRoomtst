@@ -1,6 +1,8 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -74,7 +76,12 @@ public class IncognitoChat extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         // messagesNews.add(0,"News");
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
@@ -105,7 +112,7 @@ public class IncognitoChat extends Fragment{
         butSmile = (ImageButton) view.findViewById(R.id.butSmilei);
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTablei);
         firsTime = true;
-        token = Main.str;
+        //token = Main.str;
         msgCount=0;
         lastID1 = "";
         lastID2 = "";

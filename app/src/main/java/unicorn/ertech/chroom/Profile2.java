@@ -157,7 +157,13 @@ public class Profile2 extends Activity implements View.OnClickListener {
             }
         });
         final Intent i = getIntent();
-        token = i.getStringExtra("token");
+        //token = i.getStringExtra("token");
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         userId = i.getStringExtra("userId");
         userProfile=i.getStringExtra("userPROFILE");
         fromMessaging=i.getBooleanExtra("fromMessaging", false);

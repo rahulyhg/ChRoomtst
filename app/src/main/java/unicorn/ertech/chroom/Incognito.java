@@ -30,6 +30,7 @@ public class Incognito extends Fragment {
     ImageView ivJM;
     final String SAVED_COLOR = "color";
     SharedPreferences sPref;
+    String token;
     LinearLayout layRandom, layChat, layMj, layJm;
     String URL = "http://im.topufa.org/index.php";
 
@@ -53,6 +54,12 @@ public class Incognito extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //задаем разметку фрагменту
         final View view = inflater.inflate(R.layout.fragment_incognito, container, false);
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
         ivRandom = (ImageView) view.findViewById(R.id.ivIncognitoRand);
@@ -174,7 +181,7 @@ public class Incognito extends Fragment {
             do {
 
                 //ставим нужные нам параметры
-                jParser.setParam("token", Main.str);
+                jParser.setParam("token", token);
                 jParser.setParam("action", "lookfor");
                 jParser.setParam("type", "1");
                 if(elapsedtime<5000) {
@@ -257,7 +264,7 @@ public class Incognito extends Fragment {
                     i.putExtra("nick",s);
                     i.putExtra("userId",id);
                     i.putExtra("fake","true");
-                    i.putExtra("token",Main.str);
+                    i.putExtra("token",token);
                     i.putExtra("avatar",avatar);
                     startActivity(i);
                 }
@@ -299,7 +306,7 @@ public class Incognito extends Fragment {
             do {
 
                 //ставим нужные нам параметры
-                jParser.setParam("token", Main.str);
+                jParser.setParam("token", token);
                 jParser.setParam("action", "lookfor");
                 jParser.setParam("type", "2");
                 if(elapsedtime<5000) {
@@ -379,7 +386,7 @@ public class Incognito extends Fragment {
                         i.putExtra("nick", s);
                         i.putExtra("userId", id);
                         i.putExtra("fake", "true");
-                        i.putExtra("token", Main.str);
+                        i.putExtra("token", token);
                         i.putExtra("avatar", avatar);
                         startActivity(i);
                     }

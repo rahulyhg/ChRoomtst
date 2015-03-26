@@ -73,6 +73,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     SharedPreferences userData;
     final String USER = "user";
     String fromDIALOGS;
+    String lastID4;
     SwipeRefreshLayout swipeLayout;
 
     SharedPreferences Notif;
@@ -105,7 +106,13 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         userData = getSharedPreferences("user", MODE_PRIVATE);
 
         myID = Integer.toString(userData.getInt(USER,0));
-
+        SharedPreferences userD = getSharedPreferences("notifications", Context.MODE_PRIVATE);
+        if((userD.contains("notif"))){
+            if(!userD.getString("lastid", "0").equals("0")){
+                lastID4=userD.getString("lastid", "");
+            }
+        }
+        Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         butSend=(ImageButton)findViewById(R.id.buttonSend);
         butSmile=(ImageButton)findViewById(R.id.buttonSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
@@ -196,32 +203,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onClick(View v) {
-                int position;
                 int savedPosition = lvChat.getLastVisiblePosition();
-                View firstVisibleView = lvChat.getChildAt(0);
-                int savedListTop = (firstVisibleView == null) ? 0 : firstVisibleView.getTop();
-                Log.i("size of listview", Integer.toString(lvChat.getHeight()));
-                Log.i("size of listview", Integer.toString(lvChat.getMeasuredHeight()));
-                if (smileTable.getVisibility() == View.GONE) {
-                    position=lvChat.getLastVisiblePosition();
+                lvChat.setSelection(savedPosition);
+                //lvChat.setSelection
+                /*if (smileTable.getVisibility() == View.GONE) {
                     smileTable.setVisibility(View.VISIBLE);
-                    //lvChat.smoothScrollToPosition(position+1);
-                    //lvChat.setSelectionFromTop(position, 20);
                 } else {
                     smileTable.setVisibility(View.GONE);
-                }
-                butSend.refreshDrawableState();
-                butSmile.refreshDrawableState();
-                txtSend.refreshDrawableState();
-                Log.i("size of listview2", Integer.toString(lvChat.getHeight()));
-                Log.i("size of listview2", Integer.toString(lvChat.getMeasuredHeight()));
-                Log.i("size of listview3", Integer.toString(lvChat.getHeight()));
-
-                lvChat.setSelection(adapter.getCount());
-                //if (savedPosition >= 0) { //initialized to -1
-                //    lvChat.setSelectionFromTop(savedPosition, savedListTop);
-                //}
-                //smileTable.refreshDrawableState();
+                }*/
             }
         });
 
@@ -560,10 +549,19 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     try {
                         realNum = json.getString("total");
                         lastId = json.getString("lastid");
-                        if(Integer.parseInt(lastId)>Integer.parseInt(ConversationsFragment.lastID4)) {
-                            ConversationsFragment.lastID4 = lastId;
+                        if(Integer.parseInt(lastId)>Integer.parseInt(lastID4)) {
+                            lastID4 = lastId;
                         }
+                        ed2 = Notif.edit();
+                        if(Notif.contains(SAVED_NOTIF))
+                        {
+                            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
+                            {
+                                ed2.putString(SAVED_LASTID,lastID4);
+                                ed2.commit();
 
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -629,7 +627,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "list_delete");
             jParser.setParam("list", "1");
             jParser.setParam("deleteid",userId);
@@ -651,7 +649,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 {
                     favorite = "false";
                     FavoritesFragment.findNremove(userId);
-                    ConversationsFragment.update();
+                    //ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
                 }
                 else
@@ -829,7 +827,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
                 if (status.equals("false")) {
                     favorite = "true";
-                    ConversationsFragment.update();
+                    //ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
@@ -931,7 +929,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     msgCount=0;
                     messages.clear();
                     adapter.notifyDataSetChanged();
-                    ConversationsFragment.update();
+                    //ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Истоия сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при очистке!", Toast.LENGTH_LONG).show();
@@ -1013,7 +1011,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         {
             if(Notif.getString(SAVED_NOTIF,"").equals("true"))
             {
-                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+                ed2.putString(SAVED_LASTID,lastID4);
                 ed2.commit();
                 Intent srvs = new Intent(this, notif.class);
                 startService(srvs);

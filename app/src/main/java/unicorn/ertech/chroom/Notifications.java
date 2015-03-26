@@ -20,6 +20,7 @@ public class Notifications extends Activity {
     CheckBox sound;
     CheckBox vibro;
     CheckBox indicator;
+    String lastID4;
 
     String notif, Sound, Vibro, Indicator;
 
@@ -48,6 +49,10 @@ public class Notifications extends Activity {
         topRow=(RelativeLayout)findViewById(R.id.topRow_sp);
 
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
+        if(Notif.contains(SAVED_NOTIF))
+        {
+            lastID4=Notif.getString(SAVED_LASTID,"");
+        }
         ed2 = Notif.edit();
 
         if(Notif.contains(SAVED_SOUND))
@@ -125,7 +130,7 @@ public class Notifications extends Activity {
                     indicator.setEnabled(true); indicator.setVisibility(View.VISIBLE);
                     ed2.putString(SAVED_NOTIF,"true");
                     ed2.putString(SAVED_SOUND,"true");
-                    ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+                    ed2.putString(SAVED_LASTID,lastID4);
                     ed2.commit();
 
                     Intent srvs = new Intent(getApplicationContext(), notif.class);

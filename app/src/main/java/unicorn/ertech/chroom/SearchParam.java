@@ -1,5 +1,6 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,15 +44,18 @@ public class SearchParam extends Fragment {
     private Context context;
     Button butSearch;
     TextView tvTitle;
-    public static JSONParser jParserReserve = null;
-    static Spinner sexSpinner, regionSpinner, hereforSpinner;
-    static EditText city, age_from, age_till;
+    public JSONParser jParserReserve = null;
+    static Spinner sexSpinner;
+    static Spinner regionSpinner, hereforSpinner;
+    EditText age_from, age_till;
+    static EditText city;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
     static String token;
     List<sResult> results  = new ArrayList<sResult>();
     CheckBox cb;
     static String sex,region, online;
+    static int age1=10, age2=120;
     List<NameValuePair> request = new ArrayList<NameValuePair>(2);
     int currentColorSpinner;
 
@@ -85,7 +90,12 @@ public class SearchParam extends Fragment {
         TextView age_from2 = (TextView)view.findViewById(R.id.tvSearchAge1);
         online = "1";
         setColor();
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
 
         cb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,9 +217,10 @@ public class SearchParam extends Fragment {
                 jParser.setParam("herefor", String.valueOf(hereforSpinner.getSelectedItemId()));
             }
             jParser.setParam("city", city.getText().toString());
-            jParser.setParam("age_from", age_from.getText().toString());
-            jParser.setParam("age_till", age_till.getText().toString());
-
+            //jParser.setParam("age_from", age_from.getText().toString());
+            //jParser.setParam("age_till", age_till.getText().toString());
+            jParser.setParam("age_from", Integer.toString(age1));
+            jParser.setParam("age_till", Integer.toString(age1));
 
             // Getting JSON from URL
             request = jParser.nameValuePairs;
@@ -301,8 +312,10 @@ public class SearchParam extends Fragment {
         jPars.setParam("online", online);
         jPars.setParam("herefor",String.valueOf(hereforSpinner.getSelectedItemId()));
         jPars.setParam("city", city.getText().toString());
-        jPars.setParam("age_from", age_from.getText().toString());
-        jPars.setParam("age_till", age_till.getText().toString());
+        //jPars.setParam("age_from", age_from.getText().toString());
+        //jPars.setParam("age_till", age_till.getText().toString());
+        jPars.setParam("age_from", Integer.toString(age1));
+        jPars.setParam("age_till", Integer.toString(age2));
     }
 
     private class SpinnersCustomAdapter extends ArrayAdapter<String> {
@@ -477,11 +490,29 @@ public class SearchParam extends Fragment {
             pwindo = new PopupWindow(layout, window_width, window_height, true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
 
-            RollView roll = (RollView)layout.findViewById(R.id.rollView_a);
-            roll.setList(list);
+            final NumberPicker np1 = (NumberPicker)layout.findViewById(R.id.numberPicker1);
+            final NumberPicker np2 = (NumberPicker)layout.findViewById(R.id.numberPicker2);
+
+            np1.setMinValue(10);
+            np1.setMaxValue(100);
+
+            np2.setMinValue(10);
+            np2.setMaxValue(120);
+
+            np1.setWrapSelectorWheel(false);
+            np2.setWrapSelectorWheel(false);
+
+            np1.refreshDrawableState();
+            //RollView roll = (RollView)layout.findViewById(R.id.rollView_a);
+            //RollView roll2 = (RollView)layout.findViewById(R.id.rollView_b);
+            //roll.setList(list);
+            //roll2.setList(list);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    age1=np1.getValue();
+                    age2=np2.getValue();
+                    age_from.setText(Integer.toString(age1)+"   -   "+Integer.toString(age2));
                     pwindo.dismiss();
                 }
             });

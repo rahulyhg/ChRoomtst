@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-        <com.example.rollview.ShadowTextView
+        <TextView
             android:id="@+id/textShadow"
             android:gravity="center"
             android:padding="5dp"

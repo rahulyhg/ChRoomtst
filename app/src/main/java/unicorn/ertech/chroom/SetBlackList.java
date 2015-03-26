@@ -31,6 +31,7 @@ public class SetBlackList extends Activity {
     final String SAVED_COLOR = "color";
     RelativeLayout topRow;
     ImageButton butBack;
+    String token;
     public static ListView lvBlackList;
     public static List<BlackListItem> blackList = new ArrayList<BlackListItem>();
     public static BlackListAdapter adapter;
@@ -46,6 +47,12 @@ public class SetBlackList extends Activity {
         lvBlackList=(ListView)findViewById(R.id.lvBlackList);
         adapter = new BlackListAdapter(blackList,this);
         lvBlackList.setAdapter(adapter);
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         setColor();
 
         butBack.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +72,7 @@ public class SetBlackList extends Activity {
                 String nick = adapter.getItem(position).name;
                 Intent i = new Intent(getApplicationContext(),Profile2.class);
                 i.putExtra("userId",UserId);
-                i.putExtra("token",Main.str);
+                i.putExtra("token",token);
                 i.putExtra("nick",nick);
                 i.putExtra("avatar",adapter.getItem(position).avatar);
                 startActivity(i);
@@ -114,7 +121,7 @@ public class SetBlackList extends Activity {
         }
     }
 
-    private static class getBlackList extends AsyncTask<String, String, JSONObject> {
+    private class getBlackList extends AsyncTask<String, String, JSONObject> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -125,7 +132,7 @@ public class SetBlackList extends Activity {
         JSONParser jParser = new JSONParser();
 
         //ставим нужные нам параметры
-        jParser.setParam("token", Main.str);
+        jParser.setParam("token", token);
         jParser.setParam("action", "list_get");
         jParser.setParam("list", "2");
         // Getting JSON from URL

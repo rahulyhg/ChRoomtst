@@ -153,7 +153,12 @@ public class Profile extends Activity {
 //ClassLoader classLoader = MultipartEntityBuilder.class.getClassLoader();
 //URL resource = classLoader.getResource("org/apache/http/message/BasicHeaderValueFormatter.class");
 //Log.e("profile", resource.toString());
-        token = Main.str;
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         if (sPref2.contains(USER)) {
             userID = sPref2.getInt(USER, 0);
             if (userID != 0) {
@@ -217,6 +222,7 @@ public class Profile extends Activity {
             public void onClick(View v) {
                 sex = profileSex.getSelectedItemPosition();
                 ssex=searchSex.getSelectedItemPosition();
+                saveProfile.setVisibility(View.INVISIBLE);
 //hob=hobbiesSpin.getSelectedItemPosition();
 //here=hereForSpin.getSelectedItemPosition();
                 new sendUserData().execute();

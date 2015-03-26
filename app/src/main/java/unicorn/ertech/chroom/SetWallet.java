@@ -27,6 +27,7 @@ public class SetWallet extends Activity {
     final String SAVED_COLOR = "color";
     SharedPreferences sPref;
     RelativeLayout topRow;
+    String token;
     AlertDialog.Builder ad;
 
     @Override
@@ -71,7 +72,12 @@ public class SetWallet extends Activity {
             }
         });
         topRow=(RelativeLayout)findViewById(R.id.topRow_sp);
-
+        SharedPreferences userData = getSharedPreferences("userdata", MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         ad = new AlertDialog.Builder(this);
         ad.setTitle("Удаление профиля");  // заголовок
         ad.setMessage("Вы уверены, что хотите безвозвратно удалить профиль?"); // сообщение
@@ -152,7 +158,7 @@ public class SetWallet extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "profile_delete");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(Main.URL);

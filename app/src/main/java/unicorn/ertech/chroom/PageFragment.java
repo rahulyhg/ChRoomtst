@@ -13,7 +13,9 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -64,7 +66,12 @@ public class PageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         // messagesNews.add(0,"News");
         Random rnd = new Random();
         backColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
@@ -111,7 +118,7 @@ public class PageFragment extends Fragment {
         lvChat = (ListView)view.findViewById(R.id.lvChat);
         final EditText txtSend = (EditText) view.findViewById(R.id.sendText);
         firsTime = true;
-        token = Main.str;
+        //token = Main.str;
         room = "1";
         msgCount=0;
         lastID1 = "";

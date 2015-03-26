@@ -58,7 +58,7 @@ public class SetActivity extends Activity {
         LinearLayout laySetPrivate = (LinearLayout)findViewById(R.id.laySetPrivate);
         LinearLayout laySetColor = (LinearLayout)findViewById(R.id.laySetColor);
         LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
-        LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
+        //LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,12 +78,12 @@ public class SetActivity extends Activity {
                 showActivity(SetChat.class);
             }
         });
-        txtWallet.setOnClickListener(new View.OnClickListener() {
+        /*txtWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showActivity(SetWallet.class);
             }
-        });
+        });*/
         setColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,12 +109,12 @@ public class SetActivity extends Activity {
                 showActivity(SetChat.class);
             }
         });
-        laySetWallet.setOnClickListener(new View.OnClickListener() {
+        /*laySetWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showActivity(SetWallet.class);
             }
-        });
+        });*/
         laySetColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

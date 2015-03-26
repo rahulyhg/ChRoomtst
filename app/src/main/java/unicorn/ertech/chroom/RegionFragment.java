@@ -1,7 +1,9 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -80,7 +82,12 @@ public class RegionFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
         pageNumber=2;
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         // messagesNews.add(0,"News");
         Random rnd = new Random();
         backColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
@@ -112,7 +119,7 @@ public class RegionFragment extends Fragment {
         lvChat = (ListView)view.findViewById(R.id.lvChat4);
         txtSend = (EditText) view.findViewById(R.id.editText4);
         firsTime = true;
-        token = Main.str;
+        //token = Main.str;
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable4);
         room = "3159";
         msgCount=0;

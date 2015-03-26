@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -56,6 +57,7 @@ public class syncContacts extends Activity {
     String data = "";
     String status = "";
     String tmp = "";
+    String token;
     Cursor cursor;
 
 
@@ -64,7 +66,12 @@ public class syncContacts extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sync_contacts_layout);
 
-
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
 
         cursor = getContentResolver().query(   ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
         name = new ArrayList<String>(cursor.getCount());
@@ -432,7 +439,7 @@ public class syncContacts extends Activity {
                 tmp = ph;
 
                 nameValuePairs.add(new BasicNameValuePair("phones", ph));
-                nameValuePairs.add(new BasicNameValuePair("token", Main.str));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request

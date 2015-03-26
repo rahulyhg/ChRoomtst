@@ -41,7 +41,7 @@ public class Main extends TabActivity {
     /**
      * Called when the activity is first created.
      */
-    public static String str;
+    String str;
     SharedPreferences sPref;
     Integer curColor;
 
@@ -60,8 +60,9 @@ public class Main extends TabActivity {
     final String SAVED_INDICATOR="indicator";
     final String SAVED_LASTID="lastid";
     int pic_width2;
+    String lastID4="";
 
-    public static Intent srvs;
+    Intent srvs;
 
 
     ImageButton butProfile;
@@ -82,10 +83,17 @@ public class Main extends TabActivity {
         tabHost = getTabHost();
         Intent i = getIntent();
         str = i.getStringExtra("Token");
+
         topRow=(RelativeLayout)findViewById(R.id.topRow);
         butSettings = (ImageButton) findViewById(R.id.settingsButton);
         butSupport = (ImageButton) findViewById(R.id.imageButton);
         butProfile = (ImageButton) findViewById(R.id.usrPic);
+
+        SharedPreferences Notif2 = getSharedPreferences("notifications",Context.MODE_PRIVATE);
+        if(Notif2.contains(SAVED_NOTIF))
+        {
+               lastID4=Notif2.getString(SAVED_LASTID,"");
+        }
 
         // Вкладка
         privatetab = tabHost.newTabSpec("Private");
@@ -186,7 +194,7 @@ public class Main extends TabActivity {
             ed2.putString(SAVED_SOUND,"true");
             ed2.putString(SAVED_VIBRO,"true");
             ed2.putString(SAVED_INDICATOR,"true");
-            ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+            ed2.putString(SAVED_LASTID,lastID4);
             ed2.commit();
 
             startService(srvs);

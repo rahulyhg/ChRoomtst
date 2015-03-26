@@ -69,7 +69,7 @@ public class SearchResultAdapter extends BaseAdapter {
                         Intent i = new Intent(mContext, Profile2.class);
                         // passing array index
                         i.putExtra("userId", entry.uid);
-                        i.putExtra("token", Main.str);
+                        //i.putExtra("token", Main.str);
                         i.putExtra("avatar", entry.picUrl);
                         mContext.startActivity(i);
                     }

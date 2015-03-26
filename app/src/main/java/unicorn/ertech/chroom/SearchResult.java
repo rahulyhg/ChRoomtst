@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -42,7 +43,7 @@ public class SearchResult extends Activity {
     SearchResultAdapter adapter;
     int page = 1;
     int scrolling = 0, ScrollState=-1;
-    String request = "";
+    String request = "", token;
     JSONObject reqJson = null;
     int count = 0;
     boolean state = true;
@@ -75,7 +76,12 @@ public class SearchResult extends Activity {
 
         gridview.setNumColumns(3);
 
-
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         Intent k = getIntent();
         String result = k.getStringExtra("results");
         String num = k.getStringExtra("total");
@@ -135,7 +141,7 @@ public class SearchResult extends Activity {
             Intent i = new Intent(getApplicationContext(), Profile2.class);
             // passing array index
             i.putExtra("userId", results.get(position).uid);
-            i.putExtra("token", Main.str);
+            i.putExtra("token", token);
             i.putExtra("avatar", results.get(position).picUrl);
             startActivity(i);
         }
@@ -251,7 +257,7 @@ public class SearchResult extends Activity {
             EditText age_from = (EditText)layout.findViewById(R.id.etSearchAge1);
             EditText age_till = (EditText)layout.findViewById(R.id.etSearchAge2);
             String online = "1";
-            String token = Main.str;
+            //String token = Main.str;
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override

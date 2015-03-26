@@ -2,10 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/whiteglass"
+    android:weightSum="100"
+    android:gravity="center">
 
     <unicorn.ertech.chroom.RollView
         android:id="@+id/rollView_a"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/green"
+        android:layout_weight="50"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"></unicorn.ertech.chroom.RollView>
+    <unicorn.ertech.chroom.RollView
+        android:id="@+id/rollView_b"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="50"
+        android:visibility="gone"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"></unicorn.ertech.chroom.RollView>
+
+    <NumberPicker
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"></unicorn.ertech.chroom.RollView>
+        android:layout_height="wrap_content"
+        android:id="@+id/numberPicker1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numberPicker2"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp" />
 </LinearLayout>

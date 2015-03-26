@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -51,6 +52,7 @@ public class VActivity extends Activity {
     //	ArrayList<String> id = new ArrayList<String>();
     ArrayList<String> idS = new ArrayList<String>();
     ArrayList<String> newPhone = new ArrayList<String>();
+    String token;
 
     ArrayList<String> newData = new ArrayList<String>();
 
@@ -70,6 +72,12 @@ public class VActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vactivity_layout);
 
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
 
         try
         {
@@ -293,7 +301,7 @@ public class VActivity extends Activity {
 
                     Intent i = new Intent(getApplicationContext(),Profile2.class);
                     i.putExtra("userId",phoneS.get(position));
-                    i.putExtra("token",Main.str);
+                    i.putExtra("token",token);
                     startActivity(i);
 
 
@@ -306,7 +314,7 @@ public class VActivity extends Activity {
 
                     Intent i = new Intent(getApplicationContext(),Profile2.class);
                     i.putExtra("userId",phoneS.get(position));
-                    i.putExtra("token",Main.str);
+                    i.putExtra("token",token);
                     startActivity(i);
                 }
             });
@@ -317,7 +325,7 @@ public class VActivity extends Activity {
 
                     Intent i = new Intent(getApplicationContext(),Profile2.class);
                     i.putExtra("userId",phoneS.get(position));
-                    i.putExtra("token",Main.str);
+                    i.putExtra("token",token);
                     startActivity(i);
                 }
             });
@@ -327,7 +335,7 @@ public class VActivity extends Activity {
                 public void onClick(View v) {
                     Intent i = new Intent(getApplicationContext(),Profile2.class);
                     i.putExtra("userId",phoneS.get(position));
-                    i.putExtra("token",Main.str);
+                    i.putExtra("token",token);
                     startActivity(i);
                 }
             });
@@ -388,7 +396,7 @@ public class VActivity extends Activity {
                 tmp = ph;
 
                 nameValuePairs.add(new BasicNameValuePair("phones", ph));
-                nameValuePairs.add(new BasicNameValuePair("token", Main.str));
+                nameValuePairs.add(new BasicNameValuePair("token", token));
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 // Execute HTTP Post Request

@@ -54,7 +54,7 @@ public class ConversationsFragment extends Fragment {
     static conversationsAdapter adapter;
     static List<conversationsMsg> messages = new ArrayList<conversationsMsg>();
     Timer myTimer;
-    public static String token, realNum, fakeNum, lastID4;
+    public  String token, realNum, fakeNum, lastID4;
     conversationsMsg agent;
     static String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();
@@ -90,7 +90,12 @@ public class ConversationsFragment extends Fragment {
 
         adapter = new conversationsAdapter(messages,context);
         dialogs.setAdapter(adapter);
-        token = Main.str;
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         lastID4 = "";
 
         dialogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -143,7 +148,7 @@ public class ConversationsFragment extends Fragment {
         return activeNetworkInfo != null;
     }
 
-    public  static void update()
+    public void update()
     {
         messages.clear();
         favorites.clear();
@@ -249,7 +254,7 @@ public class ConversationsFragment extends Fragment {
     }//конец asyncTask
 
 
-    public static class getLists extends AsyncTask<String, String, JSONObject> {
+    public class getLists extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
             FavoritesFragment.messages.clear();
@@ -443,7 +448,7 @@ public class ConversationsFragment extends Fragment {
         {
             if(Notif.getString(SAVED_NOTIF,"").equals("true"))
             {
-                ed2.putString(SAVED_LASTID,ConversationsFragment.lastID4);
+                ed2.putString(SAVED_LASTID,lastID4);
                 ed2.commit();
 
             }

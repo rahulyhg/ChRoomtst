@@ -1,5 +1,6 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +41,7 @@ public class SearchRandom extends Fragment {
     Sensor sensorGravity;
     ImageView buttonStart;
     final String SAVED_COLOR = "color";
-    String URL = "http://im.topufa.org/index.php";
+    String URL = "http://im.topufa.org/index.php", token;
     int tryCount=0;
     int realTry=0;
     Animation myAnim;
@@ -103,6 +104,13 @@ public class SearchRandom extends Fragment {
             }
         });
         setColor();
+
+        SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         return view;
     }
 
@@ -216,7 +224,7 @@ public class SearchRandom extends Fragment {
             do {
 
                 //ставим нужные нам параметры
-                jParser.setParam("token", Main.str);
+                jParser.setParam("token", token);
                 jParser.setParam("action", "lookfor");
                 jParser.setParam("type", "4");
                 if(elapsedtime<5000) {
@@ -305,7 +313,7 @@ public class SearchRandom extends Fragment {
                         i.putExtra("userId", id);
                         i.putExtra("favorite","false");
                         i.putExtra("fromDialogs","false");
-                        i.putExtra("token", Main.str);
+                        i.putExtra("token", token);
                         i.putExtra("shake", "false");
                         i.putExtra("avatar", avatar);
                         startActivity(i);

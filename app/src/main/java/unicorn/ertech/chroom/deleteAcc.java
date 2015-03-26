@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -22,11 +23,18 @@ import org.json.JSONObject;
 
 public class deleteAcc extends Activity {
 
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.delete_acc_layout);
-
+        SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+        if((userData.contains("token"))){
+            if(!userData.getString("token", "0").equals("0")){
+                token=userData.getString("token", "");
+            }
+        }
         Button butBack=(Button)findViewById(R.id.setBack);
         Button delete=(Button)findViewById(R.id.deleteButton);
         delete.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +97,7 @@ public class deleteAcc extends Activity {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "profile_delete");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(Main.URL);

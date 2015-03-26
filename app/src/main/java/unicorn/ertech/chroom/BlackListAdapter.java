@@ -1,8 +1,10 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ public class BlackListAdapter extends ArrayAdapter<BlackListItem> {
     private List<BlackListItem> items;
     private static Context context;
     public static String deleteId;
+    String token;
 
     public BlackListAdapter(List<BlackListItem> items, Context ctx) {
         super(ctx, R.layout.black_list_layout, items);
@@ -76,6 +79,7 @@ public class BlackListAdapter extends ArrayAdapter<BlackListItem> {
         Picasso.with(getContext()).load(p.avatar).transform(new PicassoRoundTransformation()).fit().into(holder.img);
 
 
+
         return v;
     }
 
@@ -102,7 +106,7 @@ public class BlackListAdapter extends ArrayAdapter<BlackListItem> {
         quitDialog.show();
     }
 
-    private static class remove extends AsyncTask<String, String, JSONObject> {
+    private class remove extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -113,7 +117,7 @@ public class BlackListAdapter extends ArrayAdapter<BlackListItem> {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
-            jParser.setParam("token", Main.str);
+            jParser.setParam("token", token);
             jParser.setParam("action", "list_delete");
             jParser.setParam("list", "2");
             jParser.setParam("deleteid",deleteId);
