@@ -279,8 +279,11 @@ public class Profile extends Activity {
         profileSex.setAdapter(adapter2);
         searchSex.setAdapter(adapter2);
         GeoAdapter adapter = new GeoAdapter(this,
-                R.layout.spinner_without_bg, getResources().getStringArray(R.array.sex));
+                R.layout.spinner_without_bg, getResources().getStringArray(R.array.regions));
         regionSpin.setAdapter(adapter);
+        SpAdapter adapter3 = new SpAdapter(this,
+                R.layout.spinner_without_bg, getResources().getStringArray(R.array.family));
+        familySpin.setAdapter(adapter3);
         //GeoAdapter2 adapter3 = new GeoAdapter2(this,
         //        R.layout.spinner_without_bg, getResources().getStringArray(R.array.sex));
         //etProfileCity.setAdapter(adapter3);
@@ -635,11 +638,52 @@ public class Profile extends Activity {
                 if(status.equals("false"))
                 {
                     Toast.makeText(getApplicationContext(), "Изображение успешно добавлено на сервер!", Toast.LENGTH_LONG).show();
+                    new reloadUserData().execute();
                 }
                 else
                 {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении изображения на сервер!", Toast.LENGTH_LONG).show();
                 }
+            }
+        }
+    }
+
+    private class reloadUserData extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+//ставим нужные нам параметры
+            jParser.setParam("action", "profile_get");
+            jParser.setParam("userid", Integer.toString(userID));
+            jParser.setParam("token", token);
+// Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            try {
+                photosURLs[0]=json.getString("photo1");
+                photosURLs[1]=json.getString("photo2");
+                photosURLs[2]=json.getString("photo3");
+                photosURLs[3]=json.getString("photo4");
+                photosURLs[4]=json.getString("avatar");;
+                photosURLs[5]=json.getString("photo1_full");
+                photosURLs[6]=json.getString("photo2_full");
+                photosURLs[7]=json.getString("photo3_full");
+                photosURLs[8]=json.getString("photo4_full");
+                photosURLs[9]=json.getString("avatar_full");
+
+                sPref = getSharedPreferences("user", MODE_PRIVATE); //Сохраняем ID юзера, для доступа в профиле
+                SharedPreferences.Editor ed = sPref.edit();
+                ed.putString("avatar_link", photosURLs[4]);
+                ed.commit();
+            } catch (JSONException e) {
+                Log.e("saveToken", e.toString());
             }
         }
     }
@@ -690,6 +734,7 @@ public class Profile extends Activity {
                 if(status.equals("false"))
                 {
                     Toast.makeText(getApplicationContext(), "Изображение успешно добавлено на сервер!", Toast.LENGTH_LONG).show();
+                    new reloadUserData().execute();
                 }
                 else
                 {
@@ -763,6 +808,9 @@ public class Profile extends Activity {
                     }
                     if (selector == 0) {
                         for (int i = 0; i < 5; i++) {
+                            if(selectedHere[i]==position){
+                                break;
+                            }
                             if (selectedHere[i] == -1) {
                                 selectedHere[i] = position;
                                 break;
@@ -770,6 +818,9 @@ public class Profile extends Activity {
                         }
                     } else if (selector == 1) {
                         for (int i = 0; i < 5; i++) {
+                            if(selectedHobbies[i]==position){
+                                break;
+                            }
                             if (selectedHobbies[i] == -1) {
                                 selectedHobbies[i] = position;
                                 break;
@@ -935,6 +986,42 @@ str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
         }
     }
 
+    private class SpAdapter extends ArrayAdapter<String> {
+        public SpAdapter(Context context, int textViewResourceId,
+                          String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.family)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_without_bg, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.tvWB);
+            label.setText(getResources().getStringArray(R.array.family)[position]);
+            return row;
+        }
+    }
     private class GeoAdapter2 extends ArrayAdapter<String> {
         public GeoAdapter2(Context context, int textViewResourceId,
                           String[] objects) {

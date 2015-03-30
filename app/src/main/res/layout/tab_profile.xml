@@ -46,7 +46,7 @@
         android:id="@+id/scrollView2" >
         <LinearLayout
             android:orientation="vertical" android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white">
             <RelativeLayout
                 android:layout_width="fill_parent"
@@ -262,14 +262,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/etProfileRegion"
-                    android:entries="@array/regions"
                     android:cursorVisible="false"
                     android:autoText="false"
-                    android:padding="7dp"
                     android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
                     android:hint="Регион"
-                    android:layout_marginBottom="5dp" />
+                    android:spinnerMode="dialog"
+                    android:layout_marginBottom="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="8dp" />
             </TableRow>
 
             <TableRow
@@ -319,10 +322,14 @@
                     android:cursorVisible="false"
                     android:entries="@array/family"
                     android:autoText="false"
-                    android:padding="7dp"
-                    android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
-                    android:hint="Семейное положение" />
+                    android:hint="Семейное положение"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="8dp" />
             </TableRow>
 
             <TableRow
@@ -344,7 +351,11 @@
                         android:entries="@array/sex"
                         android:spinnerMode="dialog"
                         android:layout_marginLeft="15dp"
-                        android:padding="7dp" />
+                        android:paddingLeft="7dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="7dp"
+                        android:paddingBottom="8dp"
+                        android:layout_marginBottom="7dp" />
                 </TableRow>
 
             <TableRow
@@ -368,7 +379,11 @@
                     android:entries="@array/sex"
                     android:spinnerMode="dialog"
                     android:layout_marginLeft="15dp"
-                    android:padding="7dp" />
+                    android:paddingLeft="7dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="7dp" />
             </TableRow>
 
             <TextView

@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/whiteglass"
     android:weightSum="100"
-    android:gravity="center">
+    android:gravity="center"
+    android:clickable="true">
 
     <unicorn.ertech.chroom.RollView
         android:id="@+id/rollView_a"

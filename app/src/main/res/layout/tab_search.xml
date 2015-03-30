@@ -101,17 +101,18 @@
                     android:textColor="@color/black"
                     android:visibility="gone" />
 
-                <EditText
+                <TextView
                     android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:inputType="number"
                     android:ems="10"
                     android:id="@+id/etSearchAge1"
                     android:linksClickable="false"
-                    android:maxLength="3"
                     android:numeric="integer"
                     android:singleLine="true"
+                    android:gravity="center"
                     android:background="@drawable/cornersspinner"
+                    android:editable="false"
                     android:cursorVisible="false"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
@@ -211,7 +212,6 @@
                         android:layout_height="35dp"
                         android:id="@+id/cbSearchOnline"
                         android:button="@drawable/checkbox_selector_g"
-                        android:checked="false"
                         android:textStyle="bold"
                         android:elegantTextHeight="false"
 

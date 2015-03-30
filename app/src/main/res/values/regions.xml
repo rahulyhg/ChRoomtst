@@ -1,10 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="regions">
-        <item>Башкортостан</item>
-        <item>Татарстан</item>
-        <item>Челябинская обл.</item>
         <item>Москва</item>
+        <item>Москвовская обл..</item>
+        <item>Санкт-Петербург</item>
+        <item>Ленинградская обл.</item>
+        <item>Адыгея</item>
+        <item>Алтай</item>
+        <item>Алтайский край</item>
+        <item>Амурская обл.</item>
+        <item>Астраханская обл.</item>
+        <item>Архангельская обл.</item>
+        <item>Башкортостан</item>
+        <item>Белгородская обл.</item>
+        <item>Брянская обл.</item>
+        <item>Бурятия</item>
+        <item>Владимирская обл.</item>
+        <item>Волгоградская обл.</item>
+        <item>Вологодская обл.</item>
+        <item>Воронежская обл.</item>
+        <item>Дагестан</item>
+        <item>Еврейская автономная обл.</item>
+        <item>Забайкальский край</item>
+        <item>Ивановская обл.</item>
+        <item>Ингушетия</item>
+        <item>Иркутская обл.</item>
+        <item>Кабардино-Балкария</item>
+        <item>Калининградская обл.</item>
+        <item>Калмыкия</item>
+        <item>Калужская обл.</item>
+        <item>Камчатский край</item>
+        <item>Карачаево-Черкессия</item>
+        <item>Карелия</item>
+        <item>Кемеровская обл.</item>
+        <item>Кировская обл.</item>
+        <item>Коми</item>
+        <item>Костромская обл.</item>
+        <item>Краснодарский край</item>
+        <item>Красноярский край</item>
+        <item>Курганская обл.</item>
+        <item>Курская обл.</item>
+        <item>Липецкая обл.</item>
+        <item>Магаданская обл.</item>
+        <item>Марий Эл</item>
+        <item>Мордовия</item>
+        <item>Мурманская обл.</item>
+        <item>Ненецкий АО</item>
+        <item>Нижегородская обл.</item>
+        <item>Новгородская обл.</item>
+        <item>Новосибирская обл.</item>
+        <item>Омская обл.</item>
+        <item>Оренбургская обл.</item>
+        <item>Орловская обл.</item>
+        <item>Пензенская обл.</item>
+        <item>Пермский край</item>
+        <item>Приморский край</item>
+        <item>Псковская обл.</item>
+        <item>Ростовская обл.</item>
+        <item>Рязанская обл.</item>
         <item>Самарская обл.</item>
+        <item>Саратовская обл.</item>
+        <item>Саха (Якутия)</item>
+        <item>Сахалинская обл.</item>
+        <item>Свердловская обл.</item>
+        <item>Северная Осетия-Алания</item>
+        <item>Смоленская обл.</item>
+        <item>Ставропольский край</item>
+        <item>Тамбовская обл.</item>
+        <item>Татарстан</item>
+        <item>Тверская обл.</item>
+        <item>Томская обл.</item>
+        <item>Тува</item>
+        <item>Тульская обл.</item>
+        <item>Тюменская обл.</item>
+        <item>Удмуртия</item>
+        <item>Ульяновская обл.</item>
+        <item>Хабаровский край</item>
+        <item>Хакасия</item>
+        <item>Ханты-Мансийский АО</item>
+        <item>Челябинская обл.</item>
+        <item>Чечня</item>
+        <item>Чувашия</item>
+        <item>Чукотский АО</item>
+        <item>Ямало-Ненецкий АО</item>
+        <item>Ярославская обл.</item>
     </string-array>
 </resources>

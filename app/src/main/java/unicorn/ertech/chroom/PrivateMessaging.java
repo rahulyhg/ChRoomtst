@@ -70,7 +70,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     Date dateTime;
     String shake;
     RelativeLayout topRow;
-    SharedPreferences userData;
+    SharedPreferences userData, savedStrings;
     final String USER = "user";
     String fromDIALOGS;
     String lastID4;
@@ -125,6 +125,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
         dateTime = new Date();
 
+        lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         butLists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +180,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         shake = i.getStringExtra("shake");
         if(shake.equals("true")){
             butLists.setVisibility(View.INVISIBLE);
+            pmChatMessage p = new pmChatMessage("0","Здравствуйте! Опишите Вашу проблему максимально подробно, наши агенты свяжутся с Вами в ближайшее время.", "1");
+            messages.add(0, p);
+            adapter.notifyDataSetChanged();
         }
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
@@ -203,14 +207,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onClick(View v) {
-                int savedPosition = lvChat.getLastVisiblePosition();
-                lvChat.setSelection(savedPosition);
+                int savedPosition = lvChat.getFirstVisiblePosition();
+                lvChat.setSelectionFromTop(savedPosition,60);
                 //lvChat.setSelection
-                /*if (smileTable.getVisibility() == View.GONE) {
+                if (smileTable.getVisibility() == View.GONE) {
                     smileTable.setVisibility(View.VISIBLE);
                 } else {
                     smileTable.setVisibility(View.GONE);
-                }*/
+                }
             }
         });
 
@@ -366,11 +370,16 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
                     msgCount++;
                     Log.e("privatesend","777");
-                    adapter.notifyDataSetChanged();
+
                     Log.e("privatesend","888");
                     lvChat.setSelection(adapter.getCount());
                     Log.e("privatesend","999");
                     txtSend.setText("");
+                    if(shake.equals("true")){
+                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "0");
+                        messages.add(0, p3);
+                    }
+                    adapter.notifyDataSetChanged();
                 } else {
                     try {
                         status = json.getString("error_code");
@@ -493,7 +502,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         lvChat.setSelection(adapter.getCount());
                         if(Integer.parseInt(realNum)==0)
                         {
-                            Toast.makeText(getApplicationContext(), "Истоия переписки пуста!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "История переписки пуста!", Toast.LENGTH_SHORT).show();
                         }
                     }
                     else
@@ -668,8 +677,6 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
-
-
 
     ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 
@@ -930,7 +937,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     messages.clear();
                     adapter.notifyDataSetChanged();
                     //ConversationsFragment.update();
-                    Toast.makeText(getApplicationContext(), "Истоия сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "История сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при очистке!", Toast.LENGTH_LONG).show();
                 }
@@ -939,8 +946,6 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             }
         }
     }
-
-
 
     //Всплывающее меню
     private void showPopupMenu(View v) {
@@ -1017,7 +1022,11 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 startService(srvs);
             }
         }
-            NotOut = false;
+        NotOut = false;
+        savedStrings=getPreferences(MODE_PRIVATE);
+        ed2=savedStrings.edit();
+        ed2.putString(userId, txtSend.getText().toString());
+        ed2.commit();
         super.onPause();
     }
 
@@ -1028,6 +1037,10 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         Intent srvs = new Intent(this, notif.class);
         stopService(srvs);
         NotOut = true;
+        savedStrings=getPreferences(MODE_PRIVATE);
+        if(savedStrings.contains(userId)){
+            txtSend.setText(savedStrings.getString(userId,""));
+        }
     }
 
     @Override

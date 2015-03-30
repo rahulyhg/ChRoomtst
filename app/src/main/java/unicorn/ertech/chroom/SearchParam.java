@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 /**
  * Created by Timur on 11.01.2015.
@@ -47,7 +48,8 @@ public class SearchParam extends Fragment {
     public JSONParser jParserReserve = null;
     static Spinner sexSpinner;
     static Spinner regionSpinner, hereforSpinner;
-    EditText age_from, age_till;
+    EditText  age_till;
+    TextView age_from;
     static EditText city;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
@@ -55,9 +57,11 @@ public class SearchParam extends Fragment {
     List<sResult> results  = new ArrayList<sResult>();
     CheckBox cb;
     static String sex,region, online;
-    static int age1=10, age2=120;
+    static int age1=18, age2=80;
     List<NameValuePair> request = new ArrayList<NameValuePair>(2);
     int currentColorSpinner;
+    private PopupWindow pwindo;
+    SharedPreferences savedParams;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -85,7 +89,7 @@ public class SearchParam extends Fragment {
         regionSpinner = (Spinner)view.findViewById(R.id.spinSearchRegion);
         hereforSpinner=(Spinner)view.findViewById(R.id.spinSearchHerefor);
         city = (EditText)view.findViewById(R.id.etSearchCity);
-        age_from = (EditText)view.findViewById(R.id.etSearchAge1);
+        age_from = (TextView)view.findViewById(R.id.etSearchAge1);
         age_till = (EditText)view.findViewById(R.id.etSearchAge2);
         TextView age_from2 = (TextView)view.findViewById(R.id.tvSearchAge1);
         online = "1";
@@ -102,16 +106,16 @@ public class SearchParam extends Fragment {
             public void onClick(View v) {
                 if(cb.isChecked())
                 {
-                    online="";
+                    online="1";
                 }
                 else
                 {
-                    online="1";
+                    online="";
                 }
             }
         });
-        age_from2.setClickable(true);
-        age_from2.setOnClickListener(new View.OnClickListener() {
+        age_from.setClickable(true);
+        age_from.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initiatePopupWindow();
@@ -293,6 +297,36 @@ public class SearchParam extends Fragment {
     public void onResume(){
         super.onResume();
         setColor();
+        savedParams=getActivity().getPreferences(Context.MODE_PRIVATE);
+        if(savedParams.contains("spinnerSex")){
+            sexSpinner.setSelection(savedParams.getInt("spinnerSex", 0));
+            regionSpinner.setSelection(savedParams.getInt("spinnerRegion", 0));
+            hereforSpinner.setSelection(savedParams.getInt("spinnerHerefor", 0));
+            cb.setSelected(savedParams.getBoolean("online", false));
+            //citySpinner.setSelection(savedParams.getInt("spinnerCity", 0));
+        }
+        if(savedParams.contains("age1")){
+            age1=savedParams.getInt("age1", age1);
+        }
+        if(savedParams.contains("age2")){
+            age2=savedParams.getInt("age2", age2);
+        }
+        age_from.setText(Integer.toString(age1)+" - "+Integer.toString(age2));
+    }
+
+    @Override
+    public void onPause(){
+        savedParams=getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed4 = savedParams.edit();
+        ed4.putInt("spinnerSex", sexSpinner.getSelectedItemPosition());
+        ed4.putInt("spinnerRegion", regionSpinner.getSelectedItemPosition());
+        ed4.putInt("spinnerHerefor", hereforSpinner.getSelectedItemPosition());
+        //ed4.putInt("spinnerCity", sexSpinner.getSelectedItemPosition());
+        ed4.putInt("age1", age1);
+        ed4.putInt("age2", age2);
+        ed4.putBoolean("online", cb.isChecked());
+        ed4.commit();
+        super.onPause();
     }
 
     public static void getParams(JSONParser jPars)
@@ -470,7 +504,6 @@ public class SearchParam extends Fragment {
         }
     }
 
-    private PopupWindow pwindo;
     private void initiatePopupWindow() {
         try {
 // We need to get the instance of the LayoutInflater
@@ -493,14 +526,17 @@ public class SearchParam extends Fragment {
             final NumberPicker np1 = (NumberPicker)layout.findViewById(R.id.numberPicker1);
             final NumberPicker np2 = (NumberPicker)layout.findViewById(R.id.numberPicker2);
 
-            np1.setMinValue(10);
-            np1.setMaxValue(100);
+            np1.setMinValue(18);
+            np1.setMaxValue(80);
 
-            np2.setMinValue(10);
-            np2.setMaxValue(120);
+            np2.setMinValue(18);
+            np2.setMaxValue(80);
 
             np1.setWrapSelectorWheel(false);
             np2.setWrapSelectorWheel(false);
+
+            np1.setValue(age1);
+            np2.setValue(age2);
 
             np1.refreshDrawableState();
             //RollView roll = (RollView)layout.findViewById(R.id.rollView_a);
@@ -512,12 +548,24 @@ public class SearchParam extends Fragment {
                 public void onClick(View view) {
                     age1=np1.getValue();
                     age2=np2.getValue();
-                    age_from.setText(Integer.toString(age1)+"   -   "+Integer.toString(age2));
+                    String str;
+                    str=Integer.toString(age1)+" - "+Integer.toString(age2);
+                    age_from.setText(str);
                     pwindo.dismiss();
+                }
+            });
+
+            pwindo.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+                @Override
+                public void onDismiss() {
+                    pwindo.dismiss();
+                    //age_from.setText(Integer.toString(age1)+"   -   "+Integer.toString(age2));
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

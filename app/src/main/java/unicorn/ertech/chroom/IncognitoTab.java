@@ -75,5 +75,8 @@ public class IncognitoTab extends FragmentActivity{
         } else {
             incognitoTitle.setBackgroundResource(R.color.green);
         }
+        fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.replace(R.id.frgmCont2, frag1);
+        fTrans.commit();
     }
 }
