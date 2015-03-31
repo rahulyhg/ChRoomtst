@@ -125,7 +125,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
         dateTime = new Date();
 
-        lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         butLists.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
