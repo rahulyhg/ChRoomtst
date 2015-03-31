@@ -560,6 +560,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                             lastID4 = lastId;
                             ed2 = Notif.edit();
                             ed2.putString(SAVED_LASTID,lastID4);
+                            if(Integer.parseInt(lastId)>Integer.parseInt(ConversationsFragment.lastID4)) {
+                                ConversationsFragment.lastID4 = lastId;}
                             ed2.commit();
                         }
                     } catch (JSONException e) {
@@ -649,7 +651,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 {
                     favorite = "false";
                     FavoritesFragment.findNremove(userId);
-                    //ConversationsFragment.update();
+                    ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
                 }
                 else
@@ -825,7 +827,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
                 if (status.equals("false")) {
                     favorite = "true";
-                    //ConversationsFragment.update();
+                    ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
@@ -927,7 +929,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     msgCount=0;
                     messages.clear();
                     adapter.notifyDataSetChanged();
-                    //ConversationsFragment.update();
+                    ConversationsFragment.update();
                     Toast.makeText(getApplicationContext(), "История сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при очистке!", Toast.LENGTH_LONG).show();

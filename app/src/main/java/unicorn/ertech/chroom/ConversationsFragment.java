@@ -54,19 +54,20 @@ public class ConversationsFragment extends Fragment {
     static conversationsAdapter adapter;
     static List<conversationsMsg> messages = new ArrayList<conversationsMsg>();
     Timer myTimer;
-    public  String token, realNum, fakeNum, lastID4;
+    static public  String token, realNum, fakeNum;
+    public static String lastID4;
     conversationsMsg agent;
     static String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();
     boolean stopTImer = false ;
     static List<Integer> favorites = new ArrayList<Integer>();
-    SharedPreferences Notif;
-    SharedPreferences.Editor ed2;
-    final String SAVED_NOTIF="notif";
+    static SharedPreferences Notif;
+    static SharedPreferences.Editor ed2;
+    final static String SAVED_NOTIF="notif";
     final String SAVED_SOUND="sound";
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
-    final String SAVED_LASTID="lastid";
+    final static String SAVED_LASTID="lastid";
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class ConversationsFragment extends Fragment {
         return activeNetworkInfo != null;
     }
 
-    public void update()
+    public static void update()
     {
         messages.clear();
         favorites.clear();
@@ -254,7 +255,7 @@ public class ConversationsFragment extends Fragment {
     }//конец asyncTask
 
 
-    public class getLists extends AsyncTask<String, String, JSONObject> {
+    public static class getLists extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
             FavoritesFragment.messages.clear();
