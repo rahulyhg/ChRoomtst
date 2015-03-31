@@ -90,7 +90,7 @@ public class Main extends TabActivity {
         butProfile = (ImageButton) findViewById(R.id.usrPic);
 
         SharedPreferences Notif2 = getSharedPreferences("notifications",Context.MODE_PRIVATE);
-        if(Notif2.contains(SAVED_NOTIF))
+        if(Notif2.contains(SAVED_LASTID))
         {
                lastID4=Notif2.getString(SAVED_LASTID,"");
         }

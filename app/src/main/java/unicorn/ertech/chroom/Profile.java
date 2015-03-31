@@ -809,6 +809,7 @@ public class Profile extends Activity {
                     if (selector == 0) {
                         for (int i = 0; i < 5; i++) {
                             if(selectedHere[i]==position){
+                                selectedHere[i]=-1;
                                 break;
                             }
                             if (selectedHere[i] == -1) {
@@ -819,6 +820,7 @@ public class Profile extends Activity {
                     } else if (selector == 1) {
                         for (int i = 0; i < 5; i++) {
                             if(selectedHobbies[i]==position){
+                                selectedHobbies[i]=-1;
                                 break;
                             }
                             if (selectedHobbies[i] == -1) {

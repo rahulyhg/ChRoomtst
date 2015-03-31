@@ -54,6 +54,7 @@ public class BlackListAdapter extends ArrayAdapter<BlackListItem> {
             ImageView image = (ImageView)v.findViewById(R.id.imgBlack);
             ImageButton imgButt = (ImageButton)v.findViewById(R.id.deleteFromBlack);
 
+            token=SetBlackList.token;
 
             holder.imgButton = imgButt;
             holder.img = image;

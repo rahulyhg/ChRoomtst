@@ -290,6 +290,18 @@ public class ConversationsFragment extends Fragment {
                 try {
                     realNum = json.getString("total");
                     lastID4 = Integer.toString(json.getInt("lastid"));
+                    Notif = context.getSharedPreferences("notifications",context.MODE_PRIVATE);
+                    ed2 = Notif.edit();
+                    if(Notif.contains(SAVED_NOTIF))
+                    {
+                        if(Notif.getString(SAVED_NOTIF,"").equals("true"))
+                        {
+                            ed2.putString(SAVED_LASTID,lastID4);
+                            ed2.commit();
+
+                        }
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -310,9 +322,9 @@ public class ConversationsFragment extends Fragment {
 
                             String onl="";
                             if(messag.getBoolean("online")){
-                                onl="|Online";
+                                onl="| Online";
                             }else{
-                                onl="|Offline";
+                                onl="";
                             }
                             if(s.equals("false"))
                             {

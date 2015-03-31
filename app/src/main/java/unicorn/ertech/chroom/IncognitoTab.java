@@ -77,6 +77,6 @@ public class IncognitoTab extends FragmentActivity{
         }
         fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frgmCont2, frag1);
-        fTrans.commit();
+        fTrans.commitAllowingStateLoss();
     }
 }

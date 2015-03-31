@@ -190,8 +190,8 @@ public class SearchRandom extends Fragment {
 
     @Override
     public void onPause() {
-        super.onPause();
         sensorManager.unregisterListener(listener);
+        super.onPause();
     }
 
     @Override

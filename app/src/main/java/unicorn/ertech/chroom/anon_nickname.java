@@ -25,7 +25,7 @@ import org.json.JSONObject;
 public class anon_nickname extends Activity {
 
     EditText nick;
-    SharedPreferences sPref;
+    SharedPreferences sPref, sPref2;
     ImageButton butBack;
     RelativeLayout topRow;
     String token;
@@ -71,6 +71,10 @@ public class anon_nickname extends Activity {
             }
         });
         setColor();
+        sPref2=getPreferences(MODE_PRIVATE);
+        if(sPref2.contains("anon_nick")){
+            nick.setText(sPref2.getString("anon_nick",""));
+        }
     }
 
     private void setColor(){
@@ -154,6 +158,9 @@ public class anon_nickname extends Activity {
 
                 if(status.equals("false"))
                 {
+                    SharedPreferences.Editor ed=sPref2.edit();
+                    ed.putString("anon_nick", nick.getText().toString());
+                    ed.commit();
                     Toast.makeText(getApplicationContext(), "Анонимный ник успешно изменён!", Toast.LENGTH_LONG).show();
                     close();
                 }

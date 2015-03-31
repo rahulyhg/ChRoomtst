@@ -106,13 +106,11 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         userData = getSharedPreferences("user", MODE_PRIVATE);
 
         myID = Integer.toString(userData.getInt(USER,0));
-        SharedPreferences userD = getSharedPreferences("notifications", Context.MODE_PRIVATE);
-        if((userD.contains("notif"))){
-            if(!userD.getString("lastid", "0").equals("0")){
-                lastID4=userD.getString("lastid", "");
-            }
-        }
+
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
+        if((Notif.contains(SAVED_LASTID))){
+            lastID4=Notif.getString(SAVED_LASTID, "");
+        }
         butSend=(ImageButton)findViewById(R.id.buttonSend);
         butSmile=(ImageButton)findViewById(R.id.buttonSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
@@ -560,16 +558,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         lastId = json.getString("lastid");
                         if(Integer.parseInt(lastId)>Integer.parseInt(lastID4)) {
                             lastID4 = lastId;
-                        }
-                        ed2 = Notif.edit();
-                        if(Notif.contains(SAVED_NOTIF))
-                        {
-                            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
-                            {
-                                ed2.putString(SAVED_LASTID,lastID4);
-                                ed2.commit();
-
-                            }
+                            ed2 = Notif.edit();
+                            ed2.putString(SAVED_LASTID,lastID4);
+                            ed2.commit();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

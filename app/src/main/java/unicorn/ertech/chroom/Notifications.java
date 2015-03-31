@@ -49,7 +49,7 @@ public class Notifications extends Activity {
         topRow=(RelativeLayout)findViewById(R.id.topRow_sp);
 
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
-        if(Notif.contains(SAVED_NOTIF))
+        if(Notif.contains(SAVED_LASTID))
         {
             lastID4=Notif.getString(SAVED_LASTID,"");
         }

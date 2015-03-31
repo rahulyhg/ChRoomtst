@@ -31,7 +31,7 @@ public class SetBlackList extends Activity {
     final String SAVED_COLOR = "color";
     RelativeLayout topRow;
     ImageButton butBack;
-    String token;
+    static String token;
     public static ListView lvBlackList;
     public static List<BlackListItem> blackList = new ArrayList<BlackListItem>();
     public static BlackListAdapter adapter;
