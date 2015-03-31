@@ -23,6 +23,17 @@
             android:src="@drawable/back_left"
             android:padding="10dp"
             android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online"
+            android:id="@+id/tvProfOnline"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
     <ScrollView
         android:layout_width="wrap_content"
@@ -114,21 +125,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/etName"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="25dp"
             android:layout_alignParentTop="true"
             android:background="@android:color/transparent"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:singleLine="false" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
             android:id="@+id/tvBirthday2"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
             android:background="@android:color/transparent"
@@ -140,7 +152,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Счастье есть - его не может не быть"
             android:id="@+id/tvProfileStatus"
             android:layout_alignParentBottom="true"
             android:paddingTop="7dp"

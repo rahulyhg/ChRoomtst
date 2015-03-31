@@ -2,14 +2,60 @@
 <resources>
     <string-array name="cities">
         <item>Уфа</item>
-        <item>Стерлитамак</item>
-        <item>Салават</item>
-        <item>Туймазы</item>
-        <item>Ишимбай</item>
-        <item>Кумертау</item>
-        <item>Янаул</item>
+        <item>Аксаково</item>
+        <item>Амзя</item>
+        <item>Аскино</item>
+        <item>Баймак</item>
+        <item>Бакалы</item>
+        <item>Белебей</item>
+        <item>Белорецк</item>
+        <item>Бижбуляк</item>
         <item>Бирск</item>
+        <item>Благовещенск</item>
+        <item>Большеустьикинское</item>
+        <item>Бураево</item>
+        <item>Верхнеяркеево</item>
+        <item>Верхние Киги</item>
+        <item>Верхние Татышлы</item>
+        <item>Верхний Авзян</item>
+        <item>Давлеканово</item>
+        <item>Дуван</item>
+        <item>Дюртюли</item>
+        <item>Ермекеево</item>
+        <item>Ермолаево</item>
+        <item>Зилаир</item>
+        <item>Зингар</item>
+        <item>Иглино</item>
+        <item>Инзер</item>
+        <item>Исянгулово</item>
+        <item>Ишимбай</item>
+        <item>Кананикольское</item>
+        <item>Кандры</item>
+        <item>Караидель</item>
+        <item>Караидельский</item>
+        <item>Киргиз-Мияки</item>
+        <item>Красноусольский</item>
+        <item>Кумертау</item>
+        <item>Кушнаренково</item>
+        <item>Малояз</item>
         <item>Мелеуз</item>
+        <item>Месягутово</item>
+        <item>Мраково</item>
         <item>Нефтекамск</item>
+        <item>Октябрьский</item>
+        <item>Раевский</item>
+        <item>Салават</item>
+        <item>Сибай</item>
+        <item>Старобалтачево</item>
+        <item>Старосубхангулово</item>
+        <item>Стерлибашево</item>
+        <item>Стерлитамак</item>
+        <item>Туймазы</item>
+        <item>Учалы</item>
+        <item>Федоровка</item>
+        <item>Чекмагуш</item>
+        <item>Чишмы</item>
+        <item>Шаран</item>
+        <item>Янаул</item>
     </string-array>
 </resources>

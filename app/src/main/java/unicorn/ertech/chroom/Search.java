@@ -77,6 +77,6 @@ public class Search extends FragmentActivity {
         super.onResume();
         fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frgmCont, frag2);
-        fTrans.commit();
+        fTrans.commitAllowingStateLoss();
     }
 }

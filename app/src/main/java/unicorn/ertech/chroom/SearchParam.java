@@ -50,7 +50,7 @@ public class SearchParam extends Fragment {
     static Spinner regionSpinner, hereforSpinner;
     EditText  age_till;
     TextView age_from;
-    static EditText city;
+    static Spinner city;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
     static String token;
@@ -88,7 +88,7 @@ public class SearchParam extends Fragment {
         sexSpinner = (Spinner)view.findViewById(R.id.spinSearchSex);
         regionSpinner = (Spinner)view.findViewById(R.id.spinSearchRegion);
         hereforSpinner=(Spinner)view.findViewById(R.id.spinSearchHerefor);
-        city = (EditText)view.findViewById(R.id.etSearchCity);
+        city = (Spinner)view.findViewById(R.id.etSearchCity);
         age_from = (TextView)view.findViewById(R.id.etSearchAge1);
         age_till = (EditText)view.findViewById(R.id.etSearchAge2);
         TextView age_from2 = (TextView)view.findViewById(R.id.tvSearchAge1);
@@ -164,9 +164,9 @@ public class SearchParam extends Fragment {
             tvTitle.setBackgroundResource(R.color.green);
             currentColorSpinner=R.layout.spinner_with_arrows_g;
         }
-        //SpinnersCustomAdapterCities adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
-          //      currentColorSpinner, getResources().getStringArray(R.array.cities));
-        //city.setAdapter(adapter);
+        SpinnersCustomAdapterCities adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
+                currentColorSpinner, getResources().getStringArray(R.array.cities));
+        city.setAdapter(adapter);
         SpinnersCustomAdapter adapter2 = new SpinnersCustomAdapter(getActivity().getApplicationContext(),
                 currentColorSpinner, getResources().getStringArray(R.array.regions));
         regionSpinner.setAdapter(adapter2);
@@ -220,7 +220,7 @@ public class SearchParam extends Fragment {
             else {
                 jParser.setParam("herefor", String.valueOf(hereforSpinner.getSelectedItemId()));
             }
-            jParser.setParam("city", city.getText().toString());
+            //jParser.setParam("city", city.getText().toString());
             //jParser.setParam("age_from", age_from.getText().toString());
             //jParser.setParam("age_till", age_till.getText().toString());
             jParser.setParam("age_from", Integer.toString(age1));
@@ -345,7 +345,7 @@ public class SearchParam extends Fragment {
         jPars.setParam("region", region);
         jPars.setParam("online", online);
         jPars.setParam("herefor",String.valueOf(hereforSpinner.getSelectedItemId()));
-        jPars.setParam("city", city.getText().toString());
+        //jPars.setParam("city", city.getText().toString());
         //jPars.setParam("age_from", age_from.getText().toString());
         //jPars.setParam("age_till", age_till.getText().toString());
         jPars.setParam("age_from", Integer.toString(age1));

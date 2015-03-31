@@ -3,15 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:padding="30dp"
-        android:textSize="17sp"
+        android:padding="10dp"
+        android:textSize="15sp"
         android:gravity="center" />
 
 </LinearLayout>

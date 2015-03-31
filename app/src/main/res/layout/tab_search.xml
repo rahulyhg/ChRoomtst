@@ -176,19 +176,18 @@
                 android:layout_marginBottom="5dp"
                 android:layout_gravity="center_horizontal" />
 
-            <EditText
+            <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/etSearchCity"
-                    android:background="@drawable/cornersspinner"
-                    android:cursorVisible="false"
+                android:cursorVisible="false"
                     android:layout_marginLeft="15dp"
                 android:gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
                 android:paddingBottom="7dp"
                 android:paddingTop="7dp"
-                android:layout_marginRight="15dp" />
+                android:spinnerMode="dialog" />
 
             <TableRow
                     android:layout_width="fill_parent"

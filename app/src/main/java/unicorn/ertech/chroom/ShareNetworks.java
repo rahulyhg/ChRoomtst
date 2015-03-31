@@ -65,6 +65,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -89,6 +90,8 @@ import android.widget.Toast;
  */
 public class ShareNetworks extends Fragment {
     private Context context;
+
+    TextView title;
 
     //fb
     private static final String PERMISSION = "publish_actions";
@@ -186,6 +189,7 @@ public class ShareNetworks extends Fragment {
         view.findViewById(R.id.layTwit).setOnClickListener(twitter);
         view.findViewById(R.id.layOk).setOnClickListener(ok);
 
+        title=(TextView)view.findViewById(R.id.tvShareTitle);
         canPresentShareDialog = FacebookDialog.canPresentShareDialog(getActivity(),
                 FacebookDialog.ShareDialogFeature.SHARE_DIALOG);
         canPresentShareDialogWithPhotos = FacebookDialog.canPresentShareDialog(getActivity(),
@@ -313,8 +317,6 @@ public class ShareNetworks extends Fragment {
             Log.w("Test", "Error in request or upload", error.httpError);
         }
     }
-
-
 
 
     /////////////////////////////ok
@@ -491,8 +493,25 @@ public class ShareNetworks extends Fragment {
         // Call the 'activateApp' method to log an app event for use in analytics and advertising reporting.  Do so in
         // the onResume methods of the primary Activities that an app may be launched into.
         AppEventsLogger.activateApp(getActivity().getApplicationContext());
-
+        setColor();
         updateUI();
+    }
+
+    private void setColor(){
+        SharedPreferences sPref;
+        sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if (sPref.contains("color")) {
+            int col = sPref.getInt("color", 0);
+            if (col == 1) {
+                title.setBackgroundResource(R.color.blue);
+            } else if (col == 0) {
+                title.setBackgroundResource(R.color.green);
+            } else if (col == 2) {
+                title.setBackgroundResource(R.color.orange);
+            } else if (col == 3) {
+                title.setBackgroundResource(R.color.purple);
+            }
+        }
     }
 
     @Override

@@ -308,15 +308,21 @@ public class ConversationsFragment extends Fragment {
                             messag = new JSONObject(real.get(i).toString());
                             s = messag.getString("bookmarked");
 
+                            String onl="";
+                            if(messag.getBoolean("online")){
+                                onl="|Online";
+                            }else{
+                                onl="|Offline";
+                            }
                             if(s.equals("false"))
                             {
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
                                 messages.add(0, p);
                             }
                             else
                             {
                                 favorites.add(Integer.parseInt(messag.getString("dialog_id")));
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
                                 FavoritesFragment.addList(p);
                             }
 

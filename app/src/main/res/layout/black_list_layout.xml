@@ -12,7 +12,8 @@
         android:layout_height="50dp"
         android:layout_gravity="left"
         android:paddingLeft="0dip"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher"
+        android:layout_marginLeft="10dp" />
 
     <TextView
         android:id="@+id/nameBlack"
@@ -20,7 +21,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_toRightOf="@id/imgBlack"
-        android:textStyle="italic"
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:layout_alignBottom="@+id/imgBlack"

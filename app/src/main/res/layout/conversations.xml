@@ -33,7 +33,6 @@
         android:layout_marginTop="2dip"
         android:paddingLeft="7dp"
         android:layout_toRightOf="@id/imgC2"
-        android:textStyle="italic"
         android:gravity="left"
         android:textColor="@color/black" />
 

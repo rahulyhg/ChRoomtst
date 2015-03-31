@@ -47,7 +47,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
     String[] photosURLs;
     String picUrl;
     Picasso mPicasso;
-    TextView etName;
+    TextView etName, onlineTv;
     TextView info, hobbiesTv, hereForTv, familyTv, etProfileCity, birthDay, profileSex, searchSex;
     Button butSend;
     int pic_width, pic_width2;
@@ -72,6 +72,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
         birthDay = (TextView) findViewById(R.id.tvBirthday2);
         profileSex = (TextView) findViewById(R.id.etProfile2Sex);
         searchSex = (TextView) findViewById(R.id.etProfile2SearchSex);
+        onlineTv=(TextView)findViewById(R.id.tvProfOnline);
         searchSex.setText("Не выбрано");
         profileSex.setText("Не выбрано");
         RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
@@ -343,6 +344,11 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         kiss = json.getString("kiss");
                         picURL = json.getString("avatar");
                         picURLFull = json.getString("avatar_full");
+                        if(json.getBoolean("online")){
+                            onlineTv.setText("online");
+                        }else{
+                            onlineTv.setText("offline");
+                        }
                         if (like.equals("1")) {
                             butLike.setImageResource(R.drawable.like_fill);
                             like_current = true;
