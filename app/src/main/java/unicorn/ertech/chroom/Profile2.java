@@ -179,10 +179,12 @@ public class Profile2 extends Activity implements View.OnClickListener {
         profilePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), PhotoViewer.class);
-                in.putExtra("photos", photosURLs);
-                in.putExtra("id", 0);
-                startActivity(in);
+                if(!photosURLs[4].equals("http://im.topufa.org/")) {
+                    Intent in = new Intent(getApplicationContext(), PhotoViewer.class);
+                    in.putExtra("photos", photosURLs);
+                    in.putExtra("id", 0);
+                    startActivity(in);
+                }
             }
         });
         if (isNetworkAvailable()) {
@@ -198,28 +200,36 @@ public class Profile2 extends Activity implements View.OnClickListener {
         public void onClick(View v){
             switch (v.getId()){
                 case R.id.photo1:
-                    Intent photoIntent = new Intent(getApplicationContext(), PhotoViewer.class);
-                    photoIntent.putExtra("photos", photosURLs);
-                    photoIntent.putExtra("id", 1);
-                    startActivity(photoIntent);
+                    if(!photosURLs[0].equals("http://im.topufa.org/")) {
+                        Intent photoIntent = new Intent(getApplicationContext(), PhotoViewer.class);
+                        photoIntent.putExtra("photos", photosURLs);
+                        photoIntent.putExtra("id", 1);
+                        startActivity(photoIntent);
+                    }
                     break;
                 case R.id.photo2:
-                    Intent photoIntent2 = new Intent(getApplicationContext(), PhotoViewer.class);
-                    photoIntent2.putExtra("photos", photosURLs);
-                    photoIntent2.putExtra("id", 2);
-                    startActivity(photoIntent2);
+                    if(!photosURLs[1].equals("http://im.topufa.org/")) {
+                        Intent photoIntent2 = new Intent(getApplicationContext(), PhotoViewer.class);
+                        photoIntent2.putExtra("photos", photosURLs);
+                        photoIntent2.putExtra("id", 2);
+                        startActivity(photoIntent2);
+                    }
                     break;
                 case R.id.photo3:
-                    Intent photoIntent3 = new Intent(getApplicationContext(), PhotoViewer.class);
-                    photoIntent3.putExtra("photos", photosURLs);
-                    photoIntent3.putExtra("id", 3);
-                    startActivity(photoIntent3);
+                    if(!photosURLs[2].equals("http://im.topufa.org/")) {
+                        Intent photoIntent3 = new Intent(getApplicationContext(), PhotoViewer.class);
+                        photoIntent3.putExtra("photos", photosURLs);
+                        photoIntent3.putExtra("id", 3);
+                        startActivity(photoIntent3);
+                    }
                     break;
                 case R.id.photo4:
-                    Intent photoIntent4 = new Intent(getApplicationContext(), PhotoViewer.class);
-                    photoIntent4.putExtra("photos", photosURLs);
-                    photoIntent4.putExtra("id", 4);
-                    startActivity(photoIntent4);
+                    if(!photosURLs[3].equals("http://im.topufa.org/")){
+                        Intent photoIntent4 = new Intent(getApplicationContext(), PhotoViewer.class);
+                        photoIntent4.putExtra("photos", photosURLs);
+                        photoIntent4.putExtra("id", 4);
+                        startActivity(photoIntent4);
+                    }
                     break;
                 default:
                     break;
@@ -240,7 +250,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
             in.putExtra("shake", "false");
             in.putExtra("fromDialogs", "false");
             in.putExtra("fake", "false");
-            in.putExtra("userPROFILE", userProfile);
+            in.putExtra("userPROFILE", userId);
             startActivity(in);
         }
     }

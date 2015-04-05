@@ -46,12 +46,14 @@ public favoritesAdapter(List<conversationsMsg> chat, Context ctx) {
             TextView msg = (TextView) v.findViewById(R.id.messagC);
             TextView time = (TextView) v.findViewById(R.id.timeC);
             ImageView image = (ImageView)v.findViewById(R.id.imgC);
+            TextView online = (TextView)v.findViewById(R.id.onlineC);
             RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.layout_color);
 
             holder.tvFrom = from;
             holder.tvMsg = msg;
             holder.img = image;
             holder.tvTime = time;
+            holder.tvOnline=online;
             //holder.Rl = rl;
 
             v.setTag(holder);
@@ -70,6 +72,7 @@ public favoritesAdapter(List<conversationsMsg> chat, Context ctx) {
         }
 
         holder.tvFrom.setText(p.from);
+        holder.tvOnline.setText(p.online);
         holder.tvMsg.setText(p.message);
 
         holder.tvMsg.setGravity(Gravity.LEFT);

@@ -165,6 +165,7 @@ public class Main extends TabActivity {
                 startActivity(in);*/
                 Intent i = new Intent(getApplicationContext(), PrivateMessaging.class);
                 i.putExtra("userId","0");
+                i.putExtra("userPROFILE", "0");
                 i.putExtra("token",str);
                 i.putExtra("nick","Служба поддержки");
                 i.putExtra("favorite","false");

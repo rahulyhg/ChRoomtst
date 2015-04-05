@@ -163,8 +163,10 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
                 int rssSize = rssReader.getItems().size();
                 for (int j=0; j<rssSize-1; j++){
                     item=rssReader.getItems().get(j);
-                    newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
-                    news_list.add(currentItem);
+                    if(!item.getImageUrl().equals("")){
+                        newsItem currentItem = new newsItem(item.getTitle(), item.getDescription(), item.getLink(), item.getImageUrl());
+                        news_list.add(currentItem);
+                    }
                 }
             } catch (Exception e) {
                 Log.v("Error Parsing Data", e + "");

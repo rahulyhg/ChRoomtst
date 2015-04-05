@@ -332,7 +332,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             {
                 jParser.setParam("action", "get_support");
                 jParser.setParam("sendto", sendTo);
-                jParser.setParam("type", "1");
+                jParser.setParam("type", "2");
             }
             jParser.setParam("message", outMsg);
             JSONObject json = jParser.getJSONFromUrl(URL);
@@ -381,7 +381,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     Log.e("privatesend","999");
                     txtSend.setText("");
                     if(shake.equals("true")){
-                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "0");
+                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "1");
                         messages.add(msgCount, p3);
                         msgCount++;
                     }
@@ -397,8 +397,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         Toast.makeText(getApplicationContext(), "Нельзя отправлять больше 5 сообщений в день службе поддержки!", Toast.LENGTH_LONG).show();
                     }
                     else if(status.equals("63")){
-                        Toast.makeText(getApplicationContext(), "Вы не можете написать этому пользователю. :Р", Toast.LENGTH_LONG).show();
-                    }{
+                        Toast.makeText(getApplicationContext(), "Вы в чёрном списке этого пользователя", Toast.LENGTH_LONG).show();
+                    }else{
                         Toast.makeText(getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -555,7 +555,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            Log.i("pmLast",json.toString());
+            //Log.i("pmLast",json.toString());
             if(json!=null) {
                 String realNum = "";
                 JSONArray real = null;

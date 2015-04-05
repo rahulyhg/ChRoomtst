@@ -35,6 +35,7 @@ public class FavoritesFragment extends Fragment {
     static String token;
     ListView favotites;
     static String URL = "http://im.topufa.org/index.php";
+    static int currentPosition=0;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -157,4 +158,63 @@ public class FavoritesFragment extends Fragment {
             messages.add(0,m);
         }
     }
+
+    public static void startOnlineCheck(){
+        if(messages.size()>0) {
+            String s = messages.get(0).userid;
+            new getOnline().execute(s);
+        }
+    }
+
+    private static class getOnline extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "online_get");
+            jParser.setParam("userid", args[0]);
+            // Getting JSON from URL
+
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                String s=null;
+                try {
+                    s = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(s.equals("false")){
+                    try{
+                        s=json.getString("online");
+                        if(s.equals("true")){
+                            messages.get(currentPosition).online="| online";
+                        }else{
+                            messages.get(currentPosition).online="";
+                        }
+                        currentPosition++;
+                        if(currentPosition!=messages.size()){
+                            new getOnline().execute(messages.get(currentPosition).userid);
+                        }else{
+                            adapter.notifyDataSetChanged();
+                            currentPosition=0;
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    //adapter.notifyDataSetChanged();
+                }
+            }
+
+        }
+    }//конец asyncTask
 }

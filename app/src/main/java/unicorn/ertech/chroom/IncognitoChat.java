@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -153,7 +154,16 @@ public class IncognitoChat extends Fragment{
             }
         });
 
+        txtSend.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                butSend.refreshDrawableState();
+                butSmile.refreshDrawableState();
+                txtSend.refreshDrawableState();
+            }
+        });
         findSmiles(view);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         return view;
     }
@@ -297,6 +307,8 @@ public class IncognitoChat extends Fragment{
     public void onResume(){
         super.onResume();
         stopTImer=false;
+        butSmile.performClick();
+        butSmile.performClick();
     }
 
     @Override
@@ -428,4 +440,5 @@ public class IncognitoChat extends Fragment{
         addSmiles(context, spannable);
         return spannable;
     }
+
 }

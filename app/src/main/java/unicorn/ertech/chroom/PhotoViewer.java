@@ -76,10 +76,12 @@ public class PhotoViewer extends Activity{
             pages.add(page);
         }
 
+
         photoPagerAdapter pagerAdapter = new photoPagerAdapter(pages);
         ViewPager viewPager = (ViewPager)findViewById(R.id.pager_photo);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(getIntent().getIntExtra("id", 0));
+        viewPager.setOffscreenPageLimit(1);
 //matrix=new Matrix();
 //SGD=new ScaleGestureDetector(this, new ScaleListener());
     }

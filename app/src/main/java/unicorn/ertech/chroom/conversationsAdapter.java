@@ -87,7 +87,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
 
         holder.tvFrom.setText(p.from);
         holder.tvMsg.setText(getSmiledText(getContext(),p.message));
-        //holder.tvOnline.setText(p.online);
+        holder.tvOnline.setText(p.online);
         Calendar currTime = Calendar.getInstance();int cday = currTime.get(currTime.DAY_OF_MONTH);
 
         //
@@ -146,8 +146,10 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         //DisplayMetrics metricsB = new DisplayMetrics();
        // display.getMetrics(metricsB);
        // pic_width2=(int)(50*metricsB.density);
-        if(!p.picURL.equals("http://im.topufa.org/")){
-            Picasso.with(getContext()).load(p.picURL).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
+        if(p.picURL!=null){
+            if(!p.picURL.equals("http://im.topufa.org/")){
+                Picasso.with(getContext()).load(p.picURL).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
+            }
         }
 
         return v;

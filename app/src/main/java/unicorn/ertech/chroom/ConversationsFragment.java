@@ -59,7 +59,8 @@ public class ConversationsFragment extends Fragment {
     conversationsMsg agent;
     static String URL = "http://im.topufa.org/index.php";
     newJsonParser jps = new newJsonParser();
-    boolean stopTImer = false ;
+    boolean stopTImer = false;
+    static boolean firstTime;
     static List<Integer> favorites = new ArrayList<Integer>();
     static SharedPreferences Notif;
     static SharedPreferences.Editor ed2;
@@ -68,6 +69,8 @@ public class ConversationsFragment extends Fragment {
     final String SAVED_VIBRO="vibro";
     final String SAVED_INDICATOR="indicator";
     final static String SAVED_LASTID="lastid";
+    static int currentPosition=0;
+    static int requests=0;
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -125,6 +128,7 @@ public class ConversationsFragment extends Fragment {
 
         messages.clear();
         favorites.clear();
+        firstTime=true;
         new getLists().execute();
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
@@ -133,6 +137,7 @@ public class ConversationsFragment extends Fragment {
                 if (isNetworkAvailable()) {
                     if(!stopTImer) {
                         new globalChat4().execute();
+                        Log.d("timer","____");
                     }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
@@ -250,7 +255,14 @@ public class ConversationsFragment extends Fragment {
                     }
                 }
             }
-
+            requests++;
+            if(requests>5){
+                requests=0;
+                if(messages.size()>0) {
+                    String s = messages.get(0).userid;
+                    new getOnline().execute(s);
+                }
+            }
         }
     }//конец asyncTask
 
@@ -320,22 +332,15 @@ public class ConversationsFragment extends Fragment {
                         try {
                             messag = new JSONObject(real.get(i).toString());
                             s = messag.getString("bookmarked");
-
-                            String onl="";
-                            if(messag.getBoolean("online")){
-                                onl="| Online";
-                            }else{
-                                onl="";
-                            }
                             if(s.equals("false"))
                             {
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
                                 messages.add(0, p);
                             }
                             else
                             {
                                 favorites.add(Integer.parseInt(messag.getString("dialog_id")));
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
                                 FavoritesFragment.addList(p);
                             }
 
@@ -349,7 +354,15 @@ public class ConversationsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 }
             }
-
+            requests++;
+            if((requests>5)||(firstTime)){
+                requests=0;
+                firstTime=false;
+                if(messages.size()>0) {
+                    String s = messages.get(0).userid;
+                    new getOnline().execute(s);
+                }
+            }
         }
     }//конец asyncTask
 
@@ -401,7 +414,7 @@ public class ConversationsFragment extends Fragment {
             }
         }
         return  flag;
-    }
+   }
 
     public static void newMsg(conversationsMsg p)
     {
@@ -483,20 +496,19 @@ public class ConversationsFragment extends Fragment {
         super.onResume();
     }
 
-    public static class getOnline extends AsyncTask<Integer, String, JSONObject> {
+    public static class getOnline extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
         @Override
-        protected JSONObject doInBackground(Integer... args) {
+        protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
             jParser.setParam("token", token);
-            jParser.setParam("action", "profile_get");
-            jParser.setParam("userId", Integer.toString(args[0]));
+            jParser.setParam("action", "online_get");
+            jParser.setParam("userid", args[0]);
             // Getting JSON from URL
 
             JSONObject json = jParser.getJSONFromUrl(URL);
@@ -505,76 +517,32 @@ public class ConversationsFragment extends Fragment {
         @Override
         protected void onPostExecute(JSONObject json) {
             if(json!=null) {
-                boolean flag = false;
-                String lastid = null;
-                JSONArray real = null;
-                String s = null;
-                JSONObject messag = null;
+                String s=null;
                 try {
                     s = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 if(s.equals("false")){
-                    try {
-                        realNum = json.getString("total");
-                        lastID4 = Integer.toString(json.getInt("lastid"));
-                        Notif = context.getSharedPreferences("notifications",context.MODE_PRIVATE);
-                        ed2 = Notif.edit();
-                        if(Notif.contains(SAVED_NOTIF))
-                        {
-                            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
-                            {
-                                ed2.putString(SAVED_LASTID,lastID4);
-                                ed2.commit();
-
-                            }
+                    try{
+                        s=json.getString("online");
+                        if(s.equals("true")){
+                            messages.get(currentPosition).online="| online";
+                        }else{
+                            messages.get(currentPosition).online="";
                         }
-
-                    } catch (JSONException e) {
+                        currentPosition++;
+                        if(currentPosition!=messages.size()){
+                            new getOnline().execute(messages.get(currentPosition).userid);
+                        }else{
+                            adapter.notifyDataSetChanged();
+                            currentPosition=0;
+                            FavoritesFragment.startOnlineCheck();
+                        }
+                    }catch (JSONException e){
                         e.printStackTrace();
                     }
-                    try {
-                        if(!realNum.equals("0")){
-                            s = json.getString("data");
-                            Log.e("getList", s);
-                            real = new JSONArray(s);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    for (int i = 0; i < Integer.parseInt(realNum); i++) {
-                        try {
-                            messag = new JSONObject(real.get(i).toString());
-                            s = messag.getString("bookmarked");
-
-                            String onl="";
-                            if(messag.getBoolean("online")){
-                                onl="| Online";
-                            }else{
-                                onl="";
-                            }
-                            if(s.equals("false"))
-                            {
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
-                                messages.add(0, p);
-                            }
-                            else
-                            {
-                                favorites.add(Integer.parseInt(messag.getString("dialog_id")));
-                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
-                                FavoritesFragment.addList(p);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (NullPointerException e) {
-                            Log.e("NullPointerException", e.toString());
-                        }
-                    }
-
-                    adapter.notifyDataSetChanged();
+                    //adapter.notifyDataSetChanged();
                 }
             }
 

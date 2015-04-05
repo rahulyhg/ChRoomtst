@@ -151,7 +151,7 @@ public class GlobalChat extends FragmentActivity{
     @Override
     public  void onResume(){
         super.onResume();
-        Log.i("globalresume","glogalresume");
+        //Log.i("globalresume","glogalresume");
         tabs.setTextColor(getResources().getColor(R.color.white));
         //tabs.setBackgroundResource(R.color.green);
         tabs.notifyDataSetChanged();

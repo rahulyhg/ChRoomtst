@@ -153,6 +153,7 @@ public class AdsFragment extends Fragment {
                 i.putExtra("token",token);
                 i.putExtra("nick",nick);
                 i.putExtra("avatar",adapter.getItem(position).picURL);
+                i.putExtra("userPROFILE", UserId);
                 //messages.remove(position);
                 //adapter.notifyDataSetChanged();
                 startActivity(i);

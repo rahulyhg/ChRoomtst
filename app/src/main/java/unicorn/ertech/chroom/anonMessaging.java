@@ -177,6 +177,8 @@ public class anonMessaging extends Activity {
                 }
             }
         });
+
+        findSmiles();
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {

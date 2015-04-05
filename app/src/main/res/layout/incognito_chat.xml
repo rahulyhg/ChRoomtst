@@ -11,8 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvChati"
-        android:layout_above="@+id/editTexti"
-        android:background="@color/white" />
+        android:layout_above="@+id/butSmilei" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -24,8 +23,7 @@
         android:scaleType="fitXY"
         android:layout_marginTop="-10dp"
         android:layout_alignTop="@+id/editTexti"
-        android:layout_alignBottom="@+id/editTexti"
-        android:maxHeight="160dp" />
+        android:layout_above="@+id/smileTablei" />
 
     <ImageButton
         android:layout_width="50dp"
@@ -36,27 +34,11 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/knopka200"
         android:scaleType="fitCenter"
+        android:visibility="visible"
         android:background="@android:color/transparent"
         android:padding="5dp"
         android:layout_alignWithParentIfMissing="true"
         android:layout_above="@+id/smileTablei" />
-
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text=":)"
-        android:id="@+id/butSmilei"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="true"
-        android:layout_above="@+id/smileTablei"
-        android:visibility="visible"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/smile_circle"
-        android:background="@color/white"
-        android:scaleType="fitCenter"
-        android:padding="5dp"
-        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -72,8 +54,25 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:visibility="visible"
         android:layout_above="@+id/smileTablei"
         android:layout_alignWithParentIfMissing="true" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text=":)"
+        android:id="@+id/butSmilei"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/smileTablei"
+        android:visibility="visible"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/smile_circle"
+        android:background="@color/white"
+        android:scaleType="fitCenter"
+        android:padding="5dp" />
 
     <TableLayout
         android:layout_width="match_parent"
