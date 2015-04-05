@@ -27,7 +27,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Online"
             android:id="@+id/tvProfOnline"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -179,13 +178,15 @@
             android:background="@color/white">
 
             <Button
-                android:layout_width="397dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Отправить сообщение"
                 android:id="@+id/butProfileSend"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/but_green"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:layout_marginLeft="-13dp"
+                android:layout_marginRight="-13dp" />
 
             <TextView
                 android:layout_width="match_parent"

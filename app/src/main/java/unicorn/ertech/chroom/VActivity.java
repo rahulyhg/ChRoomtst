@@ -53,6 +53,8 @@ public class VActivity extends Activity {
     ArrayList<String> idS = new ArrayList<String>();
     ArrayList<String> newPhone = new ArrayList<String>();
     String token;
+    TextView tvTitle;
+    final String SAVED_COLOR = "color";
 
     ArrayList<String> newData = new ArrayList<String>();
 
@@ -72,6 +74,7 @@ public class VActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vactivity_layout);
 
+        tvTitle=(TextView)findViewById(R.id.tvVactivityTitle);
         SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
         if((userData.contains("token"))){
             if(!userData.getString("token", "0").equals("0")){
@@ -575,5 +578,30 @@ public class VActivity extends Activity {
         newPhone.add(Pphone);
         idS.add(Pid);
 
+    }
+
+    private void setColor(){
+        SharedPreferences sPref;
+        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if(sPref.contains(SAVED_COLOR)) {
+            int col = sPref.getInt(SAVED_COLOR, 0);
+            if (col == 1) {
+                tvTitle.setBackgroundResource(R.color.blue);
+            } else if (col == 0) {
+                tvTitle.setBackgroundResource(R.color.green);
+            } else if (col == 2) {
+                tvTitle.setBackgroundResource(R.color.orange);
+            } else if (col == 3) {
+                tvTitle.setBackgroundResource(R.color.purple);
+            }
+        }else{
+            tvTitle.setBackgroundResource(R.color.green);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setColor();
     }
 }

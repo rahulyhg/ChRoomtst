@@ -48,4 +48,14 @@
         android:layout_alignParentEnd="true"
         android:paddingRight="5dp" />
 
+    <TextView
+        android:id="@+id/onlineC2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:textColor="@color/black"
+        android:layout_alignTop="@+id/fromC2"
+        android:layout_toRightOf="@+id/fromC2"
+        android:layout_toEndOf="@+id/fromC2" />
+
 </RelativeLayout>

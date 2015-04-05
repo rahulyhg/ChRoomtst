@@ -58,4 +58,51 @@
         <item>Шаран</item>
         <item>Янаул</item>
     </string-array>
+
+    <string-array name="citiesTatarstan">
+        <item>Казань</item>
+        <item>Агрыз</item>
+        <item>Азнакабаево</item>
+        <item>Аксубаево</item>
+        <item>Актюбинский</item>
+        <item>Алексеевское</item>
+        <item>Альметьевск</item>
+        <item>Апастово</item>
+        <item>Арск</item>
+        <item>Бавлы</item>
+        <item>Базарные Матаки </item>
+        <item>Балтаси</item>
+        <item>Богатые Сабы</item>
+        <item>Брежнев</item>
+        <item>Бугульма</item>
+        <item>Буинск</item>
+        <item>Васильево</item>
+        <item>Верхний Услон</item>
+        <item>Высокая Гора</item>
+        <item>Дербешкинский</item>
+        <item>Елабуга</item>
+        <item>Заинск</item>
+        <item>Зеленодольск</item>
+        <item>Камское Устье</item>
+        <item>Карабаш</item>
+        <item>Куйбышев</item>
+        <item>Кукмод</item>
+        <item>Кукмор</item>
+        <item>Лаишево</item>
+        <item>Лениногорск</item>
+        <item>Мамадыш</item>
+        <item>Менделеевск</item>
+        <item>Мензелинск</item>
+        <item>Муслюмово</item>
+        <item>Набережные Челны</item>
+        <item>Нижнекамск</item>
+        <item>Новошешминск</item>
+        <item>Нурлат</item>
+        <item>Пестрецы</item>
+        <item>Рыбная Слобода</item>
+        <item>Сарманово</item>
+        <item>Старое Дрожжаное</item>
+        <item>Тетюши</item>
+        <item>Чистополь</item>
+    </string-array>
 </resources>

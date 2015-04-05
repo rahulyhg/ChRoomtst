@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -49,6 +50,7 @@ public class Login extends Activity {
     EditText log, pass;
     TextView resetPass;
     CheckBox checkSavePass;
+    ImageView arrow;
     String URL = "http://im.topufa.org/index.php";
     final String FILENAME = "token";
     final String USER = "user";
@@ -68,16 +70,11 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userData = getSharedPreferences("userdata", MODE_PRIVATE);
-        if((userData.contains(SAVED_TOKEN))){
-            if(!userData.getString(SAVED_TOKEN, "0").equals("0")){
-                token=userData.getString(SAVED_TOKEN, "");
-                aaTask= new auto_auth();
-                aaTask.execute();
-            }
-        }
+
 
         setContentView(R.layout.activity_login);
+
+
 
         logButton = (Button)findViewById(R.id.logButton);
         log = (EditText)findViewById(R.id.logText);
@@ -85,7 +82,29 @@ public class Login extends Activity {
         regButton = (TextView)findViewById(R.id.regButton);
         resetPass = (TextView)findViewById(R.id.tvResetPassword);
         checkSavePass=(CheckBox)findViewById(R.id.checkBoxSavePass);
-
+        arrow=(ImageView)findViewById(R.id.imageView8);
+        userData = getSharedPreferences("userdata", MODE_PRIVATE);
+        if((userData.contains(SAVED_TOKEN))){
+            if(!userData.getString(SAVED_TOKEN, "0").equals("0")){
+                token=userData.getString(SAVED_TOKEN, "");
+                aaTask= new auto_auth();
+                aaTask.execute();
+            }else{
+                log.setVisibility(View.VISIBLE);
+                logButton.setVisibility(View.VISIBLE);
+                pass.setVisibility(View.VISIBLE);
+                regButton.setVisibility(View.VISIBLE);
+                arrow.setVisibility(View.VISIBLE);
+                resetPass.setVisibility(View.VISIBLE);
+            }
+        }else {
+            log.setVisibility(View.VISIBLE);
+            logButton.setVisibility(View.VISIBLE);
+            pass.setVisibility(View.VISIBLE);
+            regButton.setVisibility(View.VISIBLE);
+            arrow.setVisibility(View.VISIBLE);
+            resetPass.setVisibility(View.VISIBLE);
+        }
 
         if(userData.contains(SAVED_LOGIN)){
             log.setText(userData.getString(SAVED_LOGIN,""));
@@ -303,26 +322,42 @@ public class Login extends Activity {
             pDialog.dismiss();
             if (json != null){
                 boolean result;
-            result = true;
-            try {
-                result = json.getBoolean("auth");
-//                Log.e("saveToken", token);
-            } catch (JSONException e) {
-                Log.e("saveToken", e.toString());
-            }
-            if (result == true) {
-                if (token.equals("false")) {
-                    Toast.makeText(getApplicationContext(), "Необходима авторизация!", Toast.LENGTH_LONG).show();
-                } else {
-                    Intent i = new Intent(getApplicationContext(), Main.class);
-                    i.putExtra("Token", token);
-                    startActivity(i);
-                    Log.e("writefile", token);
+                result = true;
+                try {
+                    result = json.getBoolean("auth");
+//                  Log.e("saveToken", token);
+                } catch (JSONException e) {
+                    Log.e("saveToken", e.toString());
                 }
-            }
-        }
-            else{
+                if (result == true) {
+                    if (token.equals("false")) {
+                        Toast.makeText(getApplicationContext(), "Необходима авторизация!", Toast.LENGTH_LONG).show();
+                        log.setVisibility(View.VISIBLE);
+                        logButton.setVisibility(View.VISIBLE);
+                        pass.setVisibility(View.VISIBLE);
+                        regButton.setVisibility(View.VISIBLE);
+                    } else {
+                        Intent i = new Intent(getApplicationContext(), Main.class);
+                        i.putExtra("Token", token);
+                        startActivity(i);
+                        Log.e("writefile", token);
+                    }
+                }else{
+                    log.setVisibility(View.VISIBLE);
+                    logButton.setVisibility(View.VISIBLE);
+                    pass.setVisibility(View.VISIBLE);
+                    regButton.setVisibility(View.VISIBLE);
+                    arrow.setVisibility(View.VISIBLE);
+                    resetPass.setVisibility(View.VISIBLE);
+                }
+            }else{
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
+                log.setVisibility(View.VISIBLE);
+                logButton.setVisibility(View.VISIBLE);
+                pass.setVisibility(View.VISIBLE);
+                regButton.setVisibility(View.VISIBLE);
+                arrow.setVisibility(View.VISIBLE);
+                resetPass.setVisibility(View.VISIBLE);
             }
         }
     }

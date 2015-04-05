@@ -266,6 +266,7 @@ public class IncognitoRnd  extends Fragment {
         protected void onPostExecute(JSONObject json) {
             pDialog.dismiss();
             String status = "";
+            Log.i("anonDebugFind", json.toString());
             if(json!=null) {
                 try {
                     status = json.getString("error");

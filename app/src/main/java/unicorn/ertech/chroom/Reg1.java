@@ -137,6 +137,11 @@ public class Reg1 extends Activity {
                 userID=json.getInt("id");
                 error=json.getBoolean("error");
 
+                SharedPreferences userData = getSharedPreferences("userdata", MODE_PRIVATE);
+                SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем токен и пароль
+                ed2.putString("token", token);
+                ed2.commit();
+
                 SharedPreferences sPref = getSharedPreferences("user", MODE_PRIVATE); //Сохраняем ID юзера, для доступа в профиле
                 SharedPreferences.Editor ed = sPref.edit();
                 ed.putInt(USER, userID);

@@ -54,7 +54,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Пожалуйста, докажите, что вы человек: сколько будет e^ln(2)?"
+        android:text="Пожалуйста, докажите, что вы человек: сколько будет 1+1?"
         android:id="@+id/tvHuman"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/black"

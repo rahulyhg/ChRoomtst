@@ -63,6 +63,7 @@ public class anonMessaging extends Activity {
     String lastBlock;
     String picUrl;
     Date dateTime;
+    boolean flag=false;
 
     List<pmChatMessage> messages = new ArrayList<pmChatMessage>();
     pmChatAdapter adapter;
@@ -196,12 +197,14 @@ public class anonMessaging extends Activity {
             jParser.setParam("fakeid", userId);
             jParser.setParam("message", outMsg);
             JSONObject json = jParser.getJSONFromUrl(URL);
+            Log.i("anonDebugSendParams", jParser.toString());
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
             if (json != null) {
                 String status = "";
+                Log.i("anonDebugSend", json.toString());
                 Log.e("privatesend","555");
 
                 try {
@@ -254,6 +257,7 @@ public class anonMessaging extends Activity {
                 JSONArray arr = null;
                 String s = null;
                 JSONObject messag = null;
+                Log.i("anonDebug", json.toString());
                 try {
                     s = json.getString("error");
                 } catch (JSONException e) {
@@ -287,6 +291,7 @@ public class anonMessaging extends Activity {
                             if(s.equals("7"))//собеседник вышел из переписки
                             {
                                 openLeaveDialog();
+                                flag=true;
                             }
 
                             if(s.equals("4"))//профили взаимно открыты
@@ -324,7 +329,9 @@ public class anonMessaging extends Activity {
 
     @Override
     public void onDestroy(){
-        new leaving().execute();
+        if(!flag) {
+            new leaving().execute();
+        }
         myTimer.cancel();
         super.onDestroy();
     }
@@ -399,6 +406,7 @@ public class anonMessaging extends Activity {
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            Log.i("anonDebugConfirm", json.toString());
             if (json != null) {
                 String status = "";
                 try {
@@ -436,11 +444,13 @@ public class anonMessaging extends Activity {
             jParser.setParam("action", "anonimus_pm_send");
             jParser.setParam("fakeid", userId);
             jParser.setParam("status", "3");
+            Log.i("anonDebugRequestSend", jParser.toString());
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            Log.i("anonDebugRequest", json.toString());
             if (json != null) {
                 String status = "";
                 try {
@@ -462,7 +472,7 @@ public class anonMessaging extends Activity {
                         Toast.makeText(getApplicationContext(), "Вы исчерпали все попытки!", Toast.LENGTH_LONG).show();
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Ошибка при совершении действия!", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -494,6 +504,7 @@ public class anonMessaging extends Activity {
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            Log.i("anonDebugLeave", json.toString());
             if (json != null) {
                 String status = "";
                 Log.e("privatesend","555");

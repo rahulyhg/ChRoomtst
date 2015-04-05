@@ -59,6 +59,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             TextView from = (TextView) v.findViewById(R.id.fromC2);
             TextView msg = (TextView) v.findViewById(R.id.messagC2);
             TextView time = (TextView) v.findViewById(R.id.timeC2);
+            TextView online = (TextView)v.findViewById(R.id.onlineC2);
             ImageView image = (ImageView)v.findViewById(R.id.imgC2);
             RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.conversations_color);
 
@@ -66,6 +67,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder.tvMsg = msg;
             holder.img = image;
             holder.tvTime = time;
+            holder.tvOnline= online;
             holder.Rl = rl;
 
             v.setTag(holder);
@@ -85,6 +87,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
 
         holder.tvFrom.setText(p.from);
         holder.tvMsg.setText(getSmiledText(getContext(),p.message));
+        //holder.tvOnline.setText(p.online);
         Calendar currTime = Calendar.getInstance();int cday = currTime.get(currTime.DAY_OF_MONTH);
 
         //
@@ -143,8 +146,9 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         //DisplayMetrics metricsB = new DisplayMetrics();
        // display.getMetrics(metricsB);
        // pic_width2=(int)(50*metricsB.density);
-        Picasso.with(getContext()).load(p.picURL).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
-
+        if(!p.picURL.equals("http://im.topufa.org/")){
+            Picasso.with(getContext()).load(p.picURL).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
+        }
 
         return v;
     }

@@ -49,6 +49,8 @@ public class syncContacts extends Activity {
     ArrayList<String> phone = new ArrayList<String>();
     ArrayList<String> phoneS = new ArrayList<String>();
     ArrayList<String> id = new ArrayList<String>();
+    final String SAVED_COLOR = "color";
+    TextView tvTitle;
 
     ArrayList<String> newPhone = new ArrayList<String>();
 
@@ -66,6 +68,7 @@ public class syncContacts extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sync_contacts_layout);
 
+        tvTitle=(TextView)findViewById(R.id.tvSyncTitle);
         SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
         if((userData.contains("token"))){
             if(!userData.getString("token", "0").equals("0")){
@@ -611,4 +614,28 @@ public class syncContacts extends Activity {
 
     }
 
+    private void setColor(){
+        SharedPreferences sPref;
+        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if(sPref.contains(SAVED_COLOR)) {
+            int col = sPref.getInt(SAVED_COLOR, 0);
+            if (col == 1) {
+                tvTitle.setBackgroundResource(R.color.blue);
+            } else if (col == 0) {
+                tvTitle.setBackgroundResource(R.color.green);
+            } else if (col == 2) {
+                tvTitle.setBackgroundResource(R.color.orange);
+            } else if (col == 3) {
+                tvTitle.setBackgroundResource(R.color.purple);
+            }
+        }else{
+            tvTitle.setBackgroundResource(R.color.green);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setColor();
+    }
 }

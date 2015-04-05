@@ -392,6 +392,7 @@ public class ConversationsFragment extends Fragment {
                 messages.get(i).message = msg.message;
                 messages.get(i).time = msg.time;
                 messages.get(i).direction = "false";
+                messages.get(i).from=msg.from;
                 conversationsMsg m = messages.get(i);
                 messages.remove(i);
                 messages.add(0, m);
@@ -474,7 +475,6 @@ public class ConversationsFragment extends Fragment {
         }
         super.onPause();
     }
-
     @Override
     public void onResume() {
         stopTImer=false;
@@ -482,5 +482,103 @@ public class ConversationsFragment extends Fragment {
         notificationManager.cancel(0);
         super.onResume();
     }
+
+    public static class getOnline extends AsyncTask<Integer, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+        @Override
+        protected JSONObject doInBackground(Integer... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "profile_get");
+            jParser.setParam("userId", Integer.toString(args[0]));
+            // Getting JSON from URL
+
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                boolean flag = false;
+                String lastid = null;
+                JSONArray real = null;
+                String s = null;
+                JSONObject messag = null;
+                try {
+                    s = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(s.equals("false")){
+                    try {
+                        realNum = json.getString("total");
+                        lastID4 = Integer.toString(json.getInt("lastid"));
+                        Notif = context.getSharedPreferences("notifications",context.MODE_PRIVATE);
+                        ed2 = Notif.edit();
+                        if(Notif.contains(SAVED_NOTIF))
+                        {
+                            if(Notif.getString(SAVED_NOTIF,"").equals("true"))
+                            {
+                                ed2.putString(SAVED_LASTID,lastID4);
+                                ed2.commit();
+
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        if(!realNum.equals("0")){
+                            s = json.getString("data");
+                            Log.e("getList", s);
+                            real = new JSONArray(s);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    for (int i = 0; i < Integer.parseInt(realNum); i++) {
+                        try {
+                            messag = new JSONObject(real.get(i).toString());
+                            s = messag.getString("bookmarked");
+
+                            String onl="";
+                            if(messag.getBoolean("online")){
+                                onl="| Online";
+                            }else{
+                                onl="";
+                            }
+                            if(s.equals("false"))
+                            {
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                messages.add(0, p);
+                            }
+                            else
+                            {
+                                favorites.add(Integer.parseInt(messag.getString("dialog_id")));
+                                conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name")+onl, messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                FavoritesFragment.addList(p);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            Log.e("NullPointerException", e.toString());
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+        }
+    }//конец asyncTask
 
 }

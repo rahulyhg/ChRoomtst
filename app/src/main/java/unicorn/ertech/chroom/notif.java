@@ -181,7 +181,8 @@ public class notif extends Service {
 
             if(Notif.getString(SAVED_VIBRO,"").equals("true"))
             {
-                nb.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+                nb.setVibrate(new long[] { 1000, 1000, 1000});
+                //nb.setVibrate(new long 1000);
             }
 
             if(Notif.getString(SAVED_INDICATOR,"").equals("true"))

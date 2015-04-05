@@ -14,6 +14,7 @@ public class conversationsMsg implements Serializable {
     String msgId;
     String time;
     String userid;
+    String online;
 
     public conversationsMsg(String UID, String FROM, String MSG, String pcURL, String DIR, String mID, String TIME, String USERID)
     {
@@ -25,6 +26,7 @@ public class conversationsMsg implements Serializable {
         this.msgId = mID;
         this.time = TIME;
         this.userid = USERID;
+        //this.online = ONLINE;
     }
 
 }

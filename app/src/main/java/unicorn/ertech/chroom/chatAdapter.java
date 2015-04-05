@@ -3,6 +3,7 @@ package unicorn.ertech.chroom;
 import android.content.Context;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,10 @@ public class chatAdapter extends ArrayAdapter<chatMessage> {
             holder.tvFrom.setText(p.getFrom());
             //holder.tvMsg.setText(p.getMessage());
             holder.tvMsg.setText(getSmiledText(getContext(),p.getMessage()));
-            Picasso.with(getContext()).load(p.getPicURL()).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
-
+            if(!p.getPicURL().equals("http://im.topufa.org/")) {
+                Picasso.with(getContext()).load(p.getPicURL()).resize(100, 0).transform(new PicassoRoundTransformation()).into(holder.img);
+                Log.i(holder.tvFrom.toString(), p.getPicURL());
+            }
             return v;
     }
 

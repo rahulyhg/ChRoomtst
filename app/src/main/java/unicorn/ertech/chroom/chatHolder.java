@@ -12,6 +12,7 @@ public class chatHolder {
     public TextView tvFrom;
     public TextView tvMsg;
     public TextView tvTime;
+    public TextView tvOnline;
     public ImageView img;
     public RelativeLayout Rl;
     public ImageButton imgButton;

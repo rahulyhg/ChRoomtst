@@ -294,14 +294,15 @@ public class SearchRandom extends Fragment {
                         sensorManager.registerListener(listener, sensorGravity,
                                 SensorManager.SENSOR_DELAY_NORMAL);
                     } else {
-                        String s = "", avatar = "", id = "";
+                        String s = "", avatar = "", id = "", dialogid="";
                         JSONObject messag = null;
 
+                        Log.i("rnd", json.toString());
                         try {
                             s = json.getString("nickname");
                             avatar = json.getString("avatar");
                             id = json.getString("id");
-
+                            dialogid=json.getString("dialogid");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (NullPointerException e) {
@@ -311,12 +312,14 @@ public class SearchRandom extends Fragment {
 
                         Intent i = new Intent(getActivity().getApplicationContext(), PrivateMessaging.class);
                         i.putExtra("nick", s);
-                        i.putExtra("userId", id);
+                        i.putExtra("userId", dialogid);
+                        i.putExtra("userPROFILE", id);
                         i.putExtra("favorite","false");
                         i.putExtra("fromDialogs","false");
                         i.putExtra("token", token);
                         i.putExtra("shake", "false");
                         i.putExtra("avatar", avatar);
+                        i.putExtra("fromShake", true);
                         startActivity(i);
                     }
                 } else {

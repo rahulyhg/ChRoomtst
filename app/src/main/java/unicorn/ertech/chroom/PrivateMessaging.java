@@ -74,6 +74,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     final String USER = "user";
     String fromDIALOGS;
     String lastID4;
+    boolean fromShake;
     SwipeRefreshLayout swipeLayout;
 
     SharedPreferences Notif;
@@ -109,7 +110,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
         Notif = getSharedPreferences("notifications",MODE_PRIVATE);
         if((Notif.contains(SAVED_LASTID))){
-            lastID4=Notif.getString(SAVED_LASTID, "");
+            lastID4=Notif.getString(SAVED_LASTID, "0");
         }
         butSend=(ImageButton)findViewById(R.id.buttonSend);
         butSmile=(ImageButton)findViewById(R.id.buttonSmile);
@@ -162,12 +163,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         favorite = i.getStringExtra("favorite");
         //mID = i.getStringExtra("mID");
         userProfile = i.getStringExtra("userPROFILE");
+        sendTo = i.getStringExtra("userPROFILE");
         nick.setText(i.getStringExtra("nick"));
         picUrl = i.getStringExtra("avatar");
+        fromShake=i.getBooleanExtra("fromShake", false);
         fromDIALOGS = i.getStringExtra("fromDialogs");
         if(fromDIALOGS.equals("false"))
         {
-            sendTo = i.getStringExtra("userId");
+            //sendTo = i.getStringExtra("userId");
         }
 
         swipeLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container_private);
@@ -180,9 +183,10 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             butLists.setVisibility(View.INVISIBLE);
             pmChatMessage p = new pmChatMessage("0","Здравствуйте! Опишите Вашу проблему максимально подробно, наши агенты свяжутся с Вами в ближайшее время.", "1");
             messages.add(0, p);
+            msgCount++;
             adapter.notifyDataSetChanged();
         }
-        Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).fit().into(avatar);
+        Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).resize(80,0).transform(new PicassoRoundTransformation()).into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,6 +245,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             new getEarlierMessages().execute();
         }
 
+        Log.i("pm", "first");
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
@@ -331,10 +336,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             }
             jParser.setParam("message", outMsg);
             JSONObject json = jParser.getJSONFromUrl(URL);
+            Log.i("pmOutSend",jParser.nameValuePairs.toString());
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            Log.i("pmOut",json.toString());
             if (json != null) {
                 String status = "";
                 Log.e("privatesend","555");
@@ -375,7 +382,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     txtSend.setText("");
                     if(shake.equals("true")){
                         pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "0");
-                        messages.add(0, p3);
+                        messages.add(msgCount, p3);
+                        msgCount++;
                     }
                     adapter.notifyDataSetChanged();
                 } else {
@@ -388,7 +396,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     {
                         Toast.makeText(getApplicationContext(), "Нельзя отправлять больше 5 сообщений в день службе поддержки!", Toast.LENGTH_LONG).show();
                     }
-                    else {
+                    else if(status.equals("63")){
+                        Toast.makeText(getApplicationContext(), "Вы не можете написать этому пользователю. :Р", Toast.LENGTH_LONG).show();
+                    }{
                         Toast.makeText(getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -425,10 +435,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
+            Log.i("pmEarlySend",jParser.nameValuePairs.toString());
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            Log.i("pmEarly",json.toString());
             if(json!=null) {
 
                 String realNum = "";
@@ -538,10 +550,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             jParser.setParam("lastid", "");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
+            Log.i("pmLastSend",jParser.nameValuePairs.toString());
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            Log.i("pmLast",json.toString());
             if(json!=null) {
                 String realNum = "";
                 JSONArray real = null;
@@ -651,7 +665,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 {
                     favorite = "false";
                     FavoritesFragment.findNremove(userId);
-                    ConversationsFragment.update();
+                    if(!fromShake){
+                        ConversationsFragment.update();
+                    }
                     Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
                 }
                 else
@@ -827,7 +843,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
                 if (status.equals("false")) {
                     favorite = "true";
-                    ConversationsFragment.update();
+                    if(!fromShake){
+                        ConversationsFragment.update();
+                    }
                     Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
@@ -929,7 +947,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     msgCount=0;
                     messages.clear();
                     adapter.notifyDataSetChanged();
-                    ConversationsFragment.update();
+                    if(!fromShake){
+                        ConversationsFragment.update();
+                    }
                     Toast.makeText(getApplicationContext(), "История сообщений успешно удалена!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при очистке!", Toast.LENGTH_LONG).show();

@@ -185,15 +185,12 @@
                 android:gravity="center"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                android:paddingBottom="7dp"
-                android:paddingTop="7dp"
                 android:spinnerMode="dialog" />
 
             <TableRow
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                android:layout_marginBottom="5dp"
                 android:gravity="center">
 
                     <TextView

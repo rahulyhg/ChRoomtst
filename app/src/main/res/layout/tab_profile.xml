@@ -350,7 +350,7 @@
                         android:id="@+id/spinProfileSearchSex"
                         android:entries="@array/sex"
                         android:spinnerMode="dialog"
-                        android:layout_marginLeft="14dp"
+                        android:layout_marginLeft="13dp"
                         android:paddingLeft="7dp"
                         android:paddingTop="6dp"
                         android:paddingRight="7dp"
