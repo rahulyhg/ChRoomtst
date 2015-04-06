@@ -62,7 +62,7 @@ public class CountryFragment extends Fragment {
     Timer myTimer;
     boolean firsTime;
     String URL = "http://im.topufa.org/index.php";
-    String lastID1, lastID2,lastID3,lastID4, msgNum, room="3159", outMsg, token, myID,deleted_total="0" ;
+    String lastID1, lastID2,lastID3,lastID4, msgNum, room="10", outMsg, token, myID,deleted_total="0" ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     private ArrayList<HashMap<String, Object>> citiList;
     private static final String TITLE = "message_author"; // Верхний текст
@@ -96,7 +96,7 @@ public class CountryFragment extends Fragment {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
-                    room = "3159";
+                    room = "10";
                     if(!stopTImer) {
                         new globalChat4().execute();
                     }
@@ -121,7 +121,7 @@ public class CountryFragment extends Fragment {
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable3);
         firsTime = true;
         //token = Main.str;
-        room = "3159";
+        room = "10";
         msgCount=0;
         lastID1 = "";
         lastID2 = "";
@@ -163,7 +163,7 @@ public class CountryFragment extends Fragment {
             public void onClick(View v) {
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                room = "3159";
+                room = "10";
                 outMsg = txtSend.getText().toString();
                 new OutMsg().execute();
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);

@@ -526,13 +526,15 @@ public class ConversationsFragment extends Fragment {
                 if(s.equals("false")){
                     try{
                         s=json.getString("online");
-                        if(s.equals("true")){
-                            messages.get(currentPosition).online="| online";
-                        }else{
-                            messages.get(currentPosition).online="";
+                        if(messages.size()>0){
+                            if(s.equals("true")){
+                                messages.get(currentPosition).online="| online";
+                            }else{
+                                messages.get(currentPosition).online="";
+                            }
                         }
                         currentPosition++;
-                        if(currentPosition!=messages.size()){
+                        if(currentPosition<messages.size()){
                             new getOnline().execute(messages.get(currentPosition).userid);
                         }else{
                             adapter.notifyDataSetChanged();

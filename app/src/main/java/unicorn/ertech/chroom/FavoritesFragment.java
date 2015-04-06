@@ -196,13 +196,13 @@ public class FavoritesFragment extends Fragment {
                 if(s.equals("false")){
                     try{
                         s=json.getString("online");
-                        if(s.equals("true")){
+                        if(s.equals("true")&&messages.size()>0){
                             messages.get(currentPosition).online="| online";
                         }else{
                             messages.get(currentPosition).online="";
                         }
                         currentPosition++;
-                        if(currentPosition!=messages.size()){
+                        if(currentPosition<messages.size()){
                             new getOnline().execute(messages.get(currentPosition).userid);
                         }else{
                             adapter.notifyDataSetChanged();

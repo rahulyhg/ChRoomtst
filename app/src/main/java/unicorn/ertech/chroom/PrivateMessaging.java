@@ -186,6 +186,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             msgCount++;
             adapter.notifyDataSetChanged();
         }
+        if(fromShake){
+            ConversationsFragment.update();
+        }
         Picasso.with(getApplicationContext()).load(picUrl).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).resize(80,0).transform(new PicassoRoundTransformation()).into(avatar);
 
         butSend.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +315,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("privatesend", "222");
+            butSend.setEnabled(false);
 
         }
         @Override
@@ -342,6 +346,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         @Override
         protected void onPostExecute(JSONObject json) {
             Log.i("pmOut",json.toString());
+            butSend.setEnabled(true);
             if (json != null) {
                 String status = "";
                 Log.e("privatesend","555");
@@ -570,13 +575,15 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     try {
                         realNum = json.getString("total");
                         lastId = json.getString("lastid");
-                        if(Integer.parseInt(lastId)>Integer.parseInt(lastID4)) {
-                            lastID4 = lastId;
-                            ed2 = Notif.edit();
-                            ed2.putString(SAVED_LASTID,lastID4);
-                            if(Integer.parseInt(lastId)>Integer.parseInt(ConversationsFragment.lastID4)) {
-                                ConversationsFragment.lastID4 = lastId;}
-                            ed2.commit();
+                        if(!lastId.equals(null)){
+                            if(Integer.parseInt(lastId)>Integer.parseInt(lastID4)) {
+                                lastID4 = lastId;
+                                ed2 = Notif.edit();
+                                ed2.putString(SAVED_LASTID,lastID4);
+                                if(Integer.parseInt(lastId)>Integer.parseInt(ConversationsFragment.lastID4)) {
+                                    ConversationsFragment.lastID4 = lastId;}
+                                ed2.commit();
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

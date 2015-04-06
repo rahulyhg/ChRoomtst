@@ -210,7 +210,7 @@ public class Main extends TabActivity {
         userData = getSharedPreferences("user", MODE_PRIVATE);
         if(userData.contains("avatar_link")){
             String url = userData.getString("avatar_link", "");
-            if(!url.equals("")){
+            if((!url.equals(""))&&(!url.equals("http://im.topufa.org/"))){
                 mPicasso.load(url).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(butProfile);
             }
         }
@@ -454,7 +454,7 @@ public class Main extends TabActivity {
             display.getMetrics(metricsB);
             pic_width2=(int)(50*metricsB.density);
             String url = userData.getString("avatar_link", "");
-            if(!url.equals("")){
+            if((!url.equals(""))&&(!url.equals("http://im.topufa.org/"))){
                 mPicasso.load(url).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(butProfile);
             }
         }

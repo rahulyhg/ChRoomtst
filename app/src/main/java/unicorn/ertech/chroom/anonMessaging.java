@@ -54,7 +54,7 @@ public class anonMessaging extends Activity {
     EditText txtSend;
     ImageButton butSend;
     ImageButton butSmile;
-    ImageButton butStar;
+    ImageButton butStar, butBack;
     String URL = "http://im.topufa.org/index.php";
     TextView nick;
     ImageView avatar;
@@ -84,6 +84,7 @@ public class anonMessaging extends Activity {
         txtSend=(EditText)findViewById(R.id.sendText);
         nick = (TextView)findViewById(R.id.profileBack);
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
+        butBack=(ImageButton)findViewById(R.id.butNewsBack);
         butStar=(ImageButton)findViewById(R.id.ibStar);
         dateTime = new Date();
 
@@ -105,6 +106,12 @@ public class anonMessaging extends Activity {
         picUrl = i.getStringExtra("avatar");
         Picasso.with(getApplicationContext()).load(picUrl).transform(new PicassoRoundTransformation()).fit().into(avatar);
 
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,6 +311,7 @@ public class anonMessaging extends Activity {
                                 in.putExtra("nick",nick.getText());
                                 in.putExtra("avatar",picUrl);
                                 startActivity(in);
+                                finish();
                             }
 
 

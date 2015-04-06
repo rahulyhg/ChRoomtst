@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -31,6 +32,7 @@ public class Reg1 extends Activity {
     EditText etPass;
     int userID;
     final String USER = "user";
+    TextView tvHuman;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -39,21 +41,20 @@ public class Reg1 extends Activity {
 
         phonenumber=(EditText)findViewById(R.id.editText1);
         Button next=(Button)findViewById(R.id.button4);
-        etHuman=(EditText)findViewById(R.id.etHuman);
+        //etHuman=(EditText)findViewById(R.id.etHuman);
         trPass=(TableRow)findViewById(R.id.trReceivedPass);
         etPass=(EditText)findViewById(R.id.etReceivedPass);
+        tvHuman=(TextView)findViewById(R.id.tvHuman);
         clicks=0;
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Double.parseDouble(etHuman.getText().toString())==2){
-                    if(clicks==0) {
-                        number = phonenumber.getText().toString();
-                        new RegSend().execute();
-                    }else{
-                        new auth().execute();
-                    }
+                if(clicks==0) {
+                    number = phonenumber.getText().toString();
+                    new RegSend().execute();
+                }else{
+                    new auth().execute();
                 }
             }
         });
@@ -84,20 +85,25 @@ public class Reg1 extends Activity {
         protected void onPostExecute(JSONObject json) {
             pDialog.dismiss();
             try {
+                error=json.getBoolean("error");
+                if(!error){
+                    token=json.getString("token");
+                    Log.d("pass", json.getString("password"));
+                }
+            }catch (JSONException e) {
+                Log.e("saveToken", e.toString());
+            }
+            /*try {
                 token = json.getString("token");
                 Log.e("saveToken", token);
             } catch (JSONException e) {
                 Log.e("saveToken", e.toString());
-            }
-            try {
-                error=json.getBoolean("error");
-            }catch (JSONException e) {
-                Log.e("saveToken", e.toString());
-            }
+            }*/
             if(error==false){
                 clicks++;
                 phonenumber.setEnabled(false);
                 trPass.setVisibility(View.VISIBLE);
+                tvHuman.setText("Введите полученный пароль в форму ниже");
             }
         }
     }

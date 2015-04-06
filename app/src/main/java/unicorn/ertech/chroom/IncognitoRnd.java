@@ -122,14 +122,15 @@ public class IncognitoRnd  extends Fragment {
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sensorManager.registerListener(listener, sensorAccel,
+                /*sensorManager.registerListener(listener, sensorAccel,
                         SensorManager.SENSOR_DELAY_NORMAL);
                 sensorManager.registerListener(listener, sensorLinAccel,
                         SensorManager.SENSOR_DELAY_NORMAL);
                 sensorManager.registerListener(listener, sensorGravity,
                         SensorManager.SENSOR_DELAY_NORMAL);
-
+*/
                     new Searching().execute();
+                sensorManager.unregisterListener(listener);
             }
         });
 
@@ -282,7 +283,7 @@ public class IncognitoRnd  extends Fragment {
                         e.printStackTrace();
                     }
                     if (num.equals("0")) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Нет результатов!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Нет результатов!", Toast.LENGTH_SHORT).show();
                         sensorManager.registerListener(listener, sensorAccel,
                                 SensorManager.SENSOR_DELAY_NORMAL);
                         sensorManager.registerListener(listener, sensorLinAccel,

@@ -92,16 +92,14 @@ public class SearchRandom extends Fragment {
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sensorManager.registerListener(listener, sensorAccel,
+                /*sensorManager.registerListener(listener, sensorAccel,
                         SensorManager.SENSOR_DELAY_NORMAL);
                 sensorManager.registerListener(listener, sensorLinAccel,
                         SensorManager.SENSOR_DELAY_NORMAL);
                 sensorManager.registerListener(listener, sensorGravity,
-                        SensorManager.SENSOR_DELAY_NORMAL);
-
-
-
-
+                        SensorManager.SENSOR_DELAY_NORMAL);*/
+                sensorManager.unregisterListener(listener);
+                new Searching().execute();
             }
         });
         setColor();
@@ -285,7 +283,7 @@ public class SearchRandom extends Fragment {
                         e.printStackTrace();
                     }
                     if (num.equals("0")) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Нет результатов!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Нет результатов!", Toast.LENGTH_SHORT).show();
                         realTry=0;
                         sensorManager.registerListener(listener, sensorAccel,
                                 SensorManager.SENSOR_DELAY_NORMAL);

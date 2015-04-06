@@ -10,9 +10,13 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ViewSwitcher;
+
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,36 +47,101 @@ public class PhotoViewer extends Activity{
         View page;
         if(!photoURLs[9].equals("http://im.topufa.org/")) {
             page = inflater.inflate(R.layout.photo_fragment, null);
-            TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[9]).into(imgview);
+            final TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
+            imgview.startAnimation(myAnim);
+            mPicasso.load(photoURLs[9]).into(imgview, new Callback(){
+
+                @Override
+                public void onError() {
+
+                }
+                @Override
+                public void onSuccess() {
+                    //myAnim.cancel();
+                    imgview.clearAnimation();
+                }
+            });
             pages.add(page);
         }
 
         if(!photoURLs[5].equals("http://im.topufa.org/")) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[5]).into(imgview);
+            final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
+            imgview.startAnimation(myAnim);
+            mPicasso.load(photoURLs[5]).into(imgview, new Callback(){
+
+                @Override
+                public void onError() {
+
+                }
+                @Override
+                public void onSuccess() {
+                    //myAnim.cancel();
+                    imgview.clearAnimation();
+                }
+            });
             pages.add(page);
         }
 
         if(!photoURLs[6].equals("http://im.topufa.org/")) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[6]).into(imgview);
+            final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
+            imgview.startAnimation(myAnim);
+            mPicasso.load(photoURLs[6]).into(imgview, new Callback(){
+
+                @Override
+                public void onError() {
+
+                }
+                @Override
+                public void onSuccess() {
+                    //myAnim.cancel();
+                    imgview.clearAnimation();
+                }
+            });
             pages.add(page);
         }
 
         if(!photoURLs[7].equals("http://im.topufa.org/")) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[7]).into(imgview);
+            final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
+            imgview.startAnimation(myAnim);
+            mPicasso.load(photoURLs[7]).into(imgview, new Callback(){
+
+                @Override
+                public void onError() {
+
+                }
+                @Override
+                public void onSuccess() {
+                    //myAnim.cancel();
+                    imgview.clearAnimation();
+                }
+            });
             pages.add(page);
         }
 
         if(!photoURLs[8].equals("http://im.topufa.org/")) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[8]).into(imgview);
+            final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
+            imgview.startAnimation(myAnim);
+            mPicasso.load(photoURLs[8]).into(imgview, new Callback(){
+
+                @Override
+                public void onError() {
+
+                }
+                @Override
+                public void onSuccess() {
+                    //myAnim.cancel();
+                    imgview.clearAnimation();
+                }
+            });
             pages.add(page);
         }
 
