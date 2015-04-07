@@ -120,7 +120,7 @@ public class FavoritesFragment extends Fragment {
     }
 
     private static boolean checkInList(conversationsMsg msg) {
-        boolean flag = false;
+        boolean flag = false;                                   //избавиться от флага и лишних шагов цикла
         for(int i=0; i<messages.size();i++)
         {
             if(messages.get(i).uid.equals(msg.uid))

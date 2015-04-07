@@ -24,6 +24,7 @@ import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -778,6 +779,8 @@ public class Profile extends Activity {
             int window_width = metricsB.widthPixels;
             int window_height = metricsB.heightPixels;
             pwindo = new PopupWindow(layout, window_width, window_height, true);
+            //pwindo.setOutsideTouchable(false);
+            //pwindo.setFocusable(true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
             final ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
             LinearLayout.LayoutParams myParams= new LinearLayout.LayoutParams(window_width/3*2, window_height/3*2);
@@ -1060,4 +1063,13 @@ str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
             return row;
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        if(pwindo!=null) {
+            pwindo.dismiss();
+            pwindo = null;
+        }
+    }
+
 }

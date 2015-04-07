@@ -75,8 +75,10 @@ public class Search extends FragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag2);
-        fTrans.commitAllowingStateLoss();
+        if(!frag2.isAdded()){
+            fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.replace(R.id.frgmCont, frag2);
+            fTrans.commitAllowingStateLoss();
+        }
     }
 }

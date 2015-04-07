@@ -161,6 +161,11 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         token = i.getStringExtra("token");
         userId = i.getStringExtra("userId");
         favorite = i.getStringExtra("favorite");
+        if(favorite.equals("false")){
+            if(ConversationsFragment.favorites.contains(Integer.parseInt(userId))){
+                favorite="true";
+            }
+        }
         //mID = i.getStringExtra("mID");
         userProfile = i.getStringExtra("userPROFILE");
         sendTo = i.getStringExtra("userPROFILE");

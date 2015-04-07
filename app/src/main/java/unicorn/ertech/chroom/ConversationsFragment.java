@@ -256,7 +256,7 @@ public class ConversationsFragment extends Fragment {
                 }
             }
             requests++;
-            if(requests>5){
+            if(requests>15){
                 requests=0;
                 if(messages.size()>0) {
                     String s = messages.get(0).userid;
@@ -355,7 +355,7 @@ public class ConversationsFragment extends Fragment {
                 }
             }
             requests++;
-            if((requests>5)||(firstTime)){
+            if((requests>15)||(firstTime)){
                 requests=0;
                 firstTime=false;
                 if(messages.size()>0) {
