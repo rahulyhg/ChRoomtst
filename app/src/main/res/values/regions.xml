@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="regions">
-        <item>Москва</item>
-        <item>Москвовская обл.</item>
-        <item>Санкт-Петербург</item>
-        <item>Ленинградская обл.</item>
+        <item>Москва и обл.</item>
+        <item>Санкт-Петербург и обл.</item>
         <item>Адыгея</item>
-        <item>Алтай</item>
+        <!--<item>Алтай</item>-->
         <item>Алтайский край</item>
         <item>Амурская обл.</item>
         <item>Архангельская обл.</item>

@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:background="@color/green"
-        android:id="@+id/topRow">
+        android:id="@+id/topRowAbout">
 
         <ImageButton
             android:layout_width="50dp"
@@ -195,7 +195,7 @@
                 android:id="@+id/tvProfilePhoto"
                 android:textAlignment="center"
                 android:background="@color/green"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textStyle="bold" />
@@ -206,7 +206,8 @@
                 android:orientation="horizontal"
                 android:background="@color/white"
                 android:gravity="center"
-                android:weightSum="80">
+                android:weightSum="80"
+                android:layout_marginTop="5dp">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -214,7 +215,7 @@
                     android:id="@+id/photo1"
                     android:background="@drawable/circle"
                     android:src="@drawable/nophoto"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -227,7 +228,7 @@
                     android:id="@+id/photo2"
                     android:background="@drawable/circle"
                     android:src="@drawable/nophoto"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_alignTop="@+id/photo1"
                     android:layout_toRightOf="@+id/photo1"
                     android:layout_toEndOf="@+id/photo1"
@@ -240,7 +241,7 @@
                     android:id="@+id/photo3"
                     android:background="@drawable/circle"
                     android:src="@drawable/nophoto"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_alignTop="@+id/photo4"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
@@ -253,7 +254,7 @@
                     android:id="@+id/photo4"
                     android:background="@drawable/circle"
                     android:src="@drawable/nophoto"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/photo3"
                     android:layout_toStartOf="@+id/photo3"

@@ -90,12 +90,18 @@ public class CityFragment extends android.support.v4.app.Fragment {
         // messagesNews.add(0,"News");
         Random rnd = new Random();
         backColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
+        if(sPref.contains("regSrv")){
+            room=Integer.toString(sPref.getInt("regSrv",3296));
+        }else{
+            room="3296";
+        }
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
-                    room = "3296";
+                    //room = "3296";
                     if(!stopTImer) {
                         new globalChat2().execute();
                     }
@@ -119,7 +125,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
         txtSend = (EditText) view.findViewById(R.id.editText1);
         firsTime = true;
         //token = Main.str;
-        room = "10";
+        //room = "10";
         msgCount=0;
         lastID1 = "";
         lastID2 = "";
@@ -301,12 +307,11 @@ public class CityFragment extends android.support.v4.app.Fragment {
                     try {
                         s = json.getString("deleted");
                         deleted = new JSONArray(s);
-
-                        for(int i=0; i<Integer.parseInt(deleted_total);i++)
-                        {
-                            checkInList(deleted.get(i).toString());
+                        if(!deleted_total.equals("")) {
+                            for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
+                                checkInList(deleted.get(i).toString());
+                            }
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -352,6 +357,19 @@ public class CityFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume(){
         super.onResume();
+
+        SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
+        if(sPref.contains("regSrv")){
+            String tmp = Integer.toString(sPref.getInt("regSrv",3296));
+            if(!room.equals(tmp)){
+                room=tmp;
+                firsTime=true;
+                msgCount=0;
+                messages.clear();
+                lastID2="0";
+                adapter.notifyDataSetChanged();
+            }
+        }
         stopTImer=false;
     }
 

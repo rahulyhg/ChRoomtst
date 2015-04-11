@@ -9,23 +9,15 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TabWidget;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +76,7 @@ public class Main extends TabActivity {
         Intent i = getIntent();
         str = i.getStringExtra("Token");
 
-        topRow=(RelativeLayout)findViewById(R.id.topRow);
+        topRow=(RelativeLayout)findViewById(R.id.topRowAbout);
         butSettings = (ImageButton) findViewById(R.id.settingsButton);
         butSupport = (ImageButton) findViewById(R.id.imageButton);
         butProfile = (ImageButton) findViewById(R.id.usrPic);

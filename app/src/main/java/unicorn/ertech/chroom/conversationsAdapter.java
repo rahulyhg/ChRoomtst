@@ -149,7 +149,11 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         if(p.picURL!=null){
             if(!p.picURL.equals("http://im.topufa.org/")){
                 Picasso.with(getContext()).load(p.picURL).resize(100,0).transform(new PicassoRoundTransformation()).into(holder.img);
+            }else{
+                Picasso.with(getContext()).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
             }
+        }else{
+            Picasso.with(getContext()).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
         }
 
         return v;

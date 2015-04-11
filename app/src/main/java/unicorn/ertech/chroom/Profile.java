@@ -1,8 +1,8 @@
 package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -20,8 +19,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.SparseBooleanArray;
-import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -33,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,18 +47,16 @@ import ch.boye.httpclientandroidlib.client.methods.HttpPost;
 import ch.boye.httpclientandroidlib.entity.ContentType;
 import ch.boye.httpclientandroidlib.entity.mime.HttpMultipartMode;
 import ch.boye.httpclientandroidlib.entity.mime.MultipartEntityBuilder;
-import ch.boye.httpclientandroidlib.entity.mime.content.FileBody;
 import ch.boye.httpclientandroidlib.HttpEntity;
 import ch.boye.httpclientandroidlib.HttpResponse;
 import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import unicorn.ertech.chroom.PicassoRoundTransformation;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URL;
-import java.util.StringTokenizer;
+
 /**
  * Created by Timur on 08.01.2015.
  */
@@ -82,12 +78,12 @@ public class Profile extends Activity {
     ImageView photo4;
     EditText tvProfStat;
     TextView etName;
-    TextView birthDay, hobbiesTv, hereForTv;
+    TextView birthDay, hobbiesTv, hereForTv, datePick;
     EditText etProfileAbout;
-    EditText etProfileCity;
+    //EditText etProfileCity;
     Button saveProfile;
-    Spinner profileSex, searchSex, familySpin, regionSpin;
-    int sex, ssex, sp, photo_type, reg;
+    Spinner profileSex, searchSex, familySpin, regionSpin, etProfileCity;
+    int sex, ssex, sp, photo_type, reg, cit, myMonth=-1, myDay=-1, myYear=-1;
     int[] selectedHobbies, selectedHere;
     Picasso mPicasso;
     final String PHOTO_STATE = "photo";
@@ -109,7 +105,7 @@ public class Profile extends Activity {
         setContentView(R.layout.tab_profile);
 //setContentView(R.layout.tab_incognito);
         mPicasso = Picasso.with(getApplicationContext());
-        RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
+        RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRowAbout);
         ImageButton back = (ImageButton) findViewById(R.id.profileBack);
         profileGlass = (ImageView) findViewById(R.id.profileGlass);
         photo1 = (ImageView) findViewById(R.id.photo1);
@@ -120,13 +116,14 @@ public class Profile extends Activity {
         profileSex = (Spinner)findViewById(R.id.spinnerProfileSex);
         searchSex=(Spinner)findViewById(R.id.spinProfileSearchSex);
         saveProfile = (Button) findViewById(R.id.butProfileSave);
+        datePick=(TextView)findViewById(R.id.tvProfSetBirthday);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         sPref2 = getSharedPreferences("user", MODE_PRIVATE);
         TextView tvProfPhoto = (TextView) findViewById(R.id.tvProfilePhoto);
         TextView tvProfInfo = (TextView) findViewById(R.id.tvProfileInfo);
         etName = (TextView) findViewById(R.id.etName);
         etProfileAbout = (EditText) findViewById(R.id.etProfileAbout);
-        etProfileCity = (EditText) findViewById(R.id.etProfileCity);
+        etProfileCity = (Spinner) findViewById(R.id.etProfileCity);
         tvProfStat = (EditText) findViewById(R.id.tvProfileStatus);
         hobbiesTv = (TextView)findViewById(R.id.tvPickedHobbies);
         hereForTv=(TextView)findViewById(R.id.tvPickedHerefor);
@@ -135,7 +132,7 @@ public class Profile extends Activity {
         selectedHobbies= new int[5];
         selectedHere = new int[5];
         etName.setOnClickListener(showSaveButton); //показ кнопки сохранить при редактировании данных о себе
-        etProfileCity.setOnClickListener(showSaveButton);
+        //etProfileCity.setOnClickListener(showSaveButton);
         etProfileAbout.setOnClickListener(showSaveButton);
         tvProfStat.setOnClickListener(showSaveButton);
         familySpin.setOnTouchListener(showSaveButton3);
@@ -217,6 +214,12 @@ public class Profile extends Activity {
             }
         }
         saveProfile.setVisibility(View.INVISIBLE);
+        datePick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(1);
+            }
+        });
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         saveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,13 +288,17 @@ public class Profile extends Activity {
         SpAdapter adapter3 = new SpAdapter(this,
                 R.layout.spinner_without_bg, getResources().getStringArray(R.array.family));
         familySpin.setAdapter(adapter3);
-        //GeoAdapter2 adapter3 = new GeoAdapter2(this,
-        //        R.layout.spinner_without_bg, getResources().getStringArray(R.array.sex));
-        //etProfileCity.setAdapter(adapter3);
+        GeoAdapter2 adapter4 = new GeoAdapter2(this,
+                R.layout.spinner_without_bg, getResources().getStringArray(R.array.cities));
+        etProfileCity.setAdapter(adapter4);
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
+        if (id == 1) {
+            DatePickerDialog tpd = new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
+            return tpd;
+        }else{
         final String[] mActions ={"Загрузить", "Открыть"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Выберите действие");
@@ -317,7 +324,8 @@ public class Profile extends Activity {
             }
         });
         builder.setCancelable(true);
-        return builder.create();
+            return builder.create();
+        }
     }
 
     protected View.OnClickListener photoClick = new View.OnClickListener(){
@@ -397,17 +405,17 @@ public class Profile extends Activity {
                         pathToUserPhoto = getImagePath(selectedImage);
                         switch (photo_type) {
                             case 1:
-                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).noFade().into(photo1);
                                 photosURLs[5]=pathToUserPhoto;
                                 break;
                             case 2:
-                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).noFade().into(photo2);
                                 break;
                             case 3:
-                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).noFade().into(photo3);
                                 break;
                             case 4:
-                                mPicasso.load(selectedImage).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                                mPicasso.load(selectedImage).resize(pic_width2, 0).noFade().into(photo4);
                                 break;
                             default:
                                 break;
@@ -485,11 +493,28 @@ public class Profile extends Activity {
                 Log.e("profile", json.getString("name"));
                 Log.e("profile", json.getString("info"));
                 city=json.getString("city");
-                etProfileCity.setText(city);
+                if(!city.equals(null)){
+                        try {
+                            int cityId=GeoConvertIds.getAppCityId(Integer.parseInt(city));
+                            String[] stringsArr = getResources().getStringArray(R.array.cities);
+                            birthDay.setText(stringsArr[cityId]);
+                            etProfileCity.setSelection(cityId);
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                }
+                try {
+                    int region=json.getInt("region");
+                    if(region!=0){
+                        regionSpin.setSelection(GeoConvertIds.getAppRegionId(region));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 userName = json.getString("name");
                 userAbout = json.getString("info");
                 tvProfStat.setText(json.getString("status"));
-                birthDay.setText(city+" | "+json.getString("age"));
+                birthDay.setText(birthDay.getText() + " | "+json.getString("age"));
                 int sex = json.getInt("sex");
                 Log.e("selectedItem", profileSex.getSelectedItem()+"");
                 profileSex.setSelection(sex);
@@ -509,16 +534,16 @@ public class Profile extends Activity {
                 photosURLs[8]=json.getString("photo4_full");
                 photosURLs[9]=json.getString("avatar_full");
                 if(!photosURLs[3].equals("http://im.topufa.org/")){
-                    mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                    mPicasso.load(photosURLs[3]).resize(pic_width2, 0).noFade().into(photo4);
                 }
                 if(!photosURLs[2].equals("http://im.topufa.org/")){
-                    mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                    mPicasso.load(photosURLs[2]).resize(pic_width2, 0).noFade().into(photo3);
                 }
                 if(!photosURLs[1].equals("http://im.topufa.org/")){
-                    mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                    mPicasso.load(photosURLs[1]).resize(pic_width2, 0).noFade().into(photo2);
                 }
                 if(!photosURLs[0].equals("http://im.topufa.org/")){
-                    mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                    mPicasso.load(photosURLs[0]).resize(pic_width2, 0).noFade().into(photo1);
                 }
                 if(!photosURLs[4].equals("http://im.topufa.org/")){
                     mPicasso.load(photosURLs[4]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(smallProfilePhoto);
@@ -543,7 +568,8 @@ public class Profile extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             sp=familySpin.getSelectedItemPosition();
-            reg=10*regionSpin.getSelectedItemPosition();
+            reg=GeoConvertIds.getServerRegionId(regionSpin.getSelectedItemPosition());
+            cit=GeoConvertIds.getServerCityId(etProfileCity.getSelectedItemPosition());
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -552,6 +578,15 @@ public class Profile extends Activity {
             jParser.setParam("action", "profile_set");
 //jParser.setParam("userid", Integer.toString(userID));
             jParser.setParam("token", token);
+            if(myDay>0) {
+                jParser.setParam("day", Integer.toString(myDay));
+            }
+            if(myMonth>0) {
+                jParser.setParam("month", Integer.toString(myMonth));
+            }
+            if(myYear>0) {
+                jParser.setParam("year", Integer.toString(myYear));
+            }
             jParser.setParam("interest1", Integer.toString(selectedHobbies[0]));
             jParser.setParam("interest2", Integer.toString(selectedHobbies[1]));
             jParser.setParam("interest3", Integer.toString(selectedHobbies[2]));
@@ -564,7 +599,7 @@ public class Profile extends Activity {
             jParser.setParam("herefor5", Integer.toString(selectedHere[4]));
             jParser.setParam("sp", Integer.toString(sp));
             jParser.setParam("region", Integer.toString(reg));
-            jParser.setParam("city", etProfileCity.getText().toString());
+            jParser.setParam("city", Integer.toString(cit));
             jParser.setParam("info", etProfileAbout.getText().toString());
             jParser.setParam("status", tvProfStat.getText().toString());
             jParser.setParam("sex",String.valueOf(profileSex.getSelectedItemId()));
@@ -779,9 +814,39 @@ public class Profile extends Activity {
             int window_width = metricsB.widthPixels;
             int window_height = metricsB.heightPixels;
             pwindo = new PopupWindow(layout, window_width, window_height, true);
-            //pwindo.setOutsideTouchable(false);
-            //pwindo.setFocusable(true);
             pwindo.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            //pwindo.setOutsideTouchable(false);
+            pwindo.setFocusable(true);
+            //pwindo.showAsDropDown(layout, 50, window_height);
+
+            pwindo.setBackgroundDrawable(new BitmapDrawable(pwindo.getContentView().getResources(), (Bitmap) null));
+            pwindo.setOutsideTouchable(true);
+            pwindo.showAsDropDown(layout, 50, window_height);
+
+
+
+            pwindo.setBackgroundDrawable(new BitmapDrawable());
+
+            View popUpWindowLaout = pwindo.getContentView();
+            popUpWindowLaout.setFocusableInTouchMode(true);
+
+            //first press doesnt get caught here
+            popUpWindowLaout.setOnKeyListener(new View.OnKeyListener()
+            {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event)
+                {
+                    if (keyCode == KeyEvent.KEYCODE_BACK)
+                    {
+
+                        pwindo.dismiss();
+                        return true;
+                    }
+                    return startService;
+                }
+            });
+
+
             final ListView choiceList = (ListView)layout.findViewById(R.id.lvChoiceList);
             LinearLayout.LayoutParams myParams= new LinearLayout.LayoutParams(window_width/3*2, window_height/3*2);
             myParams.gravity= Gravity.CENTER;
@@ -1064,12 +1129,14 @@ str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
         }
     }
 
-    @Override
-    public void onBackPressed(){
-        if(pwindo!=null) {
-            pwindo.dismiss();
-            pwindo = null;
-        }
-    }
+    DatePickerDialog.OnDateSetListener myCallBack = new DatePickerDialog.OnDateSetListener() {
 
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myYear = year;
+            myMonth = monthOfYear+1;
+            myDay = dayOfMonth;
+            datePick.setText(myDay + "/" + myMonth + "/" + myYear);
+        }
+    };
 }

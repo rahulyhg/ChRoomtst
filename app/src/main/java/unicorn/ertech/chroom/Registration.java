@@ -126,6 +126,7 @@ public class Registration extends Activity{
             jParser.setParam("day", Integer.toString(myDay));
             jParser.setParam("month", Integer.toString(myMonth));
             jParser.setParam("year", Integer.toString(myYear));
+            jParser.setParam("status", "Всем привет, я теперь в изюме!");
             if(sex<2) {
                 jParser.setParam("sex", Integer.toString(sex));
             }

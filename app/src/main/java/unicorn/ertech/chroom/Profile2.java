@@ -14,7 +14,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -25,7 +24,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.Calendar;
+
 /**
  * Created by Timur on 22.01.2015.
  */
@@ -48,7 +47,7 @@ public class Profile2 extends Activity implements View.OnClickListener {
     String picUrl;
     Picasso mPicasso;
     TextView etName, onlineTv;
-    TextView info, hobbiesTv, hereForTv, familyTv, etProfileCity, birthDay, profileSex, searchSex;
+    TextView info, hobbiesTv, hereForTv, familyTv, etProfileCity, birthDay, profileSex, searchSex, etProfileRegion;
     Button butSend;
     int pic_width, pic_width2;
     final String SAVED_COLOR = "color";
@@ -69,13 +68,14 @@ public class Profile2 extends Activity implements View.OnClickListener {
         familyTv = (TextView) findViewById(R.id.etProfile2Relationships);
         tvProfStat = (TextView) findViewById(R.id.tvProfileStatus);
         etProfileCity = (TextView) findViewById(R.id.etProfile2City);
+        etProfileRegion=(TextView)findViewById(R.id.etProfile2Region);
         birthDay = (TextView) findViewById(R.id.tvBirthday2);
         profileSex = (TextView) findViewById(R.id.etProfile2Sex);
         searchSex = (TextView) findViewById(R.id.etProfile2SearchSex);
         onlineTv=(TextView)findViewById(R.id.tvProfOnline);
         searchSex.setText("Не выбрано");
         profileSex.setText("Не выбрано");
-        RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRow);
+        RelativeLayout topRow = (RelativeLayout) findViewById(R.id.topRowAbout);
         ImageButton back = (ImageButton) findViewById(R.id.profileBack);
         profileGlass = (ImageView) findViewById(R.id.profileGlass);
         photo1 = (ImageView) findViewById(R.id.photo1);
@@ -373,12 +373,24 @@ public class Profile2 extends Activity implements View.OnClickListener {
                             mPicasso.load(picURLFull).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(profilePhoto);
                         }
                         if(!picURL.equals("http://im.topufa.org/")){
-                            mPicasso.load(picURL).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(smallProfilePhoto);
+                            mPicasso.load(picURL).resize(pic_width2, 0).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).into(smallProfilePhoto);
                         }
-                        etProfileCity.setText(json.getString("city"));
+                        int cityId=GeoConvertIds.getAppCityId(Integer.parseInt(json.getString("city")));
+                        String[] stringsArr = getResources().getStringArray(R.array.cities);
+                        birthDay.setText(stringsArr[cityId]);
+                        etProfileCity.setText(stringsArr[cityId]);
+
+                        int regionId=GeoConvertIds.getAppRegionId(json.getInt("region"));
+                        stringsArr=getResources().getStringArray(R.array.regions);
+                        etProfileRegion.setText(stringsArr[regionId]);
                         info.setText(json.getString("info"));
-                        birthDay.setText(json.getString("age"));
-                        Integer sex = json.getInt("sex");
+                        birthDay.setText(birthDay.getText()+" | "+json.getString("age"));
+                        Integer sex;
+                        if(!json.getString("sex").equals("")){
+                            sex = json.getInt("sex");
+                        }else{
+                            sex=2;
+                        }
                         String[] sexarray = getResources().getStringArray(R.array.sex);
                         if (sex == 1) {
                             profileSex.setText(sexarray[1]);
@@ -386,7 +398,11 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         if (sex == 0) {
                             profileSex.setText(sexarray[0]);
                         }
-                        sex = json.getInt("lookingfor");
+                        if(!json.getString("sex").equals("")) {
+                            sex = json.getInt("lookingfor");
+                        }else{
+                            sex=2;
+                        }
                         if (sex == 1) {
                             searchSex.setText(sexarray[1]);
                         }
@@ -408,16 +424,16 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         photosURLs[8] = json.getString("photo4_full");
                         photosURLs[9] = picURLFull;
                         if(!photosURLs[3].equals("http://im.topufa.org/")){
-                            mPicasso.load(photosURLs[3]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo4);
+                            mPicasso.load(photosURLs[3]).resize(pic_width2, 0).noFade().into(photo4);
                         }
                         if(!photosURLs[2].equals("http://im.topufa.org/")){
-                            mPicasso.load(photosURLs[2]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo3);
+                            mPicasso.load(photosURLs[2]).resize(pic_width2, 0).noFade().into(photo3);
                         }
                         if(!photosURLs[1].equals("http://im.topufa.org/")){
-                            mPicasso.load(photosURLs[1]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo2);
+                            mPicasso.load(photosURLs[1]).resize(pic_width2, 0).noFade().into(photo2);
                         }
                         if(!photosURLs[0].equals("http://im.topufa.org/")){
-                            mPicasso.load(photosURLs[0]).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(photo1);
+                            mPicasso.load(photosURLs[0]).resize(pic_width2, 0).noFade().into(photo1);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

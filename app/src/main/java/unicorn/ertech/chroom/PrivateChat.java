@@ -118,7 +118,7 @@ public class PrivateChat extends FragmentActivity {
                 case 0:
                     return "Сообщения";
                 case 1:
-                    return "Избранные";
+                    return "Друзья";
             }
             return "Title " + position;
         }

@@ -71,6 +71,9 @@ public class ConversationsFragment extends Fragment {
     final static String SAVED_LASTID="lastid";
     static int currentPosition=0;
     static int requests=0;
+    String serverTime;
+    static int deltaMin;
+
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -235,6 +238,7 @@ public class ConversationsFragment extends Fragment {
                             {
                                 conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), "false", messag.getString("id"), messag.getString("time"),messag.getString("id"));
                                 if(!checkInList(p)) {
+                                    //messages.add(messages.size(), p);
                                     messages.add(0, p);
                                 }
                             }
@@ -303,6 +307,7 @@ public class ConversationsFragment extends Fragment {
                 try {
                     realNum = json.getString("total");
                     lastID4 = Integer.toString(json.getInt("lastid"));
+                    //serverTime = json.getString("servertime");
                     Notif = context.getSharedPreferences("notifications",context.MODE_PRIVATE);
                     ed2 = Notif.edit();
                     if(Notif.contains(SAVED_NOTIF))
@@ -335,6 +340,7 @@ public class ConversationsFragment extends Fragment {
                             if(s.equals("false"))
                             {
                                 conversationsMsg p = new conversationsMsg(messag.getString("dialog_id"), messag.getString("name"), messag.getString("message"), messag.getString("avatar"), messag.getString("read"), messag.getString("lastid"), messag.getString("time"),messag.getString("userid"));
+                                //messages.add(messages.size(), p);
                                 messages.add(0, p);
                             }
                             else
@@ -408,6 +414,7 @@ public class ConversationsFragment extends Fragment {
                 messages.get(i).from=msg.from;
                 conversationsMsg m = messages.get(i);
                 messages.remove(i);
+                //messages.add(messages.size(), m);
                 messages.add(0, m);
                 adapter.notifyDataSetChanged();
                 flag = true;
@@ -426,6 +433,7 @@ public class ConversationsFragment extends Fragment {
                 flag = false;
                 conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).msgId,p.time,p.userid);
                 messages.remove(i);
+                //messages.add(messages.size(), m);
                 messages.add(0,m);
                 adapter.notifyDataSetChanged();
             }
@@ -434,6 +442,7 @@ public class ConversationsFragment extends Fragment {
         {
             conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.msgId,p.time, p.userid);
             messages.add(0,m);
+            //messages.add(messages.size(), m);
         }
     }
 
@@ -550,5 +559,15 @@ public class ConversationsFragment extends Fragment {
 
         }
     }//конец asyncTask
+
+    private void computeDeltaTime(String serverTime){
+        int phoneTime;
+        Calendar c=Calendar.getInstance();
+        phoneTime=c.get(c.HOUR_OF_DAY)*60+c.get(c.MINUTE);
+        String[] dateTime = serverTime.split("%");
+        String[] time = dateTime[1].split(":");
+        //String[] date = dateTime[0].split("-");
+
+    }
 
 }

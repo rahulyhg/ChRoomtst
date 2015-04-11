@@ -36,10 +36,11 @@ public class IncognitoTab extends FragmentActivity{
         frag1 = new Incognito();
         frag2 = new IncognitoChat();
         frag3 = new IncognitoRnd();
-
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont2, frag1);
-        fTrans.commit();
+        /*if(!frag1.isAdded()) {
+            fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.replace(R.id.frgmCont2, frag1);
+            fTrans.commit();
+        }*/
     }
 
     public void startChat(){

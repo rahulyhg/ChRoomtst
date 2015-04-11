@@ -85,12 +85,12 @@ public class AdsFragment extends Fragment {
         }
         //token = Main.str;
         SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
-        if(sPref.contains(SAVED_CITY)){
-            room=Integer.toString(sPref.getInt(SAVED_CITY,11));
+        if(sPref.contains("citySrv")){
+            room=Integer.toString(sPref.getInt("citySrv",3345));
         }else{
-            room="11";
+            room="3345";
         }
-        room="3345";
+        //room="3345";
         // messagesNews.add(0,"News");
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() { // Определяем задачу
@@ -316,12 +316,11 @@ public class AdsFragment extends Fragment {
                     try {
                         s = json.getString("deleted");
                         deleted = new JSONArray(s);
-
-                        for(int i=0; i<Integer.parseInt(deleted_total);i++)
-                        {
-                            checkInList(deleted.get(i).toString());
+                        if(!deleted_total.equals("")) {
+                            for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
+                                checkInList(deleted.get(i).toString());
+                            }
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -431,9 +430,9 @@ public class AdsFragment extends Fragment {
 
     public void onResume(){
         super.onResume();
-        /*SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
-        if(sPref.contains(SAVED_CITY)){
-            String tmp = Integer.toString(sPref.getInt(SAVED_CITY,11));
+        SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
+        if(sPref.contains("citySrv")){
+            String tmp = Integer.toString(sPref.getInt("citySrv",3345));
             if(!room.equals(tmp)){
                 room=tmp;
                 firsTime=true;
@@ -442,7 +441,7 @@ public class AdsFragment extends Fragment {
                 lastID1="0";
                 adapter.notifyDataSetChanged();
             }
-        }*/
+        }
         stopTImer=false;
     }
 
@@ -461,6 +460,8 @@ public class AdsFragment extends Fragment {
     @Override
     public void onPause(){
         stopTImer=true;
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
         super.onPause();
     }
 

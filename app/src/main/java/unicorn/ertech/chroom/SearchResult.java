@@ -49,7 +49,7 @@ public class SearchResult extends Activity {
     boolean state = true;
     boolean notAll = true;
     PopupWindow filterPopup;
-    Button backButton;
+    ImageButton backButton;
     ImageButton butFilter;
 
     /** Called when the activity is first created. */
@@ -58,7 +58,7 @@ public class SearchResult extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
 
-        backButton=(Button)findViewById(R.id.searchBack);
+        backButton=(ImageButton)findViewById(R.id.searchBack);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

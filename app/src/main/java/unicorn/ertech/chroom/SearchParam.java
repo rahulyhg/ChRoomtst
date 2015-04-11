@@ -61,6 +61,7 @@ public class SearchParam extends Fragment {
     List<NameValuePair> request = new ArrayList<NameValuePair>(2);
     int currentColorSpinner;
     private PopupWindow pwindo;
+    static int cit, reg;
     SharedPreferences savedParams;
 
     /** Handle the results from the voice recognition activity. */
@@ -92,7 +93,7 @@ public class SearchParam extends Fragment {
         age_from = (TextView)view.findViewById(R.id.etSearchAge1);
         age_till = (EditText)view.findViewById(R.id.etSearchAge2);
         TextView age_from2 = (TextView)view.findViewById(R.id.tvSearchAge1);
-        online = "1";
+        online = "";
         setColor();
         SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
         if((userData.contains("token"))){
@@ -185,7 +186,9 @@ public class SearchParam extends Fragment {
             super.onPreExecute();
             String s = String.valueOf(sexSpinner.getSelectedItemId());
             //region = regionSpinner.getSelectedItem().toString();
-            region = "";
+            cit=GeoConvertIds.getServerCityId(city.getSelectedItemPosition());
+            reg=GeoConvertIds.getServerRegionId(regionSpinner.getSelectedItemPosition());
+            //region = "";
 
             pDialog = new ProgressDialog(context);
             pDialog.setMessage("Ищем ...");
@@ -211,7 +214,7 @@ public class SearchParam extends Fragment {
                 //jParser.setParam("sex","");
             }
 
-            jParser.setParam("region", region);
+            jParser.setParam("region", Integer.toString(reg));
             jParser.setParam("online", online);
             if(hereforSpinner.getSelectedItemId()==0)
             {
@@ -220,11 +223,11 @@ public class SearchParam extends Fragment {
             else {
                 jParser.setParam("herefor", String.valueOf(hereforSpinner.getSelectedItemId()));
             }
-            //jParser.setParam("city", city.getText().toString());
+            jParser.setParam("city", Integer.toString(cit));
             //jParser.setParam("age_from", age_from.getText().toString());
             //jParser.setParam("age_till", age_till.getText().toString());
             jParser.setParam("age_from", Integer.toString(age1));
-            jParser.setParam("age_till", Integer.toString(age1));
+            jParser.setParam("age_till", Integer.toString(age2));
 
             // Getting JSON from URL
             request = jParser.nameValuePairs;
@@ -303,6 +306,12 @@ public class SearchParam extends Fragment {
             regionSpinner.setSelection(savedParams.getInt("spinnerRegion", 0));
             hereforSpinner.setSelection(savedParams.getInt("spinnerHerefor", 0));
             cb.setSelected(savedParams.getBoolean("online", false));
+            if(cb.isChecked()){
+                online="1";
+            }else{
+                online="";
+            }
+            city.setSelection(savedParams.getInt("spinnerCity", 0));
             //citySpinner.setSelection(savedParams.getInt("spinnerCity", 0));
         }
         if(savedParams.contains("age1")){
@@ -324,6 +333,7 @@ public class SearchParam extends Fragment {
         //ed4.putInt("spinnerCity", sexSpinner.getSelectedItemPosition());
         ed4.putInt("age1", age1);
         ed4.putInt("age2", age2);
+        ed4.putInt("spinnerCity", city.getSelectedItemPosition());
         ed4.putBoolean("online", cb.isChecked());
         ed4.commit();
         super.onPause();

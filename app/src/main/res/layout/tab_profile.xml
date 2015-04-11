@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:background="@color/green"
-        android:id="@+id/topRow">
+        android:id="@+id/topRowAbout">
 
         <ImageButton
             android:layout_width="50dp"
@@ -167,7 +167,7 @@
                     android:id="@+id/photo1"
                     android:background="@drawable/circle"
                     android:src="@drawable/camera128"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -180,7 +180,7 @@
                     android:id="@+id/photo2"
                     android:background="@drawable/circle"
                     android:src="@drawable/camera128"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_alignTop="@+id/photo1"
                     android:layout_toRightOf="@+id/photo1"
                     android:layout_toEndOf="@+id/photo1"
@@ -193,7 +193,7 @@
                     android:id="@+id/photo3"
                     android:background="@drawable/circle"
                     android:src="@drawable/camera128"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_alignTop="@+id/photo4"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
@@ -206,7 +206,7 @@
                     android:id="@+id/photo4"
                     android:background="@drawable/circle"
                     android:src="@drawable/camera128"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/photo3"
                     android:layout_toStartOf="@+id/photo3"
@@ -286,19 +286,20 @@
                     android:id="@+id/textView3"
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp" />
-                <EditText
+                <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/etProfileCity"
-                    android:layout_marginLeft="15dp"
                     android:cursorVisible="false"
                     android:autoText="false"
-                    android:padding="7dp"
                     android:layout_marginRight="5dp"
                     android:background="@android:color/transparent"
-                    android:hint="Город"
-                    android:textSize="14sp"
-                    android:textColor="@color/black" />
+                    android:spinnerMode="dialog"
+                    android:layout_marginBottom="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="7dp"
+                    android:paddingBottom="8dp"/>
             </TableRow>
 
             <TableRow
@@ -384,6 +385,29 @@
                     android:paddingBottom="8dp"
                     android:layout_marginBottom="8dp"
                     android:paddingTop="3dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Дата рождения:"
+                    android:id="@+id/textView38"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Выбрать..."
+                    android:id="@+id/tvProfSetBirthday"
+                    android:layout_marginLeft="15dp" />
             </TableRow>
 
             <TextView

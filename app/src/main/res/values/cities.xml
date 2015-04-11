@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="cities">
+        <item>Бирск</item>
+        <item>Благовещенск</item>
+        <item>Ишимбай</item>
+        <item>Кумертау</item>
+        <item>Мелеуз</item>
+        <item>Нефтекамск</item>
+        <item>Салават</item>
+        <item>Стерлитамак</item>
+        <item>Туймазы</item>
         <item>Уфа</item>
+        <item>Янаул</item>
+        <!--<item>Уфа</item>
         <item>Аксаково</item>
         <item>Амзя</item>
         <item>Аскино</item>
@@ -56,7 +67,7 @@
         <item>Чекмагуш</item>
         <item>Чишмы</item>
         <item>Шаран</item>
-        <item>Янаул</item>
+        <item>Янаул</item>-->
     </string-array>
 
     <string-array name="citiesTatarstan">

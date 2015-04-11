@@ -47,13 +47,28 @@ public class SetChat extends Activity {
 
         final SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
         if(sPref2.contains(SAVED_CITY)){
-            spinner.setSelection(sPref2.getInt(SAVED_CITY, 11)-11);
+            spinner.setSelection(sPref2.getInt(SAVED_CITY, 9));
+        }
+        if(sPref2.contains("region")){
+            spinnerReg.setSelection(sPref2.getInt("region", 0));
         }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
 
                 SharedPreferences.Editor ed = sPref2.edit();
-                ed.putInt(SAVED_CITY, 11+selectedItemPosition);
+                ed.putInt("citySrv", GeoConvertIds.getServerCityId(selectedItemPosition));
+                ed.putInt(SAVED_CITY, selectedItemPosition);
+                ed.commit();
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        spinnerReg.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
+
+                SharedPreferences.Editor ed = sPref2.edit();
+                ed.putInt("regSrv", GeoConvertIds.getServerRegionId(selectedItemPosition));
+                ed.putInt("region", selectedItemPosition);
                 ed.commit();
             }
             public void onNothingSelected(AdapterView<?> parent) {

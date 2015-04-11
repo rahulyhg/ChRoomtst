@@ -26,7 +26,7 @@ public class SetActivity extends Activity {
         setContentView(R.layout.activity_settings);
         //setContentView(R.layout.tab_incognito);
 
-        topRow = (RelativeLayout)findViewById(R.id.topRow);
+        topRow = (RelativeLayout)findViewById(R.id.topRowAbout);
         butBack=(ImageButton)findViewById(R.id.setBack);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)){
@@ -58,6 +58,7 @@ public class SetActivity extends Activity {
         LinearLayout laySetPrivate = (LinearLayout)findViewById(R.id.laySetPrivate);
         LinearLayout laySetColor = (LinearLayout)findViewById(R.id.laySetColor);
         LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
+        LinearLayout laySetAbout=(LinearLayout)findViewById(R.id.laySetAbout);
         //LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +120,13 @@ public class SetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showActivity(SetCol.class);
+            }
+        });
+
+        laySetAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(About.class);
             }
         });
 

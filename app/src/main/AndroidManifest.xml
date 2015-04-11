@@ -36,68 +36,84 @@
         </activity>
         <activity
             android:name=".GlobalChat"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PrivateChat"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".IncognitoTab"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Search"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SetActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Profile"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SetPrivate"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SetWallet"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".GiftsActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Support"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Registration"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PrivateMessaging"
             android:windowSoftInputMode="adjustPan"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Profile2"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SetCol"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Reg1"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".Reset"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SearchResult"
@@ -106,36 +122,45 @@
         </activity>
         <activity
             android:name=".ShareFacebook"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
-            android:label="ChRoom" >
+            android:label="ChRoom"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PhotoViewer"
-            android:label="ChRoom" >
+            android:label="ChRoom"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SetChat"
-            android:label="ChRoom" >
+            android:label="ChRoom"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".NewsContainer"
-            android:label="ChRoom" >
+            android:label="ChRoom"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".anonMessaging"
-            android:label="@string/title_activity_anon_messaging" >
+            android:label="@string/title_activity_anon_messaging"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".SetBlackList"
-            android:label="@string/title_activity_anon_messaging" >
+            android:label="@string/title_activity_anon_messaging"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.vk.sdk.VKOpenAuthActivity" />
+        <activity android:name="com.vk.sdk.VKOpenAuthActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ShareLoginActivity"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <data android:scheme="vk4795571" />
 
@@ -154,24 +179,31 @@
 
         <activity
             android:name=".Notifications"
-            android:label="@string/title_activity_notifications" >
+            android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".anon_nickname"
-            android:label="@string/title_activity_anon_nickname" >
+            android:label="@string/title_activity_anon_nickname"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".syncContacts"
-            android:label="@string/title_activity_sync_contacts" >
+            android:label="@string/title_activity_sync_contacts"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".VActivity"
-            android:label="@string/title_activity_v" >
+            android:label="@string/title_activity_v"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".deleteAcc"
-            android:label="@string/title_activity_delete_acc" >
+            android:label="@string/title_activity_delete_acc"
+            android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".About"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:background="@color/green"
-        android:id="@+id/topRow">
+        android:id="@+id/topRowAbout">
 
         <ImageButton
             android:layout_width="50dp"
@@ -44,7 +44,8 @@
             android:scaleType="fitCenter"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="7dp"
-            android:layout_marginTop="7dp" />
+            android:layout_marginTop="7dp"
+            android:padding="2dp" />
     </RelativeLayout>
 
 
@@ -52,7 +53,7 @@
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_below="@id/topRow">
+    android:layout_below="@id/topRowAbout">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"

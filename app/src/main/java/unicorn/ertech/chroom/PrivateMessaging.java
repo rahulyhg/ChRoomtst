@@ -102,8 +102,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
-        Intent srvs = new Intent(this, notif.class);
-        stopService(srvs);
+        /*Intent srvs = new Intent(this, notif.class);
+        stopService(srvs);*/
         userData = getSharedPreferences("user", MODE_PRIVATE);
 
         myID = Integer.toString(userData.getInt(USER,0));
@@ -680,7 +680,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     if(!fromShake){
                         ConversationsFragment.update();
                     }
-                    Toast.makeText(getApplicationContext(), "Пользователь успешно удален из избранного!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Пользователь успешно удален из списка друзей!", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -858,7 +858,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     if(!fromShake){
                         ConversationsFragment.update();
                     }
-                    Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в избранное!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Собеседник успешно добавлен в друзья!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Ошибка при добавлении!", Toast.LENGTH_LONG).show();
                 }
@@ -987,7 +987,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
                             if(favorite.equals("true"))
                             {
-                                Toast.makeText(getApplicationContext(), "Пользователь и так находится у Вас в избранном!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Пользователь уже находится у Вас в друзьях!", Toast.LENGTH_LONG).show();
                             }
                             else
                             {
@@ -1013,7 +1013,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                             }
                             else
                             {
-                                Toast.makeText(getApplicationContext(), "Пользователь и так не находится у Вас в избранном!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Пользователь и так не находится у Вас в друзьях!", Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -1059,9 +1059,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     public void onResume()
     {
         super.onResume();
-        Intent srvs = new Intent(this, notif.class);
+        /*Intent srvs = new Intent(this, notif.class);
         stopService(srvs);
-        NotOut = true;
+        NotOut = true;*/
         savedStrings=getPreferences(MODE_PRIVATE);
         if(savedStrings.contains(userId)){
             txtSend.setText(savedStrings.getString(userId,""));

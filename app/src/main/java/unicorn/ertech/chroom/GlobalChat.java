@@ -32,15 +32,15 @@ public class GlobalChat extends FragmentActivity{
     //static final int PAGE_COUNT = 4;
 
     /** идентификатор фрагмента города. */
-    public static final int FRAGMENT_ONE = 1;
+    public static final int FRAGMENT_ONE = 0;
     /** идентификатор фрагмента страны. */
-    public static final int FRAGMENT_THREE = 3;
+    public static final int FRAGMENT_THREE = 2;
     /** идентификатор фрагмета региона. */
-    public static final int FRAGMENT_TWO = 2;
+    public static final int FRAGMENT_TWO = 1;
     /** идентификатор фрагмета объявлений. */
-    public static final int FRAGMENT_FOUR = 0;
+    //public static final int FRAGMENT_FOUR = 0;
     /** количество фрагментов. */
-    public static final int FRAGMENTS = 4;
+    public static final int FRAGMENTS = 3;
     /** адаптер фрагментов. */
     private FragmentPagerAdapter _fragmentPagerAdapter;
     /** список фрагментов для отображения. */
@@ -60,7 +60,7 @@ public class GlobalChat extends FragmentActivity{
         setContentView(R.layout.tab_global);
 
         // создаем фрагменты.
-        _fragments.add(FRAGMENT_FOUR, new CountryFragment()); //Объявления
+        //_fragments.add(FRAGMENT_FOUR, new CountryFragment()); //Объявления
         _fragments.add(FRAGMENT_ONE, new AdsFragment()); //Город
         _fragments.add(FRAGMENT_TWO, new CityFragment()); //Регион
         _fragments.add(FRAGMENT_THREE, new RegionFragment()); //Страна
@@ -87,8 +87,8 @@ public class GlobalChat extends FragmentActivity{
                 tabs.setTabBackground(R.color.purple);
             }
         }*/
-        pager.setOffscreenPageLimit(3);
-        pager.setCurrentItem(1);
+        pager.setOffscreenPageLimit(2);
+        pager.setCurrentItem(0);
         /*pager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
@@ -129,19 +129,22 @@ public class GlobalChat extends FragmentActivity{
         @Override
         public CharSequence getPageTitle(int position) {
             switch(position){
-                case 1:
+                case 0:
                     String[] city = getResources().getStringArray(R.array.cities);
                     SharedPreferences sPref = getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
                     if(sPref.contains(SAVED_CITY)){
-                        return city[sPref.getInt(SAVED_CITY,11)-11];
+                        return city[sPref.getInt(SAVED_CITY,9)];
                     }
                     return "Уфа";
-                case 2:
+                case 1:
+                    String[] region = getResources().getStringArray(R.array.regions);
+                    SharedPreferences sPref2 = getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
+                    if(sPref2.contains("region")){
+                        return region[sPref2.getInt("region",0)];
+                    }
                     return "Башкортостан";
-                case 3:
+                case 2:
                     return "Россия";
-                case 0:
-                    return "Объявления";
             }
             return "Title " + position;
         }
@@ -153,6 +156,7 @@ public class GlobalChat extends FragmentActivity{
         super.onResume();
         //Log.i("globalresume","glogalresume");
         tabs.setTextColor(getResources().getColor(R.color.white));
+        tabs.setTabPaddingLeftRight(0);
         //tabs.setBackgroundResource(R.color.green);
         tabs.notifyDataSetChanged();
         time1=0; time2=0;

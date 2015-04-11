@@ -91,6 +91,12 @@ public class SetPrivate extends Activity {
         }
     };
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        setColor();
+    }
+
     public void myClick(View v)
     {
         blackOpen();

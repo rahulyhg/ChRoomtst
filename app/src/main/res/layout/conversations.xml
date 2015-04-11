@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/imgC2"
         android:layout_toRightOf="@+id/imgC2"
-        android:paddingLeft="5dp"
+        android:paddingLeft="7dp"
         android:textColor="@color/black" />
 
     <TextView

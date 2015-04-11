@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -42,7 +40,7 @@ public class SetBlackList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_blacklist);
         context = getApplicationContext();
-        topRow=(RelativeLayout)findViewById(R.id.topRow);
+        topRow=(RelativeLayout)findViewById(R.id.topRowAbout);
         butBack=(ImageButton)findViewById(R.id.setBack);
         lvBlackList=(ListView)findViewById(R.id.lvBlackList);
         adapter = new BlackListAdapter(blackList,this);

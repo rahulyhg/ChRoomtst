@@ -146,6 +146,12 @@ public class SetWallet extends Activity {
         //startActivity(i);
     }
 
+    @Override
+    public  void onResume(){
+        super.onResume();
+        setColor();
+    }
+
     public class delAcc extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
@@ -181,6 +187,15 @@ public class SetWallet extends Activity {
                 {
                     if(success.equals("true")) {
                         Toast.makeText(getApplicationContext(), "Аккаунт успешно удален!", Toast.LENGTH_LONG).show();
+                        SharedPreferences userData = getSharedPreferences("userdata", MODE_PRIVATE);
+                        SharedPreferences.Editor ed2 = userData.edit();  //Сохраняем токен
+                        ed2.remove("token");
+                        ed2.commit();
+                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("finish", false);
+                        startActivity(intent);
+                        finish();
                     }
                     else
                     {

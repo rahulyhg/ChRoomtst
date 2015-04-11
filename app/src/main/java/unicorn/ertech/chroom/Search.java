@@ -33,14 +33,15 @@ public class Search extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Log.i("searchCreate",)
         setContentView(R.layout.search_main);
         frag1 = new SearchParam();
         frag2 = new SearchMain();
         frag3 = new SearchRandom();
         frag4 = new ShareNetworks();
-        fTrans = getSupportFragmentManager().beginTransaction();
+        /*fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frgmCont, frag2);
-        fTrans.commit();
+        fTrans.commit();*/
 
     }
 
@@ -75,6 +76,7 @@ public class Search extends FragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
+        //Log.i("searchResume","21314235215");
         if(!frag2.isAdded()){
             fTrans = getSupportFragmentManager().beginTransaction();
             fTrans.replace(R.id.frgmCont, frag2);

@@ -303,10 +303,10 @@ public class CountryFragment extends Fragment {
                         try {
                             s = json.getString("deleted");
                             deleted = new JSONArray(s);
-
-                            for(int i=0; i<Integer.parseInt(deleted_total);i++)
-                            {
-                                checkInList(deleted.get(i).toString());
+                            if(!deleted_total.equals("")) {
+                                for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
+                                    checkInList(deleted.get(i).toString());
+                                }
                             }
 
                         } catch (JSONException e) {

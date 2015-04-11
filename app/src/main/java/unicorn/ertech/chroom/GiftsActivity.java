@@ -24,13 +24,13 @@ public class GiftsActivity extends Activity {
             }
         });
 
-        ImageView gifts = (ImageView)findViewById(R.id.ivGifts);
-        gifts.setOnClickListener(new View.OnClickListener() {
+        //ImageView gifts = (ImageView)findViewById(R.id.ivGifts);
+        /*gifts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeMe();
             }
-        });
+        });*/
     }
 
     public void closeMe(){

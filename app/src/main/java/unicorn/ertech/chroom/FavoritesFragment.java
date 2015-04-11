@@ -114,7 +114,8 @@ public class FavoritesFragment extends Fragment {
     public  static void addList(conversationsMsg p)
     {
         if(!checkInList(p)) {
-            messages.add(0, p);
+            messages.add(messages.size(), p);
+            //messages.add(0, p);
         }
         adapter.notifyDataSetChanged();
     }
@@ -130,7 +131,8 @@ public class FavoritesFragment extends Fragment {
                 conversationsMsg m = messages.get(i);
                 m.direction = "false";
                 messages.remove(i);
-                messages.add(0,m);
+                messages.add(messages.size(), m);
+                //messages.add(0,m);
                 adapter.notifyDataSetChanged();
                 flag = true;
             }
@@ -148,14 +150,16 @@ public class FavoritesFragment extends Fragment {
                 flag = false;
                 conversationsMsg m = new conversationsMsg(p.uid,messages.get(i).from,p.message,messages.get(i).picURL,p.direction,messages.get(i).msgId,p.time,p.userid);
                 messages.remove(i);
-                messages.add(0,m);
+                messages.add(messages.size(), m);
+                //messages.add(0,m);
                 adapter.notifyDataSetChanged();
             }
         }
         if(flag)
         {
             conversationsMsg m = new conversationsMsg(p.uid,p.from,p.message,p.picURL,p.direction,p.msgId,p.time, p.userid);
-            messages.add(0,m);
+            messages.add(messages.size(), m);
+            //messages.add(0,m);
         }
     }
 

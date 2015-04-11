@@ -4,9 +4,9 @@ package unicorn.ertech.chroom;
  * Created by UNICORN on 06.04.2015.
  */
 public class GeoConvertIds {
-    int region;
+    static int region;
 
-    public int getServerRegionId(int appRegionId){
+    public static int getServerRegionId(int appRegionId){
         switch(appRegionId){
             case 0:
                 region=0;
@@ -244,7 +244,7 @@ public class GeoConvertIds {
         }
     }
 
-    public int getAppRegionId(int serverRegionId){
+    public static int getAppRegionId(int serverRegionId){
         switch(serverRegionId){
             case 4312:
                 region = 0;
@@ -483,5 +483,61 @@ public class GeoConvertIds {
         }
     }
 
+    public static int getServerCityId(int appCityId){
+        switch(appCityId){
+            case 0:
+                return 3305;
+            case 1:
+                return 3306;
+            case 2:
+                return 3322;
+            case 3:
+                return 3329;
+            case 4:
+                return 3332;
+            case 5:
+                return 3335;
+            case 6:
+                return 3338;
+            case 7:
+                return 3343;
+            case 8:
+                return 3344;
+            case 9:
+                return 3345;
+            case 10:
+                return 3351;
+            default:
+                return 3345;
+        }
+    }
 
+    public static int getAppCityId(int serverCityId){
+        switch(serverCityId){
+            case 3305:
+                return 0;
+            case 3306:
+                return 1;
+            case 3322:
+                return 2;
+            case 3329:
+                return 3;
+            case 3332:
+                return 4;
+            case 3335:
+                return 5;
+            case 3338:
+                return 6;
+            case 3343:
+                return 7;
+            case 3344:
+                return 8;
+            case 3345:
+                return 9;
+            case 3351:
+                return 10;
+            default:
+                return 9;
+        }
+    }
 }

@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:background="@color/green"
-        android:id="@+id/topRow">
+        android:id="@+id/topRowAbout">
 
         <ImageButton
             android:layout_width="50dp"
@@ -155,7 +155,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginRight="15dp" />
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -193,7 +194,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginRight="15dp" />
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center" />
         </LinearLayout>
 
         <LinearLayout

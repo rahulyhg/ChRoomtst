@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Ильнур on 09.01.2015.
  */
-public class chatAdapter extends ArrayAdapter<chatMessage> {
+public class    chatAdapter extends ArrayAdapter<chatMessage> {
 
     private List<chatMessage> chat;
     private Context context;
@@ -66,6 +66,8 @@ public class chatAdapter extends ArrayAdapter<chatMessage> {
             if(!p.getPicURL().equals("http://im.topufa.org/")) {
                 Picasso.with(getContext()).load(p.getPicURL()).resize(100, 0).transform(new PicassoRoundTransformation()).into(holder.img);
                 Log.i(holder.tvFrom.toString(), p.getPicURL());
+            }else{
+                Picasso.with(getContext()).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
             }
             return v;
     }
