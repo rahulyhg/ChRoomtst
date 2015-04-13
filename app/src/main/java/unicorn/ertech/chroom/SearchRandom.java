@@ -269,6 +269,7 @@ public class SearchRandom extends Fragment {
             pDialog.dismiss();
             String status = "";
             if(json!=null) {
+                Log.d("rnd1",json.toString());
                 try {
                     status = json.getString("error");
                 } catch (JSONException e) {

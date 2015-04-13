@@ -72,48 +72,252 @@
 
     <string-array name="citiesTatarstan">
         <item>Казань</item>
-        <item>Агрыз</item>
-        <item>Азнакабаево</item>
-        <item>Аксубаево</item>
-        <item>Актюбинский</item>
-        <item>Алексеевское</item>
-        <item>Альметьевск</item>
-        <item>Апастово</item>
-        <item>Арск</item>
-        <item>Бавлы</item>
-        <item>Базарные Матаки </item>
-        <item>Балтаси</item>
-        <item>Богатые Сабы</item>
-        <item>Брежнев</item>
-        <item>Бугульма</item>
-        <item>Буинск</item>
-        <item>Васильево</item>
-        <item>Верхний Услон</item>
-        <item>Высокая Гора</item>
-        <item>Дербешкинский</item>
         <item>Елабуга</item>
-        <item>Заинск</item>
-        <item>Зеленодольск</item>
-        <item>Камское Устье</item>
-        <item>Карабаш</item>
-        <item>Куйбышев</item>
-        <item>Кукмод</item>
-        <item>Кукмор</item>
-        <item>Лаишево</item>
-        <item>Лениногорск</item>
-        <item>Мамадыш</item>
-        <item>Менделеевск</item>
         <item>Мензелинск</item>
-        <item>Муслюмово</item>
         <item>Набережные Челны</item>
         <item>Нижнекамск</item>
-        <item>Новошешминск</item>
-        <item>Нурлат</item>
-        <item>Пестрецы</item>
-        <item>Рыбная Слобода</item>
-        <item>Сарманово</item>
-        <item>Старое Дрожжаное</item>
-        <item>Тетюши</item>
         <item>Чистополь</item>
+    </string-array>
+
+    <string-array name="citiesPerm">
+        <item>Пермь</item>
+        <item>Березники</item>
+
+    </string-array>
+
+    <string-array name="citiesChel">
+        <item>Челябинск</item>
+        <item>Магнитогорск</item>
+        <item>Миасс</item>
+        <item>Аша</item>
+        <item>Чебаркуль</item>
+
+    </string-array>
+    <string-array name="citiesMsk">
+        <item>Москва</item>
+    </string-array>
+    <string-array name="citiesSpb">
+        <item>Санкт-Петербург</item>
+    </string-array>
+    <string-array name="citiesadygea">
+        <item>Майкоп</item>
+        <item>Адыгейск</item>
+    </string-array>
+    <string-array name="citiesAltayskiykrai">
+        <item>Барнаул</item>
+    </string-array>
+    <string-array name="citiesamyrskayoblast">
+        <item>Благовещенск</item>
+        <item>Свободный</item>
+    </string-array>
+    <string-array name="citiesarhangoblast">
+        <item>Архангельск</item>
+        <item>Котлас</item>
+    </string-array>
+    <string-array name="citiesastrahanoblast">
+        <item>Астрахань</item>
+        <item>Камызяк</item>
+        <item>Ахтубинск</item>
+    </string-array>
+    <string-array name="citiesbelgorodoblast">
+        <item>Белгород</item>
+        <item>Новый Оскол</item>
+    </string-array>
+    <string-array name="citiesBranskayaoblast">
+        <item>Брянск</item>
+        <item>Клинцы</item>
+        <item>Белые Берега</item>
+        <item>Ляличи</item>
+        <item>Трубчевск</item>
+        <item>Юдиново</item>
+    </string-array>
+    <string-array name="citiesbyratia">
+        <item>Улан-Удэ</item>
+    </string-array>
+    <string-array name="citiesvladimiroblast">
+        <item>Владимир</item>
+    </string-array>
+    <string-array name="citiesvolgogradoblast">
+        <item>Волгоград</item>
+    </string-array>
+    <string-array name="citiesvologodskayaoblast">
+        <item>Вологда</item>
+    </string-array>
+    <string-array name="citievoroneghskayaoblast">
+        <item>Воронеж</item>
+    </string-array>
+    <string-array name="citiesdagestan">
+        <item>Махачкала</item>
+    </string-array>
+    <string-array name="citiesevreyskaiaoblast">
+        <item>Биробиджан</item>
+    </string-array>
+    <string-array name="citiesivanovskayoblast">
+        <item>Иваново</item>
+    </string-array>
+    <string-array name="citiesirkystskayobl">
+        <item>Иркутск</item>
+    </string-array>
+    <string-array name="citieskabardinobalc">
+        <item>Нальчик</item>
+    </string-array>
+    <string-array name="citiesaliningrobl">
+        <item>Калининград</item>
+    </string-array>
+    <string-array name="citieskalmikia">
+        <item>Элиста</item>
+    </string-array>
+    <string-array name="citieskalygskobl">
+        <item>Калуга</item>
+    </string-array>
+    <string-array name="citieskamchatskkrai">
+        <item>Петропаловск-Камчатский</item>
+    </string-array>
+    <string-array name="citieskarelia">
+        <item>Петрозаводск</item>
+    </string-array>
+    <string-array name="citieskemerovo">
+        <item>Кемерово</item>
+    </string-array>
+    <string-array name="citieskirivskoblast">
+        <item>Киров</item>
+    </string-array>
+    <string-array name="citieskomi">
+        <item>Сыктывкар</item>
+    </string-array>
+    <string-array name="citieskostrobl">
+        <item>Кострома</item>
+    </string-array>
+    <string-array name="citieskrasndkrai">
+        <item>Краснодар</item>
+    </string-array>
+    <string-array name="citieskrasn">
+        <item>Красноярск</item>
+    </string-array>
+    <string-array name="citieskyrgan">
+        <item>Курган</item>
+    </string-array>
+    <string-array name="citieskyrsk">
+        <item>Курск</item>
+    </string-array>
+    <string-array name="citieslipeck">
+        <item>Липецк</item>
+    </string-array>
+    <string-array name="citiesmagadan">
+        <item>Магадан</item>
+    </string-array>
+    <string-array name="citiesmariial">
+        <item>Йошкар-Ола</item>
+    </string-array>
+    <string-array name="citiesmordovia">
+        <item>Саранск</item>
+    </string-array>
+    <string-array name="citiesmyrmanskobl">
+        <item>Мурманск</item>
+    </string-array>
+    <string-array name="citiesnighegorodsk">
+        <item>Нижний Новгород</item>
+    </string-array>
+    <string-array name="citiesvelikiinovgorod">
+        <item>Великий Новгород</item>
+    </string-array>
+    <string-array name="citiesnovosib">
+        <item>Новосибирск</item>
+    </string-array>
+    <string-array name="citiesomskayobl">
+        <item>Омск</item>
+    </string-array>
+    <string-array name="citiesoren">
+        <item>Оренбург</item>
+    </string-array>
+    <string-array name="citiesorel">
+        <item>Орел</item>
+    </string-array>
+    <string-array name="citiespenza">
+        <item>Пенза</item>
+    </string-array>
+    <string-array name="citiesprimorskkrai">
+        <item>Владивосток</item>
+    </string-array>
+    <string-array name="citiespskov">
+        <item>Псков</item>
+    </string-array>
+    <string-array name="citiesrostov">
+        <item>Ростов-на-Дону</item>
+    </string-array>
+    <string-array name="citiesrazanobl">
+        <item>Рязань</item>
+    </string-array>
+    <string-array name="citiessamarskobl">
+        <item>Самара</item>
+    </string-array>
+    <string-array name="citiessaha">
+        <item>Якутск</item>
+    </string-array>
+    <string-array name="citiessahalin">
+        <item>Сахалин</item>
+    </string-array>
+    <string-array name="citiessaratovonl">
+        <item>Саратов</item>
+    </string-array>
+    <string-array name="citiessverdlovsk">
+        <item>Екатеринбург</item>
+    </string-array>
+    <string-array name="citiesevernosetia">
+        <item>Владикавказ</item>
+    </string-array>
+    <string-array name="citiessmolobl">
+        <item>Смоленск</item>
+    </string-array>
+    <string-array name="citiesstavropkrai">
+        <item>Ставрополь</item>
+    </string-array>
+    <string-array name="citietambovobl">
+        <item>Тамбов</item>
+    </string-array>
+    <string-array name="citietverskobl">
+        <item>Тверь</item>
+    </string-array>
+    <string-array name="citietomskobl">
+        <item>Томск</item>
+    </string-array>
+    <string-array name="citiestyva">
+        <item>Кызыл</item>
+    </string-array>
+    <string-array name="citiestylskobl">
+        <item>Тула</item>
+    </string-array>
+    <string-array name="citistymen">
+        <item>Тюмень</item>
+    </string-array>
+    <string-array name="citiudmurtia">
+        <item>Ижевск</item>
+    </string-array>
+    <string-array name="citisylyanovskobl">
+        <item>Ульяновск</item>
+    </string-array>
+    <string-array name="citishabarovskoblst">
+        <item>Хабаровск</item>
+    </string-array>
+    <string-array name="citishakasia">
+        <item>Абакан</item>
+    </string-array>
+    <string-array name="citihanty_mansiiskAO">
+        <item>Ханты-Мансийск</item>
+    </string-array>
+    <string-array name="citischechna">
+        <item>Грозный</item>
+    </string-array>
+    <string-array name="citichyvashi">
+        <item>Чебоксары</item>
+    </string-array>
+    <string-array name="citischykodsk">
+        <item>Анадырь</item>
+    </string-array>
+    <string-array name="citisyamaloneneckiy">
+        <item>Салехард</item>
+    </string-array>
+    <string-array name="citisyaroslavskobl">
+        <item>Ярославль</item>
     </string-array>
 </resources>

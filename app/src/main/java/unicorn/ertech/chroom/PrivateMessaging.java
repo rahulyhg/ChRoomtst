@@ -102,8 +102,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
-        /*Intent srvs = new Intent(this, notif.class);
-        stopService(srvs);*/
+        Intent srvs = new Intent(this, notif.class);
+        stopService(srvs);
         userData = getSharedPreferences("user", MODE_PRIVATE);
 
         myID = Integer.toString(userData.getInt(USER,0));
@@ -1059,9 +1059,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     public void onResume()
     {
         super.onResume();
-        /*Intent srvs = new Intent(this, notif.class);
+        Intent srvs = new Intent(this, notif.class);
         stopService(srvs);
-        NotOut = true;*/
+        NotOut = true;
         savedStrings=getPreferences(MODE_PRIVATE);
         if(savedStrings.contains(userId)){
             txtSend.setText(savedStrings.getString(userId,""));

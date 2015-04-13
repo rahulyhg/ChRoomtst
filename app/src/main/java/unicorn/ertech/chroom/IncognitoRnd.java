@@ -227,7 +227,9 @@ public class IncognitoRnd  extends Fragment {
                 jParser.setParam("action", "lookfor");
                 jParser.setParam("type", "3");
                 if(elapsedtime<5000) {
+                    Log.i("anonDebugFind", jParser.nameValuePairs.toString());
                     json = jParser.getJSONFromUrl(URL);
+                    Log.i("anonDebugFind", json.toString());
                     try {
                         status = json.getString("error");
                     } catch (JSONException e) {

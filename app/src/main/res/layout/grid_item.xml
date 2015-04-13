@@ -8,7 +8,7 @@
         android:id="@+id/ivResultPhoto"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/camera128"
+        android:src="@drawable/nophoto"
         android:scaleType="centerCrop" />
 
     <TextView

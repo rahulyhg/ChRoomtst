@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,8 @@ public class SearchResult extends Activity {
     PopupWindow filterPopup;
     ImageButton backButton;
     ImageButton butFilter;
+    final String SAVED_COLOR = "color";
+    RelativeLayout topRow;
 
     /** Called when the activity is first created. */
     @Override
@@ -72,6 +75,7 @@ public class SearchResult extends Activity {
                 showFilter();
             }
         });
+        topRow=(RelativeLayout)findViewById(R.id.topRow_sr);
         final GridView gridview = (GridView) findViewById(R.id.gridView);
 
         gridview.setNumColumns(3);
@@ -262,7 +266,7 @@ public class SearchResult extends Activity {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-filterPopup.dismiss();
+                    filterPopup.dismiss();
                 }
             });
         } catch (Exception e) {
@@ -277,5 +281,30 @@ filterPopup.dismiss();
     private void showFilter(){
         //initiatePopupWindow();
         this.finish();
+    }
+
+    public void setColor(){
+        SharedPreferences sPref;
+        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
+        if(sPref.contains(SAVED_COLOR)) {
+            int col = sPref.getInt(SAVED_COLOR, 0);
+            if (col == 1) {
+                topRow.setBackgroundResource(R.color.blue);
+            } else if (col == 0) {
+                topRow.setBackgroundResource(R.color.green);
+            } else if (col == 2) {
+                topRow.setBackgroundResource(R.color.orange);
+            } else if (col == 3) {
+                topRow.setBackgroundResource(R.color.purple);
+            }
+        }else{
+            topRow.setBackgroundResource(R.color.green);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setColor();
     }
 }

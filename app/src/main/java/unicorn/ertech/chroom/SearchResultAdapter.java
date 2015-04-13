@@ -59,7 +59,11 @@ public class SearchResultAdapter extends BaseAdapter {
 
         final sResult entry = results.get(position);
 
-        Picasso.with(mContext).load(entry.picUrl).into(holder.img);
+        if(!entry.picUrl.equals("http://im.topufa.org/")) {
+            Picasso.with(mContext).load(entry.picUrl).into(holder.img);
+        }else{
+            Picasso.with(mContext).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
+        }
         holder.tvFrom.setText(entry.name);
 
         holder.img.setOnClickListener(

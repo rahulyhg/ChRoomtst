@@ -63,6 +63,9 @@ public class SearchParam extends Fragment {
     private PopupWindow pwindo;
     static int cit, reg;
     SharedPreferences savedParams;
+    int savedCity=0, incr=0;
+    int currentRegion = 8, currentCities=R.array.cities;
+    SpinnersCustomAdapterCities adapter;
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -131,7 +134,21 @@ public class SearchParam extends Fragment {
             }
         });
 
-
+        regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
+                currentRegion=selectedItemPosition;
+                currentCities=GeoConvertIds.getCityArrayId(currentRegion);
+                //adapter.notifyDataSetChanged();
+                //adapter.clear();
+                adapter=null;
+                adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
+                        currentColorSpinner, getResources().getStringArray(currentCities));
+                adapter.notifyDataSetChanged();
+                city.setAdapter(adapter);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         return view;
     }
 
@@ -165,7 +182,7 @@ public class SearchParam extends Fragment {
             tvTitle.setBackgroundResource(R.color.green);
             currentColorSpinner=R.layout.spinner_with_arrows_g;
         }
-        SpinnersCustomAdapterCities adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
+        adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
                 currentColorSpinner, getResources().getStringArray(R.array.cities));
         city.setAdapter(adapter);
         SpinnersCustomAdapter adapter2 = new SpinnersCustomAdapter(getActivity().getApplicationContext(),
@@ -415,7 +432,7 @@ public class SearchParam extends Fragment {
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(R.layout.dropdown_item, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView35);
-            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            label.setText(getResources().getStringArray(currentCities)[position]);
             return row;
         }
 
@@ -433,7 +450,7 @@ public class SearchParam extends Fragment {
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(currentColorSpinner, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView34);
-            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            label.setText(getResources().getStringArray(currentCities)[position]);
             return row;
         }
     }

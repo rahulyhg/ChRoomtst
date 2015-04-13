@@ -138,7 +138,7 @@ public class anonMessaging extends Activity {
             }
         });
 
-        butStar.setBackgroundResource(R.drawable.profile_pic);
+        butStar.setImageResource(R.drawable.profile_pic);
         lvChat.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override

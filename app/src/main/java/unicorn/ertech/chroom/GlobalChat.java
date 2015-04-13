@@ -53,11 +53,18 @@ public class GlobalChat extends FragmentActivity{
     com.kpbird.triangletabs.PagerSlidingTabStrip tabs;
     final String SAVED_CITY = "city";
     long time1, time2;
+    static int photoWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_global);
+
+        SharedPreferences userData;
+        userData = getSharedPreferences("user", MODE_PRIVATE);
+        if(userData.contains("density")){
+            photoWidth=50*(int)(userData.getFloat("density", 2));
+        }
 
         // создаем фрагменты.
         //_fragments.add(FRAGMENT_FOUR, new CountryFragment()); //Объявления
@@ -132,8 +139,12 @@ public class GlobalChat extends FragmentActivity{
                 case 0:
                     String[] city = getResources().getStringArray(R.array.cities);
                     SharedPreferences sPref = getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
-                    if(sPref.contains(SAVED_CITY)){
-                        return city[sPref.getInt(SAVED_CITY,9)];
+                    if(sPref.contains("cityStr")){
+                        return sPref.getString("cityStr", "Уфа");
+                    }else {
+                        if (sPref.contains(SAVED_CITY)) {
+                            return city[sPref.getInt(SAVED_CITY, 9)];
+                        }
                     }
                     return "Уфа";
                 case 1:

@@ -3,6 +3,7 @@ package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,15 +51,18 @@ public class SetActivity extends Activity {
 
         TextView txtclose=(TextView)findViewById(R.id.tvExit);
         Button txtPrivate=(Button)findViewById(R.id.tvPrivate);
+        Button setRate=(Button)findViewById(R.id.tvRate);
         TextView txtWallet=(TextView)findViewById(R.id.tvWallet);
         Button setColor=(Button)findViewById(R.id.tvColor);
         Button setChat=(Button)findViewById(R.id.tvChatSet);
+        Button setAbout=(Button)findViewById(R.id.tvAbout);
 
         LinearLayout laySetClose = (LinearLayout)findViewById(R.id.laySetExit);
         LinearLayout laySetPrivate = (LinearLayout)findViewById(R.id.laySetPrivate);
         LinearLayout laySetColor = (LinearLayout)findViewById(R.id.laySetColor);
         LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
         LinearLayout laySetAbout=(LinearLayout)findViewById(R.id.laySetAbout);
+        LinearLayout laySetRate=(LinearLayout)findViewById(R.id.laySetRate);
         //LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +81,20 @@ public class SetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showActivity(SetChat.class);
+            }
+        });
+        setAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(About.class);
+            }
+        });
+        setRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=unicorn.ertech.chroom"));
+                startActivity(intent);
             }
         });
         /*txtWallet.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +145,15 @@ public class SetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showActivity(About.class);
+            }
+        });
+
+        laySetRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=unicorn.ertech.chroom"));
+                startActivity(intent);
             }
         });
 

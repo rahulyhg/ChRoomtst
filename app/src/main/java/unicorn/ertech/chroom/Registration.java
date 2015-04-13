@@ -74,12 +74,16 @@ public class Registration extends Activity{
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getApplicationContext();
-                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                sex=sexSpin.getSelectedItemPosition();
-                searchSex=searchSpin.getSelectedItemPosition();
-                sp=spSpin.getSelectedItemPosition();
-                new RegSend().execute();
+                if(name.getText().equals("")){
+                    Toast.makeText(getApplicationContext(), "Пустое имя!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Context context = getApplicationContext();
+                    InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    sex=sexSpin.getSelectedItemPosition();
+                    searchSex=searchSpin.getSelectedItemPosition();
+                    sp=spSpin.getSelectedItemPosition();
+                    new RegSend().execute();
+                }
             }
         });
     }

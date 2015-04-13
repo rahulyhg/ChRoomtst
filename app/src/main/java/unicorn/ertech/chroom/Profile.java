@@ -96,6 +96,9 @@ public class Profile extends Activity {
     String userAbout;
     public String token;
     int userID;
+    int savedCity=0, incr=0;
+    int currentRegion = 8, currentCities=R.array.cities;
+    GeoAdapter2 adapter4;
 
     AlertDialog.Builder ad;
 
@@ -288,9 +291,35 @@ public class Profile extends Activity {
         SpAdapter adapter3 = new SpAdapter(this,
                 R.layout.spinner_without_bg, getResources().getStringArray(R.array.family));
         familySpin.setAdapter(adapter3);
-        GeoAdapter2 adapter4 = new GeoAdapter2(this,
+        adapter4 = new GeoAdapter2(this,
                 R.layout.spinner_without_bg, getResources().getStringArray(R.array.cities));
         etProfileCity.setAdapter(adapter4);
+        regionSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
+                currentRegion=selectedItemPosition;
+                currentCities=GeoConvertIds.getCityArrayId(currentRegion);
+                //adapter.notifyDataSetChanged();
+                //adapter.clear();
+                adapter4=null;
+                adapter4 = new GeoAdapter2(getApplicationContext(),
+                        R.layout.spinner_with_arrows, getResources().getStringArray(currentCities));
+                adapter4.notifyDataSetChanged();
+                etProfileCity.setAdapter(adapter4);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        etProfileCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
+                if(incr<2) {
+                    etProfileCity.setSelection(savedCity);
+                    incr++;
+                }
+                Log.d("selectedspinner", Integer.toString(selectedItemPosition));
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override
@@ -299,31 +328,31 @@ public class Profile extends Activity {
             DatePickerDialog tpd = new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
             return tpd;
         }else{
-        final String[] mActions ={"Загрузить", "Открыть"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Выберите действие");
-        builder.setItems(mActions, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                // TODO Auto-generated method stub
-                switch(item){
-                    case 0:
-                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
-                        photoPickerIntent.setType("image/*");
-                        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-                        break;
-                    case 1:
-                        Intent photoIntent = new Intent(getApplicationContext(), PhotoViewer.class);
-                        photoIntent.putExtra("photos", photosURLs);
-                        photoIntent.putExtra("id", photo_type);
-                        startActivity(photoIntent);
-                        break;
-                    default:
-                        break;
+            final String[] mActions ={"Загрузить", "Открыть"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Выберите действие");
+            builder.setItems(mActions, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    // TODO Auto-generated method stub
+                    switch(item){
+                        case 0:
+                            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                            photoPickerIntent.setType("image/*");
+                            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                            break;
+                        case 1:
+                            Intent photoIntent = new Intent(getApplicationContext(), PhotoViewer.class);
+                            photoIntent.putExtra("photos", photosURLs);
+                            photoIntent.putExtra("id", photo_type);
+                            startActivity(photoIntent);
+                            break;
+                        default:
+                            break;
                 }
             }
-        });
-        builder.setCancelable(true);
+            });
+            builder.setCancelable(true);
             return builder.create();
         }
     }
@@ -334,28 +363,28 @@ public class Profile extends Activity {
             switch (v.getId()){
                 case R.id.photo1:
                     photo_type=1;
-                    showDialog(1);
+                    showDialog(2);
                     //Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
                     //photoPickerIntent.setType("image/*");
                     //startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
                     break;
                 case R.id.photo2:
                     photo_type=2;
-                    showDialog(1);
+                    showDialog(2);
                     //Intent photoPickerIntent2 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
                     //photoPickerIntent2.setType("image/*");
                     //startActivityForResult(photoPickerIntent2, GALLERY_REQUEST);
                     break;
                 case R.id.photo3:
                     photo_type=3;
-                    showDialog(1);
+                    showDialog(2);
                     //Intent photoPickerIntent3 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
                     //photoPickerIntent3.setType("image/*");
                     //startActivityForResult(photoPickerIntent3, GALLERY_REQUEST);
                     break;
                 case R.id.photo4:
                     photo_type=4;
-                    showDialog(1);
+                    showDialog(2);
                     //Intent photoPickerIntent4 = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
                     //photoPickerIntent4.setType("image/*");
                     //startActivityForResult(photoPickerIntent4, GALLERY_REQUEST);
@@ -492,24 +521,32 @@ public class Profile extends Activity {
                 String city;
                 Log.e("profile", json.getString("name"));
                 Log.e("profile", json.getString("info"));
-                city=json.getString("city");
-                if(!city.equals(null)){
-                        try {
-                            int cityId=GeoConvertIds.getAppCityId(Integer.parseInt(city));
-                            String[] stringsArr = getResources().getStringArray(R.array.cities);
-                            birthDay.setText(stringsArr[cityId]);
-                            etProfileCity.setSelection(cityId);
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                }
                 try {
                     int region=json.getInt("region");
                     if(region!=0){
-                        regionSpin.setSelection(GeoConvertIds.getAppRegionId(region));
+                        currentRegion=GeoConvertIds.getAppRegionId(region);
+                        currentCities=GeoConvertIds.getCityArrayId(currentRegion);
+                        regionSpin.setSelection(currentRegion);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                city=json.getString("city");
+                if(!city.equals(null)){
+                    try {
+                        int cityId=GeoConvertIds.getAppCityId(Integer.parseInt(city));
+                        String[] stringsArr = getResources().getStringArray(currentCities);
+                        birthDay.setText(stringsArr[cityId]);
+                        adapter4=null;
+                        adapter4 = new GeoAdapter2(getApplicationContext(),
+                                R.layout.spinner_with_arrows, getResources().getStringArray(currentCities));
+                        //adapter4.notifyDataSetChanged();
+                        etProfileCity.setAdapter(adapter4);
+                        savedCity=cityId;
+                        etProfileCity.setSelection(cityId);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                 }
                 userName = json.getString("name");
                 userAbout = json.getString("info");
@@ -1106,7 +1143,7 @@ str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
             LayoutInflater inflater = getLayoutInflater();
             View row = inflater.inflate(R.layout.dropdown_item, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView35);
-            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            label.setText(getResources().getStringArray(currentCities)[position]);
             return row;
         }
 
@@ -1124,7 +1161,7 @@ str=str+stringsArr[Integer.parseInt(strTok.nextToken())]+" ";
             LayoutInflater inflater = getLayoutInflater();
             View row = inflater.inflate(R.layout.spinner_without_bg, parent, false);
             TextView label = (TextView) row.findViewById(R.id.tvWB);
-            label.setText(getResources().getStringArray(R.array.cities)[position]);
+            label.setText(getResources().getStringArray(currentCities)[position]);
             return row;
         }
     }

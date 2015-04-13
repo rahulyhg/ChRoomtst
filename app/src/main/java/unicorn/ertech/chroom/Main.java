@@ -206,6 +206,11 @@ public class Main extends TabActivity {
                 mPicasso.load(url).resize(pic_width2, 0).transform(new PicassoRoundTransformation()).noFade().into(butProfile);
             }
         }
+        if(!userData.contains("density")){
+            SharedPreferences.Editor ed = userData.edit();
+            ed.putFloat("density", metricsB.density);
+            ed.commit();
+        }
     }
 
     private static View createTabView(final Context context, final String text, int id) {

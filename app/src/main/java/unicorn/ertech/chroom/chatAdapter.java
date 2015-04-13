@@ -63,8 +63,12 @@ public class    chatAdapter extends ArrayAdapter<chatMessage> {
             holder.tvFrom.setText(p.getFrom());
             //holder.tvMsg.setText(p.getMessage());
             holder.tvMsg.setText(getSmiledText(getContext(),p.getMessage()));
+            int width=100;
+            if(GlobalChat.photoWidth>0) {
+                width = GlobalChat.photoWidth;
+            }
             if(!p.getPicURL().equals("http://im.topufa.org/")) {
-                Picasso.with(getContext()).load(p.getPicURL()).resize(100, 0).transform(new PicassoRoundTransformation()).into(holder.img);
+                Picasso.with(getContext()).load(p.getPicURL()).resize(100, 0).transform(new PicassoRoundTransformation()).noFade().into(holder.img);
                 Log.i(holder.tvFrom.toString(), p.getPicURL());
             }else{
                 Picasso.with(getContext()).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
