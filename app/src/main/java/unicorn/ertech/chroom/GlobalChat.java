@@ -62,9 +62,9 @@ public class GlobalChat extends FragmentActivity{
 
         SharedPreferences userData;
         userData = getSharedPreferences("user", MODE_PRIVATE);
-        if(userData.contains("density")){
+        /*if(userData.contains("density")){
             photoWidth=50*(int)(userData.getFloat("density", 2));
-        }
+        }*/
 
         // создаем фрагменты.
         //_fragments.add(FRAGMENT_FOUR, new CountryFragment()); //Объявления

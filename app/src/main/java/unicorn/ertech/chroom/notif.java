@@ -107,9 +107,11 @@ public class notif extends Service {
             jParser.setParam("action", "dialogs_get");
             jParser.setParam("background", "true");
             jParser.setParam("firstid", lastID4);
+            Log.e("notifSend", jParser.nameValuePairs.toString());
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(Main.URL);
             if(json!=null) {
+                Log.e("notifFull", json.toString());
                 String realNum = "";
                 String fakeNum = "";
                 String s = null;
@@ -165,7 +167,7 @@ public class notif extends Service {
                 .setContentText(message) // Основной текст уведомления
                 .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, i, PendingIntent.FLAG_CANCEL_CURRENT))
                 .setWhen(System.currentTimeMillis()) //отображаемое время уведомления
-                .setContentTitle("ChatRoom"); //заголовок уведомления
+                .setContentTitle("Изюм"); //заголовок уведомления
                 //.setDefaults(Notification.DEFAULT_ALL); // звук, вибро и диодный индикатор выставляются по умолчанию
 
         nb.setVisibility(Notification.VISIBILITY_PUBLIC);

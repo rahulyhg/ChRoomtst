@@ -375,8 +375,9 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         if(!picURL.equals("http://im.topufa.org/")){
                             mPicasso.load(picURL).resize(pic_width2, 0).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).transform(new PicassoRoundTransformation()).into(smallProfilePhoto);
                         }
-                        int cityId=GeoConvertIds.getAppCityId(Integer.parseInt(json.getString("city")));
                         int regionId=GeoConvertIds.getAppRegionId(json.getInt("region"));
+                        int cityId=GeoConvertIds.getAppCityId(json.getInt("city"));
+
                         String[] stringsArr = getResources().getStringArray(GeoConvertIds.getCityArrayId(regionId));
                         birthDay.setText(stringsArr[cityId]);
                         etProfileCity.setText(stringsArr[cityId]);

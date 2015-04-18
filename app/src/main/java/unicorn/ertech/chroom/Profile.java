@@ -311,9 +311,9 @@ public class Profile extends Activity {
         });
         etProfileCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
-                if(incr<2) {
+                if(itemSelected==null) {
                     etProfileCity.setSelection(savedCity);
-                    incr++;
+                    //incr++;
                 }
                 Log.d("selectedspinner", Integer.toString(selectedItemPosition));
             }
@@ -526,6 +526,7 @@ public class Profile extends Activity {
                     if(region!=0){
                         currentRegion=GeoConvertIds.getAppRegionId(region);
                         currentCities=GeoConvertIds.getCityArrayId(currentRegion);
+                        Log.d("selectedProf", Integer.toString(currentRegion));
                         regionSpin.setSelection(currentRegion);
                     }
                 } catch (JSONException e) {
@@ -543,7 +544,9 @@ public class Profile extends Activity {
                         //adapter4.notifyDataSetChanged();
                         etProfileCity.setAdapter(adapter4);
                         savedCity=cityId;
+                        Log.d("selectedProf", Integer.toString(cityId));
                         etProfileCity.setSelection(cityId);
+                        adapter4.notifyDataSetChanged();
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }

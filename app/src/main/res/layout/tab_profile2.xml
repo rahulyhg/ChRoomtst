@@ -464,7 +464,7 @@
                 android:cursorVisible="false"
                 android:autoText="false"
                 android:background="@android:color/transparent"
-                android:hint="Астрономия"
+                android:hint="Не выбрано"
                 android:paddingLeft="15dp"
                 android:paddingTop="7dp"
                 android:paddingRight="7dp"

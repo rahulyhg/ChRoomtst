@@ -21,12 +21,22 @@ public class PicassoRoundTransformation implements Transformation {
     }
 
     public static Bitmap convertToCircle(Bitmap source, boolean recycleSource) {
+
+        int x, y;
         int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
+        /*if(source.getWidth()==source.getHeight()){
+            x=source.getWidth()/2;
+            y=x;
+        }else{
+            x = (source.getWidth() - size) / 2;
+            y = (source.getHeight() - size) / 2;
+        }*/
+        x = (source.getWidth() - size) / 2;
+        y = (source.getHeight() - size) / 2;
         Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-        //if (recycleSource)
+        if (squaredBitmap!=source){
             source.recycle();
+        }
         Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();

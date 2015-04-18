@@ -39,9 +39,11 @@ public class Search extends FragmentActivity {
         frag2 = new SearchMain();
         frag3 = new SearchRandom();
         frag4 = new ShareNetworks();
-        /*fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans = getSupportFragmentManager().beginTransaction();
         fTrans.replace(R.id.frgmCont, frag2);
-        fTrans.commit();*/
+        //fTrans.addToBackStack(null);
+        fTrans.commit();
+        Log.i("search", "create");
 
     }
 
@@ -76,11 +78,28 @@ public class Search extends FragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
-        //Log.i("searchResume","21314235215");
-        if(!frag2.isAdded()){
+        boolean tmp = frag2.isAdded();
+        Log.i("searchResume",Boolean.toString(tmp));
+        if(frag2==null){
             fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            //fTrans.remove(frag2);
             fTrans.replace(R.id.frgmCont, frag2);
+            //fTrans.addToBackStack(null);
             fTrans.commitAllowingStateLoss();
         }
+    }
+
+    @Override
+    public void onPause(){
+        fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.remove(frag2);
+        super.onPause();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.i("search", "start");
     }
 }
