@@ -38,7 +38,7 @@ public class    chatAdapter extends ArrayAdapter<chatMessage> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-        chatHolder holder = new chatHolder();
+        chatHolderGlobal holder = new chatHolderGlobal();
         // First let's verify the convertView is not null
         if (convertView == null) {
             // This a new view we inflate the new layout
@@ -57,7 +57,7 @@ public class    chatAdapter extends ArrayAdapter<chatMessage> {
             v.setTag(holder);
         }
         else {
-            holder = (chatHolder) v.getTag();
+            holder = (chatHolderGlobal) v.getTag();
         }
             chatMessage p = chat.get(position);
             holder.tvFrom.setText(p.getFrom());

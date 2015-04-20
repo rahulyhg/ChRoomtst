@@ -687,12 +687,12 @@ public class Profile extends Activity {
                 entityBuilder.addBinaryBody("file", file, ContentType.create("image/jpeg"), file.getName());
                 entityBuilder.addTextBody("action", "avatar_set");
                 entityBuilder.addTextBody("token", token);
-// add more key/value pairs here as needed
+                // add more key/value pairs here as needed
                 HttpEntity entity = entityBuilder.build();
                 post.setEntity(entity);
                 HttpResponse response = client.execute(post);
                 final HttpEntity httpEntity = response.getEntity();
-//Log.v("result", EntityUtils.toString(httpEntity));
+                //Log.v("result", EntityUtils.toString(httpEntity));
                 responseString = EntityUtils.toString(httpEntity);
                 json = new JSONObject(responseString);
             }

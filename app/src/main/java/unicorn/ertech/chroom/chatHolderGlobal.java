@@ -9,14 +9,8 @@ import android.widget.TextView;
 /**
  * Created by Ильнур on 09.01.2015.
  */
-public class chatHolder {
+public class chatHolderGlobal {
     public TextView tvFrom;
     public TextView tvMsg;
-    public TextView tvTime;
-    public TextView tvOnline;
     public ImageView img;
-    public RelativeLayout Rl;
-    public ImageButton imgButton;
-    public ImageView imgAttached;
-    public LinearLayout Ll;
 }

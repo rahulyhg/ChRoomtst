@@ -64,7 +64,7 @@
             android:padding="10dp"
             android:src="@drawable/screpka"
             android:scaleType="fitCenter"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <ImageButton
             android:layout_width="40dp"
@@ -291,6 +291,17 @@
                     android:layout_marginRight="5dp" />
             </TableRow>
         </TableLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/ivAttachedPhoto"
+            android:visibility="gone"
+            android:layout_above="@+id/buttonSmile"
+            android:layout_toRightOf="@+id/smileTablePm"
+            android:layout_toEndOf="@+id/smileTablePm"
+            android:background="@color/conversationsReadNot"
+            android:scaleType="fitStart" />
 
     </RelativeLayout>
 

@@ -5,11 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -34,6 +38,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 import java.util.*;
 
 import com.squareup.picasso.MemoryPolicy;
@@ -51,24 +57,35 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.boye.httpclientandroidlib.HttpEntity;
+import ch.boye.httpclientandroidlib.HttpResponse;
+import ch.boye.httpclientandroidlib.client.HttpClient;
+import ch.boye.httpclientandroidlib.client.methods.HttpPost;
+import ch.boye.httpclientandroidlib.entity.ContentType;
+import ch.boye.httpclientandroidlib.entity.mime.HttpMultipartMode;
+import ch.boye.httpclientandroidlib.entity.mime.MultipartEntityBuilder;
+import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
+import ch.boye.httpclientandroidlib.util.EntityUtils;
+
 /**
  * Created by Timur on 22.01.2015.
  */
 public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnRefreshListener{
     ListView lvChat;
+    Context context;
     EditText txtSend;
     ImageButton butSend;
     ImageButton butLists;
-    ImageButton butSmile;
-    String URL = "http://im.topufa.org/index.php";
+    ImageButton butSmile, butFile;
+    String URL = "http://im.topufa.org/index.php", attached_ID="";
     TextView nick;
-    ImageView avatar;
+    ImageView avatar, attachedPhoto;
     int msgCount = 0;
     int scrolling = 0;
-    int lastBlock = 0;
+    int lastBlock = 0, pic_width=100;
     String picUrl, myID;
     Date dateTime;
-    String shake;
+    String shake, attached_link="";
     RelativeLayout topRow;
     SharedPreferences userData, savedStrings;
     final String USER = "user";
@@ -76,6 +93,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     String lastID4;
     boolean fromShake;
     SwipeRefreshLayout swipeLayout;
+    String pathToUserPhoto = new String();
+    static final int GALLERY_REQUEST = 1;
 
     SharedPreferences Notif;
     SharedPreferences.Editor ed2;
@@ -104,6 +123,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.private_chat);
         Intent srvs = new Intent(this, notif.class);
         stopService(srvs);
+        context=getApplicationContext();
         userData = getSharedPreferences("user", MODE_PRIVATE);
 
         myID = Integer.toString(userData.getInt(USER,0));
@@ -119,6 +139,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         nick = (TextView)findViewById(R.id.profileBack);
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         butLists=(ImageButton)findViewById(R.id.ibStar);
+        butFile=(ImageButton)findViewById(R.id.butFile);
+        attachedPhoto=(ImageView)findViewById(R.id.ivAttachedPhoto);
         BB=(TableRow)findViewById(R.id.big_button);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
@@ -132,6 +154,11 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             }});
         butBack=(ImageButton)findViewById(R.id.butNewsBack);
         findSmiles();
+
+        Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
+        DisplayMetrics metricsB = new DisplayMetrics();
+        display.getMetrics(metricsB);
+        pic_width=(int)(100*metricsB.density);
 
         BB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,8 +181,28 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             }
         });
 
+        butFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            }
+        });
+
         adapter = new pmChatAdapter(messages,getApplicationContext());
         lvChat.setAdapter(adapter);
+        lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id)
+            {
+                String photo = adapter.getItem(position).attach;
+                if(!photo.equals("")) {
+                    Intent i = new Intent(context, PhotoViewerPm.class);
+                    i.putExtra("photos", photo);
+                    startActivity(i);
+                }
+            }
+        });
         lastId = "0";
         Intent i = getIntent();
         token = i.getStringExtra("token");
@@ -186,7 +233,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         shake = i.getStringExtra("shake");
         if(shake.equals("true")){
             butLists.setVisibility(View.INVISIBLE);
-            pmChatMessage p = new pmChatMessage("0","Здравствуйте! Опишите Вашу проблему максимально подробно, наши агенты свяжутся с Вами в ближайшее время.", "1");
+            pmChatMessage p = new pmChatMessage("0","Здравствуйте! Опишите Вашу проблему максимально подробно, наши агенты свяжутся с Вами в ближайшее время.", "1", "");
             messages.add(0, p);
             msgCount++;
             adapter.notifyDataSetChanged();
@@ -280,21 +327,25 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 butBack.setBackgroundResource(R.drawable.but_blue);
                 butLists.setBackgroundResource(R.drawable.but_blue);
                 BB.setBackgroundResource(R.drawable.but_blue);
+                butFile.setBackgroundResource(R.drawable.but_blue);
             } else if (col == 0) {
                 topRow.setBackgroundResource(R.color.green);
                 butBack.setBackgroundResource(R.drawable.but_green);
                 butLists.setBackgroundResource(R.drawable.but_green);
                 BB.setBackgroundResource(R.drawable.but_green);
+                butFile.setBackgroundResource(R.drawable.but_green);
             } else if (col == 2) {
                 topRow.setBackgroundResource(R.color.orange);
                 butBack.setBackgroundResource(R.drawable.but_orange);
                 butLists.setBackgroundResource(R.drawable.but_orange);
                 BB.setBackgroundResource(R.drawable.but_orange);
+                butFile.setBackgroundResource(R.drawable.but_orange);
             } else if(col == 3){
                 topRow.setBackgroundResource(R.color.purple);
                 butBack.setBackgroundResource(R.drawable.but_purple);
                 butLists.setBackgroundResource(R.drawable.but_purple);
                 BB.setBackgroundResource(R.drawable.but_purple);
+                butFile.setBackgroundResource(R.drawable.but_purple);;
             }
         }else{
             topRow.setBackgroundResource(R.color.green);
@@ -343,6 +394,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 jParser.setParam("sendto", sendTo);
                 jParser.setParam("type", "2");
             }
+            if(!attached_ID.equals("")){
+                jParser.setParam("attache", attached_ID);
+                if(outMsg.equals("")){
+                    outMsg="Изображение";
+                }
+            }
             jParser.setParam("message", outMsg);
             JSONObject json = jParser.getJSONFromUrl(URL);
             Log.i("pmOutSend",jParser.nameValuePairs.toString());
@@ -363,14 +420,17 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 }
 
                 if (status.equals("false")) {
+                    attached_ID="";
+                    attachedPhoto.setVisibility(View.GONE);
                     try {
                         userId = json.getString("dialogid");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
-                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0");
+                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", attached_link);
                     messages.add(msgCount,p);
+                    attached_link="";
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                     conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
@@ -391,7 +451,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     Log.e("privatesend","999");
                     txtSend.setText("");
                     if(shake.equals("true")){
-                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "1");
+                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "1", "");
                         messages.add(msgCount, p3);
                         msgCount++;
                     }
@@ -492,12 +552,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                             msgID = messag.getString("userid");
                             if (!messag.getString("message").equals("1/!")){
                                 if (msgID.equals(myID)) {
-                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0");
+                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0", messag.getString("attache"));
                                     messages.add(0, p);
                                     msgCount++;
                                 } else {
                                     userProfile = messag.getString("userid");
-                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
+                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("attache"));
                                     messages.add(0, p);
                                     msgCount++;
                                 }
@@ -534,9 +594,6 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         }
                     }
                     pDialog.dismiss();
-
-
-
                 }
             }
 
@@ -618,7 +675,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                                     }
                                 }
 
-                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1");
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("attache"));
                                 messages.add(msgCount, p);
                                 msgCount++;
 
@@ -1074,5 +1131,89 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
         Log.e("json", "destroy");
         super.onDestroy();
+    }
+
+    private class sendUserPhoto extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            String responseString = new String();
+            JSONObject json = null;
+            try
+            {
+                HttpClient client = new DefaultHttpClient();
+                File file = new File(pathToUserPhoto);
+                HttpPost post = new HttpPost(URL);
+                MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+                entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+                entityBuilder.addBinaryBody("file", file, ContentType.create("image/jpeg"), file.getName());
+                entityBuilder.addTextBody("action", "picture_upload");
+                entityBuilder.addTextBody("token", token);
+                // add more key/value pairs here as needed
+                HttpEntity entity = entityBuilder.build();
+                post.setEntity(entity);
+                HttpResponse response = client.execute(post);
+                final HttpEntity httpEntity = response.getEntity();
+                //Log.v("result", EntityUtils.toString(httpEntity));
+                responseString = EntityUtils.toString(httpEntity);
+                json = new JSONObject(responseString);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if (json != null) {
+                String status = "";
+                try {
+                    status = json.getString("error");
+                } catch (JSONException e) {
+                    Log.e("saveToken", e.toString());
+                }
+                if(status.equals("false"))
+                {
+                    Toast.makeText(getApplicationContext(), "Изображение успешно отправлено!", Toast.LENGTH_LONG).show();
+                    try {
+                        attached_ID=json.getString("attached_id");
+                        attached_link=json.getString("link");
+                        attachedPhoto.setVisibility(View.VISIBLE);
+                        Picasso.with(context).load(attached_link).resize(pic_width, 0).noFade().into(attachedPhoto);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Ошибка при отправке изображения!", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch (requestCode) {
+            case GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData(); //Это путь картинки
+                    pathToUserPhoto = getImagePath(selectedImage);
+                    new sendUserPhoto().execute();
+                }
+        }
+    }
+
+    protected String getImagePath(Uri uri){
+        String[] projection={MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 }

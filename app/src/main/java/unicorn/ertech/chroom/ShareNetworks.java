@@ -638,7 +638,7 @@ public class ShareNetworks extends Fragment {
             params.putString("name", "IZUM");
             params.putString("caption", "Get new IM");
             params.putString("description", "Hello, world!");
-            params.putString("link", "http://im.topufa.org/");
+            params.putString("link", "https://play.google.com/store/apps/details?id=unicorn.ertech.chroom");
             params.putString("picture", "https://raw.githubusercontent.com/JawaJedi/ChRoomtst/master/logo.png");
 
             WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(context, Session.getActiveSession(), params)).setOnCompleteListener(new WebDialog.OnCompleteListener() {
