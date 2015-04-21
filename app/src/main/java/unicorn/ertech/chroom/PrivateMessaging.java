@@ -78,7 +78,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     ImageButton butLists;
     ImageButton butSmile, butFile;
     String URL = "http://im.topufa.org/index.php", attached_ID="";
-    TextView nick;
+    TextView nick, tvCancelAttach;
     ImageView avatar, attachedPhoto;
     int msgCount = 0;
     int scrolling = 0;
@@ -142,8 +142,10 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         butFile=(ImageButton)findViewById(R.id.butFile);
         attachedPhoto=(ImageView)findViewById(R.id.ivAttachedPhoto);
         BB=(TableRow)findViewById(R.id.big_button);
+        tvCancelAttach=(TextView)findViewById(R.id.tvCancelAttach);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
+
         dateTime = new Date();
 
         lvChat.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
@@ -174,6 +176,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             }
         });
 
+        tvCancelAttach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attached_ID="";
+                attachedPhoto.setVisibility(View.GONE);
+                tvCancelAttach.setVisibility(View.GONE);
+            }
+        });
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -422,6 +432,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 if (status.equals("false")) {
                     attached_ID="";
                     attachedPhoto.setVisibility(View.GONE);
+                    tvCancelAttach.setVisibility(View.GONE);
                     try {
                         userId = json.getString("dialogid");
                     } catch (JSONException e) {
@@ -1178,11 +1189,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 }
                 if(status.equals("false"))
                 {
-                    Toast.makeText(getApplicationContext(), "Изображение успешно отправлено!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Изображение успешно загружено на сервер!", Toast.LENGTH_LONG).show();
                     try {
                         attached_ID=json.getString("attached_id");
                         attached_link=json.getString("link");
                         attachedPhoto.setVisibility(View.VISIBLE);
+                        tvCancelAttach.setVisibility(View.VISIBLE);
                         Picasso.with(context).load(attached_link).resize(pic_width, 0).noFade().into(attachedPhoto);
                     } catch (JSONException e) {
                         e.printStackTrace();
