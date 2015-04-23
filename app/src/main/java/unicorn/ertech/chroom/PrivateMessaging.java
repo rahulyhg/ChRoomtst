@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -40,6 +41,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 import com.squareup.picasso.MemoryPolicy;
@@ -57,6 +62,7 @@ import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.boye.httpclientandroidlib.Header;
 import ch.boye.httpclientandroidlib.HttpEntity;
 import ch.boye.httpclientandroidlib.HttpResponse;
 import ch.boye.httpclientandroidlib.client.HttpClient;
@@ -66,6 +72,7 @@ import ch.boye.httpclientandroidlib.entity.mime.HttpMultipartMode;
 import ch.boye.httpclientandroidlib.entity.mime.MultipartEntityBuilder;
 import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
+import me.tedyin.circleprogressbarlib.CircleProgressBar;
 
 /**
  * Created by Timur on 22.01.2015.
@@ -73,6 +80,9 @@ import ch.boye.httpclientandroidlib.util.EntityUtils;
 public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnRefreshListener{
     ListView lvChat;
     Context context;
+    //ProgressBar progressBar;
+    //net.heybird.utils.CircleProgressBar progressBar;
+    CircleProgressBar progressBar;
     EditText txtSend;
     ImageButton butSend;
     ImageButton butLists;
@@ -86,7 +96,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     String picUrl, myID;
     Date dateTime;
     String shake, attached_link="";
-    RelativeLayout topRow;
+    RelativeLayout topRow, rlAttach;
     SharedPreferences userData, savedStrings;
     final String USER = "user";
     String fromDIALOGS;
@@ -145,6 +155,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         tvCancelAttach=(TextView)findViewById(R.id.tvCancelAttach);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
+        rlAttach=(RelativeLayout)findViewById(R.id.rlAttach);
+        progressBar=(CircleProgressBar)findViewById(R.id.pbPhoto);
 
         dateTime = new Date();
 
@@ -180,6 +192,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 attached_ID="";
+                rlAttach.setVisibility(View.GONE);
                 attachedPhoto.setVisibility(View.GONE);
                 tvCancelAttach.setVisibility(View.GONE);
             }
@@ -206,7 +219,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             public void onItemClick(AdapterView<?> parent, View view,int position, long id)
             {
                 String photo = adapter.getItem(position).attach;
-                if(!photo.equals("")) {
+                if(!photo.equals("false")) {
                     Intent i = new Intent(context, PhotoViewerPm.class);
                     i.putExtra("photos", photo);
                     startActivity(i);
@@ -382,7 +395,6 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             super.onPreExecute();
             Log.e("privatesend", "222");
             butSend.setEnabled(false);
-
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -431,6 +443,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
                 if (status.equals("false")) {
                     attached_ID="";
+                    rlAttach.setVisibility(View.GONE);
                     attachedPhoto.setVisibility(View.GONE);
                     tvCancelAttach.setVisibility(View.GONE);
                     try {
@@ -1144,10 +1157,15 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         super.onDestroy();
     }
 
-    private class sendUserPhoto extends AsyncTask<String, String, JSONObject> {
+    private class sendUserPhoto extends AsyncTask<String, Integer, JSONObject> {
+        long totalSent, fileSize;
+        int i;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+            rlAttach.setVisibility(View.VISIBLE);
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -1163,12 +1181,102 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 entityBuilder.addBinaryBody("file", file, ContentType.create("image/jpeg"), file.getName());
                 entityBuilder.addTextBody("action", "picture_upload");
                 entityBuilder.addTextBody("token", token);
+                i=0;
                 // add more key/value pairs here as needed
-                HttpEntity entity = entityBuilder.build();
-                post.setEntity(entity);
+                final HttpEntity entity = entityBuilder.build();
+                fileSize=entity.getContentLength();
+                //Log.v("result", EntityUtils.toString(httpEntity));
+                class ProgressiveEntity implements HttpEntity {
+                    @Override
+                    public void consumeContent() throws IOException {
+                        entity.consumeContent();
+                    }
+                    @Override
+                    public InputStream getContent() throws IOException,
+                            IllegalStateException {
+                        return entity.getContent();
+                    }
+                    @Override
+                    public Header getContentEncoding() {
+                        return entity.getContentEncoding();
+                    }
+                    @Override
+                    public long getContentLength() {
+                        return entity.getContentLength();
+                    }
+                    @Override
+                    public Header getContentType() {
+                        return entity.getContentType();
+                    }
+                    @Override
+                    public boolean isChunked() {
+                        return entity.isChunked();
+                    }
+                    @Override
+                    public boolean isRepeatable() {
+                        return entity.isRepeatable();
+                    }
+                    @Override
+                    public boolean isStreaming() {
+                        return entity.isStreaming();
+                    } // CONSIDER put a _real_ delegator into here!
+
+                    @Override
+                    public void writeTo(OutputStream outstream) throws IOException {
+
+                        class ProxyOutputStream extends FilterOutputStream {
+                            /**
+                             * @author Stephen Colebourne
+                             */
+
+                            public ProxyOutputStream(OutputStream proxy) {
+                                super(proxy);
+                            }
+                            public void write(int idx) throws IOException {
+                                out.write(idx);
+                            }
+                            public void write(byte[] bts) throws IOException {
+                                out.write(bts);
+                            }
+                            public void write(byte[] bts, int st, int end) throws IOException {
+                                out.write(bts, st, end);
+                            }
+                            public void flush() throws IOException {
+                                out.flush();
+                            }
+                            public void close() throws IOException {
+                                out.close();
+                            }
+                        } // CONSIDER import this class (and risk more Jar File Hell)
+
+                        class ProgressiveOutputStream extends ProxyOutputStream {
+                            public ProgressiveOutputStream(OutputStream proxy) {
+                                super(proxy);
+                            }
+                            public void write(byte[] bts, int st, int end) throws IOException {
+
+                                // FIXME  Put your progress bar stuff here!
+
+                                out.write(bts, st, end);
+                                totalSent += end;
+                                if(totalSent>(fileSize/10)){
+                                    i++;
+                                    Log.i("progressI", Integer.toString(i));
+                                    publishProgress((int)(10*totalSent/fileSize));
+                                    //totalSent=0;
+                                }
+                            }
+                        }
+
+                        entity.writeTo(new ProgressiveOutputStream(outstream));
+                    }
+
+                };
+                ProgressiveEntity myEntity = new ProgressiveEntity();
+
+                post.setEntity(myEntity);
                 HttpResponse response = client.execute(post);
                 final HttpEntity httpEntity = response.getEntity();
-                //Log.v("result", EntityUtils.toString(httpEntity));
                 responseString = EntityUtils.toString(httpEntity);
                 json = new JSONObject(responseString);
             }
@@ -1180,6 +1288,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         }
         @Override
         protected void onPostExecute(JSONObject json) {
+            progressBar.setVisibility(View.GONE);
             if (json != null) {
                 String status = "";
                 try {
@@ -1206,6 +1315,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 }
             }
         }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Log.i("progress", Integer.toString(values[0]));
+            //Log.i("progressbar", Integer.toString(progressBar.getProgress()));
+            progressBar.setProgress(values[0]*10);
+        }
     }
 
     @Override
@@ -1216,6 +1333,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData(); //Это путь картинки
                     pathToUserPhoto = getImagePath(selectedImage);
+                    Picasso.with(context).load(selectedImage).resize(pic_width, 0).noFade().into(attachedPhoto);
+                    attachedPhoto.setVisibility(View.VISIBLE);
                     new sendUserPhoto().execute();
                 }
         }

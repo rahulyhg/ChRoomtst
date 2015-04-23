@@ -141,6 +141,7 @@ public class Profile extends Activity {
         familySpin.setOnTouchListener(showSaveButton3);
         //regionSpin.setOnItemClickListener(showSaveButton2);
         regionSpin.setOnTouchListener(showSaveButton3);
+        etProfileAbout.setOnTouchListener(showSaveButton3);
         searchSex.setOnTouchListener(showSaveButton3);
         profileSex.setOnTouchListener(showSaveButton3);
 

@@ -10,7 +10,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="29dp"
         android:text="@string/Search_set"
         android:id="@+id/tvSearchTitle"
         android:textAlignment="center"

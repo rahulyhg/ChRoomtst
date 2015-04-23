@@ -386,30 +386,21 @@ public class Profile2 extends Activity implements View.OnClickListener {
                         etProfileRegion.setText(stringsArr[regionId]);
                         info.setText(json.getString("info"));
                         birthDay.setText(birthDay.getText()+" | "+json.getString("age"));
-                        Integer sex;
+                        Integer sex=2;
                         if(!json.getString("sex").equals("")){
                             sex = json.getInt("sex");
                         }else{
                             sex=2;
                         }
                         String[] sexarray = getResources().getStringArray(R.array.sex);
-                        if (sex == 1) {
-                            profileSex.setText(sexarray[1]);
-                        }
-                        if (sex == 0) {
-                            profileSex.setText(sexarray[0]);
-                        }
+                        profileSex.setText(sexarray[sex]);
                         if(!json.getString("sex").equals("")) {
                             sex = json.getInt("lookingfor");
                         }else{
                             sex=2;
                         }
-                        if (sex == 1) {
-                            searchSex.setText(sexarray[1]);
-                        }
-                        if (sex == 0) {
-                            searchSex.setText(sexarray[0]);
-                        }
+                        searchSex.setText(sexarray[sex]);
+
                         String[] familyarray = getResources().getStringArray(R.array.family);
                         familyTv.setText(familyarray[json.getInt("sp")]);
                         hobbiesTv.setText(getStringFromArray(json.getString("interest"), R.array.hobbies));

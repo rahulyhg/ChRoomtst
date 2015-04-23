@@ -6,12 +6,17 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -30,7 +35,8 @@ public class Registration extends Activity{
     EditText nick, name;
     TextView datePick, phonenumber;
     String URL = "http://im.topufa.org/index.php";
-    Spinner sexSpin, searchSpin, spSpin;
+    Spinner sexSpin, searchSpin, spSpin, regionSpin, citySpin;
+    int currentRegion = 0, currentCities=R.array.citiesMsk;
     final String FILENAME = "token";
     public String token;
     int DIALOG_DATE = 1;
@@ -41,6 +47,7 @@ public class Registration extends Activity{
     int searchSex=0;
     int sp=0;
     boolean success;
+    MyCustomAdapter adapter;
 
 
     @Override
@@ -59,6 +66,28 @@ public class Registration extends Activity{
         spSpin =(Spinner)findViewById(R.id.spinSp);
         sexSpin.setSelection(2);
         searchSpin.setSelection(2);
+        regionSpin=(Spinner)findViewById(R.id.spinnerRegReg);
+        citySpin=(Spinner)findViewById(R.id.spinnerRegCit);
+        final MyCustomAdapter2 adapter2 = new MyCustomAdapter2(this,
+                R.layout.spinner_with_arrows, getResources().getStringArray(R.array.regions));
+        regionSpin.setAdapter(adapter2);
+        adapter = new MyCustomAdapter(this,
+                R.layout.spinner_with_arrows, getResources().getStringArray(currentCities));
+        citySpin.setAdapter(adapter);
+
+        regionSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
+                currentRegion=selectedItemPosition;
+                currentCities=GeoConvertIds.getCityArrayId(currentRegion);
+                adapter=null;
+                adapter = new MyCustomAdapter(getApplicationContext(),
+                        R.layout.spinner_with_arrows, getResources().getStringArray(currentCities));
+                adapter.notifyDataSetChanged();
+                citySpin.setAdapter(adapter);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         //TelephonyManager telephonyManager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         //String line1Number = telephonyManager.getLine1Number();
         //phonenumber.setText(line1Number);
@@ -74,7 +103,7 @@ public class Registration extends Activity{
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name.getText().equals("")){
+                if((name.getText().length()==0)&&(!name.getText().equals(" "))){
                     Toast.makeText(getApplicationContext(), "Пустое имя!", Toast.LENGTH_SHORT).show();
                 }else{
                     Context context = getApplicationContext();
@@ -108,6 +137,8 @@ public class Registration extends Activity{
     };
     private class RegSend extends AsyncTask<String, String, JSONObject> {
         private ProgressDialog pDialog;
+        private int reg, cit;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -116,7 +147,8 @@ public class Registration extends Activity{
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
-
+            reg=GeoConvertIds.getServerRegionId(regionSpin.getSelectedItemPosition());
+            cit=GeoConvertIds.getServerCityId(citySpin.getSelectedItemPosition());
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -130,6 +162,8 @@ public class Registration extends Activity{
             jParser.setParam("day", Integer.toString(myDay));
             jParser.setParam("month", Integer.toString(myMonth));
             jParser.setParam("year", Integer.toString(myYear));
+            jParser.setParam("region", Integer.toString(reg));
+            jParser.setParam("city", Integer.toString(cit));
             jParser.setParam("status", "Всем привет, я теперь в изюме!");
             if(sex<2) {
                 jParser.setParam("sex", Integer.toString(sex));
@@ -153,6 +187,14 @@ public class Registration extends Activity{
                 Log.e("saveToken", e.toString());
             }
             if(success==false){
+                SharedPreferences sPref2 = getSharedPreferences("saved_chats", MODE_PRIVATE);
+                SharedPreferences.Editor ed = sPref2.edit();
+                ed.putInt("regSrv", reg);
+                ed.putInt("region", regionSpin.getSelectedItemPosition());
+                ed.putInt("citySrv", cit);
+                ed.putInt("city", citySpin.getSelectedItemPosition());
+                ed.putString("cityStr", citySpin.getSelectedItem().toString());
+                ed.commit();
                 Intent i = new Intent(getApplicationContext(), Main.class);
                 i.putExtra("Token", token);
                 startActivity(i);
@@ -160,4 +202,80 @@ public class Registration extends Activity{
             }
             }
         }
+
+    public class MyCustomAdapter extends ArrayAdapter<String> {
+
+        public MyCustomAdapter(Context context, int textViewResourceId,
+                               String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(currentCities)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_with_arrows, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView34);
+            label.setText(getResources().getStringArray(currentCities)[position]);
+            return row;
+        }
+    }
+
+    public class MyCustomAdapter2 extends ArrayAdapter<String> {
+
+        public MyCustomAdapter2(Context context, int textViewResourceId,
+                                String[] objects) {
+            super(context, textViewResourceId, objects);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            // TODO Auto-generated method stub
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.dropdown_item, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView35);
+            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            return row;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView,
+                                  ViewGroup parent) {
+            // TODO Auto-generated method stub
+            // return super.getView(position, convertView, parent);
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.spinner_with_arrows, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.textView34);
+            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            return row;
+        }
+    }
     }

@@ -29,6 +29,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.0'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'me.tedyin.circleprogressbarlib:circleprogressbarlib:0.6.0'
     compile files('libs/httpclientandroidlib-1.2.0.jar')
     compile project(':vksdk_library')
 }

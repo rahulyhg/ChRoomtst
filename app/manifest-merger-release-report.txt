@@ -48,6 +48,7 @@ MERGED from com.facebook.android:facebook-android-sdk:3.21.1:24:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.astuetz:pagerslidingtabstrip:1.0.1:4:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from me.tedyin.circleprogressbarlib:circleprogressbarlib:0.6.0:11:5
 MERGED from ChRoomtst:vksdk_library:unspecified:11:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 	android:label
@@ -371,6 +372,12 @@ ADDED from AndroidManifest.xml:205:9
 		ADDED from AndroidManifest.xml:206:13
 	android:name
 		ADDED from AndroidManifest.xml:205:19
+activity#unicorn.ertech.chroom.PhotoViewerPm
+ADDED from AndroidManifest.xml:207:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:208:13
+	android:name
+		ADDED from AndroidManifest.xml:207:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5
@@ -380,6 +387,7 @@ MERGED from com.facebook.android:facebook-android-sdk:3.21.1:20:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
 MERGED from com.astuetz:pagerslidingtabstrip:1.0.1:2:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from me.tedyin.circleprogressbarlib:circleprogressbarlib:0.6.0:7:5
 MERGED from ChRoomtst:vksdk_library:unspecified:7:5
 MERGED from com.android.support:support-v4:21.0.3:15:5
 	android:targetSdkVersion

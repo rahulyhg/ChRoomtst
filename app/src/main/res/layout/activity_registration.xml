@@ -199,6 +199,65 @@
                     android:background="@drawable/corners" />
             </TableRow>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:layout_gravity="top"
+                android:weightSum="50"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Регион"
+                    android:id="@+id/textViewRegReg"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinnerRegReg"
+                    android:entries="@array/regions"
+                    android:spinnerMode="dialog"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Город"
+                    android:id="@+id/textViewRegCit"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinnerRegCit"
+                    android:entries="@array/cities"
+                    android:spinnerMode="dialog"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="92dp"

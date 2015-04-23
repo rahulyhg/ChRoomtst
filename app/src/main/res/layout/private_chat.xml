@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -292,29 +294,65 @@
             </TableRow>
         </TableLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
+        <!--<ProgressBar
+            android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/ivAttachedPhoto"
+            android:id="@+id/pbPhoto"
+            android:layout_alignBottom="@+id/swipe_container_private"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="31dp"
+            android:layout_marginLeft="15dp"
             android:visibility="gone"
-            android:layout_above="@+id/buttonSmile"
-            android:layout_toRightOf="@+id/smileTablePm"
-            android:layout_toEndOf="@+id/smileTablePm"
-            android:background="@color/conversationsReadNot"
-            android:scaleType="fitStart" />
+            android:max="10"
+            android:padding="20dp" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Х"
-            android:id="@+id/tvCancelAttach"
-            android:textSize="30dp"
-            android:layout_marginBottom="29dp"
-            android:layout_alignBottom="@+id/ivAttachedPhoto"
-            android:layout_alignRight="@+id/buttonSend"
-            android:layout_alignEnd="@+id/buttonSend"
-            android:layout_marginRight="10dp"
-            android:visibility="gone" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@+id/swipe_container_private"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/conversationsReadNot"
+            android:visibility="gone"
+            android:id="@+id/rlAttach">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/ivAttachedPhoto"
+                android:visibility="visible"
+                android:background="@color/conversationsReadNot"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Х"
+                android:id="@+id/tvCancelAttach"
+                android:textSize="25sp"
+                android:visibility="visible"
+                android:layout_alignParentTop="true"
+                android:layout_alignRight="@+id/ivAttachedPhoto"
+                android:layout_alignEnd="@+id/ivAttachedPhoto" />
+
+            <me.tedyin.circleprogressbarlib.CircleProgressBar
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:id="@+id/pbPhoto"
+                android:visibility="visible"
+                app:cpbStrokeWidth="10"
+                app:cpbBackgroundColor="#9000"
+                app:cpbProgressColor="#0b90cf"
+                app:cpbProgressTextColor="#ffaabb"
+                app:cpbNeedAnim="true"
+                app:cpbStartAngle="0"
+                app:cpbMaxAngle="360"
+                app:cpbNeedShowText="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tvCancelAttach"
+                android:layout_toStartOf="@+id/tvCancelAttach" />
+        </RelativeLayout>
 
     </RelativeLayout>
 
