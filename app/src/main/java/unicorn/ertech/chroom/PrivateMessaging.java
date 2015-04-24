@@ -1184,7 +1184,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         attached_link=json.getString("link");
                         attachedPhoto.setVisibility(View.VISIBLE);
                         tvCancelAttach.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(attached_link).resize(pic_width, 0).noFade().into(attachedPhoto);
+                        //Picasso.with(context).load(attached_link).resize(pic_width, 0).noFade().into(attachedPhoto);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
