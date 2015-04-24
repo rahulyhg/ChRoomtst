@@ -6,8 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,11 +38,27 @@ public class newsAdapter extends ArrayAdapter<newsItem> {
             // This a new view we inflate the new layout
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.list_item2, null);
+            LinearLayout layout = (LinearLayout) v.findViewById(R.id.layOut);
 
             // Now we can fill the layout with the right values
             TextView title = (TextView) v.findViewById(R.id.textTitle);
             TextView description = (TextView) v.findViewById(R.id.textLink);
             ImageView image = (ImageView)v.findViewById(R.id.img);
+
+            if(position == 0) {
+                title.setVisibility(View.GONE);
+                description.setVisibility(View.GONE);
+                image.setVisibility(View.GONE);
+
+                AdView adView = new AdView(context);
+                adView.setAdSize(AdSize.SMART_BANNER);
+                adView.setAdUnitId("ca-app-pub-4930517446192586/9664058155");
+
+                AdRequest adRequest = new AdRequest.Builder().build();
+                layout.setPadding(0, 20, 0, 20);
+                layout.addView(adView);
+                adView.loadAd(adRequest);
+            }
 
             holder.tvTitle = title;
             holder.tvDesription = description;
