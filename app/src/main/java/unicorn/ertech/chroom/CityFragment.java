@@ -62,7 +62,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
     List<chatMessage> messages = new ArrayList<chatMessage>();
     String URL = "http://im.topufa.org/index.php";
     String lastID1, lastID2,lastID3,lastID4, msgNum="0", room, outMsg, token, myID,deleted_total="0" ;
-    ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
 
     private ArrayList<HashMap<String, Object>> regionList;
     private static final String TITLE = "message_author"; // Верхний текст
@@ -139,6 +138,9 @@ public class CityFragment extends android.support.v4.app.Fragment {
         HashMap<String, Object> hm;
         lvChat.setAdapter(adapter);
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable2);
+        final smileManager sMgr = new smileManager(getActivity());
+        sMgr.initSmiles(smileTable, txtSend);
+
         final Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_animation);
         //rellay=(RelativeLayout)view.findViewById(R.id.relLay1);
         //Animation anim2 = AnimationUtils.loadAnimation(getActivity(), )
@@ -164,9 +166,9 @@ public class CityFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 //smileTable.startAnimation(anim);
                 if(smileTable.getVisibility()==View.GONE){
-                    smileTable.setVisibility(View.VISIBLE);
+                    sMgr.setVisibleSmile(true);
                 }else{
-                    smileTable.setVisibility(View.GONE);
+                    sMgr.setVisibleSmile(false);
                 }
                 butSend.refreshDrawableState();
                 butSmile.refreshDrawableState();
@@ -190,8 +192,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 txtSend.setText("");
             }
         });
-
-        findSmiles(view);
         return view;
     }
     private boolean isNetworkAvailable() {
@@ -338,8 +338,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 adapter.notifyDataSetChanged();
 
                 firsTime = false;
-
-
             }
 
         }
@@ -379,29 +377,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
         super.onPause();
     }
 
-    private void findSmiles(View view){
-        s01 = (ImageView) view.findViewById(R.id.s01);
-        s01.setOnClickListener(smile_click_listener);
-        s02 = (ImageView) view.findViewById(R.id.s02);
-        s02.setOnClickListener(smile_click_listener);
-        s03 = (ImageView) view.findViewById(R.id.s03);
-        s03.setOnClickListener(smile_click_listener);
-        s04 = (ImageView) view.findViewById(R.id.s04);
-        s04.setOnClickListener(smile_click_listener);
-        s05 = (ImageView) view.findViewById(R.id.s05);
-        s05.setOnClickListener(smile_click_listener);
-        s06 = (ImageView) view.findViewById(R.id.s06);
-        s06.setOnClickListener(smile_click_listener);
-        s07 = (ImageView) view.findViewById(R.id.s07);
-        s07.setOnClickListener(smile_click_listener);
-        s08 = (ImageView) view.findViewById(R.id.s08);
-        s08.setOnClickListener(smile_click_listener);
-        s09 = (ImageView) view.findViewById(R.id.s09);
-        s09.setOnClickListener(smile_click_listener);
-        s10 = (ImageView) view.findViewById(R.id.s10);
-        s10.setOnClickListener(smile_click_listener);
-    }
-
     public void checkInList(String ID) {
         for(int i=0; i<messages.size();i++)
         {
@@ -412,100 +387,5 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 return;
             }
         }
-    }
-    private View.OnClickListener smile_click_listener = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.s01:
-                    txtSend.append(":)");
-                    break;
-                case R.id.s02:
-                    txtSend.append(":D");
-                    break;
-                case R.id.s03:
-                    txtSend.append(":O");
-                    break;
-                case R.id.s04:
-                    txtSend.append(":(");
-                    break;
-                case R.id.s05:
-                    txtSend.append("*05*");
-                    break;
-                case R.id.s06:
-                    txtSend.append("Z)");
-                    break;
-                case R.id.s07:
-                    txtSend.append("*07*");
-                    break;
-                case R.id.s08:
-                    txtSend.append("*08*");
-                    break;
-                case R.id.s09:
-                    txtSend.append("*09*");
-                    break;
-                case R.id.s10:
-                    txtSend.append("*love*");
-                    break;
-                default:
-                    break;
-            }
-            txtSend.setText(getSmiledText(getActivity(),txtSend.getText()));
-        }
-    };
-
-    private static final Spannable.Factory spannableFactory = Spannable.Factory
-            .getInstance();
-
-    private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
-
-    static {
-        addPattern(emoticons, ":)", R.drawable.s01);
-        addPattern(emoticons, ":D", R.drawable.s02);
-        addPattern(emoticons, ":O", R.drawable.s03);
-        addPattern(emoticons, ":(", R.drawable.s04);
-        addPattern(emoticons, "*05*", R.drawable.s05);
-        addPattern(emoticons, "Z)", R.drawable.s06);
-        addPattern(emoticons, "*07*", R.drawable.s07);
-        addPattern(emoticons, "*08*", R.drawable.s08);
-        addPattern(emoticons, "*09*", R.drawable.s09);
-        addPattern(emoticons, "*love*", R.drawable.s10);
-        // ...
-    }
-
-    private static void addPattern(Map<Pattern, Integer> map, String smile,
-                                   int resource) {
-        map.put(Pattern.compile(Pattern.quote(smile)), resource);
-    }
-
-    public static boolean addSmiles(Context context, Spannable spannable) {
-        boolean hasChanges = false;
-        for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
-            Matcher matcher = entry.getKey().matcher(spannable);
-            while (matcher.find()) {
-                boolean set = true;
-                for (ImageSpan span : spannable.getSpans(matcher.start(),
-                        matcher.end(), ImageSpan.class))
-                    if (spannable.getSpanStart(span) >= matcher.start()
-                            && spannable.getSpanEnd(span) <= matcher.end())
-                        spannable.removeSpan(span);
-                    else {
-                        set = false;
-                        break;
-                    }
-                if (set) {
-                    hasChanges = true;
-                    spannable.setSpan(new ImageSpan(context, entry.getValue()),
-                            matcher.start(), matcher.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-        }
-        return hasChanges;
-    }
-
-    public static Spannable getSmiledText(Context context, CharSequence text) {
-        Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, spannable);
-        return spannable;
     }
 }

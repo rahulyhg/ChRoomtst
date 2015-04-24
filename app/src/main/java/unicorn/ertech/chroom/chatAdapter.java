@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Ильнур on 09.01.2015.
  */
-public class    chatAdapter extends ArrayAdapter<chatMessage> {
+public class chatAdapter extends ArrayAdapter<chatMessage> {
 
     private List<chatMessage> chat;
     private Context context;
@@ -62,7 +62,7 @@ public class    chatAdapter extends ArrayAdapter<chatMessage> {
             chatMessage p = chat.get(position);
             holder.tvFrom.setText(p.getFrom());
             //holder.tvMsg.setText(p.getMessage());
-            holder.tvMsg.setText(getSmiledText(getContext(),p.getMessage()));
+            holder.tvMsg.setText(smileManager.getSmiledText(getContext(),p.getMessage()));
             /*int width=100;
             if(GlobalChat.photoWidth>0) {
                 width = GlobalChat.photoWidth;
@@ -74,61 +74,5 @@ public class    chatAdapter extends ArrayAdapter<chatMessage> {
                 Picasso.with(getContext()).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
             }
             return v;
-    }
-
-    private static final Spannable.Factory spannableFactory = Spannable.Factory
-            .getInstance();
-
-    private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
-
-    static {
-        addPattern(emoticons, ":)", R.drawable.s01);
-        addPattern(emoticons, ":D", R.drawable.s02);
-        addPattern(emoticons, ":O", R.drawable.s03);
-        addPattern(emoticons, ":(", R.drawable.s04);
-        addPattern(emoticons, "*05*", R.drawable.s05);
-        addPattern(emoticons, "Z)", R.drawable.s06);
-        addPattern(emoticons, "*07*", R.drawable.s07);
-        addPattern(emoticons, "*08*", R.drawable.s08);
-        addPattern(emoticons, "*09*", R.drawable.s09);
-        addPattern(emoticons, "*love*", R.drawable.s10);
-        // ...
-    }
-
-    private static void addPattern(Map<Pattern, Integer> map, String smile,
-                                   int resource) {
-        map.put(Pattern.compile(Pattern.quote(smile)), resource);
-    }
-
-    public static boolean addSmiles(Context context, Spannable spannable) {
-        boolean hasChanges = false;
-        for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
-            Matcher matcher = entry.getKey().matcher(spannable);
-            while (matcher.find()) {
-                boolean set = true;
-                for (ImageSpan span : spannable.getSpans(matcher.start(),
-                        matcher.end(), ImageSpan.class))
-                    if (spannable.getSpanStart(span) >= matcher.start()
-                            && spannable.getSpanEnd(span) <= matcher.end())
-                        spannable.removeSpan(span);
-                    else {
-                        set = false;
-                        break;
-                    }
-                if (set) {
-                    hasChanges = true;
-                    spannable.setSpan(new ImageSpan(context, entry.getValue()),
-                            matcher.start(), matcher.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-        }
-        return hasChanges;
-    }
-
-    public static Spannable getSmiledText(Context context, CharSequence text) {
-        Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, spannable);
-        return spannable;
     }
 }

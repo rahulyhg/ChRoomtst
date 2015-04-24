@@ -121,6 +121,10 @@ public class RegionFragment extends Fragment {
         firsTime = true;
         //token = Main.str;
         final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable4);
+
+        final smileManager sMgr = new smileManager(getActivity());
+        sMgr.initSmiles(smileTable, txtSend);
+
         room = "3159";
         msgCount=0;
         lastID1 = "";
@@ -176,17 +180,16 @@ public class RegionFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if(smileTable.getVisibility()==View.GONE){
-                    smileTable.setVisibility(View.VISIBLE);
-                }else{
-                    smileTable.setVisibility(View.GONE);
+                if (smileTable.getVisibility() == View.GONE) {
+                    sMgr.setVisibleSmile(true);
+                } else {
+                    sMgr.setVisibleSmile(false);
                 }
                 butSend.refreshDrawableState();
                 butSmile.refreshDrawableState();
                 txtSend.refreshDrawableState();
             }
         });
-        findSmiles(view);
         return view;
     }
 
@@ -365,94 +368,6 @@ public class RegionFragment extends Fragment {
         super.onPause();
     }
 
-    ImageView s01, s02, s03, s04, s05, s06, s07, s08, s09, s10;
-
-    private void findSmiles(View view){
-        s01 = (ImageView) view.findViewById(R.id.s041);
-        s01.setOnClickListener(smile_click_listener);
-        s02 = (ImageView) view.findViewById(R.id.s042);
-        s02.setOnClickListener(smile_click_listener);
-        s03 = (ImageView) view.findViewById(R.id.s043);
-        s03.setOnClickListener(smile_click_listener);
-        s04 = (ImageView) view.findViewById(R.id.s044);
-        s04.setOnClickListener(smile_click_listener);
-        s05 = (ImageView) view.findViewById(R.id.s045);
-        s05.setOnClickListener(smile_click_listener);
-        s06 = (ImageView) view.findViewById(R.id.s046);
-        s06.setOnClickListener(smile_click_listener);
-        s07 = (ImageView) view.findViewById(R.id.s047);
-        s07.setOnClickListener(smile_click_listener);
-        s08 = (ImageView) view.findViewById(R.id.s048);
-        s08.setOnClickListener(smile_click_listener);
-        s09 = (ImageView) view.findViewById(R.id.s049);
-        s09.setOnClickListener(smile_click_listener);
-        s10 = (ImageView) view.findViewById(R.id.s040);
-        s10.setOnClickListener(smile_click_listener);
-    }
-    private View.OnClickListener smile_click_listener = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.s041:
-                    txtSend.append(":)");
-                    break;
-                case R.id.s042:
-                    txtSend.append(":D");
-                    break;
-                case R.id.s043:
-                    txtSend.append(":O");
-                    break;
-                case R.id.s044:
-                    txtSend.append(":(");
-                    break;
-                case R.id.s045:
-                    txtSend.append("*05*");
-                    break;
-                case R.id.s046:
-                    txtSend.append("Z)");
-                    break;
-                case R.id.s047:
-                    txtSend.append("*07*");
-                    break;
-                case R.id.s048:
-                    txtSend.append("*08*");
-                    break;
-                case R.id.s049:
-                    txtSend.append("*09*");
-                    break;
-                case R.id.s040:
-                    txtSend.append("*love*");
-                    break;
-                default:
-                    break;
-            }
-            txtSend.setText(getSmiledText(getActivity(),txtSend.getText()));
-        }
-    };
-
-    private static final Spannable.Factory spannableFactory = Spannable.Factory
-            .getInstance();
-
-    private static final Map<Pattern, Integer> emoticons = new HashMap<Pattern, Integer>();
-
-    static {
-        addPattern(emoticons, ":)", R.drawable.s01);
-        addPattern(emoticons, ":D", R.drawable.s02);
-        addPattern(emoticons, ":O", R.drawable.s03);
-        addPattern(emoticons, ":(", R.drawable.s04);
-        addPattern(emoticons, "*05*", R.drawable.s05);
-        addPattern(emoticons, "Z)", R.drawable.s06);
-        addPattern(emoticons, "*07*", R.drawable.s07);
-        addPattern(emoticons, "*08*", R.drawable.s08);
-        addPattern(emoticons, "*09*", R.drawable.s09);
-        addPattern(emoticons, "*love*", R.drawable.s10);
-        // ...
-    }
-
-    private static void addPattern(Map<Pattern, Integer> map, String smile,
-                                   int resource) {
-        map.put(Pattern.compile(Pattern.quote(smile)), resource);
-    }
-
     public void checkInList(String ID) {
         for(int i=0; i<messages.size();i++)
         {
@@ -463,37 +378,5 @@ public class RegionFragment extends Fragment {
                 return;
             }
         }
-    }
-
-    public static boolean addSmiles(Context context, Spannable spannable) {
-        boolean hasChanges = false;
-        for (Map.Entry<Pattern, Integer> entry : emoticons.entrySet()) {
-            Matcher matcher = entry.getKey().matcher(spannable);
-            while (matcher.find()) {
-                boolean set = true;
-                for (ImageSpan span : spannable.getSpans(matcher.start(),
-                        matcher.end(), ImageSpan.class))
-                    if (spannable.getSpanStart(span) >= matcher.start()
-                            && spannable.getSpanEnd(span) <= matcher.end())
-                        spannable.removeSpan(span);
-                    else {
-                        set = false;
-                        break;
-                    }
-                if (set) {
-                    hasChanges = true;
-                    spannable.setSpan(new ImageSpan(context, entry.getValue()),
-                            matcher.start(), matcher.end(),
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
-        }
-        return hasChanges;
-    }
-
-    public static Spannable getSmiledText(Context context, CharSequence text) {
-        Spannable spannable = spannableFactory.newSpannable(text);
-        addSmiles(context, spannable);
-        return spannable;
     }
 }
