@@ -2,7 +2,6 @@ package unicorn.ertech.chroom;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
 import android.util.Log;
@@ -101,25 +100,14 @@ public class smileManager{
     public void setVisibleSmile(boolean visibleSmile) {
         InputMethodManager imm =
                 (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         if (visibleSmile) {
-            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    smileTable.setVisibility(View.VISIBLE);
-                }
-            }, 100);
+            smileTable.setVisibility(View.VISIBLE);
             keyboard = !visibleSmile;
             smiles = visibleSmile;
             Log.e(TEST, "Smiles = " + smiles + "  ||  Keyboard = " + keyboard);
         } else {
-            imm.showSoftInput(activity.getCurrentFocus(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    smileTable.setVisibility(View.GONE);
-                }
-            }, 50);
+            smileTable.setVisibility(View.GONE);
             keyboard = !visibleSmile;
             smiles = visibleSmile;
             Log.e(TEST, "Smiles = " + smiles + "  ||  Keyboard = " + keyboard);
