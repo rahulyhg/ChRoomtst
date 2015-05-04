@@ -10,9 +10,9 @@ public class pmChatMessage {
     String message;
     String uid;
     String direction;
-    String attach;
+    String[] attach;
 
-    public pmChatMessage(String UID,String MSG, String DIR, String Attach)
+    public pmChatMessage(String UID,String MSG, String DIR, String[] Attach)
     {
         this.uid = UID;
         this.message = MSG;

@@ -13,4 +13,9 @@
         <attr name="pstsTriangleIndicator" format="boolean"/>
         <attr name="pstsShouldExpand" format="boolean" />
         <attr name="pstsTextAllCaps" format="boolean" />
-    </declare-styleable></resources>
+    </declare-styleable>
+    <declare-styleable name="CustomView">
+        <attr name="matchHeightToWidth" format="boolean" />
+        <attr name="matchWidthToHeight" format="boolean" />
+    </declare-styleable>
+</resources>

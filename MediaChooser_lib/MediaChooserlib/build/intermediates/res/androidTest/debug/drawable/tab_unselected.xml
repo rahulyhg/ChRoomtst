@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <size android:height="50dp" />
+
+    <solid android:color="@android:color/transparent" />
+
+    <stroke
+        android:width="6dp"
+        android:color="#6200EA" />
+
+</shape><!-- From: file:/C:/Users/Timur/StudioProjects/MediaChooser-lib/MediaChooserlib/src/main/res/drawable/tab_unselected.xml --><!-- From: file:/C:/Users/Timur/StudioProjects/MediaChooser-lib/MediaChooserlib/build/intermediates/bundles/debug/res/drawable/tab_unselected.xml -->

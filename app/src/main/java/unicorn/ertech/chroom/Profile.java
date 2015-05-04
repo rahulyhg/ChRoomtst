@@ -306,6 +306,7 @@ public class Profile extends Activity {
                         R.layout.spinner_with_arrows, getResources().getStringArray(currentCities));
                 adapter4.notifyDataSetChanged();
                 etProfileCity.setAdapter(adapter4);
+                saveProfile.setVisibility(View.VISIBLE);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -314,7 +315,10 @@ public class Profile extends Activity {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
                 if(itemSelected==null) {
                     etProfileCity.setSelection(savedCity);
+
                     //incr++;
+                }else{
+                    saveProfile.setVisibility(View.VISIBLE);
                 }
                 Log.d("selectedspinner", Integer.toString(selectedItemPosition));
             }

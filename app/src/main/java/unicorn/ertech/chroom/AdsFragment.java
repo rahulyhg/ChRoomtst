@@ -243,7 +243,20 @@ public class AdsFragment extends Fragment {
             }
             else
             {
-                Toast.makeText(getActivity().getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                try {
+                    status=json.getString("error_code");
+                    if(status.equals("60")){
+                        Toast.makeText(getActivity().getApplicationContext(), "Нельзя отправить пустое сообщение!", Toast.LENGTH_LONG).show();
+                    }else if(status.equals("12")){
+                        Toast.makeText(getActivity().getApplicationContext(), "Вы забанены за нарушение правил чата!", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                }
+
             }
         }
     }

@@ -36,11 +36,11 @@ public class IncognitoTab extends FragmentActivity{
         frag1 = new Incognito();
         frag2 = new IncognitoChat();
         frag3 = new IncognitoRnd();
-        /*if(!frag1.isAdded()) {
+        if(!frag1.isAdded()) {
             fTrans = getSupportFragmentManager().beginTransaction();
             fTrans.replace(R.id.frgmCont2, frag1);
             fTrans.commit();
-        }*/
+        }
     }
 
     public void startChat(){
@@ -76,10 +76,10 @@ public class IncognitoTab extends FragmentActivity{
         } else {
             incognitoTitle.setBackgroundResource(R.color.green);
         }
-        if(!frag1.isAdded()) {
+        /*if(!frag1.isAdded()) {
             fTrans = getSupportFragmentManager().beginTransaction();
             fTrans.replace(R.id.frgmCont2, frag1);
             fTrans.commitAllowingStateLoss();
-        }
+        }*/
     }
 }

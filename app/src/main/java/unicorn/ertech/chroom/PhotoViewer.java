@@ -45,7 +45,7 @@ public class PhotoViewer extends Activity{
         LayoutInflater inflater = LayoutInflater.from(this);
         List<View> pages = new ArrayList<View>();
         View page;
-        if(!photoURLs[9].equals("http://im.topufa.org/")) {
+        if((photoURLs[9]!=null)&&(!photoURLs[9].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
             /*final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
@@ -54,7 +54,7 @@ public class PhotoViewer extends Activity{
             pages.add(page);
         }
 
-        if(!photoURLs[5].equals("http://im.topufa.org/")) {
+        if((photoURLs[5]!=null)&&(!photoURLs[5].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
 
@@ -62,21 +62,21 @@ public class PhotoViewer extends Activity{
             pages.add(page);
         }
 
-        if(!photoURLs[6].equals("http://im.topufa.org/")) {
+        if((photoURLs[6]!=null)&&(!photoURLs[6].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
             mPicasso.load(photoURLs[6]).into(imgview);
             pages.add(page);
         }
 
-        if(!photoURLs[7].equals("http://im.topufa.org/")) {
+        if((photoURLs[7]!=null)&&(!photoURLs[7].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
             mPicasso.load(photoURLs[7]).into(imgview);
             pages.add(page);
         }
 
-        if(!photoURLs[8].equals("http://im.topufa.org/")) {
+        if(((photoURLs[8]!=null)&&!photoURLs[8].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
             mPicasso.load(photoURLs[8]).into(imgview);

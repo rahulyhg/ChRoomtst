@@ -8,8 +8,8 @@ android {
         applicationId "unicorn.ertech.chroom"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 7
-        versionName "1.07"
+        versionCode 11
+        versionName "1.083"
     }
     buildTypes {
         release {
@@ -26,10 +26,13 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.squareup.picasso:picasso:2.5.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'me.tedyin.circleprogressbarlib:circleprogressbarlib:0.6.0'
     compile files('libs/httpclientandroidlib-1.2.0.jar')
     compile project(':vksdk_library')
+    compile project(':MediaChooserlib')
+    compile 'com.google.android.gms:play-services:7.0.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }

@@ -10,22 +10,88 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/pm_chat_lay" >
+        android:id="@+id/pm_chat_lay"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/message_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:padding="10dp"
             android:textSize="15sp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp" />
 
         <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:id="@+id/ivAttachPm"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ivAttachPm"
-            android:padding="10dp" />
+            android:weightSum="110"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="125dp"
+                android:id="@+id/ivAttachPm2"
+                android:maxWidth="50dp"
+                android:scaleType="centerCrop"
+                android:maxHeight="50dp"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                android:layout_weight="20"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="125dp"
+                android:id="@+id/ivAttachPm3"
+                android:maxWidth="50dp"
+                android:scaleType="centerCrop"
+                android:maxHeight="50dp"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                android:layout_weight="20"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="125dp"
+                android:id="@+id/ivAttachPm4"
+                android:maxWidth="50dp"
+                android:scaleType="centerCrop"
+                android:maxHeight="50dp"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                android:layout_weight="20"
+                android:layout_marginTop="5dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="125dp"
+                android:id="@+id/ivAttachPm5"
+                android:maxWidth="50dp"
+                android:scaleType="centerCrop"
+                android:maxHeight="50dp"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                android:layout_weight="20"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

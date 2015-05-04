@@ -2,8 +2,10 @@ package unicorn.ertech.chroom;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -12,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
@@ -47,6 +50,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
 
+import com.giljulio.imagepicker.ui.ImagePickerActivity;
+import com.learnncode.mediachooser.MediaChooser;
+import com.learnncode.mediachooser.activity.BucketHomeFragmentActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -87,15 +96,17 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     ImageButton butSend;
     ImageButton butLists;
     ImageButton butSmile, butFile;
-    String URL = "http://im.topufa.org/index.php", attached_ID="";
-    TextView nick, tvCancelAttach;
-    ImageView avatar, attachedPhoto;
-    int msgCount = 0;
+    String URL = "http://im.topufa.org/index.php", attached_ID="", attached_ID2="", attached_ID3="", attached_ID4="", attached_ID5="";
+    String[] pickedPhotos, attachedPhotos;
+    TextView nick, tvCancelAttach, tvCancelAttach2, tvCancelAttach3, tvCancelAttach4, tvCancelAttach5;
+    ImageView avatar, attachedPhoto, attachedPhoto2, attachedPhoto3, attachedPhoto4, attachedPhoto5;
+    int msgCount = 0, sendedPhotos=0, outPhoto=0;
     int scrolling = 0;
-    int lastBlock = 0, pic_width=100;
+    int lastBlock = 0, pic_width=80;
     String picUrl, myID;
     Date dateTime;
-    String shake, attached_link="";
+    String shake;
+    String[] attached_link;
     RelativeLayout topRow, rlAttach;
     SharedPreferences userData, savedStrings;
     final String USER = "user";
@@ -109,9 +120,6 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     SharedPreferences Notif;
     SharedPreferences.Editor ed2;
     final String SAVED_NOTIF="notif";
-    final String SAVED_SOUND="sound";
-    final String SAVED_VIBRO="vibro";
-    final String SAVED_INDICATOR="indicator";
     final String SAVED_COLOR = "color";
     final String SAVED_LASTID="lastid";
 
@@ -126,6 +134,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     boolean firstTime = true;
     boolean NotOut = true;
     String userId, msgNum, lastId, outMsg, mID;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,8 +181,16 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         Display display = getWindowManager().getDefaultDisplay(); //определяем ширину экрана
         DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
-        pic_width=(int)(100*metricsB.density);
+        pic_width=(int)(80*metricsB.density);
 
+        attachedPhotos = new String[5];
+        pickedPhotos= new String[5];
+        attached_link=new String[5];
+        for(int i=0; i<5; i++){
+            attachedPhotos[i]="";
+            pickedPhotos[i]="";
+            attached_link[i]="";
+        }
         BB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,9 +209,24 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 attached_ID="";
-                rlAttach.setVisibility(View.GONE);
                 attachedPhoto.setVisibility(View.GONE);
                 tvCancelAttach.setVisibility(View.GONE);
+                byte i=0;
+                if(attachedPhoto2.getVisibility()==View.VISIBLE){
+                    i++;
+                }
+                if(attachedPhoto3.getVisibility()==View.VISIBLE){
+                    i++;
+                }
+                if(attachedPhoto4.getVisibility()==View.VISIBLE){
+                    i++;
+                }
+                if(attachedPhoto5.getVisibility()==View.VISIBLE){
+                    i++;
+                }
+                if(i==0){
+                    rlAttach.setVisibility(View.GONE);
+                }
             }
         });
         butBack.setOnClickListener(new View.OnClickListener() {
@@ -207,9 +239,18 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         butFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                /*Intent photoPickerIntent = new Intent(Intent.ACTION_PICK); //Здесь запускает галерею
+                photoPickerIntent.setType("image*//*");
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);*/
+                outPhoto=0;
+                findphotos();
+                MediaChooser.setSelectionLimit(5);
+                MediaChooser.showOnlyImageTab();
+                MediaChooser.showCameraVideoView(false);
+                Intent intent = new Intent(context, BucketHomeFragmentActivity.class);
+                startActivity(intent);
+                /*Intent intent = new Intent(context, ImagePickerActivity.class);
+                startActivityForResult(intent, 250);*/
             }
         });
 
@@ -218,7 +259,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id)
             {
-                String photo = adapter.getItem(position).attach;
+                String[] photo = adapter.getItem(position).attach;
                 if(!photo.equals("false")) {
                     Intent i = new Intent(context, PhotoViewerPm.class);
                     i.putExtra("photos", photo);
@@ -256,7 +297,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         shake = i.getStringExtra("shake");
         if(shake.equals("true")){
             butLists.setVisibility(View.INVISIBLE);
-            pmChatMessage p = new pmChatMessage("0","Здравствуйте! Опишите Вашу проблему максимально подробно, наши агенты свяжутся с Вами в ближайшее время.", "1", "");
+            String[] s = new String[5];
+            pmChatMessage p = new pmChatMessage("0","Здравствуйте! Опишите Вашу проблему максимально подробно, наши агенты свяжутся с Вами в ближайшее время.", "1", s);
             messages.add(0, p);
             msgCount++;
             adapter.notifyDataSetChanged();
@@ -270,14 +312,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 Context context = getApplicationContext();
-                InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(isNetworkAvailable()) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (isNetworkAvailable()) {
                     outMsg = txtSend.getText().toString();
                     new OutMsg().execute();
                     //imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
                 }
             }
@@ -288,7 +328,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             @Override
             public void onClick(View v) {
                 int savedPosition = lvChat.getFirstVisiblePosition();
-                lvChat.setSelectionFromTop(savedPosition,60);
+                lvChat.setSelectionFromTop(savedPosition, 60);
                 //lvChat.setSelection
                 if (smileTable.getVisibility() == View.GONE) {
                     smileTable.setVisibility(View.VISIBLE);
@@ -311,8 +351,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
                 if (firstVisibleItem == 0 && scrolling > firstVisibleItem) {
-                    if(lastBlock!=-1) {
-                       // new getEarlierMessages().execute();
+                    if (lastBlock != -1) {
+                        // new getEarlierMessages().execute();
                     }
                 }
                 //scrolling = firstVisibleItem;
@@ -337,9 +377,22 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             }
         }, 1L * 250, 2L * 1000);
 
+        IntentFilter imageIntentFilter = new IntentFilter(MediaChooser.IMAGE_SELECTED_ACTION_FROM_MEDIA_CHOOSER);
+        registerReceiver(imageBroadcastReceiver, imageIntentFilter);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        //ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader imageLoader=ImageLoader.getInstance();
+        //imageLoader.init(ImageLoaderConfiguration.createDefault(context));
+
+        boolean pauseOnScroll = false; // or true
+        boolean pauseOnFling = true; // or false
+        PauseOnScrollListener listener = new PauseOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling);
+        lvChat.setOnScrollListener(listener);
+
         setColor();
     }
+
 
     private void setColor(){
         SharedPreferences sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
@@ -389,12 +442,24 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
+        //String attachPhoto;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             Log.e("privatesend", "222");
             butSend.setEnabled(false);
+            /*if(outPhoto==0){
+                attachPhoto=attached_ID;
+            }else if(outPhoto==1){
+                attachPhoto=attached_ID2;
+            }else if(outPhoto==2){
+                attachPhoto=attached_ID3;
+            }else if(outPhoto==3){
+                attachPhoto=attached_ID4;
+            }else if(outPhoto==4){
+                attachPhoto=attached_ID5;
+            }*/
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -416,8 +481,18 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 jParser.setParam("sendto", sendTo);
                 jParser.setParam("type", "2");
             }
-            if(!attached_ID.equals("")){
-                jParser.setParam("attache", attached_ID);
+
+            String s="";
+            if(!attachedPhotos[0].equals("")){
+                s=attachedPhotos[0];
+            }
+            for(int i=1; i<5; i++){
+                if(!attachedPhotos[i].equals("")){
+                    s=s+","+attachedPhotos[i];
+                }
+            }
+            if(!s.equals("")){
+                jParser.setParam("attache", s);
                 if(outMsg.equals("")){
                     outMsg="Изображение";
                 }
@@ -429,8 +504,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            Log.i("pmOut",json.toString());
+            Log.i("pmOut", json.toString());
             butSend.setEnabled(true);
+            for(int i=0; i<5; i++) {
+                attachedPhotos[i] = "";
+            }
+            //outPhoto++;
             if (json != null) {
                 String status = "";
                 Log.e("privatesend","555");
@@ -444,8 +523,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 if (status.equals("false")) {
                     attached_ID="";
                     rlAttach.setVisibility(View.GONE);
-                    attachedPhoto.setVisibility(View.GONE);
-                    tvCancelAttach.setVisibility(View.GONE);
+                    //attachedPhoto.setVisibility(View.GONE);
+                    //tvCancelAttach.setVisibility(View.GONE);
                     try {
                         userId = json.getString("dialogid");
                     } catch (JSONException e) {
@@ -454,7 +533,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
                     pmChatMessage p = new pmChatMessage(userId, outMsg, "0", attached_link);
                     messages.add(msgCount,p);
-                    attached_link="";
+
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
                     conversationsMsg p2 = new conversationsMsg(userId, nick.getText().toString(), outMsg, picUrl, "0","0", c.get(c.YEAR) + "-" + month + "-" + c.get(c.DAY_OF_MONTH) + "%" + c.get(c.HOUR_OF_DAY) + ":" + c.get(c.MINUTE) + ":" + c.get(c.SECOND),userProfile);
@@ -474,8 +553,15 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     lvChat.setSelection(adapter.getCount());
                     Log.e("privatesend","999");
                     txtSend.setText("");
+                    for(int t=0; t<5; t++){
+                        attached_link[t]="";
+                    }
                     if(shake.equals("true")){
-                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "1", "");
+                        String[] sArr = new String[5];
+                        for(int t=0; t<5; t++){
+                            sArr[t]="";
+                        }
+                        pmChatMessage p3 = new pmChatMessage("0", "Спасибо, Ваша заявка принята на рассмотрение, Вам ответят в ближайшее время. Ответ Вы сможете увидеть в личных сообщениях", "1", sArr);
                         messages.add(msgCount, p3);
                         msgCount++;
                     }
@@ -501,6 +587,15 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
+
+            /*if(outPhoto<attachedPhotos.length) {
+                if ((attachedPhotos[outPhoto] != null) && (!attachedPhotos[outPhoto].equals(""))) {
+                    new sendUserPhoto().execute();
+                }else{
+                    rlAttach.setVisibility(View.GONE);
+                    outPhoto=0;
+                }
+            }*/
         }
     }
 
@@ -576,12 +671,67 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                             msgID = messag.getString("userid");
                             if (!messag.getString("message").equals("1/!")){
                                 if (msgID.equals(myID)) {
-                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0", messag.getString("attache"));
+                                    String[] sArr = new String[5];
+                                    for(int t=0; t<5; t++){
+                                        sArr[t]="";
+                                    }
+                                    //int attache_total=messag.getInt("attache_total");
+                                    //if(attache_total>0){
+                                        try {
+                                            String attacheStatus=messag.getString("attache");
+                                            if(!attacheStatus.equals("false")){
+                                                JSONArray attaches= messag.getJSONArray("attache");
+                                                if(!attaches.getString(0).equals("false")){
+                                                    for(int t=0; t<attaches.length(); t++){
+                                                        sArr[t]=attaches.getString(t);
+                                                    }
+                                                }
+                                            }
+                                        }catch (JSONException e){
+                                            if(e.getCause().toString().equals("org.json.JSONException: Value false at attache of type java.lang.String cannot be converted to JSONArray")){
+                                                JSONArray attaches= messag.getJSONArray("attache");
+                                                if(!attaches.getString(0).equals("false")){
+                                                    for(int t=0; t<attaches.length(); t++){
+                                                        sArr[t]=attaches.getString(t);
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                    //}
+                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "0", sArr);
                                     messages.add(0, p);
                                     msgCount++;
                                 } else {
+                                    String[] sArr = new String[5];
+                                    for(int t=0; t<5; t++){
+                                        sArr[t]="";
+                                    }
+                                    //int attache_total=messag.getInt("attache_total");
+                                    ///if(attache_total>0){
+                                    try {
+                                        String attacheStatus=messag.getString("attache");
+                                        if(!attacheStatus.equals("false")){
+                                            JSONArray attaches= messag.getJSONArray("attache");
+                                            if(!attaches.getString(0).equals("false")){
+                                                for(int t=0; t<attaches.length(); t++){
+                                                    sArr[t]=attaches.getString(t);
+                                                }
+                                            }
+                                        }
+                                    }catch (JSONException e){
+                                        if(e.getCause().toString().equals("org.json.JSONException: Value false at attache of type java.lang.String cannot be converted to JSONArray")){
+                                            JSONArray attaches= messag.getJSONArray("attache");
+                                            if(!attaches.getString(0).equals("false")){
+                                                for(int t=0; t<attaches.length(); t++){
+                                                    sArr[t]=attaches.getString(t);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //}
                                     userProfile = messag.getString("userid");
-                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("attache"));
+                                    pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", sArr);
                                     messages.add(0, p);
                                     msgCount++;
                                 }
@@ -661,7 +811,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     try {
                         realNum = json.getString("total");
                         lastId = json.getString("lastid");
-                        if(!lastId.equals(null)){
+                        if((!lastId.equals(null))&&(!lastId.equals(""))){
                             if(Integer.parseInt(lastId)>Integer.parseInt(lastID4)) {
                                 lastID4 = lastId;
                                 ed2 = Notif.edit();
@@ -699,7 +849,19 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                                     }
                                 }
 
-                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("attache"));
+                                String[] sArr = new String[5];
+                                for(int t=0; t<5; t++){
+                                    sArr[t]="";
+                                }
+                                int attache_total=messag.getInt("attache_total");
+                                if(attache_total>0){
+                                    JSONArray attaches= messag.getJSONArray("attache");
+                                    for(int t=0; t<attache_total; t++){
+                                        sArr[t]=attaches.getString(t);
+                                    }
+                                }
+
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", sArr);
                                 messages.add(msgCount, p);
                                 msgCount++;
 
@@ -1062,47 +1224,38 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         // popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId() == R.id.menu_favorites) {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_favorites) {
 
-                            if(favorite.equals("true"))
-                            {
-                                Toast.makeText(getApplicationContext(), "Пользователь уже находится у Вас в друзьях!", Toast.LENGTH_LONG).show();
-                            }
-                            else
-                            {
-                                new setFavorite().execute();
-                            }
-                        }
-                         if(item.getItemId() == R.id.menu_blacklist) {
-                            new setBlackList().execute();
-                        }
-                        if(item.getItemId() == R.id.menu_clear_history) {
-                            if(shake.equals("false")) {
-                                new clearHistory().execute();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(), "Нельзя удалять историю переписки со службой поддержки!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        if(item.getItemId() == R.id.menu_out_from_favorites) {
-                            if(favorite.equals("true"))
-                            {
-                                new remove().execute();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(), "Пользователь и так не находится у Вас в друзьях!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-
-
-                    return false;
+                    if (favorite.equals("true")) {
+                        Toast.makeText(getApplicationContext(), "Пользователь уже находится у Вас в друзьях!", Toast.LENGTH_LONG).show();
+                    } else {
+                        new setFavorite().execute();
                     }
-                });
+                }
+                if (item.getItemId() == R.id.menu_blacklist) {
+                    new setBlackList().execute();
+                }
+                if (item.getItemId() == R.id.menu_clear_history) {
+                    if (shake.equals("false")) {
+                        new clearHistory().execute();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Нельзя удалять историю переписки со службой поддержки!", Toast.LENGTH_LONG).show();
+                    }
+                }
+                if (item.getItemId() == R.id.menu_out_from_favorites) {
+                    if (favorite.equals("true")) {
+                        new remove().execute();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Пользователь и так не находится у Вас в друзьях!", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+                return false;
+            }
+        });
 
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
 
@@ -1152,7 +1305,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     @Override
     public void onDestroy(){
         myTimer.cancel();
-
+        unregisterReceiver(imageBroadcastReceiver);
         Log.e("json", "destroy");
         super.onDestroy();
     }
@@ -1160,11 +1313,32 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     private class sendUserPhoto extends AsyncTask<String, Integer, JSONObject> {
         long totalSent, fileSize;
         int i;
+        CircleProgressBar curBar;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+            switch(sendedPhotos){
+                case 0:
+                    curBar=progressBar;
+                    break;
+                case 1:
+                    curBar=(CircleProgressBar)findViewById(R.id.pbPhoto3);
+                    break;
+                case 2:
+                    curBar=(CircleProgressBar)findViewById(R.id.pbPhoto2);
+                    break;
+                case 3:
+                    curBar=(CircleProgressBar)findViewById(R.id.pbPhoto4);
+                    break;
+                case 4:
+                    curBar=(CircleProgressBar)findViewById(R.id.pbPhoto5);
+                    break;
+                default:
+                    curBar=progressBar;
+                    break;
+            }
+            curBar.setVisibility(View.VISIBLE);
             rlAttach.setVisibility(View.VISIBLE);
         }
         @Override
@@ -1174,7 +1348,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             try
             {
                 HttpClient client = new DefaultHttpClient();
-                File file = new File(pathToUserPhoto);
+                //File file = new File(pathToUserPhoto);
+                File file = new File(pickedPhotos[sendedPhotos]);
                 HttpPost post = new HttpPost(URL);
                 MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
                 entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
@@ -1279,16 +1454,19 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 final HttpEntity httpEntity = response.getEntity();
                 responseString = EntityUtils.toString(httpEntity);
                 json = new JSONObject(responseString);
+                Log.d("photoSendResult", responseString);
             }
             catch(Exception e)
             {
                 e.printStackTrace();
             }
+            sendedPhotos++;
             return json;
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            progressBar.setVisibility(View.GONE);
+            curBar.setVisibility(View.GONE);
+
             if (json != null) {
                 String status = "";
                 try {
@@ -1298,13 +1476,24 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 }
                 if(status.equals("false"))
                 {
-                    Toast.makeText(getApplicationContext(), "Изображение успешно загружено на сервер!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Изображение успешно загружено на сервер!", Toast.LENGTH_LONG).show();
                     try {
-                        attached_ID=json.getString("attached_id");
-                        attached_link=json.getString("link");
-                        attachedPhoto.setVisibility(View.VISIBLE);
-                        tvCancelAttach.setVisibility(View.VISIBLE);
-                        Picasso.with(context).load(attached_link).resize(pic_width, 0).noFade().into(attachedPhoto);
+                        /*if(sendedPhotos==1) {
+                            attached_ID = json.getString("attached_id");
+                        }else if(sendedPhotos==2){
+                            attached_ID2 = json.getString("attached_id");
+                        }else if(sendedPhotos==3){
+                            attached_ID3 = json.getString("attached_id");
+                        }else if(sendedPhotos==4){
+                            attached_ID4 = json.getString("attached_id");
+                        }else if(sendedPhotos==5){
+                            attached_ID5 = json.getString("attached_id");
+                        }*/
+                        attachedPhotos[sendedPhotos-1]=json.getString("attached_id");
+                        attached_link[sendedPhotos-1]=json.getString("link");
+                        //attachedPhoto.setVisibility(View.VISIBLE);
+                        //tvCancelAttach.setVisibility(View.VISIBLE);
+                        //Picasso.with(context).load(attached_link).resize(pic_width, 0).noFade().into(attachedPhoto);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1314,6 +1503,11 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     Toast.makeText(getApplicationContext(), "Ошибка при отправке изображения!", Toast.LENGTH_LONG).show();
                 }
             }
+            if(sendedPhotos<pickedPhotos.length) {
+                if ((pickedPhotos[sendedPhotos] != null) && (!pickedPhotos[sendedPhotos].equals(""))) {
+                    new sendUserPhoto().execute();
+                }
+            }
         }
 
         @Override
@@ -1321,7 +1515,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             super.onProgressUpdate(values);
             Log.i("progress", Integer.toString(values[0]));
             //Log.i("progressbar", Integer.toString(progressBar.getProgress()));
-            progressBar.setProgress(values[0]*10);
+            curBar.setProgress(values[0]*10);
         }
     }
 
@@ -1335,8 +1529,28 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     pathToUserPhoto = getImagePath(selectedImage);
                     Picasso.with(context).load(selectedImage).resize(pic_width, 0).noFade().into(attachedPhoto);
                     attachedPhoto.setVisibility(View.VISIBLE);
-                    new sendUserPhoto().execute();
+                    //new sendUserPhoto().execute();
                 }
+            case 250:
+                if(resultCode == Activity.RESULT_OK){
+                    Parcelable[] parcelableUris = imageReturnedIntent.getParcelableArrayExtra(ImagePickerActivity.TAG_IMAGE_URI);
+
+                    //Java doesn't allow array casting, this is a little hack
+                    Uri[] uris = new Uri[parcelableUris.length];
+                    System.arraycopy(parcelableUris, 0, uris, 0, parcelableUris.length);
+
+                    //pathToUserPhoto = getImagePath(uris[0]);
+                    pathToUserPhoto=uris[0].toString();
+                    Picasso.with(context).load(uris[0]).resize(pic_width, 0).noFade().into(attachedPhoto);
+                    attachedPhoto.setVisibility(View.VISIBLE);
+                    //new sendUserPhoto().execute();
+                    //Do something with the uris array
+                }
+                break;
+
+            default:
+                super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+                break;
         }
     }
 
@@ -1347,4 +1561,168 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         cursor.moveToFirst();
         return cursor.getString(column_index);
     }
+
+    BroadcastReceiver imageBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+               setAdapter(intent.getStringArrayListExtra("list"));
+            /*int i=0;
+            for(String s:intent.getStringArrayExtra("list")){
+                pickedPhotos[i]=s;
+            }*/
+            /*int j=0;
+            for(int i=0; i<intent.getStringArrayExtra("list").length; i++){
+                pickedPhotos[i]=intent.getStringArrayExtra("list")[i];
+            }*/
+            //pickedPhotos=intent.getStringArrayExtra("list");
+        }
+    };
+
+    private void setAdapter( List<String> filePathList) {
+        sendedPhotos=0;
+        for(int i=0; i<filePathList.size(); i++){
+            pickedPhotos[i]=filePathList.get(i);
+            switch(i){
+                case 0:
+                    if(!pickedPhotos[i].equals("")){
+                        Picasso.with(context).load(new File(pickedPhotos[0])).resize(pic_width, 0).noFade().into(attachedPhoto);
+                    }
+                    break;
+                case 1:
+                    tvCancelAttach2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //pickedPhotos[1]="";
+                            attachedPhoto2.setVisibility(View.GONE);
+                            tvCancelAttach2.setVisibility(View.GONE);
+                            byte i=0;
+                            if(attachedPhoto.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto3.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto4.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto5.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(i==0){
+                                rlAttach.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    if(!pickedPhotos[i].equals("")) {
+                        Picasso.with(context).load(new File(pickedPhotos[1])).resize(pic_width, 0).noFade().into(attachedPhoto2);
+                    }
+                    break;
+                case 2:
+                    tvCancelAttach3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //pickedPhotos[2]="";
+                            attachedPhoto3.setVisibility(View.GONE);
+                            tvCancelAttach3.setVisibility(View.GONE);
+                            byte i=0;
+                            if(attachedPhoto2.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto4.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto5.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(i==0){
+                                rlAttach.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    if(!pickedPhotos[i].equals("")){
+                        Picasso.with(context).load(new File(pickedPhotos[2])).resize(pic_width, 0).noFade().into(attachedPhoto3);
+                    }
+                    break;
+                case 3:
+                    tvCancelAttach4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //pickedPhotos[3]="";
+                            attachedPhoto4.setVisibility(View.GONE);
+                            tvCancelAttach4.setVisibility(View.GONE);
+                            byte i=0;
+                            if(attachedPhoto2.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto3.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto5.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(i==0){
+                                rlAttach.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    if(!pickedPhotos[i].equals("")){
+                        Picasso.with(context).load(new File(pickedPhotos[3])).resize(pic_width, 0).noFade().into(attachedPhoto4);
+                    }
+                    break;
+                case 4:
+                    tvCancelAttach5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //pickedPhotos[4]="";
+
+                            attachedPhoto5.setVisibility(View.GONE);
+                            tvCancelAttach5.setVisibility(View.GONE);
+                            byte i=0;
+                            if(attachedPhoto2.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto3.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto4.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(attachedPhoto.getVisibility()==View.VISIBLE){
+                                i++;
+                            }
+                            if(i==0){
+                                rlAttach.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                    if(!pickedPhotos[i].equals("")){
+                        Picasso.with(context).load(new File(pickedPhotos[4])).resize(pic_width, 0).noFade().into(attachedPhoto5);
+                    }
+                    break;
+            }
+        }
+        if((pickedPhotos[0]!=null)&&(!pickedPhotos.equals(""))){
+            new sendUserPhoto().execute();
+        }
+    }
+
+    private void findphotos(){
+        attachedPhoto3=(ImageView)findViewById(R.id.ivAttachedPhoto2);
+        tvCancelAttach3=(TextView)findViewById(R.id.tvCancelAttach2);
+        attachedPhoto2=(ImageView)findViewById(R.id.ivAttachedPhoto3);
+        tvCancelAttach2=(TextView)findViewById(R.id.tvCancelAttach3);
+        attachedPhoto4=(ImageView)findViewById(R.id.ivAttachedPhoto4);
+        tvCancelAttach4=(TextView)findViewById(R.id.tvCancelAttach4);
+        attachedPhoto5=(ImageView)findViewById(R.id.ivAttachedPhoto5);
+        tvCancelAttach5=(TextView)findViewById(R.id.tvCancelAttach5);
+    }
+
+    private void hidePhotos(){}
 }

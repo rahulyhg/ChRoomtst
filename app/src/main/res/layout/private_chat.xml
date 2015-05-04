@@ -307,52 +307,228 @@
             android:max="10"
             android:padding="20dp" />-->
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView"
             android:layout_alignBottom="@+id/swipe_container_private"
+            android:layout_alignEnd="@+id/buttonSend"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@color/conversationsReadNot"
-            android:visibility="gone"
-            android:id="@+id/rlAttach">
+            android:background="@color/white">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/ivAttachedPhoto"
-                android:visibility="visible"
-                android:background="@color/conversationsReadNot"
-                android:scaleType="fitCenter" />
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                android:background="@color/white"
+                    android:visibility="gone"
+                    android:id="@+id/rlAttach">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Х"
-                android:id="@+id/tvCancelAttach"
-                android:textSize="25sp"
-                android:visibility="visible"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/ivAttachedPhoto"
-                android:layout_alignEnd="@+id/ivAttachedPhoto" />
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/ivAttachedPhoto"
+                        android:visibility="visible"
+                        android:background="@color/conversationsReadNot"
+                        android:scaleType="centerCrop"
+                        android:layout_margin="10dp" />
 
-            <me.tedyin.circleprogressbarlib.CircleProgressBar
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:id="@+id/pbPhoto"
-                android:visibility="visible"
-                app:cpbStrokeWidth="10"
-                app:cpbBackgroundColor="#9000"
-                app:cpbProgressColor="#0b90cf"
-                app:cpbProgressTextColor="#ffaabb"
-                app:cpbNeedAnim="true"
-                app:cpbStartAngle="0"
-                app:cpbMaxAngle="360"
-                app:cpbNeedShowText="true"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tvCancelAttach"
-                android:layout_toStartOf="@+id/tvCancelAttach" />
-        </RelativeLayout>
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/tvCancelAttach"
+                        android:textSize="25sp"
+                        android:visibility="visible"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignRight="@+id/ivAttachedPhoto"
+                        android:layout_alignEnd="@+id/ivAttachedPhoto"
+                        android:background="@drawable/gtkclose"
+                        android:layout_marginTop="10dp" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/ivAttachedPhoto3"
+                        android:visibility="visible"
+                        android:background="@color/conversationsReadNot"
+                        android:scaleType="centerCrop"
+                        android:layout_toRightOf="@+id/ivAttachedPhoto"
+                        android:layout_toEndOf="@+id/ivAttachedPhoto"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <me.tedyin.circleprogressbarlib.CircleProgressBar
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:id="@+id/pbPhoto"
+                    android:visibility="visible"
+                    app:cpbStrokeWidth="10"
+                    app:cpbBackgroundColor="#9000"
+                    app:cpbProgressColor="#0b90cf"
+                    app:cpbProgressTextColor="#ffaabb"
+                    app:cpbNeedAnim="true"
+                    app:cpbStartAngle="0"
+                    app:cpbMaxAngle="360"
+                    app:cpbNeedShowText="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="22dp" />
+
+                    <me.tedyin.circleprogressbarlib.CircleProgressBar
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:id="@+id/pbPhoto3"
+                        android:visibility="visible"
+                        app:cpbStrokeWidth="10"
+                        app:cpbBackgroundColor="#9000"
+                        app:cpbProgressColor="#0b90cf"
+                        app:cpbProgressTextColor="#ffaabb"
+                        app:cpbNeedAnim="true"
+                        app:cpbStartAngle="0"
+                        app:cpbMaxAngle="360"
+                        app:cpbNeedShowText="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignLeft="@+id/ivAttachedPhoto3"
+                        android:layout_alignStart="@+id/ivAttachedPhoto3"
+                        android:layout_marginLeft="12dp" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/ivAttachedPhoto2"
+                        android:visibility="visible"
+                        android:background="@color/conversationsReadNot"
+                        android:scaleType="centerCrop"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/ivAttachedPhoto3"
+                        android:layout_toEndOf="@+id/ivAttachedPhoto3"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/tvCancelAttach3"
+                        android:textSize="25sp"
+                        android:visibility="visible"
+                        android:background="@drawable/gtkclose"
+                        android:layout_alignTop="@+id/ivAttachedPhoto3"
+                        android:layout_alignRight="@+id/ivAttachedPhoto3"
+                        android:layout_alignEnd="@+id/ivAttachedPhoto3" />
+
+                    <me.tedyin.circleprogressbarlib.CircleProgressBar
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:id="@+id/pbPhoto2"
+                        android:visibility="visible"
+                        app:cpbStrokeWidth="10"
+                        app:cpbBackgroundColor="#9000"
+                        app:cpbProgressColor="#0b90cf"
+                        app:cpbProgressTextColor="#ffaabb"
+                        app:cpbNeedAnim="true"
+                        app:cpbStartAngle="0"
+                        app:cpbMaxAngle="360"
+                        app:cpbNeedShowText="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignLeft="@+id/ivAttachedPhoto2"
+                        android:layout_alignStart="@+id/ivAttachedPhoto2"
+                        android:layout_marginLeft="12dp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/tvCancelAttach2"
+                        android:textSize="25sp"
+                        android:visibility="visible"
+                        android:background="@drawable/gtkclose"
+                        android:layout_alignTop="@+id/ivAttachedPhoto2"
+                        android:layout_alignRight="@+id/ivAttachedPhoto2"
+                        android:layout_alignEnd="@+id/ivAttachedPhoto2" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/ivAttachedPhoto4"
+                        android:visibility="visible"
+                        android:background="@color/conversationsReadNot"
+                        android:scaleType="centerCrop"
+                        android:layout_toRightOf="@+id/ivAttachedPhoto2"
+                        android:layout_toEndOf="@+id/ivAttachedPhoto2"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp" />
+
+                    <me.tedyin.circleprogressbarlib.CircleProgressBar
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:id="@+id/pbPhoto4"
+                        android:visibility="visible"
+                        app:cpbStrokeWidth="10"
+                        app:cpbBackgroundColor="#9000"
+                        app:cpbProgressColor="#0b90cf"
+                        app:cpbProgressTextColor="#ffaabb"
+                        app:cpbNeedAnim="true"
+                        app:cpbStartAngle="0"
+                        app:cpbMaxAngle="360"
+                        app:cpbNeedShowText="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignLeft="@+id/ivAttachedPhoto4"
+                        android:layout_alignStart="@+id/ivAttachedPhoto4"
+                        android:layout_marginLeft="12dp" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/tvCancelAttach4"
+                        android:textSize="25sp"
+                        android:visibility="visible"
+                        android:background="@drawable/gtkclose"
+                        android:layout_alignTop="@+id/ivAttachedPhoto2"
+                        android:layout_alignRight="@+id/ivAttachedPhoto4"
+                        android:layout_alignEnd="@+id/ivAttachedPhoto4" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:id="@+id/ivAttachedPhoto5"
+                        android:visibility="visible"
+                        android:background="@color/conversationsReadNot"
+                        android:scaleType="centerCrop"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/ivAttachedPhoto4" />
+
+                    <TextView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:id="@+id/tvCancelAttach5"
+                        android:textSize="25sp"
+                        android:visibility="visible"
+                        android:background="@drawable/gtkclose"
+                        android:layout_alignTop="@+id/ivAttachedPhoto5"
+                        android:layout_alignRight="@+id/ivAttachedPhoto5"
+                        android:layout_alignEnd="@+id/ivAttachedPhoto5" />
+
+                <me.tedyin.circleprogressbarlib.CircleProgressBar
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:id="@+id/pbPhoto5"
+                    android:visibility="visible"
+                    app:cpbStrokeWidth="10"
+                    app:cpbBackgroundColor="#9000"
+                    app:cpbProgressColor="#0b90cf"
+                    app:cpbProgressTextColor="#ffaabb"
+                    app:cpbNeedAnim="true"
+                    app:cpbStartAngle="0"
+                    app:cpbMaxAngle="360"
+                    app:cpbNeedShowText="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignLeft="@+id/ivAttachedPhoto5"
+                    android:layout_alignStart="@+id/ivAttachedPhoto5"
+                    android:layout_marginLeft="12dp" />
+
+                </RelativeLayout>
+        </HorizontalScrollView>
 
     </RelativeLayout>
 

@@ -225,7 +225,11 @@ public class anonMessaging extends Activity {
 
                 if (status.equals("false")) {
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
-                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", "");
+                    String[] sArr = new String[5];
+                    for(int t=0; t<5; t++){
+                        sArr[t]="";
+                    }
+                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", sArr);
                     messages.add(msgCount,p);
                     msgCount++;
                     adapter.notifyDataSetChanged();
@@ -288,7 +292,11 @@ public class anonMessaging extends Activity {
                             messag = new JSONObject(arr.get(i).toString());
                             s = messag.getString("system");
                             if(s.equals("0")) {
-                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("attach"));
+                                String[] sArr = new String[5];
+                                for(int t=0; t<5; t++){
+                                    sArr[t]="";
+                                }
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", sArr);
                                 messages.add(msgCount, p);
                                 msgCount++;
                             }
@@ -528,7 +536,11 @@ public class anonMessaging extends Activity {
 
                 if (status.equals("false")) {
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
-                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", "");
+                    String[] sArr = new String[5];
+                    for(int t=0; t<5; t++){
+                        sArr[t]="";
+                    }
+                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", sArr);
                     messages.add(msgCount,p);
                     msgCount++;
                     adapter.notifyDataSetChanged();

@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileInputStream;
@@ -131,6 +133,9 @@ public class Main extends TabActivity {
         Intent incognitoIntent = new Intent(this, IncognitoTab.class);
         incognitotab.setContent(incognitoIntent);
 
+        ImageLoader imageLoader=ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+
         setColor();
 
          /*tabHost.addTab(privatetab);
@@ -156,13 +161,15 @@ public class Main extends TabActivity {
                 /*Intent in = new Intent(getApplicationContext(), Support.class);
                 startActivity(in);*/
                 Intent i = new Intent(getApplicationContext(), PrivateMessaging.class);
-                i.putExtra("userId","0");
+                i.putExtra("userId","106");
                 i.putExtra("userPROFILE", "0");
                 i.putExtra("token",str);
                 i.putExtra("nick","Служба поддержки");
                 i.putExtra("favorite","false");
-                i.putExtra("shake", "true");//значит служба поддержки
+                i.putExtra("shake", "false");//значит служба поддержки
                 i.putExtra("fromDialogs","false");
+
+                i.putExtra("userPROFILE", "106");
                 startActivity(i);
             }
         });

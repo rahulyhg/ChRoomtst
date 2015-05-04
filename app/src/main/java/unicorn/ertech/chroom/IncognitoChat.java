@@ -252,10 +252,10 @@ public class IncognitoChat extends Fragment{
                     e.printStackTrace();
                 }
                 try {
-                    Log.e("pageNumber", pageNumber + "");
+                    //Log.e("pageNumber", pageNumber + "");
                     lastid = json.getString("lastid");
-                    Log.e("lastid", lastid);
-                    Log.e("lastID", lastID1);
+                    //Log.e("lastid", lastid);
+                    //Log.e("lastID", lastID1);
                     if (lastID1.equals(lastid)) {
                         lastID1 = json.getString("lastid");
                     } else {

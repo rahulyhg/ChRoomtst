@@ -63,7 +63,7 @@ public class SetActivity extends Activity {
         LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
         LinearLayout laySetAbout=(LinearLayout)findViewById(R.id.laySetAbout);
         LinearLayout laySetRate=(LinearLayout)findViewById(R.id.laySetRate);
-        //LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
+        LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +75,12 @@ public class SetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showActivity(SetWallet.class);
+            }
+        });
+        txtWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(Billing.class);
             }
         });
         setChat.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +151,13 @@ public class SetActivity extends Activity {
             @Override
             public void onClick(View v) {
                 showActivity(About.class);
+            }
+        });
+
+        laySetWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActivity(Billing.class);
             }
         });
 
