@@ -239,7 +239,7 @@ public class AdsFragment extends Fragment {
 
             if(status.equals("false"))
             {
-                Toast.makeText(getActivity().getApplicationContext(),"Сообщение успешно добавлено!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Сообщение успешно добавлено!",Toast.LENGTH_SHORT).show();
             }
             else
             {

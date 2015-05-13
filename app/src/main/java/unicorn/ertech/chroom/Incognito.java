@@ -187,8 +187,12 @@ public class Incognito extends Fragment {
                 if(elapsedtime<5000) {
                     json = jParser.getJSONFromUrl(URL);
                     try {
-                        status = json.getString("error");
-                    } catch (JSONException e) {
+                        try {
+                            status = json.getString("error");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     if (status.equals("false")) {

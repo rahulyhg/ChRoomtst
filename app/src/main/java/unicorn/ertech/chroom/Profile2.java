@@ -25,6 +25,10 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import static android.os.Debug.dumpHprofData;
+
 /**
  * Created by Timur on 22.01.2015.
  */

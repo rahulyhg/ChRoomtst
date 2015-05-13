@@ -1,6 +1,7 @@
 package unicorn.ertech.chroom;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
@@ -46,7 +47,7 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         chatHolder holder;
-        pmChatMessage p = chat.get(position);
+        final pmChatMessage p = chat.get(position);
         if(convertView == null)
         {
             holder = new chatHolder();
@@ -63,6 +64,7 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         else
             holder = (chatHolder) v.getTag();
         holder.tvMsg.setText(getSmiledText(getContext(),p.message));
+
 
         holder.tvMsg.setMaxWidth((int)test);
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.Ll.getLayoutParams();
@@ -97,6 +99,61 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         holder.tvMsg.setPadding(15, 15, 15, 15);
         holder.tvMsg.setText(getSmiledText(getContext(), p.message));
 
+        View.OnClickListener photoClick = new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                switch (v.getId()){
+                    case R.id.ivAttachPm:
+                        if(!p.attach[0].equals("")) {
+                            Intent photoIntent = new Intent(context, PhotoViewerPm.class);
+                            photoIntent.putExtra("photos", p.attach);
+                            photoIntent.putExtra("id", 0);
+                            photoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(photoIntent);
+                        }
+                        break;
+                    case R.id.ivAttachPm2:
+                        if(!p.attach[1].equals("")) {
+                            Intent photoIntent2 = new Intent(context, PhotoViewerPm.class);
+                            photoIntent2.putExtra("photos", p.attach);
+                            photoIntent2.putExtra("id", 1);
+                            photoIntent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(photoIntent2);
+                        }
+                        break;
+                    case R.id.ivAttachPm3:
+                        if(!p.attach[2].equals("")) {
+                            Intent photoIntent3 = new Intent(context, PhotoViewerPm.class);
+                            photoIntent3.putExtra("photos", p.attach);
+                            photoIntent3.putExtra("id", 2);
+                            photoIntent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(photoIntent3);
+                        }
+                        break;
+                    case R.id.ivAttachPm4:
+                        if(!p.attach[3].equals("")){
+                            Intent photoIntent4 = new Intent(context, PhotoViewerPm.class);
+                            photoIntent4.putExtra("photos", p.attach);
+                            photoIntent4.putExtra("id", 3);
+                            photoIntent4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(photoIntent4);
+                        }
+                        break;
+                    case R.id.ivAttachPm5:
+                        if(!p.attach[4].equals("")){
+                            Intent photoIntent5 = new Intent(context, PhotoViewerPm.class);
+                            photoIntent5.putExtra("photos", p.attach);
+                            photoIntent5.putExtra("id", 4);
+                            photoIntent5.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(photoIntent5);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+
         int additionalPhotos=0;
         for(int i=1; i<5; i++){
             if((p.attach[i]!=null)&&(!p.attach[i].equals(""))){
@@ -109,17 +166,29 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
             case 1:
                 holder.imgAttached2.getLayoutParams().height=(int)(dimensionScale*250);
                 holder.imgAttached2.getLayoutParams().width=(int)(dimensionScale*250);
+
+                holder.imgAttached2.setOnClickListener(photoClick);
+                holder.imgAttached.setOnClickListener(photoClick);
                 break;
             case 2:
                 holder.imgAttached2.getLayoutParams().height=(int)(dimensionScale*125);
                 holder.imgAttached2.getLayoutParams().width=(int)(dimensionScale*123);
                 holder.imgAttached3.getLayoutParams().width=(int)(dimensionScale*123);
+
+                holder.imgAttached2.setOnClickListener(photoClick);
+                holder.imgAttached.setOnClickListener(photoClick);
+                holder.imgAttached3.setOnClickListener(photoClick);
                 break;
             case 3:
                 holder.imgAttached2.getLayoutParams().height=(int)(dimensionScale*125);
                 holder.imgAttached2.getLayoutParams().width=(int)(dimensionScale*82);
                 holder.imgAttached3.getLayoutParams().width=(int)(dimensionScale*82);
                 holder.imgAttached4.getLayoutParams().width=(int)(dimensionScale*82);
+
+                holder.imgAttached2.setOnClickListener(photoClick);
+                holder.imgAttached.setOnClickListener(photoClick);
+                holder.imgAttached3.setOnClickListener(photoClick);
+                holder.imgAttached4.setOnClickListener(photoClick);
                 break;
             case 4:
                 holder.imgAttached2.getLayoutParams().height=(int)(dimensionScale*125);
@@ -127,6 +196,12 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
                 holder.imgAttached3.getLayoutParams().width=(int)(dimensionScale*61);
                 holder.imgAttached4.getLayoutParams().width=(int)(dimensionScale*61);
                 holder.imgAttached5.getLayoutParams().width=(int)(dimensionScale*61);
+
+                holder.imgAttached2.setOnClickListener(photoClick);
+                holder.imgAttached.setOnClickListener(photoClick);
+                holder.imgAttached4.setOnClickListener(photoClick);
+                holder.imgAttached3.setOnClickListener(photoClick);
+                holder.imgAttached5.setOnClickListener(photoClick);
                 break;
             default:
                 break;
@@ -142,6 +217,7 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
             imageLoader.displayImage(p.attach[0], holder.imgAttached, options);
 //            Picasso.with(getContext()).load(p.attach[0]).resize(pic_max,0).placeholder(R.drawable.camera128).into(holder.imgAttached);
             holder.imgAttached.setVisibility(View.VISIBLE);
+            holder.imgAttached.setOnClickListener(photoClick);
         }else{
             holder.imgAttached.setVisibility(View.GONE);
         }
@@ -229,4 +305,10 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         addSmiles(context, spannable);
         return spannable;
     }
+
+    private void showPhotoViewer(){
+
+    }
+
+
 }

@@ -363,9 +363,10 @@ public class SearchParam extends Fragment {
         jPars.setParam("token", token);
         jPars.setParam("action", "global_search");
 
+        if(sexSpinner!=null){
         if(sexSpinner.getSelectedItemId()!=2) {
             jPars.setParam("sex", String.valueOf(sexSpinner.getSelectedItemId()));
-        }
+        }}
         else
         {
             //jParser.setParam("sex","");

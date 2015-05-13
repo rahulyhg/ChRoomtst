@@ -259,12 +259,12 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,int position, long id)
             {
-                String[] photo = adapter.getItem(position).attach;
+                /*String[] photo = adapter.getItem(position).attach;
                 if(!photo.equals("false")) {
                     Intent i = new Intent(context, PhotoViewerPm.class);
                     i.putExtra("photos", photo);
                     startActivity(i);
-                }
+                }*/
             }
         });
         lastId = "0";
@@ -391,6 +391,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         lvChat.setOnScrollListener(listener);
 
         setColor();
+        findphotos();
     }
 
 
@@ -532,7 +533,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     }
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
                     pmChatMessage p = new pmChatMessage(userId, outMsg, "0", attached_link);
-                    messages.add(msgCount,p);
+                    messages.add(msgCount, p);
+                    msgCount++;
 
                     Log.e("privatesend","666");
                     Calendar c=Calendar.getInstance(); int month = c.get(c.MONTH)+1;
@@ -546,16 +548,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         ConversationsFragment.newMsg(p2);
                     }
 
-                    msgCount++;
+
                     Log.e("privatesend","777");
 
                     Log.e("privatesend","888");
                     lvChat.setSelection(adapter.getCount());
                     Log.e("privatesend","999");
                     txtSend.setText("");
-                    for(int t=0; t<5; t++){
-                        attached_link[t]="";
-                    }
+
                     if(shake.equals("true")){
                         String[] sArr = new String[5];
                         for(int t=0; t<5; t++){
@@ -566,6 +566,10 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         msgCount++;
                     }
                     adapter.notifyDataSetChanged();
+                    for(int t=0; t<5; t++){
+                        attached_link[t]="";
+                    }
+                    hidePhotos();
                 } else {
                     try {
                         status = json.getString("error_code");
@@ -812,7 +816,13 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         realNum = json.getString("total");
                         lastId = json.getString("lastid");
                         if((!lastId.equals(null))&&(!lastId.equals(""))){
-                            if(Integer.parseInt(lastId)>Integer.parseInt(lastID4)) {
+                            int t;
+                            if(!lastID4.equals("")){
+                                t=Integer.parseInt(lastID4);
+                            }else{
+                                t=0;
+                            }
+                            if(Integer.parseInt(lastId)>t) {
                                 lastID4 = lastId;
                                 ed2 = Notif.edit();
                                 ed2.putString(SAVED_LASTID,lastID4);
@@ -1307,6 +1317,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         myTimer.cancel();
         unregisterReceiver(imageBroadcastReceiver);
         Log.e("json", "destroy");
+        ImageLoader imageLoader=ImageLoader.getInstance();
+        imageLoader.clearMemoryCache();
+        imageLoader.clearDiskCache();
         super.onDestroy();
     }
 
@@ -1460,7 +1473,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
             {
                 e.printStackTrace();
             }
-            sendedPhotos++;
+            sendedPhotos=sendedPhotos+1;
             return json;
         }
         @Override
@@ -1581,11 +1594,16 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
     private void setAdapter( List<String> filePathList) {
         sendedPhotos=0;
+        for(int i=0; i<5; i++){
+            pickedPhotos[i]="";
+        }
         for(int i=0; i<filePathList.size(); i++){
             pickedPhotos[i]=filePathList.get(i);
             switch(i){
                 case 0:
                     if(!pickedPhotos[i].equals("")){
+                        attachedPhoto.setVisibility(View.VISIBLE);
+                        tvCancelAttach.setVisibility(View.VISIBLE);
                         Picasso.with(context).load(new File(pickedPhotos[0])).resize(pic_width, 0).noFade().into(attachedPhoto);
                     }
                     break;
@@ -1615,6 +1633,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         }
                     });
                     if(!pickedPhotos[i].equals("")) {
+                        attachedPhoto2.setVisibility(View.VISIBLE);
+                        tvCancelAttach2.setVisibility(View.VISIBLE);
                         Picasso.with(context).load(new File(pickedPhotos[1])).resize(pic_width, 0).noFade().into(attachedPhoto2);
                     }
                     break;
@@ -1644,6 +1664,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         }
                     });
                     if(!pickedPhotos[i].equals("")){
+                        attachedPhoto3.setVisibility(View.VISIBLE);
+                        tvCancelAttach3.setVisibility(View.VISIBLE);
                         Picasso.with(context).load(new File(pickedPhotos[2])).resize(pic_width, 0).noFade().into(attachedPhoto3);
                     }
                     break;
@@ -1673,6 +1695,8 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         }
                     });
                     if(!pickedPhotos[i].equals("")){
+                        attachedPhoto4.setVisibility(View.VISIBLE);
+                        tvCancelAttach4.setVisibility(View.VISIBLE);
                         Picasso.with(context).load(new File(pickedPhotos[3])).resize(pic_width, 0).noFade().into(attachedPhoto4);
                     }
                     break;
@@ -1703,12 +1727,14 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                         }
                     });
                     if(!pickedPhotos[i].equals("")){
+                        attachedPhoto5.setVisibility(View.VISIBLE);
+                        tvCancelAttach5.setVisibility(View.VISIBLE);
                         Picasso.with(context).load(new File(pickedPhotos[4])).resize(pic_width, 0).noFade().into(attachedPhoto5);
                     }
                     break;
             }
         }
-        if((pickedPhotos[0]!=null)&&(!pickedPhotos.equals(""))){
+        if((pickedPhotos[0]!=null)&&(!pickedPhotos[0].equals(""))){
             new sendUserPhoto().execute();
         }
     }
@@ -1724,5 +1750,16 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         tvCancelAttach5=(TextView)findViewById(R.id.tvCancelAttach5);
     }
 
-    private void hidePhotos(){}
+    private void hidePhotos(){
+        attachedPhoto.setVisibility(View.GONE);
+        tvCancelAttach.setVisibility(View.GONE);
+        attachedPhoto2.setVisibility(View.GONE);
+        tvCancelAttach2.setVisibility(View.GONE);
+        attachedPhoto3.setVisibility(View.GONE);
+        tvCancelAttach3.setVisibility(View.GONE);
+        attachedPhoto4.setVisibility(View.GONE);
+        tvCancelAttach4.setVisibility(View.GONE);
+        attachedPhoto5.setVisibility(View.GONE);
+        tvCancelAttach5.setVisibility(View.GONE);
+    }
 }

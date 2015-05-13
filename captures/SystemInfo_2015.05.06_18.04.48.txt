@@ -1,0 +1,5 @@
+Applications Memory Usage (kB):
+Uptime: 64269315 Realtime: 169397902
+
+** MEMINFO in pid 13314 [unicorn.ertech.chroom] **
+Got RemoteException!

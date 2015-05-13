@@ -86,6 +86,8 @@ public class anonMessaging extends Activity {
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         butBack=(ImageButton)findViewById(R.id.butNewsBack);
         butStar=(ImageButton)findViewById(R.id.ibStar);
+        ImageButton butFile=(ImageButton)findViewById(R.id.butFile);
+        butFile.setVisibility(View.GONE);
         dateTime = new Date();
 
         SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);

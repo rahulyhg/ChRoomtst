@@ -1,50 +1,107 @@
 package unicorn.ertech.chroom;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
 import unicorn.ertech.chroom.util.IabHelper;
 import unicorn.ertech.chroom.util.IabResult;
 import unicorn.ertech.chroom.util.Inventory;
 import unicorn.ertech.chroom.util.Purchase;
 
-/**
- * Created by Timur on 04.05.2015.
- */
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 public class Billing extends Activity {
     // Debug tag, for logging
     static final String TAG = "NK TEST PURCHASE";
+    static String URL = "http://im.topufa.org/index.php";
 
-    // ТО ЧТО В СКОБКАХ ДОЛЖНО БЫТЬ ДОБАВЛЕНО В КОНСОЛИ КАК 4 ПРОДУКТА
+    // РўРћ Р§РўРћ Р’ РЎРљРћР‘РљРђРҐ Р”РћР›Р–РќРћ Р‘Р«РўР¬ Р”РћР‘РђР’Р›Р•РќРћ Р’ РљРћРќРЎРћР›Р? РљРђРљ 4 РџР РћР”РЈРљРўРђ
 
-    static final String ONE_BUTTON = "gas";
-    static final String TWO_BUTTON = "android.test.canceled";
-    static final String THREE_BUTTON = "android.test.purchased";
-    static final String FOUR_BUTTON = "android.test.purchased";
+    static final String ONE_BUTTON = "iz30";
+    static final String TWO_BUTTON = "iz50";
+    static final String THREE_BUTTON = "iz100";
+    static final String FOUR_BUTTON = "bezlim";
 
     // (arbitrary) request code for the purchase flow
     static final int RC_REQUEST = 10001;
 
     // The helper object
     IabHelper mHelper;
+    TextView des;
+    TextView sms;
+    TextView play;
+    TextView other;
     TextView count;
+    TextView tvIz30;
+    TextView tvIz50;
+    TextView tvIz100;
+    TextView tvBezlim;
+
+
 
     int izuminok = 0;
+    String token;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_wallet);
+        setContentView(R.layout.billing);
 
-        count = (TextView) findViewById(R.id.tvWalletBalance);
-        count.setText("Изюминок: " + izuminok);
+        count = (TextView) findViewById(R.id.count);
+        des = (TextView) findViewById(R.id.des);
 
-// КЛЮЧ
+        sms = (TextView) findViewById(R.id.des);
+        play = (TextView) findViewById(R.id.des);
+        other = (TextView) findViewById(R.id.des);
+
+        tvIz30 = (TextView) findViewById(R.id.textView30);
+        tvIz50 = (TextView) findViewById(R.id.textView50);
+        tvIz100 = (TextView) findViewById(R.id.textView100);
+        tvBezlim = (TextView) findViewById(R.id.textViewB);
+
+        Typeface font = Typeface.createFromAsset(this.getAssets(), "FiraSans-Regular.ttf");
+        tvIz30.setTypeface(font);
+
+        tvIz50.setTypeface(font);
+
+        tvIz100.setTypeface(font);
+
+        tvBezlim.setTypeface(font);
+
+
+        count.setTypeface(font);
+        des.setTypeface(font);
+
+        sms.setTypeface(font);
+        play.setTypeface(font);
+        other.setTypeface(font);
+
+
+        Button bt30 = (Button) findViewById(R.id.bt30);
+        Button bt50 = (Button) findViewById(R.id.bt50);
+        Button bt100 = (Button) findViewById(R.id.bt100);
+        Button btB = (Button) findViewById(R.id.btB);
+
+        bt30.setTypeface(font);
+        bt50.setTypeface(font);
+        bt100.setTypeface(font);
+        btB.setTypeface(font);
+
+        // count.setText("Изюминок: " + izuminok);
+
+// РљР›Р®Р§
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkWzjEZ83E73Ci0ldk3XvSIrQqRq75AnJQnRG0Ax3MkrRpOKlYtpB9UzU3pbcwQILDhcH8reRUnFfIS9FrfykI3TM0/YmbpMjgE5f18Vh8qtkNW3Barlr7dkOK6mXaPswepg4S9vcVMEwAFwBjcY65JgATySJXnf75T2nqeD1x8uBizlB9Vui3vASA8SY/ka0qoNJb3F+ET5Tmt4fFINsm2GyJoYzZoWRLXSWJgiU8Y2bKdrb9ZyzTPPNCM8IEzcW01wrVg2wikOriEVdNpKqN3F3gNZ0x0EQJC6aU8zIW2N5ewNrEa011SqECEOiFEqB1G6xdthu7qBG7L3I8fpnawIDAQAB";
 
         Log.d(TAG, "Creating IAB helper.");
@@ -74,6 +131,19 @@ public class Billing extends Activity {
                 mHelper.queryInventoryAsync(mGotInventoryListener);
             }
         });
+
+        try {
+            SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+            if((userData.contains("token"))){
+                if(!userData.getString("token", "0").equals("0")){
+                    token=userData.getString("token", "");
+                }
+            }else{
+                token="";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Listener that's called when we finish querying the items and subscriptions we own
@@ -126,29 +196,43 @@ public class Billing extends Activity {
     public void one(View arg0) {
         String payload = "ONE_BUTTON";
 
-        mHelper.launchPurchaseFlow(this, ONE_BUTTON, RC_REQUEST,
+        if(!token.equals("")){
+            mHelper.launchPurchaseFlow(this, ONE_BUTTON, RC_REQUEST,
                 mPurchaseFinishedListener, payload);
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT);
+        }
     }
 
     public void two(View arg0) {
         String payload = "";
-
+        if(!token.equals("")){
         mHelper.launchPurchaseFlow(this, TWO_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);
+                mPurchaseFinishedListener, payload);}
+        else{
+            Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT);
+        }
     }
 
     public void three(View arg0) {
         String payload = "";
-
+        if(!token.equals("")){
         mHelper.launchPurchaseFlow(this, THREE_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);
+                mPurchaseFinishedListener, payload);}
+        else{
+            Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT);
+        }
     }
 
     public void four(View arg0) {
         String payload = "";
-
+        if(!token.equals("")){
         mHelper.launchPurchaseFlow(this, FOUR_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);
+                mPurchaseFinishedListener, payload);}
+        else{
+            Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT);
+        }
     }
 
 
@@ -195,30 +279,40 @@ public class Billing extends Activity {
 
             Log.d(TAG, "Purchase successful.");
 
-// ЭТО ЕСЛИ ВСЕ ГУД
+// Р­РўРћ Р•РЎР›Р? Р’РЎР• Р“РЈР”
 
             if (purchase.getSku().equals(ONE_BUTTON)) {
-                izuminok += 1;
-                count.setText("Изюминок: " + izuminok);
+                izuminok += 30;
+                count.setText("Баланс: "+izuminok+" изюминок ");
+                //      tvIz30.setText("Куплено изюминок: " + izuminok);
                 //      mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                String[] t= new String[1];
+                new sendPurchase().execute(t);
             }
 
             if (purchase.getSku().equals(TWO_BUTTON)) {
-                izuminok += 25;
-                count.setText("Изюминок: " + izuminok);
+                izuminok += 50;
+                count.setText("Баланс: "+izuminok+" изюминок ");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                String[] t= new String[1];
+                new sendPurchase().execute(t);
             }
 
             if (purchase.getSku().equals(THREE_BUTTON)) {
-                izuminok += 50;
-                count.setText("Изюминок: " + izuminok);
+                izuminok += 100;
+                count.setText("Баланс: "+izuminok+" изюминок ");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                String[] t= new String[1];
+                new sendPurchase().execute(t);
             }
 
             if (purchase.getSku().equals(FOUR_BUTTON)) {
-                izuminok += 100;
-                count.setText("Изюминок: " + izuminok);
+                //izuminok += 500;
+                count.setText("Баланс: БЕЗЛИМИТ");
+                //	tvBezlim.setText("БЕЗЛИМИТ куплен");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                String[] t= new String[1];
+                new sendPurchase().execute(t);
             }
 
         }
@@ -274,4 +368,52 @@ public class Billing extends Activity {
         Log.d(TAG, "Showing alert dialog: " + message);
         bld.create().show();
     }
+
+
+    private  class sendPurchase extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "payment");
+            jParser.setParam("type", "1");
+            jParser.setParam("amount", args[0]);
+            // Getting JSON from URL
+
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                String s="";
+                try {
+                    s = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(s.equals("false")){
+                    try{
+                        Toast.makeText(getApplicationContext(),"Успешно", Toast.LENGTH_SHORT);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    //adapter.notifyDataSetChanged();
+                }else{
+                    if(s.equals("13")){
+                        Toast.makeText(getApplicationContext(),"Неверная сумма", Toast.LENGTH_SHORT);
+                    }else if(s.equals("22")){
+                        Toast.makeText(getApplicationContext(),"Не синхронизировано с БД", Toast.LENGTH_SHORT);
+                    }
+                }
+            }
+
+        }
+    }//конец asyncTask
 }

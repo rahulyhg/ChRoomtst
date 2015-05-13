@@ -20,6 +20,7 @@ public class SetActivity extends Activity {
     RelativeLayout topRow;
     ImageButton butBack;
     final String SAVED_COLOR = "color";
+    int k=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,19 @@ public class SetActivity extends Activity {
         LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
         LinearLayout laySetAbout=(LinearLayout)findViewById(R.id.laySetAbout);
         LinearLayout laySetRate=(LinearLayout)findViewById(R.id.laySetRate);
-        LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
+        final LinearLayout laySetWallet = (LinearLayout)findViewById(R.id.laySetWallet);
+
+        topRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(k<7){
+                    k++;
+                }else{
+                    laySetWallet.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override

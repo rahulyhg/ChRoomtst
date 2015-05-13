@@ -17,6 +17,9 @@ public class pmChatMessage {
         this.uid = UID;
         this.message = MSG;
         this.direction = DIR;
-        this.attach=Attach;
+        this.attach = new String[5];
+        for(int i=0; i<5; i++){
+            this.attach[i]=Attach[i];
+        }
     }
 }

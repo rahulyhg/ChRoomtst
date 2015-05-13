@@ -532,11 +532,17 @@ ADDED from AndroidManifest.xml:227:9
 	android:name
 		ADDED from AndroidManifest.xml:227:19
 activity#com.google.android.gms.ads.AdActivity
-ADDED from AndroidManifest.xml:230:17
+ADDED from AndroidManifest.xml:229:9
 	android:configChanges
-		ADDED from AndroidManifest.xml:232:21
-	android:name
 		ADDED from AndroidManifest.xml:231:21
+	android:name
+		ADDED from AndroidManifest.xml:230:21
+activity#unicorn.ertech.chroom.Billing
+ADDED from AndroidManifest.xml:232:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:233:13
+	android:name
+		ADDED from AndroidManifest.xml:232:19
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5

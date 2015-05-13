@@ -14,9 +14,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ViewSwitcher;
 
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,38 +50,92 @@ public class PhotoViewer extends Activity{
         if((photoURLs[9]!=null)&&(!photoURLs[9].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            final ProgressBar pb=(ProgressBar)page.findViewById(R.id.progressBar2);
             /*final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
             imgview.startAnimation(myAnim);*/
-            mPicasso.load(photoURLs[9]).into(imgview);
+            mPicasso.load(photoURLs[9]).into(imgview,new Callback() {
+                @Override
+                public void onSuccess() {
+                    pb.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    pb.setVisibility(View.GONE);
+                }
+            });
             pages.add(page);
         }
 
         if((photoURLs[5]!=null)&&(!photoURLs[5].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
+            final ProgressBar pb=(ProgressBar)page.findViewById(R.id.progressBar2);
+            mPicasso.load(photoURLs[5]).memoryPolicy(MemoryPolicy.NO_STORE).into(imgview,new Callback() {
+                @Override
+                public void onSuccess() {
+                    pb.setVisibility(View.GONE);
+                }
 
-            mPicasso.load(photoURLs[5]).into(imgview);
+                @Override
+                public void onError() {
+                    pb.setVisibility(View.GONE);
+                }
+            });
             pages.add(page);
         }
 
         if((photoURLs[6]!=null)&&(!photoURLs[6].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[6]).into(imgview);
+            final ProgressBar pb=(ProgressBar)page.findViewById(R.id.progressBar2);
+            mPicasso.load(photoURLs[6]).memoryPolicy(MemoryPolicy.NO_STORE).into(imgview,new Callback() {
+                @Override
+                public void onSuccess() {
+                    pb.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    pb.setVisibility(View.GONE);
+                }
+            });
             pages.add(page);
         }
 
         if((photoURLs[7]!=null)&&(!photoURLs[7].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[7]).into(imgview);
+            final ProgressBar pb=(ProgressBar)page.findViewById(R.id.progressBar2);
+            mPicasso.load(photoURLs[7]).memoryPolicy(MemoryPolicy.NO_STORE).into(imgview,new Callback() {
+                @Override
+                public void onSuccess() {
+                    pb.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    pb.setVisibility(View.GONE);
+                }
+            });
             pages.add(page);
         }
 
         if(((photoURLs[8]!=null)&&!photoURLs[8].equals("http://im.topufa.org/"))) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            mPicasso.load(photoURLs[8]).into(imgview);
+            final ProgressBar pb=(ProgressBar)page.findViewById(R.id.progressBar2);
+            mPicasso.load(photoURLs[8]).memoryPolicy(MemoryPolicy.NO_STORE).into(imgview,new Callback() {
+                @Override
+                public void onSuccess() {
+                    pb.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    pb.setVisibility(View.GONE);
+                }
+            });
             pages.add(page);
         }
 
