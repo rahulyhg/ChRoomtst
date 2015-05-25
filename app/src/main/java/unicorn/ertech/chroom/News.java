@@ -92,8 +92,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
         swipeLayout.setDistanceToTriggerSync(20);
 
         lvNews.setAdapter(adapter3);
-        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
-        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
+        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
 
         lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -116,7 +115,7 @@ public class News extends Fragment implements SwipeRefreshLayout.OnRefreshListen
     @Override
     public void onRefresh() {
         swipeLayout.setRefreshing(true);
-        new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
+        //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/mainnews.rss");
         //new GetRssFeed().execute("http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
         new Handler().postDelayed(new Runnable() {
             @Override

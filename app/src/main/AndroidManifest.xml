@@ -229,8 +229,10 @@
         <activity
                     android:name="com.google.android.gms.ads.AdActivity"
                     android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+
         <activity android:name=".Billing"
-            android:screenOrientation="portrait" ></activity>
+            />
+
     </application>
 
 </manifest>

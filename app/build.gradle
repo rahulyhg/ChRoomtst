@@ -8,8 +8,8 @@ android {
         applicationId "unicorn.ertech.chroom"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 16
-        versionName "1.1"
+        versionCode 21
+        versionName "1.11"
     }
     buildTypes {
         release {

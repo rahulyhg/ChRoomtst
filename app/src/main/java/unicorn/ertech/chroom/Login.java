@@ -323,7 +323,7 @@ public class Login extends Activity {
             pDialog.dismiss();
             if (json != null){
                 boolean result;
-                result = true;
+                result = false;
                 try {
                     result = json.getBoolean("auth");
 //                  Log.e("saveToken", token);

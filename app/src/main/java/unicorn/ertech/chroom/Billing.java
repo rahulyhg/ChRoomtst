@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,8 +50,12 @@ public class Billing extends Activity {
     TextView tvIz50;
     TextView tvIz100;
     TextView tvBezlim;
+    TextView b;
+    TextView title;
 
+    ImageButton butBack;
 
+    RelativeLayout topRow;
 
     int izuminok = 0;
     String token;
@@ -70,34 +76,42 @@ public class Billing extends Activity {
         tvIz50 = (TextView) findViewById(R.id.textView50);
         tvIz100 = (TextView) findViewById(R.id.textView100);
         tvBezlim = (TextView) findViewById(R.id.textViewB);
+        b = (TextView) findViewById(R.id.b);
+        title = (TextView) findViewById(R.id.title);
 
-        Typeface font = Typeface.createFromAsset(this.getAssets(), "FiraSans-Regular.ttf");
-        tvIz30.setTypeface(font);
+        butBack=(ImageButton)findViewById(R.id.setBack);
 
-        tvIz50.setTypeface(font);
+        //Typeface font = Typeface.createFromAsset(this.getAssets(), "MyriadProRegular.ttf");
+       // tvIz30.setTypeface(font, Typeface.BOLD);
 
-        tvIz100.setTypeface(font);
+       // tvIz50.setTypeface(font, Typeface.BOLD);
 
-        tvBezlim.setTypeface(font);
+       // tvIz100.setTypeface(font, Typeface.BOLD);
 
+       // tvBezlim.setTypeface(font, Typeface.BOLD);
+      //  b.setTypeface(font, Typeface.BOLD);
 
-        count.setTypeface(font);
-        des.setTypeface(font);
+     //   count.setTypeface(font);
+     //   des.setTypeface(font, Typeface.ITALIC);
 
-        sms.setTypeface(font);
-        play.setTypeface(font);
-        other.setTypeface(font);
-
+    //    sms.setTypeface(font);
+    //    play.setTypeface(font);
+    //    other.setTypeface(font);
+    //    count.setTypeface(font);
+    //    title.setTypeface(font, Typeface.BOLD);
 
         Button bt30 = (Button) findViewById(R.id.bt30);
         Button bt50 = (Button) findViewById(R.id.bt50);
         Button bt100 = (Button) findViewById(R.id.bt100);
         Button btB = (Button) findViewById(R.id.btB);
 
-        bt30.setTypeface(font);
-        bt50.setTypeface(font);
-        bt100.setTypeface(font);
-        btB.setTypeface(font);
+    //    bt30.setTypeface(font);
+    //    bt50.setTypeface(font);
+    //    bt100.setTypeface(font);
+    //    btB.setTypeface(font);
+
+        topRow = (RelativeLayout)findViewById(R.id.topRowWal);
+        butBack=(ImageButton)findViewById(R.id.setBackWal);
 
         // count.setText("Изюминок: " + izuminok);
 
@@ -144,6 +158,20 @@ public class Billing extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        setColor();
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeMe();
+            }
+        });
+
+        new getBalance().execute();
+    }
+
+    public void closeMe(){
+        this.finish();
     }
 
     // Listener that's called when we finish querying the items and subscriptions we own
@@ -185,8 +213,6 @@ public class Billing extends Activity {
                 mHelper.consumeAsync(inventory.getPurchase(FOUR_BUTTON), mConsumeFinishedListener);
                 return;
             }
-
-
 
 
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
@@ -287,22 +313,25 @@ public class Billing extends Activity {
                 //      tvIz30.setText("Куплено изюминок: " + izuminok);
                 //      mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
+                t[0]="30";
                 new sendPurchase().execute(t);
             }
 
             if (purchase.getSku().equals(TWO_BUTTON)) {
                 izuminok += 50;
-                count.setText("Баланс: "+izuminok+" изюминок ");
+                count.setText("Баланс: " + izuminok+" изюминок ");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
+                t[0]="50";
                 new sendPurchase().execute(t);
             }
 
             if (purchase.getSku().equals(THREE_BUTTON)) {
                 izuminok += 100;
-                count.setText("Баланс: "+izuminok+" изюминок ");
+                count.setText("Баланс: " + izuminok+" изюминок ");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
+                t[0]="100";
                 new sendPurchase().execute(t);
             }
 
@@ -312,6 +341,7 @@ public class Billing extends Activity {
                 //	tvBezlim.setText("БЕЗЛИМИТ куплен");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
+                t[0]="p";
                 new sendPurchase().execute(t);
             }
 
@@ -358,7 +388,7 @@ public class Billing extends Activity {
 
     void complain(String message) {
         Log.e(TAG, "**** TrivialDrive Error: " + message);
-        alert("Error: " + message);
+        //alert("Error: " + message);
     }
 
     void alert(String message) {
@@ -410,6 +440,81 @@ public class Billing extends Activity {
                         Toast.makeText(getApplicationContext(),"Неверная сумма", Toast.LENGTH_SHORT);
                     }else if(s.equals("22")){
                         Toast.makeText(getApplicationContext(),"Не синхронизировано с БД", Toast.LENGTH_SHORT);
+                    }
+                }
+            }
+
+        }
+    }//конец asyncTask
+
+    public void sms(View v)
+    {
+        //Intent in = new Intent(getApplicationContext(), sms.class);
+        //startActivity(in);
+        //finish();
+    }
+
+    private void setColor(){
+        SharedPreferences sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
+        int col=sPref.getInt("color", 0);
+        switch (col) {
+            case 0:
+                topRow.setBackgroundResource(R.color.green);
+                break;
+            case 1:
+                topRow.setBackgroundResource(R.color.blue);
+                break;
+            case 2:
+                topRow.setBackgroundResource(R.color.orange);
+                break;
+            case 3:
+                topRow.setBackgroundResource(R.color.purple);
+                break;
+            default:
+                break;
+        }
+    };
+
+    private  class getBalance extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+
+            //ставим нужные нам параметры
+            jParser.setParam("token", token);
+            jParser.setParam("action", "balance_get");
+            // Getting JSON from URL
+
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+            if(json!=null) {
+                String s="";
+                try {
+                    s = json.getString("error");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if("false".equals(s)){
+                    try {
+                        //String s1=new String("Баланс: " + json.getString("balance")+" изюминок ", "");
+                        count.setText(json.getString("balance")+" ");
+                        count.append(getResources().getString(R.string.Wallet2));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //adapter.notifyDataSetChanged();
+                }else{
+                    if(s.equals("13")){
+                        Toast.makeText(getApplicationContext(),"Неверная сумма", Toast.LENGTH_SHORT);
+                    }else if(s.equals("22")){
+                        Toast.makeText(getApplicationContext(),"Не синхронизировано с сервером", Toast.LENGTH_SHORT);
                     }
                 }
             }

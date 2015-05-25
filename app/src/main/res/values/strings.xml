@@ -16,6 +16,8 @@
     <string name="search_online">В сети:</string>
     <string name="Search_set">Поиск по параметрам</string>
     <string name="Search">Поиск</string>
+    <string name="Wallet">Баланс: </string>
+    <string name="Wallet2">изюминок</string>
 
     <string-array name="sex">
         <item>Ж</item>

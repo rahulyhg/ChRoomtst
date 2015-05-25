@@ -646,7 +646,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(s.equals("false")){
+                if("false".equals(s)){
                     try {
                         realNum = json.getString("total");
                         Log.e("num", realNum);
@@ -683,7 +683,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                                     //if(attache_total>0){
                                         try {
                                             String attacheStatus=messag.getString("attache");
-                                            if(!attacheStatus.equals("false")){
+                                            if((!attacheStatus.equals("false"))&&(!"".equals(attacheStatus))){
                                                 JSONArray attaches= messag.getJSONArray("attache");
                                                 if(!attaches.getString(0).equals("false")){
                                                     for(int t=0; t<attaches.length(); t++){
@@ -715,7 +715,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                                     ///if(attache_total>0){
                                     try {
                                         String attacheStatus=messag.getString("attache");
-                                        if(!attacheStatus.equals("false")){
+                                        if((!attacheStatus.equals("false"))&&(!"".equals(attacheStatus))){
                                             JSONArray attaches= messag.getJSONArray("attache");
                                             if(!attaches.getString(0).equals("false")){
                                                 for(int t=0; t<attaches.length(); t++){
@@ -811,7 +811,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(s.equals("false")){
+                if("false".equals(s)){
                     try {
                         realNum = json.getString("total");
                         lastId = json.getString("lastid");
@@ -926,7 +926,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     e.printStackTrace();
                 }
 
-                if(status.equals("false"))
+                if("false".equals(status))
                 {
                     favorite = "false";
                     FavoritesFragment.findNremove(userId);
@@ -1106,7 +1106,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     e.printStackTrace();
                 }
 
-                if (status.equals("false")) {
+                if ("false".equals(status)) {
                     favorite = "true";
                     if(!fromShake){
                         ConversationsFragment.update();
@@ -1157,7 +1157,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     e.printStackTrace();
                 }
 
-                if (status.equals("false")) {
+                if ("false".equals(status)) {
 
                     Toast.makeText(getApplicationContext(), "Пользователь успешно добавлен в черный список!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -1208,7 +1208,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     e.printStackTrace();
                 }
 
-                if (status.equals("false")) {
+                if ("false".equals(status)) {
                     msgCount=0;
                     messages.clear();
                     adapter.notifyDataSetChanged();
@@ -1487,7 +1487,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 } catch (JSONException e) {
                     Log.e("saveToken", e.toString());
                 }
-                if(status.equals("false"))
+                if("false".equals(status))
                 {
                     //Toast.makeText(getApplicationContext(), "Изображение успешно загружено на сервер!", Toast.LENGTH_LONG).show();
                     try {
@@ -1579,7 +1579,9 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
 
         @Override
         public void onReceive(Context context, Intent intent) {
-               setAdapter(intent.getStringArrayListExtra("list"));
+            if(intent.getBooleanExtra("final", false)) {
+                setAdapter(intent.getStringArrayListExtra("list"));
+            }
             /*int i=0;
             for(String s:intent.getStringArrayExtra("list")){
                 pickedPhotos[i]=s;

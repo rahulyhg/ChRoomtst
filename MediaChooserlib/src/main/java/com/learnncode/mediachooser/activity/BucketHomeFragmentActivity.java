@@ -251,6 +251,7 @@ public class BucketHomeFragmentActivity extends FragmentActivity {
 						Intent imageIntent = new Intent();
 						imageIntent.setAction(MediaChooser.IMAGE_SELECTED_ACTION_FROM_MEDIA_CHOOSER);
 						imageIntent.putStringArrayListExtra("list", mSelectedImage);
+						imageIntent.putExtra("final", true);
 						sendBroadcast(imageIntent);
 					}
 					finish();

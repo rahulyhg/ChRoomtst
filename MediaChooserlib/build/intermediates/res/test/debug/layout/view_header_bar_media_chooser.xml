@@ -25,7 +25,8 @@
         android:layout_toRightOf="@id/backArrowImageViewFromMediaChooserHeaderView"
         android:text="@string/image"
         android:textColor="@color/headerbar_title_color"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/doneTextViewViewFromMediaChooserHeaderView"
@@ -34,7 +35,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
-        android:text="@string/done"
+        android:text="Готово"
         android:textColor="@color/headerbar_title_color"
         android:textSize="23sp" />
 

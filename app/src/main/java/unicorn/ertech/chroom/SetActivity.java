@@ -147,12 +147,12 @@ public class SetActivity extends Activity {
                 showActivity(SetChat.class);
             }
         });
-        /*laySetWallet.setOnClickListener(new View.OnClickListener() {
+        laySetWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showActivity(SetWallet.class);
             }
-        });*/
+        });
         laySetColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

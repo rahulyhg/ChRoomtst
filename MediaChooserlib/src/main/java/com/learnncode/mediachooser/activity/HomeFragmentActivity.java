@@ -265,6 +265,7 @@ VideoFragment.OnVideoSelectedListener{
 							Intent imageIntent = new Intent();
 							imageIntent.setAction(MediaChooser.IMAGE_SELECTED_ACTION_FROM_MEDIA_CHOOSER);
 							imageIntent.putStringArrayListExtra("list", imageFragment.getSelectedImageList());
+							imageIntent.putExtra("final", false);
 							sendBroadcast(imageIntent);
 						}
 					}

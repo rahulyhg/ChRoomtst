@@ -265,7 +265,7 @@ public class SearchParam extends Fragment {
                 e.printStackTrace();
             }
 
-            if(status.equals("false"))
+            if("false".equals(status))
             {
                 String num = "";
                 try {
@@ -288,6 +288,7 @@ public class SearchParam extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    results.clear();
                     for (int i = 0; i < Integer.parseInt(num); i++)
                     {
                         try {
