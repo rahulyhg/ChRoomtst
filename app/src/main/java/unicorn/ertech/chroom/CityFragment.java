@@ -10,8 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +18,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -36,42 +33,40 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Timur on 08.01.2015.
  */
-public class CityFragment extends android.support.v4.app.Fragment {
+public class CityFragment extends android.support.v4.app.Fragment implements InterfaceSet{
     private Context context;
     EditText txtSend;
-    ImageButton butSmile;
     public int pageNumber;
-    RelativeLayout rellay;
-    int backColor;
+    int state;
     int msgCount;
     ListView lvChat;
     JSONObject json;
     Timer myTimer;
     boolean firsTime;
-    boolean stopTImer = false ;
+    boolean stopTImer = true ;
     List<chatMessage> messages = new ArrayList<chatMessage>();
     String URL = "http://im.topufa.org/index.php";
     String lastID1, lastID2,lastID3,lastID4, msgNum="0", room, outMsg, token, myID,deleted_total="0" ;
 
+
+    SmileManager sMgr;
     private ArrayList<HashMap<String, Object>> regionList;
     private static final String TITLE = "message_author"; // Верхний текст
     private static final String DESCRIPTION = "message_body"; // ниже главного
     private static final String ICON = "avatar";  // будущая картинка
     chatAdapter adapter;
+    globalChat2 chatTask;
+
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -87,8 +82,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
             }
         }
         // messagesNews.add(0,"News");
-        Random rnd = new Random();
-        backColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         SharedPreferences sPref = getActivity().getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
         if(sPref.contains("regSrv")){
             room=Integer.toString(sPref.getInt("regSrv",3296));
@@ -100,27 +93,30 @@ public class CityFragment extends android.support.v4.app.Fragment {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
-                    //room = "3296";
+                    String str = "Oblast = " + stopTImer;
+                    str += " Position " + state;
+                    if (!stopTImer) Log.e("StopTimer",str);
+//                    //room = "3296";
                     if(!stopTImer) {
-                        new globalChat2().execute();
+                        chatTask = new globalChat2();
+                        chatTask.execute();
                     }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 4L * 1000);
+        },  0, 2L * 1000);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //задаем разметку фрагменту
-        final View view = inflater.inflate(R.layout.fragment_blank2, container, false);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
 
-        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button22);
-        butSmile = (ImageButton) view.findViewById(R.id.butSmile2);
-        lvChat = (ListView)view.findViewById(R.id.lvChat2);
+        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
+        lvChat = (ListView)view.findViewById(R.id.lvChat);
         txtSend = (EditText) view.findViewById(R.id.editText1);
         firsTime = true;
         //token = Main.str;
@@ -137,9 +133,8 @@ public class CityFragment extends android.support.v4.app.Fragment {
         adapter = new chatAdapter(messages,getActivity().getApplicationContext());
         HashMap<String, Object> hm;
         lvChat.setAdapter(adapter);
-        final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable2);
-        final smileManager sMgr = new smileManager(getActivity());
-        sMgr.initSmiles(smileTable, txtSend);
+        sMgr = new SmileManager(getActivity(), context, view);
+        view = sMgr.setView();
 
         final Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_animation);
         //rellay=(RelativeLayout)view.findViewById(R.id.relLay1);
@@ -161,25 +156,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
 
             }
         });
-        butSmile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //smileTable.startAnimation(anim);
-                if(smileTable.getVisibility()==View.GONE){
-                    sMgr.setVisibleSmile(true);
-                }else{
-                    sMgr.setVisibleSmile(false);
-                }
-                butSend.refreshDrawableState();
-                butSmile.refreshDrawableState();
-                txtSend.refreshDrawableState();
-                //RelativeLayout.LayoutParams params = rellay.getLayoutParams();
-                //butSend.setLayoutParams(butSmile.getLayoutParams());
-                //butSmile.setTop(butSmile.getTop() - smileTable.getLayoutParams().height);
-                //butSend.setTop(butSmile.getTop());
-                //txtSend.setTop(butSmile.getTop());
-            }
-        });
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,12 +164,12 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 outMsg = txtSend.getText().toString();
                 new OutMsg().execute();
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
-                smileTable.setVisibility(View.GONE);
                 txtSend.setText("");
             }
         });
         return view;
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -201,13 +177,27 @@ public class CityFragment extends android.support.v4.app.Fragment {
         return activeNetworkInfo != null;
     }
 
+    @Override
+    public void Start(int state) {
+        stopTImer = false;
+        this.state = state;
+    }
+
+    @Override
+    public void Stop() {
+        stopTImer = true;
+        if (chatTask != null && !chatTask.isCancelled()){
+            chatTask.cancel(stopTImer);
+        }
+    }
+
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
+
         @Override
         protected JSONObject doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
@@ -217,11 +207,11 @@ public class CityFragment extends android.support.v4.app.Fragment {
             jParser.setParam("action", "globe_send");
             jParser.setParam("room", room);
             jParser.setParam("message", outMsg);
-            //jParser.setParam("deviceid", "");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
             return json;
         }
+
         @Override
         protected void onPostExecute(JSONObject json) {
 
@@ -275,24 +265,24 @@ public class CityFragment extends android.support.v4.app.Fragment {
             JSONArray arr = null;
             String s = null;
             JSONObject messag = null;
-            Log.e("room", room);
+            Log.e("Region_room", room);
             try {
                 msgNum = json.getString("total");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                Log.e("pageNumber", pageNumber + "");
+                Log.e("Region_pageNumber", pageNumber + "");
                 lastid = json.getString("lastid");
-                Log.e("lastid", lastid);
-                Log.e("lastID", lastID2);
+                Log.e("Region_lastid", lastid);
+                Log.e("Region_lastID", lastID2);
                 if (lastID2.equals(lastid)) {
                     lastID2 = json.getString("lastid");
                 } else {
                     flag = true;
                     lastID2 = json.getString("lastid");
                     msgNum = json.getString("total");
-                    Log.e("msgNum", msgNum);
+                    Log.e("Region_msgNum", msgNum);
                     s = json.getString("data");
                     arr = new JSONArray(s);
                     deleted_total = json.getString("total-deleted");
@@ -319,7 +309,7 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                     try {
                         messag = new JSONObject(arr.get(i).toString());
-                        Log.e("messagcity", messag.toString());
+                        Log.e("Region_messagcity", messag.toString());
                         if (firsTime) {
                             messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
@@ -331,7 +321,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (NullPointerException e) {
-                        Log.e("NullPointerException", e.toString());
                     }
                 }
 
@@ -347,9 +336,8 @@ public class CityFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onDestroy(){
-        myTimer.cancel();
-        Log.e("json", "destroy");
         super.onDestroy();
+        myTimer.cancel();
     }
 
     @Override
@@ -373,8 +361,8 @@ public class CityFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onPause(){
-        stopTImer=true;
         super.onPause();
+        stopTImer=true;
     }
 
     public void checkInList(String ID) {
@@ -387,5 +375,13 @@ public class CityFragment extends android.support.v4.app.Fragment {
                 return;
             }
         }
+    }
+
+    @Override
+    public boolean windowDismiss() {
+        if(sMgr.windowIsShowing()){
+            return sMgr.windowDismiss();
+        }
+        return false;
     }
 }

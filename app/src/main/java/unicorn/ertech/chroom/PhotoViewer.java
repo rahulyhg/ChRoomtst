@@ -35,21 +35,16 @@ public class PhotoViewer extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_viewer);
-        //imgview = (TouchImageView)findViewById(R.id.ivPhotoViewer);
         mPicasso = Picasso.with(getApplicationContext());
         photoURLs = getIntent().getStringArrayExtra("photos");
-        //if((photoURLs[4]!=null)&&(!photoURLs[4].equals(""))) {
-       //     mPicasso.load(photoURLs[4]).into(imgview);
-        //}
 
         LayoutInflater inflater = LayoutInflater.from(this);
         List<View> pages = new ArrayList<View>();
         View page;
+
         if(!photoURLs[9].equals("http://im.topufa.org/")) {
             page = inflater.inflate(R.layout.photo_fragment, null);
             TouchImageView imgview = (TouchImageView) page.findViewById(R.id.ivPhotoViewer);
-            /*final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.loading_anim);
-            imgview.startAnimation(myAnim);*/
             mPicasso.load(photoURLs[9]).into(imgview);
             pages.add(page);
         }

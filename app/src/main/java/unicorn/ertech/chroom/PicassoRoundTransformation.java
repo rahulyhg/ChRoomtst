@@ -3,7 +3,9 @@ package unicorn.ertech.chroom;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 
 import com.squareup.picasso.Transformation;
 
@@ -11,6 +13,7 @@ import com.squareup.picasso.Transformation;
  * Created by Timur on 14.01.2015.
  */
 public class PicassoRoundTransformation implements Transformation {
+
     @Override
     public Bitmap transform(Bitmap source) {
         return convertToCircle(source, false);

@@ -259,7 +259,6 @@ public class SearchResult extends Activity {
             Spinner hereforSpinner=(Spinner)layout.findViewById(R.id.spinSearchHerefor);
             Spinner city = (Spinner)layout.findViewById(R.id.etSearchCity);
             TextView age_from = (TextView)layout.findViewById(R.id.etSearchAge1);
-            EditText age_till = (EditText)layout.findViewById(R.id.etSearchAge2);
             String online = "1";
             //String token = Main.str;
 

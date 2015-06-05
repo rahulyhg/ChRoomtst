@@ -9,25 +9,16 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.widget.AppCompatPopupWindow;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -38,16 +29,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Timur on 08.01.2015.
  */
-public class AdsFragment extends Fragment {
+public class AdsFragment extends Fragment implements InterfaceSet{
         private Context context;
         public int pageNumber;
         ImageButton butSmile;
@@ -63,7 +51,10 @@ public class AdsFragment extends Fragment {
         private ArrayList<HashMap<String, Object>> citiList;
         final String SAVED_CITY = "city";
         chatAdapter adapter;
-        boolean stopTImer = false ;
+        boolean stopTImer = true;
+        int state;
+        globalChat1 chatTask;
+        SmileManager sMgr;
 
         /** Handle the results from the voice recognition activity. */
         @Override
@@ -74,7 +65,6 @@ public class AdsFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         pageNumber=0;
         SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
@@ -97,8 +87,12 @@ public class AdsFragment extends Fragment {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
+                    String str = "City = " + stopTImer;
+                    str += " Position " + state;
+                    if (!stopTImer) Log.e("StopTimer",str);
                     if(!stopTImer) {
-                        new globalChat1().execute();
+                        chatTask = new globalChat1();
+                        chatTask.execute();
                     }
                 }
                 else
@@ -106,24 +100,23 @@ public class AdsFragment extends Fragment {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 4L * 1000);
+        }, 0, 2L * 1000);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //задаем разметку фрагменту
-        final View view = inflater.inflate(R.layout.fragment_blank, container, false);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
         final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
-        butSmile = (ImageButton) view.findViewById(R.id.butSmile);
+//        butSmile = (ImageButton) view.findViewById(R.id.butSmile);
         lvChat = (ListView)view.findViewById(R.id.lvChat);
-        txtSend = (EditText) view.findViewById(R.id.editText1);
-        final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable1);
+        txtSend=(EditText)view.findViewById(R.id.editText1);
         firsTime = true;
 
-        final smileManager sMgr = new smileManager(getActivity());
-        sMgr.initSmiles(smileTable, txtSend);
+        sMgr = new SmileManager(getActivity(), context, view);
+        view = sMgr.setView();
         //token = Main.str;
         //room = "11";
         msgCount=0;
@@ -146,8 +139,10 @@ public class AdsFragment extends Fragment {
         //tvPage.setBackgroundColor(backColor);
 
         lvChat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id)
             {
+                sMgr.windowDismiss();
 
                 String UserId = adapter.getItem(position).uid;
                 String nick = adapter.getItem(position).from;
@@ -170,27 +165,12 @@ public class AdsFragment extends Fragment {
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                         //room = "11";
-                        outMsg = txtSend.getText().toString();
-                        new OutMsg().execute();
-                        imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
+                outMsg = txtSend.getText().toString();
+                sMgr.windowDismiss();
+                new OutMsg().execute();
+                imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
 
                 txtSend.setText("");
-                //lstAdptr.notifyDataSetChanged();
-            }
-        });
-
-        butSmile.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if(smileTable.getVisibility()==View.GONE){
-                    sMgr.setVisibleSmile(true);
-                }else{
-                    sMgr.setVisibleSmile(false);
-                }
-                butSend.refreshDrawableState();
-                butSmile.refreshDrawableState();
-                txtSend.refreshDrawableState();
             }
         });
         return view;
@@ -201,6 +181,28 @@ public class AdsFragment extends Fragment {
                 = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    @Override
+    public void Start(int state) {
+        stopTImer = false;
+        this.state = state;
+    }
+
+    @Override
+    public void Stop() {
+        stopTImer = true;
+        if (chatTask != null && !chatTask.isCancelled()){
+            chatTask.cancel(stopTImer);
+        }
+    }
+
+    @Override
+    public boolean windowDismiss() {
+        if(sMgr.windowIsShowing()){
+            return sMgr.windowDismiss();
+        }
+        return false;
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -222,9 +224,9 @@ public class AdsFragment extends Fragment {
             jParser.setParam("message", outMsg);
             //jParser.setParam("deviceid", "");
             // Getting JSON from URL
-            Log.e("sendjson", "1111");
+            Log.e("City_sendjson", "1111");
             JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("receivedjson", "2222");
+            Log.e("City_receivedjson", "2222");
             return json;
         }
         @Override
@@ -238,7 +240,7 @@ public class AdsFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            if(status.equals("false"))
+            if("false".equals(status))
             {
                 Toast.makeText(getActivity().getApplicationContext(),"Сообщение успешно добавлено!",Toast.LENGTH_SHORT).show();
             }
@@ -268,9 +270,9 @@ public class AdsFragment extends Fragment {
             jParser.setParam("deviceid", "");
             //jParser.setParam("device_id", "dsfadfg");
             // Getting JSON from URL
-            Log.e("sendjson", "1111");
+            Log.e("City_sendjson", "1111");
             JSONObject json = jParser.getJSONFromUrl(URL);
-            Log.e("sendjson", "2222");
+            Log.e("City_sendjson", "2222");
             return json;
         }
         @Override
@@ -283,24 +285,24 @@ public class AdsFragment extends Fragment {
             JSONArray arr = null;
             String s = null;
             JSONObject messag = null;
-            Log.e("room", room);
+            Log.e("City_room", room);
             try {
                 msgNum = json.getString("total");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                Log.e("pageNumber", pageNumber + "");
+                Log.e("City_pageNumber", pageNumber + "");
                 lastid = json.getString("lastid");
-                Log.e("lastid", lastid);
-                Log.e("lastID", lastID1);
+                Log.e("City_lastid", lastid);
+                Log.e("City_lastID", lastID1);
                 if (lastID1.equals(lastid)) {
                     lastID1 = json.getString("lastid");
                 } else {
                     flag = true;
                     lastID1 = json.getString("lastid");
                     msgNum = json.getString("total");
-                    Log.e("msgNum", msgNum);
+                    Log.e("City_msgNum", msgNum);
                     s = json.getString("data");
                     arr = new JSONArray(s);
                     deleted_total = json.getString("total-deleted");
@@ -311,7 +313,7 @@ public class AdsFragment extends Fragment {
             }
 
             if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
-                Log.e("sendjson", "3333loop");
+                Log.e("City_sendjson", "3333loop");
                 if(!deleted_total.equals("0"))
                 {
                     try {
@@ -329,7 +331,7 @@ public class AdsFragment extends Fragment {
                 for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                     try {
                         messag = new JSONObject(arr.get(i).toString());
-                        Log.e("messagads", messag.toString());
+                        Log.e("City_messagads", messag.toString());
                         if (firsTime) {
                             messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
@@ -340,10 +342,9 @@ public class AdsFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (NullPointerException e) {
-                        Log.e("NullPointerException", e.toString());
                     }
                 }
-                Log.e("sendjson", "loop4");
+                Log.e("City_sendjson", "loop4");
 
 
                 firsTime = false;
@@ -358,9 +359,9 @@ public class AdsFragment extends Fragment {
 
     @Override
     public void onDestroy(){
-        myTimer.cancel();
-        Log.e("json", "destroy");
         super.onDestroy();
+        myTimer.cancel();
+        Log.e("City_json", "destroy");
     }
 
     public void onResume(){
@@ -394,9 +395,6 @@ public class AdsFragment extends Fragment {
 
     @Override
     public void onPause(){
-        stopTImer=true;
-        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
         super.onPause();
     }
 }

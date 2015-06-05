@@ -2,13 +2,17 @@ package unicorn.ertech.chroom;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -24,48 +28,69 @@ import java.util.List;
  * Created by Timur on 04.01.2015.
  */
 public class Search extends FragmentActivity {
-    SearchParam frag1;
-    SearchMain frag2;
-    SearchRandom frag3;
-    ShareNetworks frag4;
-    FragmentTransaction fTrans;
+
+    final String SAVED_COLOR = "color";
+
+    public static final int FRAGMENT_ONE = 0;
+    public static final int FRAGMENT_TWO = 1;
+    public static final int FRAGMENT_THREE = 2;
+    public static final int FRAGMENT_FOUR = 3;
+    public static final int FRAGMENTS = 3;
+    private final List<Fragment> _fragments = new ArrayList<Fragment>();
+
+    ViewPager pager;
+    PagerAdapter pagerAdapter;
+    com.kpbird.triangletabs.PagerSlidingTabStrip tabs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Log.i("searchCreate",)
         setContentView(R.layout.search_main);
-        frag1 = new SearchParam();
-        frag2 = new SearchMain();
-        frag3 = new SearchRandom();
-        frag4 = new ShareNetworks();
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag2);
-        //fTrans.addToBackStack(null);
-        fTrans.commit();
-        Log.i("search", "create");
 
+        _fragments.add(FRAGMENT_ONE, new ShareNetworks());
+        _fragments.add(FRAGMENT_TWO, new SearchParam());
+        _fragments.add(FRAGMENT_THREE, new SearchRandom());
+
+        pager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
+        // Bind the tabs to the ViewPager
+        tabs = (com.kpbird.triangletabs.PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip);
+        tabs.setViewPager(pager);
+        pager.setCurrentItem(1);
     }
 
-    public void startParam(){
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag1);
-        fTrans.addToBackStack(null);
-        fTrans.commit();
-    }
+    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    public void startRandom(){
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag3);
-        fTrans.addToBackStack(null);
-        fTrans.commit();
-    }
+        public MyFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-    public void startShare(){
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag4);
-        fTrans.addToBackStack(null);
-        fTrans.commit();
+
+        @Override
+        public Fragment getItem(int position) {
+            return _fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return FRAGMENTS;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch(position){
+                case 0:
+                    return "Поделиться в соцсетях";
+                case 1:
+                    return "Поиск";
+                case 2:
+                    return "Встряска";
+            }
+            return "Title " + position;
+        }
+
     }
 
     @Override
@@ -78,28 +103,13 @@ public class Search extends FragmentActivity {
     @Override
     public void onResume(){
         super.onResume();
-        boolean tmp = frag2.isAdded();
-        Log.i("searchResume",Boolean.toString(tmp));
-        if(frag2==null){
-            fTrans = getSupportFragmentManager().beginTransaction();
-            fTrans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            //fTrans.remove(frag2);
-            fTrans.replace(R.id.frgmCont, frag2);
-            //fTrans.addToBackStack(null);
-            fTrans.commitAllowingStateLoss();
-        }
+        tabs.setTextColor(getResources().getColor(R.color.white));
+        tabs.setTabPaddingLeftRight(0);
+        tabs.setBackgroundResource(R.color.izum_blue);
     }
 
     @Override
     public void onPause(){
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.remove(frag2);
         super.onPause();
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.i("search", "start");
     }
 }

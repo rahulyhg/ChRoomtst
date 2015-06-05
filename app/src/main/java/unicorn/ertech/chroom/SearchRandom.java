@@ -40,7 +40,6 @@ public class SearchRandom extends Fragment {
     Sensor sensorLinAccel;
     Sensor sensorGravity;
     ImageView buttonStart;
-    TextView title;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php", token;
     int tryCount=0;
@@ -70,7 +69,6 @@ public class SearchRandom extends Fragment {
         sensorLinAccel = sensorManager
                 .getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         sensorGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        title=(TextView)view.findViewById(R.id.tvSearchRndTitle);
         buttonStart = (ImageView)view.findViewById(R.id.ivSearchRnd);
         myAnim = AnimationUtils.loadAnimation(context, R.anim.vibro_anim);
         myAnim.setRepeatCount(10);
@@ -102,7 +100,6 @@ public class SearchRandom extends Fragment {
                 new Searching().execute();
             }
         });
-        setColor();
 
         SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
         if((userData.contains("token"))){
@@ -177,7 +174,6 @@ public class SearchRandom extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        setColor();
         sensorManager.registerListener(listener, sensorAccel,
                 SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(listener, sensorLinAccel,
@@ -328,27 +324,6 @@ public class SearchRandom extends Fragment {
             else
             {
                 Toast.makeText(getActivity().getApplicationContext(), "Ошибка при совершении поиска, проверьте Ваше подключение к Интернету!", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private void setColor(){
-        SharedPreferences sPref;
-        sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
-        if (sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                buttonStart.setImageResource(R.drawable.search_randomb);
-                title.setBackgroundResource(R.color.blue);
-            } else if (col == 0) {
-                buttonStart.setImageResource(R.drawable.search_random);
-                title.setBackgroundResource(R.color.green);
-            } else if (col == 2) {
-                buttonStart.setImageResource(R.drawable.search_randomo);
-                title.setBackgroundResource(R.color.orange);
-            } else if (col == 3) {
-                buttonStart.setImageResource(R.drawable.search_randomp);
-                title.setBackgroundResource(R.color.purple);
             }
         }
     }

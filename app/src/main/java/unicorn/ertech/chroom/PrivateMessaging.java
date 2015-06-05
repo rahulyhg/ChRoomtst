@@ -15,25 +15,19 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -59,8 +53,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ch.boye.httpclientandroidlib.Header;
 import ch.boye.httpclientandroidlib.HttpEntity;
@@ -105,6 +97,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
     SwipeRefreshLayout swipeLayout;
     String pathToUserPhoto = new String();
     static final int GALLERY_REQUEST = 1;
+    final Object nullObject = null;
 
     SharedPreferences Notif;
     SharedPreferences.Editor ed2;
@@ -154,8 +147,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
         BB=(TableRow)findViewById(R.id.big_button);
         tvCancelAttach=(TextView)findViewById(R.id.tvCancelAttach);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
-        final smileManager sMgr = new smileManager(this);
-        sMgr.initSmiles(smileTable, txtSend);
+//        final SmileManager sMgr = new SmileManager(this, this, getCurrentFocus());
         topRow=(RelativeLayout)findViewById(R.id.topRowChat);
         rlAttach=(RelativeLayout)findViewById(R.id.rlAttach);
         progressBar=(CircleProgressBar)findViewById(R.id.pbPhoto);
@@ -291,13 +283,13 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                 int savedPosition = lvChat.getFirstVisiblePosition();
                 lvChat.setSelectionFromTop(savedPosition,60);
                 //lvChat.setSelection
-                if (smileTable.getVisibility() == View.GONE) {
-                    sMgr.setVisibleSmile(true);
-
-                } else {
-                    sMgr.setVisibleSmile(false);
-
-                }
+//                if (smileTable.getVisibility() == View.GONE) {
+//                    sMgr.setVisibleSmile(true);
+//
+//                } else {
+//                    sMgr.setVisibleSmile(false);
+//
+//                }
             }
         });
 
@@ -444,7 +436,7 @@ public class PrivateMessaging extends Activity implements SwipeRefreshLayout.OnR
                     e.printStackTrace();
                 }
 
-                if (status.equals("false")) {
+                if ("false".equals(status)) {
                     attached_ID="";
                     rlAttach.setVisibility(View.GONE);
                     attachedPhoto.setVisibility(View.GONE);

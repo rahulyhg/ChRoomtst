@@ -1,9 +1,6 @@
 package unicorn.ertech.chroom;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Ильнур on 19.01.2015.
@@ -58,16 +49,16 @@ public class anonChatAdapter extends ArrayAdapter<anonChat> {
             holder = (chatHolder) v.getTag();
         }
         anonChat p = chat.get(position);
-        holder.tvMsg.setText(smileManager.getSmiledText(getContext(),p.getMessage()));
+        holder.tvMsg.setText(SmileManager.getSmiledText(getContext(), p.getMessage()));
         holder.tvFrom.setText(p.from);
         if(p.getSex().equals("1"))//если мужской пол
         {
             //holder.img.setImageDrawable(getContext().getResources().getDrawable(getContext().getResources().getIdentifier("drawable/like_fill", "drawable", getContext().getPackageName())));
-            holder.img.setImageResource(R.drawable.man);
+            holder.img.setImageResource(R.drawable.man_for_anon);
         }
         else
         {
-            holder.img.setImageResource(R.drawable.women);
+            holder.img.setImageResource(R.drawable.woman_for_anon);
             //holder.img.setImageDrawable(getContext().getResources().getDrawable(getContext().getResources().getIdentifier("drawable/kiss_fill", "drawable", getContext().getPackageName())));
         }
 

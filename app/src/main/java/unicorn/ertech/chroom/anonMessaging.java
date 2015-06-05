@@ -9,17 +9,11 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,8 +22,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -37,15 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class anonMessaging extends Activity {
@@ -172,8 +159,7 @@ public class anonMessaging extends Activity {
         }, 1L * 250, 2L * 1000);
         final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
 
-        final smileManager sMgr = new smileManager(this);
-        sMgr.initSmiles(smileTable, txtSend);
+//        final SmileManager sMgr = new SmileManager(this, this, this.getCurrentFocus());
         butSmile.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -181,11 +167,11 @@ public class anonMessaging extends Activity {
                 int savedPosition = lvChat.getFirstVisiblePosition();
                 lvChat.setSelectionFromTop(savedPosition,60);
                 //lvChat.setSelection
-                if (smileTable.getVisibility() == View.GONE) {
-                    sMgr.setVisibleSmile(true);
-                } else {
-                    sMgr.setVisibleSmile(false);
-                }
+//                if (smileTable.getVisibility() == View.GONE) {
+//                    sMgr.setVisibleSmile(true);
+//                } else {
+//                    sMgr.setVisibleSmile(false);
+//                }
             }
         });
     }

@@ -5,6 +5,19 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="style_Find">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:background">@drawable/cornersspinner</item>
+    </style>
+
     <style name="spinner_style">
         <item name="android:background">@drawable/spinner_with_arrows</item>
         <item name="android:layout_marginLeft">5dp</item>

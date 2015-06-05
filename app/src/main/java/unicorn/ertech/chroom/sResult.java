@@ -6,7 +6,7 @@ package unicorn.ertech.chroom;
 public class sResult {
     String name;
     String picUrl;
-   public String uid;
+    String uid;
 
     public  sResult(String UID, String NAME, String PIC)
     {

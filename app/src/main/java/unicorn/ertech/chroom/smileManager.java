@@ -1,19 +1,23 @@
 package unicorn.ertech.chroom;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
+import android.graphics.Rect;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,181 +28,267 @@ import java.util.regex.Pattern;
 /**
  * Created by Azat on 16.04.15.
  */
-public class smileManager{
+public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.OnKeyListener{
 
-    int smileCount = 34;
+    private static final int SMILECOUNT = 34;
     final String TEST = "TEST PROGRAM";
-    ArrayList<ImageView> imgList = new ArrayList<ImageView>();
+
     ArrayList<Integer> arrayID = new ArrayList();
-    ArrayList<smileManagerHolder> arraySmile = new ArrayList<>();
+    ArrayList<SmileManagerHolder> arraySmile = new ArrayList<>();
+
     Context context;
+
+    private int keyboardHeight;
+    private View popUpView;
+    private PopupWindow popupWindow;
+    private LinearLayout smilesCover;
+    private boolean isKeyBoardVisible;
+    private LinearLayout parentLayout;
+    private ImageButton smilesButton;
+    private EditText content;
+
+
+
     View view;
-    EditText editText;
-    TableLayout smileTable;
-    Activity activity;
-    boolean keyboard, smiles;
+    FragmentActivity activity;
 
-    public smileManager(Activity activity) {
+    public SmileManager(FragmentActivity activity, Context context, View view) {
 
-        this.context = activity.getApplicationContext();
+        this.context = context;
         this.activity = activity;
+        this.view = view;
 
-        keyboard = smiles = false;
+        init();
 
-        for(int i=0;i<smileCount;i++){
+    }
+
+    private void init(){
+
+        for(int i=0; i<SMILECOUNT; i++){
             int sum = i + 1;
             int resID = context.getResources().getIdentifier("s" + sum, "drawable", context.getPackageName());
             arrayID.add(resID);
         }
 
-        arraySmile.add(new smileManagerHolder(":)", arrayID.get(0)));
-        arraySmile.add(new smileManagerHolder(";)", arrayID.get(1)));
-        arraySmile.add(new smileManagerHolder(":/", arrayID.get(2)));
-        arraySmile.add(new smileManagerHolder("xD", arrayID.get(3)));
-        arraySmile.add(new smileManagerHolder(":D", arrayID.get(4)));
-        arraySmile.add(new smileManagerHolder("o_0", arrayID.get(5)));
-        arraySmile.add(new smileManagerHolder(":|", arrayID.get(6)));
-        arraySmile.add(new smileManagerHolder("8)", arrayID.get(7)));
-        arraySmile.add(new smileManagerHolder(":(", arrayID.get(8)));
-        arraySmile.add(new smileManagerHolder(":*(", arrayID.get(9)));
-        arraySmile.add(new smileManagerHolder(">:(", arrayID.get(10)));
-        arraySmile.add(new smileManagerHolder(":-o", arrayID.get(11)));
-        arraySmile.add(new smileManagerHolder(">:|", arrayID.get(12)));
-        arraySmile.add(new smileManagerHolder(":'(", arrayID.get(13)));
-        arraySmile.add(new smileManagerHolder("%-|", arrayID.get(14)));
-        arraySmile.add(new smileManagerHolder("*love*", arrayID.get(15)));
-        arraySmile.add(new smileManagerHolder(":*", arrayID.get(16)));
-        arraySmile.add(new smileManagerHolder("x0", arrayID.get(17)));
-        arraySmile.add(new smileManagerHolder(":-))", arrayID.get(18)));
-        arraySmile.add(new smileManagerHolder(":p", arrayID.get(19)));
-        arraySmile.add(new smileManagerHolder(">:/", arrayID.get(20)));
-        arraySmile.add(new smileManagerHolder(":X", arrayID.get(21)));
-        arraySmile.add(new smileManagerHolder("(:)", arrayID.get(22)));
-        arraySmile.add(new smileManagerHolder(":-!", arrayID.get(23)));
-        arraySmile.add(new smileManagerHolder("dog", arrayID.get(24)));
-        arraySmile.add(new smileManagerHolder("fox", arrayID.get(25)));
-        arraySmile.add(new smileManagerHolder("giraffe", arrayID.get(26)));
-        arraySmile.add(new smileManagerHolder("hamster", arrayID.get(27)));
-        arraySmile.add(new smileManagerHolder("koala", arrayID.get(28)));
-        arraySmile.add(new smileManagerHolder("lemur", arrayID.get(29)));
-        arraySmile.add(new smileManagerHolder("owl", arrayID.get(30)));
-        arraySmile.add(new smileManagerHolder("panda", arrayID.get(31)));
-        arraySmile.add(new smileManagerHolder("seal", arrayID.get(32)));
-        arraySmile.add(new smileManagerHolder("idler", arrayID.get(33)));
-        arraySmile.add(new smileManagerHolder(":-)", arrayID.get(0)));
-        arraySmile.add(new smileManagerHolder(";-)", arrayID.get(1)));
-        arraySmile.add(new smileManagerHolder(":-/", arrayID.get(2)));
-        arraySmile.add(new smileManagerHolder("XD", arrayID.get(3)));
-        arraySmile.add(new smileManagerHolder(":-D", arrayID.get(4)));
-        arraySmile.add(new smileManagerHolder(":-|", arrayID.get(6)));
-        arraySmile.add(new smileManagerHolder("8-)", arrayID.get(7)));
-        arraySmile.add(new smileManagerHolder(":-(", arrayID.get(8)));
-        arraySmile.add(new smileManagerHolder(":-*", arrayID.get(16)));
-        arraySmile.add(new smileManagerHolder("x-0", arrayID.get(17)));
-        arraySmile.add(new smileManagerHolder(":-p", arrayID.get(19)));
-    }
+        parentLayout = (LinearLayout) view.findViewById(R.id.list_parent);
+        popUpView = activity.getLayoutInflater().inflate(R.layout.smile_popup, null);
+        smilesCover = (LinearLayout) view.findViewById(R.id.footer_for_emoticons);
 
-    public void setVisibleSmile(boolean visibleSmile) {
-        InputMethodManager imm =
-                (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
-        if (visibleSmile) {
-            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    smileTable.setVisibility(View.VISIBLE);
-                }
-            }, 100);
-            keyboard = !visibleSmile;
-            smiles = visibleSmile;
-            Log.e(TEST, "Smiles = " + smiles + "  ||  Keyboard = " + keyboard);
-        } else {
-            imm.showSoftInput(activity.getCurrentFocus(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    smileTable.setVisibility(View.GONE);
-                }
-            }, 50);
-            keyboard = !visibleSmile;
-            smiles = visibleSmile;
-            Log.e(TEST, "Smiles = " + smiles + "  ||  Keyboard = " + keyboard);
-        }
-    }
+        final float popUpheight = context.getResources().getDimension(
+                R.dimen.keyboard_height);
+        changeKeyboardHeight((int) popUpheight);
 
-    public void initSmiles(TableLayout smileTable, EditText editText) {
-        int sum;
-        this.editText = editText;
-        this.smileTable = smileTable;
-        for (int i = 0; i < 5; i++) {
-            TableRow smileTableRow = new TableRow(context);
-            smileTableRow.setGravity(Gravity.CENTER);
-            for (int j = 0; j < 8; j++) {
-                sum = i * 8 + j + 1;
-                if (sum <= smileCount) {
-                    ImageView smileImg = new ImageView(context);
-                    smileImg.setId(sum * 1000);
-                    smileImg.setPadding(5, 5, 5, 5);
-                    smileImg.setImageResource(arrayID.get(sum-1));
-                    smileTableRow.addView(smileImg);
-                    imgList.add(smileImg);
+        smilesButton = (ImageButton) view.findViewById(R.id.butSmile);
+        smilesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TEST, "Кнопка смайликов нажата");
+                if(!popupWindow.isShowing()){
+//                    суда нужно вписать высоту клавиатуры
+                    popupWindow.setHeight(keyboardHeight);
+
+                    if(isKeyBoardVisible){
+                        smilesCover.setVisibility(LinearLayout.GONE);
+                    } else{
+                        smilesCover.setVisibility(LinearLayout.VISIBLE);
+                    }
+                    popupWindow.showAtLocation(parentLayout, Gravity.BOTTOM, 0, 0);
+                } else {
+                    popupWindow.dismiss();
                 }
             }
-            smileTable.addView(smileTableRow);
-        }
-        this.editText.setOnKeyListener(key_press);
-        this.editText.setOnClickListener(click_edit);
+        });
+
+        smilesButton.setOnKeyListener(this);
+
+        arraySmile.add(new SmileManagerHolder(":)", arrayID.get(0)));
+        arraySmile.add(new SmileManagerHolder(";)", arrayID.get(1)));
+        arraySmile.add(new SmileManagerHolder(":/", arrayID.get(2)));
+        arraySmile.add(new SmileManagerHolder("xD", arrayID.get(3)));
+        arraySmile.add(new SmileManagerHolder(":D", arrayID.get(4)));
+        arraySmile.add(new SmileManagerHolder("o_0", arrayID.get(5)));
+        arraySmile.add(new SmileManagerHolder(":|", arrayID.get(6)));
+        arraySmile.add(new SmileManagerHolder("8)", arrayID.get(7)));
+        arraySmile.add(new SmileManagerHolder(":(", arrayID.get(8)));
+        arraySmile.add(new SmileManagerHolder(":*(", arrayID.get(9)));
+        arraySmile.add(new SmileManagerHolder(">:(", arrayID.get(10)));
+        arraySmile.add(new SmileManagerHolder(":-o", arrayID.get(11)));
+        arraySmile.add(new SmileManagerHolder(">:|", arrayID.get(12)));
+        arraySmile.add(new SmileManagerHolder(":'(", arrayID.get(13)));
+        arraySmile.add(new SmileManagerHolder("%-|", arrayID.get(14)));
+        arraySmile.add(new SmileManagerHolder("*love*", arrayID.get(15)));
+        arraySmile.add(new SmileManagerHolder(":*", arrayID.get(16)));
+        arraySmile.add(new SmileManagerHolder("x0", arrayID.get(17)));
+        arraySmile.add(new SmileManagerHolder(":-))", arrayID.get(18)));
+        arraySmile.add(new SmileManagerHolder(":p", arrayID.get(19)));
+        arraySmile.add(new SmileManagerHolder(">:/", arrayID.get(20)));
+        arraySmile.add(new SmileManagerHolder(":X", arrayID.get(21)));
+        arraySmile.add(new SmileManagerHolder("(:)", arrayID.get(22)));
+        arraySmile.add(new SmileManagerHolder(":-!", arrayID.get(23)));
+        arraySmile.add(new SmileManagerHolder("dog", arrayID.get(24)));
+        arraySmile.add(new SmileManagerHolder("fox", arrayID.get(25)));
+        arraySmile.add(new SmileManagerHolder("giraffe", arrayID.get(26)));
+        arraySmile.add(new SmileManagerHolder("hamster", arrayID.get(27)));
+        arraySmile.add(new SmileManagerHolder("koala", arrayID.get(28)));
+        arraySmile.add(new SmileManagerHolder("lemur", arrayID.get(29)));
+        arraySmile.add(new SmileManagerHolder("owl", arrayID.get(30)));
+        arraySmile.add(new SmileManagerHolder("panda", arrayID.get(31)));
+        arraySmile.add(new SmileManagerHolder("seal", arrayID.get(32)));
+        arraySmile.add(new SmileManagerHolder("idler", arrayID.get(33)));
+        arraySmile.add(new SmileManagerHolder(":-)", arrayID.get(0)));
+        arraySmile.add(new SmileManagerHolder(";-)", arrayID.get(1)));
+        arraySmile.add(new SmileManagerHolder(":-/", arrayID.get(2)));
+        arraySmile.add(new SmileManagerHolder("XD", arrayID.get(3)));
+        arraySmile.add(new SmileManagerHolder(":-D", arrayID.get(4)));
+        arraySmile.add(new SmileManagerHolder(":-|", arrayID.get(6)));
+        arraySmile.add(new SmileManagerHolder("8-)", arrayID.get(7)));
+        arraySmile.add(new SmileManagerHolder(":-(", arrayID.get(8)));
+        arraySmile.add(new SmileManagerHolder(":-*", arrayID.get(16)));
+        arraySmile.add(new SmileManagerHolder("x-0", arrayID.get(17)));
+        arraySmile.add(new SmileManagerHolder(":-p", arrayID.get(19)));
+
         bindSmilePattern();
-        bindSmileListener();
+
+
+        enablePopUpView();
+        checkKeyboardHeight(parentLayout);
+        enableFooterView();
     }
 
-    public void bindSmileListener() {
-        for (int i = 0; i < imgList.size(); i++) {
-            imgList.get(i).setOnClickListener(smile_click_listener);
+    public View setView(){
+        return this.view;
+    }
+
+    public boolean windowDismiss(){
+        if(popupWindow.isShowing())
+            popupWindow.dismiss();
+        if(isKeyBoardVisible){
+            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+        return true;
     }
 
-    private View.OnClickListener click_edit = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(smiles){
-                setVisibleSmile(false);
-                Log.e(TEST, "Smiles = " + smiles + "  ||  Keyboard = " + keyboard);
+    public boolean windowIsShowing(){
+        return popupWindow.isShowing();
+    }
+
+    private void enablePopUpView() {
+
+        ViewPager pager = (ViewPager) popUpView.findViewById(R.id.emoticons_pager);
+        pager.setOffscreenPageLimit(2);
+
+        SmilePagerAdapter adapter = new SmilePagerAdapter(activity, arrayID, this);
+        pager.setAdapter(adapter);
+
+
+        // Creating a pop window for emoticons keyboard
+        popupWindow = new PopupWindow(popUpView, LayoutParams.MATCH_PARENT,
+                (int)keyboardHeight, false);
+
+        TextView backSpace = (TextView) popUpView.findViewById(R.id.back);
+        backSpace.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+                content.dispatchKeyEvent(event);
             }
-        }
-    };
+        });
 
-    private View.OnClickListener smile_click_listener = new View.OnClickListener() {
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
-        @Override
-        public void onClick(View v) {
-            for (int i = 0; i < imgList.size(); i++) {
-                if (v.getId() == imgList.get(i).getId()) {
-                    editText.append(arraySmile.get(i).smile);
-                    break;
+            @Override
+            public void onDismiss() {
+                smilesCover.setVisibility(LinearLayout.GONE);
+            }
+        });
+    }
+
+    int previousHeightDiffrence = 0;
+    private void checkKeyboardHeight(final View parentLayout) {
+
+        parentLayout.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+
+                        Rect r = new Rect();
+                        parentLayout.getWindowVisibleDisplayFrame(r);
+
+                        int screenHeight = parentLayout.getRootView()
+                                .getHeight();
+                        int heightDifference = screenHeight - (r.bottom);
+
+                        if (previousHeightDiffrence - heightDifference > 50) {
+                            popupWindow.dismiss();
+                        }
+
+                        previousHeightDiffrence = heightDifference;
+                        if (heightDifference > 100) {
+
+                            isKeyBoardVisible = true;
+                            changeKeyboardHeight(heightDifference);
+
+                        } else {
+
+                            isKeyBoardVisible = false;
+
+                        }
+
+                    }
+                });
+    }
+
+    private void enableFooterView() {
+
+        content = (EditText) view.findViewById(R.id.editText1);
+        content.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (popupWindow.isShowing()) {
+                    popupWindow.dismiss();
                 }
             }
-            editText.setText(getSmiledText(context, editText.getText()));
-            editText.setSelection(editText.getText().length());
-        }
-    };
+        });
 
-    private View.OnKeyListener key_press = new View.OnKeyListener(){
-
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            if (keyCode == KeyEvent.KEYCODE_BACK && (smiles || keyboard)) {
-                smileTable.setVisibility(View.GONE);
-                InputMethodManager imm =
-                        (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
-                smiles = keyboard = false;
-                Log.e(TEST, "Smiles = " + smiles + "  ||  Keyboard = " + keyboard);
-                return true;
+        content.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                }
             }
-            return false;
+        });
+
+
+    }
+
+    @Override
+    public void keyClickedIndex(final Integer index) {
+        CharSequence text = null;
+        for(SmileManagerHolder smile : arraySmile){
+            if (smile.resID == index){
+                text = smile.smile;
+            }
         }
-    };
+        int cursorPosition = content.getSelectionStart();
+        content.getText().insert(cursorPosition,getSmiledText(context, text));
+    }
+
+    private void changeKeyboardHeight(int height) {
+
+        if (height > 100) {
+            keyboardHeight = height;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT, keyboardHeight);
+            smilesCover.setLayoutParams(params);
+        }
+
+    }
+
 
     private final void bindSmilePattern() {
         for (int i = 0; i < arraySmile.size(); i++) {
@@ -249,5 +339,17 @@ public class smileManager{
         Spannable spannable = spannableFactory.newSpannable(text);
         addSmiles(context, spannable);
         return spannable;
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        Log.e(TEST, "Нажата кнопка");
+        if (keyCode == KeyEvent.KEYCODE_BACK && popupWindow.isShowing()) {
+            Log.e(TEST, "назад");
+            Log.e(TEST, "и прошла обработку");
+            popupWindow.dismiss();
+            return true;
+        }
+        return false;
     }
 }

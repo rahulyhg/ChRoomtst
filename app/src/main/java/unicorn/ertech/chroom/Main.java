@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -29,6 +33,7 @@ import java.io.InputStreamReader;
 /**
  * Created by Timur on 04.01.2015.
  */
+
 public class Main extends TabActivity {
     /**
      * Called when the activity is first created.
@@ -63,6 +68,7 @@ public class Main extends TabActivity {
     public  static String URL = "http://im.topufa.org/index.php";
 
     final String SAVED_COLOR = "color";
+    final String SAVE_TAB = "tab";
 
     View tabViewTMP;
 
@@ -120,7 +126,7 @@ public class Main extends TabActivity {
         //View tabView3;
         //tabView3 = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
         //searchtab.setIndicator(tabView3);
-        Intent searchIntent = new Intent(this, NewsContainer.class);
+        Intent searchIntent = new Intent(this, NewPeoples.class);
         searchtab.setContent(searchIntent);
 
         // Вкладка
@@ -138,8 +144,6 @@ public class Main extends TabActivity {
         tabHost.addTab(searchtab);
         tabHost.addTab(newstab);
         tabHost.addTab(incognitotab);*/
-
-
 
 
         butSettings.setOnClickListener(new View.OnClickListener() {
@@ -227,8 +231,7 @@ public class Main extends TabActivity {
         return view;
     }
 
-    public String readToken()//чтение токена из файла
-    {
+    public String readToken(){ //чтение токена из файла
         FileInputStream fIn = null;
         try {
             fIn = openFileInput("token.txt");
@@ -254,135 +257,33 @@ public class Main extends TabActivity {
         return activeNetworkInfo != null;
     }
 
-    public static void checkConnection() {
-    }
+    protected void setColor(){
+        topRow.setBackgroundResource(R.color.izum_blue);
+        butSupport.setBackgroundResource(R.color.izum_blue);
+        butProfile.setBackgroundResource(R.color.izum_blue);
+        butSettings.setBackgroundResource(R.color.izum_blue);
 
+        View tabView1;
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon3sb);
+        searchtab.setIndicator(tabView1);
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon1sb);
+        privatetab.setIndicator(tabView1);
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon2sb);
+        globaltab.setIndicator(tabView1);
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon4sb);
+        newstab.setIndicator(tabView1);
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
+        incognitotab.setIndicator(tabView1);
+        tabHost.clearAllTabs();
+        tabHost.addTab(privatetab); //личка
+        tabHost.addTab(globaltab); //поиск
+        tabHost.addTab(newstab); //общий чат
+        tabHost.addTab(searchtab); //новости
+        tabHost.addTab(incognitotab); //инкогнито
 
-    protected  void setColor(){
-        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
-        if (sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                tabsSetColor(1);
-                topRow.setBackgroundResource(R.color.blue);
-                butSupport.setBackgroundResource(R.color.blue);
-                butProfile.setBackgroundResource(R.color.blue);
-                butSettings.setBackgroundResource(R.color.blue);
-            } else if (col == 0) {
-                tabsSetColor(0);
-                topRow.setBackgroundResource(R.color.green);
-                butSupport.setBackgroundResource(R.color.green);
-                butProfile.setBackgroundResource(R.color.green);
-                butSettings.setBackgroundResource(R.color.green);
-                tabHost.refreshDrawableState();
-            } else if (col == 2) {
-                tabsSetColor(2);
-                topRow.setBackgroundResource(R.color.orange);
-                butSupport.setBackgroundResource(R.color.orange);
-                butProfile.setBackgroundResource(R.color.orange);
-                butSettings.setBackgroundResource(R.color.orange);
-                tabHost.refreshDrawableState();
-            } else if(col == 3){
-                tabsSetColor(3);
-                topRow.setBackgroundResource(R.color.purple);
-                butSupport.setBackgroundResource(R.color.purple);
-                butProfile.setBackgroundResource(R.color.purple);
-                butSettings.setBackgroundResource(R.color.purple);
-                tabHost.refreshDrawableState();
-            }
-                curColor=col;
-        }else{
-            tabsSetColor(0);
-            topRow.setBackgroundResource(R.color.green);
-            butSupport.setBackgroundResource(R.color.green);
-            butProfile.setBackgroundResource(R.color.green);
-            butSettings.setBackgroundResource(R.color.green);
-            tabHost.refreshDrawableState();
-            curColor=0;
-        }
-    }
-
-    protected void tabsSetColor(int color){
-        switch (color){
-            case 0:
-                int i=0;
-                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon3s);
-                searchtab.setIndicator(tabViewTMP);
-                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon1s);
-                privatetab.setIndicator(tabViewTMP);
-                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon2s);
-                globaltab.setIndicator(tabViewTMP);
-                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon4s);
-                newstab.setIndicator(tabViewTMP);
-                tabViewTMP = createTabView(tabHost.getContext(), "", R.drawable.icon5s);
-                incognitotab.setIndicator(tabViewTMP);
-                tabHost.clearAllTabs();
-                tabHost.addTab(privatetab); //личка
-                tabHost.addTab(globaltab); //поиск
-                tabHost.addTab(newstab); //общий чат
-                tabHost.addTab(searchtab); //новости
-                tabHost.addTab(incognitotab); //инкогнито
-                break;
-            case 1:
-                View tabView1;
-                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon3sb);
-                searchtab.setIndicator(tabView1);
-                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon1sb);
-                privatetab.setIndicator(tabView1);
-                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon2sb);
-                globaltab.setIndicator(tabView1);
-                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon4sb);
-                newstab.setIndicator(tabView1);
-                tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
-                incognitotab.setIndicator(tabView1);
-                tabHost.clearAllTabs();
-                tabHost.addTab(privatetab); //личка
-                tabHost.addTab(globaltab); //поиск
-                tabHost.addTab(newstab); //общий чат
-                tabHost.addTab(searchtab); //новости
-                tabHost.addTab(incognitotab); //инкогнито
-                break;
-            case 2:
-                View tabView2;
-                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon3so);
-                searchtab.setIndicator(tabView2);
-                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon1so);
-                privatetab.setIndicator(tabView2);
-                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon2so);
-                globaltab.setIndicator(tabView2);
-                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon4so);
-                newstab.setIndicator(tabView2);
-                tabView2 = createTabView(tabHost.getContext(), "", R.drawable.icon5so);
-                incognitotab.setIndicator(tabView2);
-                tabHost.clearAllTabs();
-                tabHost.addTab(privatetab); //личка
-                tabHost.addTab(globaltab); //поиск
-                tabHost.addTab(newstab); //общий чат
-                tabHost.addTab(searchtab); //новости
-                tabHost.addTab(incognitotab); //инкогнито
-                break;
-            case 3:
-                View tabView4;
-                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon3sp);
-                searchtab.setIndicator(tabView4);
-                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon1sp);
-                privatetab.setIndicator(tabView4);
-                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon2sp);
-                globaltab.setIndicator(tabView4);
-                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon4sp);
-                newstab.setIndicator(tabView4);
-                tabView4 = createTabView(tabHost.getContext(), "", R.drawable.icon5sp);
-                incognitotab.setIndicator(tabView4);
-                tabHost.clearAllTabs();
-                tabHost.addTab(privatetab); //личка
-                tabHost.addTab(globaltab); //поиск
-                tabHost.addTab(newstab); //общий чат
-                tabHost.addTab(searchtab); //новости
-                tabHost.addTab(incognitotab); //инкогнито
-                break;
-            default:
-                break;
-        }
+        sPref = getPreferences(MODE_PRIVATE);
+        String tabID = sPref.getString(SAVE_TAB, "Private");
+        tabHost.setCurrentTabByTag(tabID);
     }
 
     @Override
@@ -423,25 +324,21 @@ public class Main extends TabActivity {
     @Override
     public void onResume(){
         super.onResume();
-        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
-        if (sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if(col!=curColor){
-                setColor();
-            }
-        }
-        //tabHost.setCurrentTab(curTab);
+        setColor();
     }
 
     @Override
     public void onPause(){
-
         super.onPause();
+        sPref = getPreferences(MODE_PRIVATE);
+        Editor ed = sPref.edit();
+        ed.putString(SAVE_TAB, tabHost.getCurrentTabTag());
+        ed.commit();
     }
 
     @Override
     public void onStart(){
-        super.onPause();
+        super.onStart();
         SharedPreferences userData;
         userData = getSharedPreferences("user", MODE_PRIVATE);
         if(userData.contains("avatar_link")){
@@ -456,18 +353,5 @@ public class Main extends TabActivity {
             }
         }
     }
-
-    /*
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        tabHost.setCurrentTab(savedInstanceState.getInt("mCurrentTab"));
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("mCurrentTab", tabHost.getCurrentTab());
-        super.onSaveInstanceState(outState);
-    }*/
 }
 

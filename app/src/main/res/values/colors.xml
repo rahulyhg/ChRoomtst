@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color  name="white">#FFFFFF</color>
+    <color  name="smile_backcolor">#ffffe6d5</color>
     <color  name="green">#0FB470</color>
     <color  name="black">#000000</color>
     <color name="blue">#6383A8</color>
+    <color name="izum_blue">#3d8ada</color>
     <color name="orange">#EE7A00</color>
     <color name="purple">#FBA2DA</color>
     <color name="greenglass">#770FB470</color>
@@ -23,4 +25,5 @@
     <color name="conversationsRead">#00000000</color>
     <color name="background_tab_pressed">#6633B5E5</color>
     <color name="transparent">#00000000</color>
+    <color name="color_find">#A2A2A2</color>
 </resources>

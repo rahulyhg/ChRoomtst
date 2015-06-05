@@ -10,25 +10,16 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -38,19 +29,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Timur on 08.01.2015.
  */
-public class RegionFragment extends Fragment {
+public class RegionFragment extends Fragment implements InterfaceSet{
     private Context context;
-    ImageButton butSmile;
     EditText txtSend;
     public int pageNumber;
     int backColor;
@@ -69,7 +56,11 @@ public class RegionFragment extends Fragment {
     private static final String DESCRIPTION = "message_body"; // ниже главного
     private static final String ICON = "avatar";  // будущая картинка
     chatAdapter adapter;
-    boolean stopTImer = false ;
+    boolean stopTImer = true ;
+    int state;
+    globalChat3 chatTask;
+    SmileManager sMgr;
+
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -96,34 +87,36 @@ public class RegionFragment extends Fragment {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
+                    String str = "Region = " + stopTImer;
+                    str += " Position " + state;
+                    if (!stopTImer) Log.e("StopTimer",str);
                     //room = "3159";
                     if(!stopTImer) {
-                        new globalChat3().execute();
+                        chatTask = new globalChat3();
+                        chatTask.execute();
                     }
                 } else {
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 4L * 1000);
+        },  0, 2L * 1000);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //задаем разметку фрагменту
-        final View view = inflater.inflate(R.layout.fragment_blank4, container, false);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
 
-        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button24);
-        butSmile=(ImageButton)view.findViewById(R.id.butSmile4);
-        lvChat = (ListView)view.findViewById(R.id.lvChat4);
-        txtSend = (EditText) view.findViewById(R.id.editText4);
+        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
+        lvChat = (ListView)view.findViewById(R.id.lvChat);
+        txtSend = (EditText) view.findViewById(R.id.editText1);
         firsTime = true;
         //token = Main.str;
-        final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTable4);
 
-        final smileManager sMgr = new smileManager(getActivity());
-        sMgr.initSmiles(smileTable, txtSend);
+        sMgr = new SmileManager(getActivity(), context, view);
+        view = sMgr.setView();
 
         room = "3159";
         msgCount=0;
@@ -175,21 +168,6 @@ public class RegionFragment extends Fragment {
                 txtSend.setText("");
             }
         });
-
-        butSmile.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (smileTable.getVisibility() == View.GONE) {
-                    sMgr.setVisibleSmile(true);
-                } else {
-                    sMgr.setVisibleSmile(false);
-                }
-                butSend.refreshDrawableState();
-                butSmile.refreshDrawableState();
-                txtSend.refreshDrawableState();
-            }
-        });
         return view;
     }
 
@@ -198,6 +176,28 @@ public class RegionFragment extends Fragment {
                 = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    @Override
+    public void Start(int state) {
+        stopTImer = false;
+        this.state = state;
+    }
+
+    @Override
+    public void Stop() {
+        stopTImer = true;
+        if (chatTask != null && !chatTask.isCancelled()){
+            chatTask.cancel(stopTImer);
+        }
+    }
+
+    @Override
+    public boolean windowDismiss() {
+        if(sMgr.windowIsShowing()){
+            return sMgr.windowDismiss();
+        }
+        return false;
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -248,7 +248,6 @@ public class RegionFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
         }
         @Override
         protected JSONObject doInBackground(String... args) {
@@ -275,24 +274,24 @@ public class RegionFragment extends Fragment {
                 JSONArray arr = null;
                 String s = null;
                 JSONObject messag = null;
-                Log.e("room", room);
+                Log.e("Country_room", room);
                 try {
                     msgNum = json.getString("total");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 try {
-                    Log.e("pageNumber", pageNumber + "");
+                    Log.e("Country_pageNumber", pageNumber + "");
                     lastid = json.getString("lastid");
-                    Log.e("lastid", lastid);
-                    Log.e("lastID", lastID3);
+                    Log.e("Country_lastid", lastid);
+                    Log.e("Country_lastID", lastID3);
                     if (lastID3.equals(lastid)) {
                         lastID3 = json.getString("lastid");
                     } else {
                         flag = true;
                         lastID3 = json.getString("lastid");
                         msgNum = json.getString("total");
-                        Log.e("msgNum", msgNum);
+                        Log.e("Country_msgNum", msgNum);
                         s = json.getString("data");
                         arr = new JSONArray(s);
                         deleted_total = json.getString("total-deleted");
@@ -319,7 +318,7 @@ public class RegionFragment extends Fragment {
                     for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                         try {
                             messag = new JSONObject(arr.get(i).toString());
-                            Log.e("messagregion", messag.toString());
+                            Log.e("Country_messagregion", messag.toString());
                             if (firsTime) {
                                 if (!messag.equals(null)) {
                                     messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
@@ -333,7 +332,6 @@ public class RegionFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (NullPointerException e) {
-                            Log.e("NullPointerException", e.toString());
                         }
                     }
 
@@ -364,8 +362,8 @@ public class RegionFragment extends Fragment {
 
     @Override
     public void onPause(){
-        stopTImer=true;
         super.onPause();
+        stopTImer=true;
     }
 
     public void checkInList(String ID) {

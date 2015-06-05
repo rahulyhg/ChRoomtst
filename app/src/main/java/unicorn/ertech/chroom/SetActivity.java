@@ -29,19 +29,7 @@ public class SetActivity extends Activity {
 
         topRow = (RelativeLayout)findViewById(R.id.topRowAbout);
         butBack=(ImageButton)findViewById(R.id.setBack);
-        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)){
-            int col = sPref.getInt(SAVED_COLOR,0);
-            if(col==1){
-                topRow.setBackgroundResource(R.color.blue);
-            }else if(col==0){
-                topRow.setBackgroundResource(R.color.green);
-            }else if(col==2){
-                topRow.setBackgroundResource(R.color.orange);
-            }else if(col==3){
-                topRow.setBackgroundResource(R.color.purple);
-            }
-        }
+        topRow.setBackgroundResource(R.color.izum_blue);
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,13 +41,11 @@ public class SetActivity extends Activity {
         Button txtPrivate=(Button)findViewById(R.id.tvPrivate);
         Button setRate=(Button)findViewById(R.id.tvRate);
         TextView txtWallet=(TextView)findViewById(R.id.tvWallet);
-        Button setColor=(Button)findViewById(R.id.tvColor);
         Button setChat=(Button)findViewById(R.id.tvChatSet);
         Button setAbout=(Button)findViewById(R.id.tvAbout);
 
         LinearLayout laySetClose = (LinearLayout)findViewById(R.id.laySetExit);
         LinearLayout laySetPrivate = (LinearLayout)findViewById(R.id.laySetPrivate);
-        LinearLayout laySetColor = (LinearLayout)findViewById(R.id.laySetColor);
         LinearLayout laySetChatSet = (LinearLayout)findViewById(R.id.laySetChatSet);
         LinearLayout laySetAbout=(LinearLayout)findViewById(R.id.laySetAbout);
         LinearLayout laySetRate=(LinearLayout)findViewById(R.id.laySetRate);
@@ -103,12 +89,6 @@ public class SetActivity extends Activity {
                 showActivity(SetWallet.class);
             }
         });*/
-        setColor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActivity(SetCol.class);
-            }
-        });
 
         laySetClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,12 +114,6 @@ public class SetActivity extends Activity {
                 showActivity(SetWallet.class);
             }
         });*/
-        laySetColor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActivity(SetCol.class);
-            }
-        });
 
         laySetAbout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,21 +157,7 @@ public class SetActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
-        if(sPref.contains(SAVED_COLOR)){
-            int col = sPref.getInt(SAVED_COLOR,0);
-            if(col==1){
-                topRow.setBackgroundResource(R.color.blue);
-                butBack.setBackgroundResource(R.color.blue);
-            }else if(col==0){
-                topRow.setBackgroundResource(R.color.green);
-                butBack.setBackgroundResource(R.color.green);
-            }else if(col==2){
-                topRow.setBackgroundResource(R.color.orange);
-                butBack.setBackgroundResource(R.color.orange);
-            }else if(col==3){
-                topRow.setBackgroundResource(R.color.purple);
-                butBack.setBackgroundResource(R.color.purple);
-            }
-        }
+        topRow.setBackgroundResource(R.color.izum_blue);
+        butBack.setBackgroundResource(R.color.izum_blue);
     }
 }

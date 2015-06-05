@@ -1,24 +1,21 @@
 package unicorn.ertech.chroom;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by Timur on 04.01.2015.
@@ -28,104 +25,81 @@ import java.util.List;
 public class GlobalChat extends FragmentActivity{
     static final String TAG = "myLogs";
     final String SAVED_COLOR = "color";
-    PagerTabStrip tabStrip;
     //static final int PAGE_COUNT = 4;
 
     /** идентификатор фрагмента города. */
     public static final int FRAGMENT_ONE = 0;
-    /** идентификатор фрагмента страны. */
-    public static final int FRAGMENT_THREE = 2;
-    /** идентификатор фрагмета региона. */
     public static final int FRAGMENT_TWO = 1;
-    /** идентификатор фрагмета объявлений. */
-    //public static final int FRAGMENT_FOUR = 0;
+    public static final int FRAGMENT_THREE = 2;
+    public static final int FRAGMENT_FOUR = 3;
     /** количество фрагментов. */
-    public static final int FRAGMENTS = 3;
-    /** адаптер фрагментов. */
-    private FragmentPagerAdapter _fragmentPagerAdapter;
+    public static final int FRAGMENTS = 4;
     /** список фрагментов для отображения. */
-    private final List<Fragment> _fragments = new ArrayList<Fragment>();
+    private final ArrayList<Fragment> _fragments = new ArrayList<Fragment>();
     /** сам ViewPager который будет все это отображать. */
-    private ViewPager _viewPager;
 
-    ViewPager pager;
-    PagerAdapter pagerAdapter;
     com.kpbird.triangletabs.PagerSlidingTabStrip tabs;
     final String SAVED_CITY = "city";
     long time1, time2;
-    static int photoWidth;
+    int lastFragment = 0;
+    PagerAdapter pagerAdapter;
+
+    int activeFragment = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_global);
-
-        SharedPreferences userData;
-        userData = getSharedPreferences("user", MODE_PRIVATE);
-        /*if(userData.contains("density")){
-            photoWidth=50*(int)(userData.getFloat("density", 2));
-        }*/
-
         // создаем фрагменты.
-        //_fragments.add(FRAGMENT_FOUR, new CountryFragment()); //Объявления
-        _fragments.add(FRAGMENT_ONE, new AdsFragment()); //Город
-        _fragments.add(FRAGMENT_TWO, new CityFragment()); //Регион
-        _fragments.add(FRAGMENT_THREE, new RegionFragment()); //Страна
+        _fragments.add(FRAGMENT_ONE, new IncognitoChat());
+        _fragments.add(FRAGMENT_TWO, new AdsFragment());
+        _fragments.add(FRAGMENT_THREE, new CityFragment());
+        _fragments.add(FRAGMENT_FOUR, new RegionFragment());
 
-
-        pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(pagerAdapter);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPagerGCH);
+        pagerAdapter = new GlobalChatAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
         // Bind the tabs to the ViewPager
         tabs = (com.kpbird.triangletabs.PagerSlidingTabStrip) findViewById(R.id.pagerTabStrip);
-        tabs.setViewPager(pager);
-        //tabStrip = (PagerTabStrip)findViewById(R.id.pagerTabStrip);
-        /*SharedPreferences sPref;
-        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                tabs.setTabBackground(R.color.blue);
-            } else if (col == 0) {
-                tabs.setTabBackground(R.color.green);
-            } else if (col == 2) {
-                tabs.setTabBackground(R.color.orange);
-            } else if (col == 4) {
-                tabs.setTabBackground(R.color.purple);
+        tabs.setViewPager(viewPager);
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
-        }*/
-        pager.setOffscreenPageLimit(2);
-        pager.setCurrentItem(0);
-        /*pager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
-                //PageFragment.pageNumber = position;
-                Log.d(TAG, "onPageSelected, position = " + position);
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
+                activeFragment = position;
+                InterfaceSet fragOld = (InterfaceSet) _fragments.get(lastFragment);
+                fragOld.Stop();
+                fragOld.windowDismiss();
+                InterfaceSet fragNew = (InterfaceSet) _fragments.get(position);
+                fragNew.Start(position);
+                lastFragment = position;
+                Log.e(TAG, "Position = " + position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
             }
-        });*/
+        });
+        tabs.setTextColor(getResources().getColor(R.color.white));
+        tabs.setBackgroundResource(R.color.izum_blue);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setCurrentItem(activeFragment);
     }
 
-    private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
+    private class GlobalChatAdapter extends FragmentPagerAdapter {
 
-        public MyFragmentPagerAdapter(FragmentManager fm) {
+        public GlobalChatAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-
             return _fragments.get(position);
-            //return PageFragment.newInstance(position);
         }
 
         @Override
@@ -137,8 +111,12 @@ public class GlobalChat extends FragmentActivity{
         public CharSequence getPageTitle(int position) {
             switch(position){
                 case 0:
+                    return "Анономный чат";
+                case 1:
                     String[] city = getResources().getStringArray(R.array.cities);
                     SharedPreferences sPref = getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
+                    Log.e("myLog", sPref.getString("cityStr", "Уфа"));
+                    Log.e("myLog", city[sPref.getInt(SAVED_CITY, 9)]);
                     if(sPref.contains("cityStr")){
                         return sPref.getString("cityStr", "Уфа");
                     }else {
@@ -147,91 +125,59 @@ public class GlobalChat extends FragmentActivity{
                         }
                     }
                     return "Уфа";
-                case 1:
+                case 2:
                     String[] region = getResources().getStringArray(R.array.regions);
                     SharedPreferences sPref2 = getSharedPreferences("saved_chats", Context.MODE_PRIVATE);
                     if(sPref2.contains("region")){
                         return region[sPref2.getInt("region",0)];
                     }
                     return "Башкортостан";
-                case 2:
+                case 3:
                     return "Россия";
             }
             return "Title " + position;
         }
-
     }
 
     @Override
     public  void onResume(){
         super.onResume();
-        //Log.i("globalresume","glogalresume");
-        tabs.setTextColor(getResources().getColor(R.color.white));
-        tabs.setTabPaddingLeftRight(0);
-        //tabs.setBackgroundResource(R.color.green);
         tabs.notifyDataSetChanged();
-        time1=0; time2=0;
-        SharedPreferences sPref;
-        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                //tabs.setTabBackground(R.color.blue);
-                tabs.setBackgroundResource(R.color.blue);
-            } else if (col == 0) {
-                tabs.setBackgroundResource(R.color.green);
-                //tabs.setTabBackground(R.color.green);
-            } else if (col == 2) {
-                //tabs.setTabBackground(R.color.orange);
-                tabs.setBackgroundResource(R.color.orange);
-            } else if (col == 3) {
-                //tabs.setTabBackground(R.color.purple);
-                tabs.setBackgroundResource(R.color.purple);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0; i<FRAGMENTS; i++){
+                    InterfaceSet frag = (InterfaceSet) _fragments.get(i);
+                    frag.Stop();
+                }
+                InterfaceSet frag = (InterfaceSet) _fragments.get(1);
+                frag.Start(1);
             }
-            tabs.setIndicatorColorResource(R.color.white);
-        }
+        }, 1000);
+        //Log.i("globalresume","glogalresume");
+        time1=0; time2=0;
     }
 
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
         // super.onBackPressed();
-        Calendar calend = Calendar.getInstance();
-        if(time1==0){
-            time1=calend.getTimeInMillis();
-            Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
-        }else{
-            time2=calend.getTimeInMillis();
-            if(time2-time1<=2000){
-                finish();
-            }else{
-                time1=time2;
+        InterfaceSet fragment = (InterfaceSet)_fragments.get(activeFragment);
+        if(!fragment.windowDismiss()){
+
+            Calendar calend = Calendar.getInstance();
+            if(time1==0){
+                time1=calend.getTimeInMillis();
                 Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+            }else{
+                time2=calend.getTimeInMillis();
+                if(time2-time1<=2000){
+                    finish();
+                }else{
+                    time1=time2;
+                    Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+                }
             }
         }
-        //openQuitDialog();
-    }
-
-    private void openQuitDialog() {
-        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
-                GlobalChat.this);
-        quitDialog.setTitle("Выход: Вы уверены?");
-
-        quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        });
-
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        quitDialog.show();
     }
 }

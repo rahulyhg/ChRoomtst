@@ -9,18 +9,6 @@
     android:showDividers="middle"
     android:divider="@drawable/rect">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="27dp"
-        android:text="Поделиться"
-        android:id="@+id/tvShareTitle"
-        android:textAlignment="center"
-        android:background="@color/green"
-        android:visibility="visible"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"

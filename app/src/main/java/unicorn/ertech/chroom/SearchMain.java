@@ -110,7 +110,6 @@ public class SearchMain extends Fragment {
             @Override
             public void onClick(View v) {
                 Search search_parent = (Search)getActivity();
-                search_parent.startRandom();
             }
         });
 
@@ -118,7 +117,6 @@ public class SearchMain extends Fragment {
             @Override
             public void onClick(View v) {
                 Search search_parent = (Search)getActivity();
-                search_parent.startParam();
             }
         });
 
@@ -127,7 +125,6 @@ public class SearchMain extends Fragment {
             public void onClick(View v){
                 //publishFeedDialog();
                 Search search_parent = (Search)getActivity();
-                search_parent.startShare();
             };
         });
 
@@ -161,14 +158,12 @@ public class SearchMain extends Fragment {
             @Override
             public void onClick(View v) {
                 Search search_parent = (Search)getActivity();
-                search_parent.startRandom();
             }
         });
         ivParam.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Search search_parent = (Search)getActivity();
-                search_parent.startParam();
             }
         });
         ivSoc.setOnClickListener(new View.OnClickListener(){
@@ -176,7 +171,6 @@ public class SearchMain extends Fragment {
             public void onClick(View v){
                 //publishFeedDialog();
                 Search search_parent = (Search)getActivity();
-                search_parent.startShare();
             };
         });
         return view;

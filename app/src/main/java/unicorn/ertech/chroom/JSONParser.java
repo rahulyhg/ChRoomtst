@@ -70,7 +70,6 @@ public class JSONParser extends Application {
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 try {
-
                     responseString = EntityUtils.toString(responseEntity);
                     try {
                         jsonObject = new JSONObject(responseString);

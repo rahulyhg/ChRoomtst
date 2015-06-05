@@ -1,35 +1,19 @@
 package unicorn.ertech.chroom;
 
 import android.content.Context;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static android.widget.RelativeLayout.LayoutParams;
 
 /**
  * Created by Ильнур on 28.01.2015.
@@ -86,15 +70,18 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         }
 
         holder.tvFrom.setText(p.from);
-        holder.tvMsg.setText(smileManager.getSmiledText(getContext(),p.message));
+        holder.tvMsg.setText(SmileManager.getSmiledText(getContext(), p.message));
         holder.tvOnline.setText(p.online);
-        Calendar currTime = Calendar.getInstance();int cday = currTime.get(currTime.DAY_OF_MONTH);
+        Calendar currTime = Calendar.getInstance();
+        int cday = currTime.get(currTime.DAY_OF_MONTH);
 
         //
         //Раскоментить, когда разберёмся со временем
         //
 
-        Calendar msgTime = Calendar.getInstance(); int cmonth = 1 + currTime.get(currTime.MONTH); int cyear = currTime.get(currTime.YEAR);
+        Calendar msgTime = Calendar.getInstance();
+        int cmonth = 1 + currTime.get(currTime.MONTH);
+        int cyear = currTime.get(currTime.YEAR);
         String[] dateTime = p.time.split("%");
         String[] time = dateTime[1].split(":");
         String[] date = dateTime[0].split("-");
@@ -110,9 +97,12 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             dateTime[1] = time[0]+":"+time[1];
         }
         msgTime.set(Calendar.SECOND,Integer.parseInt(time[2]));
-        msgTime.set(Calendar.YEAR,Integer.parseInt(date[0])); int year = Integer.parseInt(date[0]);
-        msgTime.set(Calendar.MONTH,Integer.parseInt(date[1])); int month = Integer.parseInt(date[1]);if(month<10&&date[1].length()==1){date[1]="0"+date[1];}
-        msgTime.set(Calendar.DAY_OF_MONTH,Integer.parseInt(date[2])); int day = Integer.parseInt(date[2]);if(day<10&&date[2].length()==1){date[2]="0"+date[2];}
+        msgTime.set(Calendar.YEAR,Integer.parseInt(date[0]));
+        int year = Integer.parseInt(date[0]);
+        msgTime.set(Calendar.MONTH,Integer.parseInt(date[1]));
+        int month = Integer.parseInt(date[1]);if(month<10&&date[1].length()==1){date[1]="0"+date[1];}
+        msgTime.set(Calendar.DAY_OF_MONTH,Integer.parseInt(date[2]));
+        int day = Integer.parseInt(date[2]);if(day<10&&date[2].length()==1){date[2]="0"+date[2];}
         dateTime[0]=date[0]+"-"+date[1]+"-"+date[2];
 
         holder.tvTime.setGravity(Gravity.RIGHT);

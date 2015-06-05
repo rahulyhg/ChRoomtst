@@ -10,7 +10,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="left"
-        android:paddingLeft="0dip"
         android:src="@drawable/ic_launcher"/>
 
     <TextView
@@ -20,18 +19,22 @@
         android:layout_alignTop="@+id/img"
         android:layout_toRightOf="@+id/img"
         android:textColor="@color/black"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Азат"
         android:layout_marginLeft="7dp" />
 
     <TextView
         android:id="@+id/messag"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/from"
         android:layout_gravity="center"
-        android:layout_marginTop="2dip"
-        android:layout_toRightOf="@id/img"
         android:gravity="left"
+        android:text="Привет, как дела??"
+        android:layout_marginTop="6dp"
         android:textColor="@color/black"
-        android:layout_marginLeft="9dp" />
-
+        android:layout_below="@+id/from"
+        android:layout_alignLeft="@+id/from"
+        android:layout_alignStart="@+id/from" />
 </RelativeLayout>

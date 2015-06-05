@@ -825,7 +825,7 @@ public class GeoConvertIds {
                 GeoConvertIds.region=6;
                 return R.array.citiesastrahanoblast;
             case 8:
-                GeoConvertIds.region=7;
+                GeoConvertIds.region=8;
                 return R.array.citiesbelgorodoblast;
             case 9:
                 GeoConvertIds.region=9;

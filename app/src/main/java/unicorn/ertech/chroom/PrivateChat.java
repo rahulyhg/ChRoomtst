@@ -131,25 +131,7 @@ public class PrivateChat extends FragmentActivity {
         time1=0; time2=0;
         tabStrip.setTextColor(getResources().getColor(R.color.white));
         tabStrip.notifyDataSetChanged();
-        SharedPreferences sPref;
-        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                //tabs.setTabBackground(R.color.blue);
-                tabStrip.setBackgroundResource(R.color.blue);
-            } else if (col == 0) {
-                tabStrip.setBackgroundResource(R.color.green);
-                //tabs.setTabBackground(R.color.green);
-            } else if (col == 2) {
-                //tabs.setTabBackground(R.color.orange);
-                tabStrip.setBackgroundResource(R.color.orange);
-            } else if (col == 3) {
-                //tabs.setTabBackground(R.color.purple);
-                tabStrip.setBackgroundResource(R.color.purple);
-            }
-            tabStrip.setIndicatorColorResource(R.color.white);
-        }
+        tabStrip.setBackgroundResource(R.color.izum_blue);
     }
 
     @Override
@@ -169,29 +151,5 @@ public class PrivateChat extends FragmentActivity {
                 Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
             }
         }
-        //openQuitDialog();
-    }
-
-    private void openQuitDialog() {
-        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
-                PrivateChat.this);
-        quitDialog.setTitle("Выход: Вы уверены?");
-
-        quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                finish();
-            }
-        });
-
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-            }
-        });
-
-        quitDialog.show();
     }
 }

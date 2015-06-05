@@ -1,8 +1,6 @@
 package unicorn.ertech.chroom;
 
 import android.content.Context;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Ильнур on 09.01.2015.
@@ -62,7 +54,7 @@ public class chatAdapter extends ArrayAdapter<chatMessage> {
             chatMessage p = chat.get(position);
             holder.tvFrom.setText(p.getFrom());
             //holder.tvMsg.setText(p.getMessage());
-            holder.tvMsg.setText(smileManager.getSmiledText(getContext(),p.getMessage()));
+            holder.tvMsg.setText(SmileManager.getSmiledText(getContext(), p.getMessage()));
             /*int width=100;
             if(GlobalChat.photoWidth>0) {
                 width = GlobalChat.photoWidth;

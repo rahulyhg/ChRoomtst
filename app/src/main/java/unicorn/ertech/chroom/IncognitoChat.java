@@ -3,14 +3,11 @@ package unicorn.ertech.chroom;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +15,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -34,21 +29,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Timur on 11.01.2015.
  */
-public class IncognitoChat extends Fragment{
+public class IncognitoChat extends Fragment implements InterfaceSet{
     private Context context;
-    ImageButton butSmile;
     public int pageNumber;
-    int backColor;
+    int state;
     int msgCount;
     ListView lvChat;
     ArrayList<String> messagesUfa,messagesRB, messagesRUS, messagesNews,listArr;
@@ -65,7 +55,9 @@ public class IncognitoChat extends Fragment{
     private static final String ICON = "avatar";  // будущая картинка
     anonChatAdapter adapter;
     EditText txtSend;
-    boolean stopTImer = false ;
+    boolean stopTImer = true ;
+    globalChat chatTask;
+    SmileManager sMgr;
     /** Handle the results from the voice recognition activity. */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -89,8 +81,12 @@ public class IncognitoChat extends Fragment{
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
+                    String str = "Incognito = " + stopTImer;
+                    str += " Position " + state;
+                    if (!stopTImer) Log.e("StopTimer",str);
                     if(!stopTImer) {
-                        new globalChat().execute();
+                        chatTask = new globalChat();
+                        chatTask.execute();
                     }
                 }
                 else
@@ -98,23 +94,21 @@ public class IncognitoChat extends Fragment{
                     //Toast.makeText(getActivity().getApplicationContext(),"Нет активного соединения с Интернет!",Toast.LENGTH_LONG).show();
                 }
             }
-        }, 1L * 250, 4L * 1000);
+        },  0, 2L * 1000);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //задаем разметку фрагменту
-        final View view = inflater.inflate(R.layout.incognito_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
-        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2i);
-        lvChat = (ListView)view.findViewById(R.id.lvChati);
-        txtSend = (EditText) view.findViewById(R.id.editTexti);
-        butSmile = (ImageButton) view.findViewById(R.id.butSmilei);
-        final TableLayout smileTable = (TableLayout)view.findViewById(R.id.smileTablei);
+        final ImageButton butSend = (ImageButton) view.findViewById(R.id.button2);
+        lvChat = (ListView)view.findViewById(R.id.lvChat);
+        txtSend = (EditText) view.findViewById(R.id.editText1);
 
-        final smileManager sMgr = new smileManager(getActivity());
-        sMgr.initSmiles(smileTable, txtSend);
+        sMgr = new SmileManager(getActivity(), context, view);
+        view = sMgr.setView();
 
         firsTime = true;
         //token = Main.str;
@@ -143,29 +137,6 @@ public class IncognitoChat extends Fragment{
             }
         });
 
-        butSmile.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if(smileTable.getVisibility()==View.GONE){
-                    sMgr.setVisibleSmile(true);
-                }else{
-                    sMgr.setVisibleSmile(false);
-                }
-                butSend.refreshDrawableState();
-                butSmile.refreshDrawableState();
-                txtSend.refreshDrawableState();
-            }
-        });
-
-        txtSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                butSend.refreshDrawableState();
-                butSmile.refreshDrawableState();
-                txtSend.refreshDrawableState();
-            }
-        });
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         return view;
@@ -176,6 +147,25 @@ public class IncognitoChat extends Fragment{
                 = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    @Override
+    public void Start(int state) {
+        stopTImer = false;
+        this.state = state;
+    }
+
+    @Override
+    public void Stop() {
+        stopTImer = true;
+        if (chatTask != null && !chatTask.isCancelled()){
+            chatTask.cancel(stopTImer);
+        }
+    }
+
+    @Override
+    public boolean windowDismiss() {
+        return false;
     }
 
     private class OutMsg extends AsyncTask<String, String, JSONObject> {
@@ -255,17 +245,13 @@ public class IncognitoChat extends Fragment{
                     e.printStackTrace();
                 }
                 try {
-                    Log.e("pageNumber", pageNumber + "");
                     lastid = json.getString("lastid");
-                    Log.e("lastid", lastid);
-                    Log.e("lastID", lastID1);
                     if (lastID1.equals(lastid)) {
                         lastID1 = json.getString("lastid");
                     } else {
                         flag = true;
                         lastID1 = json.getString("lastid");
                         msgNum = json.getString("total");
-                        Log.e("msgNum", msgNum);
                         s = json.getString("data");
                         arr = new JSONArray(s);
                         s = arr.get(0).toString();
@@ -277,7 +263,6 @@ public class IncognitoChat extends Fragment{
                     for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                         try {
                             messag = new JSONObject(arr.get(i).toString());
-                            Log.e("messag", messag.toString());
                             if (firsTime) {
                                 messages.add(msgCount, new anonChat(messag.getString("id"),messag.getString("nick"), messag.getString("sex"), messag.getString("message")));
                             } else {
@@ -301,22 +286,19 @@ public class IncognitoChat extends Fragment{
 
     @Override
     public void onDestroy(){
-        myTimer.cancel();
-        Log.e("json", "destroy");
         super.onDestroy();
+        myTimer.cancel();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         stopTImer=false;
-        butSmile.performClick();
-        butSmile.performClick();
     }
 
     @Override
     public void onPause(){
-        stopTImer=true;
         super.onPause();
+        stopTImer=true;
     }
 }

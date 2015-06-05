@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,14 +16,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -36,36 +35,45 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.Preferences;
 
 /**
  * Created by Timur on 11.01.2015.
  */
+
 public class SearchParam extends Fragment {
     private Context context;
     Button butSearch;
-    TextView tvTitle;
-    public JSONParser jParserReserve = null;
     static Spinner sexSpinner;
     static Spinner regionSpinner, hereforSpinner;
-    EditText  age_till;
-    TextView age_from;
     static Spinner city;
+    TextView age_from;
     final String SAVED_COLOR = "color";
     String URL = "http://im.topufa.org/index.php";
     static String token;
     List<sResult> results  = new ArrayList<sResult>();
     CheckBox cb;
-    static String sex,region, online;
+    static String sex, region, online;
     static int age1=18, age2=80;
     List<NameValuePair> request = new ArrayList<NameValuePair>(2);
     int currentColorSpinner;
     private PopupWindow pwindo;
     static int cit, reg;
     SharedPreferences savedParams;
-    int savedCity=0, incr=0;
     int currentRegion = 8, currentCities=R.array.cities;
     SpinnersCustomAdapterCities adapter;
+    EditText edName;
+
+//    Массив необходим для определения значения в компонентах представления,
+//    если значение ячейки массива равна true, то в компоненте отображается конкретное слово,
+//    иначе слово-значение выбранное пользователем
+    /*
+    * 1. Регион
+    * 2. Город
+    * 3. Пол
+    * 4. Возраст
+    * 5. Цель знакомства*/
+    boolean arrFirstLogin[] = {true, true,
+                    true, true, true};
 
     /** Handle the results from the voice recognition activity. */
     @Override
@@ -76,26 +84,32 @@ public class SearchParam extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        Log.e("myLogSearch","onCreate");
+    }
+
+    @Override
+    public void onStart() {
+        Log.e("myLogSearch","onStart");
+        super.onStart();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("myLogSearch","onCreateView");
         //задаем разметку фрагменту
         final View view = inflater.inflate(R.layout.tab_search, container, false);
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
+        edName = (EditText)view.findViewById(R.id.edSearchName);
         butSearch=(Button)view.findViewById(R.id.butSearch);
-        tvTitle=(TextView)view.findViewById(R.id.tvSearchTitle);
         cb = (CheckBox)view.findViewById(R.id.cbSearchOnline);
         sexSpinner = (Spinner)view.findViewById(R.id.spinSearchSex);
         regionSpinner = (Spinner)view.findViewById(R.id.spinSearchRegion);
         hereforSpinner=(Spinner)view.findViewById(R.id.spinSearchHerefor);
         city = (Spinner)view.findViewById(R.id.etSearchCity);
+        city.setVisibility(View.GONE);
         age_from = (TextView)view.findViewById(R.id.etSearchAge1);
-        age_till = (EditText)view.findViewById(R.id.etSearchAge2);
-        TextView age_from2 = (TextView)view.findViewById(R.id.tvSearchAge1);
         online = "";
         setColor();
         SharedPreferences userData = getActivity().getSharedPreferences("userdata", Activity.MODE_PRIVATE);
@@ -128,24 +142,27 @@ public class SearchParam extends Fragment {
         butSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getActivity().getApplicationContext();
                 new Searching().execute();
-
             }
         });
 
         regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
-                currentRegion=selectedItemPosition;
-                currentCities=GeoConvertIds.getCityArrayId(currentRegion);
-                //adapter.notifyDataSetChanged();
-                //adapter.clear();
-                adapter=null;
+
+//              Чтоб город не отображался
+
+                arrFirstLogin[1] = true;
+
+                currentRegion = selectedItemPosition;
+                currentCities = GeoConvertIds.getCityArrayId(currentRegion);
+                adapter = null;
                 adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
                         currentColorSpinner, getResources().getStringArray(currentCities));
                 adapter.notifyDataSetChanged();
                 city.setAdapter(adapter);
+                Log.e("myLogSearch", "onItemSelectedListener");
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -153,41 +170,15 @@ public class SearchParam extends Fragment {
     }
 
     public void setColor(){
-        SharedPreferences sPref;
-        sPref = getActivity().getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                tvTitle.setBackgroundResource(R.color.blue);
-                butSearch.setBackgroundResource(R.drawable.but_blue);
-                cb.setButtonDrawable(R.drawable.checkbox_selector_b);
-                currentColorSpinner=R.layout.spinner_with_arrows_b;
-            } else if (col == 0) {
-                tvTitle.setBackgroundResource(R.color.green);
-                butSearch.setBackgroundResource(R.drawable.but_green);
-                cb.setButtonDrawable(R.drawable.checkbox_selector_g);
-                currentColorSpinner=R.layout.spinner_with_arrows_g;
-            } else if (col == 2) {
-                tvTitle.setBackgroundResource(R.color.orange);
-                butSearch.setBackgroundResource(R.drawable.but_orange);
-                cb.setButtonDrawable(R.drawable.checkbox_selector_o);
-                currentColorSpinner=R.layout.spinner_with_arrows_o;
-            } else if (col == 3) {
-                tvTitle.setBackgroundResource(R.color.purple);
-                butSearch.setBackgroundResource(R.drawable.but_purple);
-                cb.setButtonDrawable(R.drawable.checkbox_selector_p);
-                currentColorSpinner=R.layout.spinner_with_arrows_p;
-            }
-        }else{
-            tvTitle.setBackgroundResource(R.color.green);
-            currentColorSpinner=R.layout.spinner_with_arrows_g;
-        }
-        adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
-                currentColorSpinner, getResources().getStringArray(R.array.cities));
-        city.setAdapter(adapter);
+        butSearch.setBackgroundResource(R.drawable.but_blue);
+        cb.setButtonDrawable(R.drawable.checkbox_selector_b);
+        currentColorSpinner=R.layout.spinner_with_arrows_b;
         SpinnersCustomAdapter adapter2 = new SpinnersCustomAdapter(getActivity().getApplicationContext(),
                 currentColorSpinner, getResources().getStringArray(R.array.regions));
         regionSpinner.setAdapter(adapter2);
+        adapter = new SpinnersCustomAdapterCities(getActivity().getApplicationContext(),
+                currentColorSpinner, getResources().getStringArray(R.array.cities));
+        city.setAdapter(adapter);
         SpinnersCustomAdapterSex adapter3 = new SpinnersCustomAdapterSex(getActivity().getApplicationContext(),
                 currentColorSpinner, getResources().getStringArray(R.array.sex));
         sexSpinner.setAdapter(adapter3);
@@ -222,7 +213,9 @@ public class SearchParam extends Fragment {
             //ставим нужные нам параметры
             jParser.setParam("token", token);
             jParser.setParam("action", "global_search");
-
+            if(!"".equals(edName.getText().toString())) {
+                jParser.setParam("name", edName.getText().toString());
+            }
             if(sexSpinner.getSelectedItemId()!=2) {
                 jParser.setParam("sex", String.valueOf(sexSpinner.getSelectedItemId()));
             }
@@ -254,82 +247,83 @@ public class SearchParam extends Fragment {
         }
         @Override
         protected void onPostExecute(JSONObject json) {
-            pDialog.dismiss();
-            String status = "";
+        pDialog.dismiss();
+        String status = "";
 
+        try {
+            status = json.getString("error");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(status.equals("false"))
+        {
+            String num = "";
             try {
-                status = json.getString("error");
+                num = json.getString("total");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            if(status.equals("false"))
-            {
-                String num = "";
-                try {
-                    num = json.getString("total");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if(num.equals("0")) {
-                    //Toast.makeText(getActivity().getApplicationContext(), String.valueOf(sexSpinner.getSelectedItemId()), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getActivity().getApplicationContext(), "Никто не удовлетворяет вашим параметрам!", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    String s="";
-                    JSONArray arr = null;
-                    JSONObject messag = null;
-                    try {
-                        s = json.getString("data");
-                        arr = new JSONArray(s);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    for (int i = 0; i < Integer.parseInt(num); i++)
-                    {
-                        try {
-                            messag = new JSONObject(arr.get(i).toString());
-                            Log.e("messagads", messag.toString());
-                            results.add(0,new sResult(messag.getString("id"),messag.getString("nickname"),messag.getString("avatar")));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (NullPointerException e) {
-                            Log.e("NullPointerException", e.toString());
-                        }
-                    }
-
-                    Intent i = new Intent(getActivity().getApplicationContext(),SearchResult.class);
-                    i.putExtra("results",s);
-                    i.putExtra("total",num);
-                    i.putExtra("request",request.toString());
-                    startActivity(i);
-                }
+            if(num.equals("0")) {
+                //Toast.makeText(getActivity().getApplicationContext(), String.valueOf(sexSpinner.getSelectedItemId()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "Никто не удовлетворяет вашим параметрам!", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(getActivity().getApplicationContext(), "Ошибка при совершении поиска!", Toast.LENGTH_LONG).show();
+                String s="";
+                JSONArray arr = null;
+                JSONObject messag = null;
+                try {
+                    s = json.getString("data");
+                    arr = new JSONArray(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < Integer.parseInt(num); i++)
+                {
+                    try {
+                        messag = new JSONObject(arr.get(i).toString());
+                        Log.e("messagads", messag.toString());
+                        results.add(0,new sResult(messag.getString("id"),messag.getString("nickname"),messag.getString("avatar")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (NullPointerException e) {
+                        Log.e("NullPointerException", e.toString());
+                    }
+                }
+
+                Intent i = new Intent(getActivity().getApplicationContext(),SearchResult.class);
+                i.putExtra("results",s);
+                i.putExtra("total",num);
+                i.putExtra("request",request.toString());
+                startActivity(i);
             }
         }
+        else
+        {
+            Toast.makeText(getActivity().getApplicationContext(), "Ошибка при совершении поиска!", Toast.LENGTH_LONG).show();
+        }
     }
+}
 
     @Override
     public void onResume(){
         super.onResume();
+        Log.e("myLogSearch", "onResume");
         setColor();
         savedParams=getActivity().getPreferences(Context.MODE_PRIVATE);
         if(savedParams.contains("spinnerSex")){
-            sexSpinner.setSelection(savedParams.getInt("spinnerSex", 0));
-            regionSpinner.setSelection(savedParams.getInt("spinnerRegion", 0));
-            hereforSpinner.setSelection(savedParams.getInt("spinnerHerefor", 0));
+            if(!arrFirstLogin[0]){ regionSpinner.setSelection(savedParams.getInt("spinnerRegion", 0)); }
+            if(!arrFirstLogin[1]){ city.setSelection(savedParams.getInt("spinnerCity", 0)); }
+            if(!arrFirstLogin[2]){ sexSpinner.setSelection(savedParams.getInt("spinnerSex", 0)); }
+            if(!arrFirstLogin[4]){ hereforSpinner.setSelection(savedParams.getInt("spinnerHerefor", 0)); }
+
             cb.setSelected(savedParams.getBoolean("online", false));
             if(cb.isChecked()){
                 online="1";
             }else{
                 online="";
             }
-            city.setSelection(savedParams.getInt("spinnerCity", 0));
-            //citySpinner.setSelection(savedParams.getInt("spinnerCity", 0));
         }
         if(savedParams.contains("age1")){
             age1=savedParams.getInt("age1", age1);
@@ -337,11 +331,19 @@ public class SearchParam extends Fragment {
         if(savedParams.contains("age2")){
             age2=savedParams.getInt("age2", age2);
         }
-        age_from.setText(Integer.toString(age1)+" - "+Integer.toString(age2));
+        if(arrFirstLogin[3]){
+            age_from.setText("Возраст");
+        }
+        else{ age_from.setText(Integer.toString(age1)+" - "+Integer.toString(age2)); }
     }
 
     @Override
     public void onPause(){
+        Log.e("myLogSearch","onPause");
+        for(int i = 0; i<5; i++){
+            arrFirstLogin[i] = true;
+        }
+        city.setVisibility(View.GONE);
         savedParams=getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor ed4 = savedParams.edit();
         ed4.putInt("spinnerSex", sexSpinner.getSelectedItemPosition());
@@ -356,8 +358,7 @@ public class SearchParam extends Fragment {
         super.onPause();
     }
 
-    public static void getParams(JSONParser jPars)
-    {
+    public static void getParams(JSONParser jPars){
         jPars.setParam("token", token);
         jPars.setParam("action", "global_search");
 
@@ -373,24 +374,22 @@ public class SearchParam extends Fragment {
         jPars.setParam("online", online);
         jPars.setParam("herefor",String.valueOf(hereforSpinner.getSelectedItemId()));
         //jPars.setParam("city", city.getText().toString());
-        //jPars.setParam("age_from", age_from.getText().toString());
-        //jPars.setParam("age_till", age_till.getText().toString());
         jPars.setParam("age_from", Integer.toString(age1));
         jPars.setParam("age_till", Integer.toString(age2));
     }
+
+//    Адаптер региона
 
     private class SpinnersCustomAdapter extends ArrayAdapter<String> {
 
         public SpinnersCustomAdapter(Context context, int textViewResourceId,
                                 String[] objects) {
             super(context, textViewResourceId, objects);
-            // TODO Auto-generated constructor stub
         }
 
         @Override
         public View getDropDownView(int position, View convertView,
                                     ViewGroup parent) {
-            // TODO Auto-generated method stub
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(R.layout.dropdown_item, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView35);
@@ -400,35 +399,43 @@ public class SearchParam extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
+            Log.e("myLogSearch","getView");
             return getCustomView(position, convertView, parent);
         }
 
         public View getCustomView(int position, View convertView,
                                   ViewGroup parent) {
-            // TODO Auto-generated method stub
             // return super.getView(position, convertView, parent);
 
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(currentColorSpinner, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView34);
-            label.setText(getResources().getStringArray(R.array.regions)[position]);
+            ImageView iv = (ImageView) row.findViewById(R.id.imageIcon);
+            iv.setImageResource(R.drawable.marker);
+            if (arrFirstLogin[0]){
+                label.setText("Регион");
+                arrFirstLogin[0] = false;
+            }
+            else {
+                label.setText(getResources().getStringArray(R.array.regions)[position]);
+                city.setVisibility(View.VISIBLE);
+            }
             return row;
         }
     }
+
+//    Адаптер городов
 
     private class SpinnersCustomAdapterCities extends ArrayAdapter<String> {
 
         public SpinnersCustomAdapterCities(Context context, int textViewResourceId,
                                      String[] objects) {
             super(context, textViewResourceId, objects);
-            // TODO Auto-generated constructor stub
         }
 
         @Override
         public View getDropDownView(int position, View convertView,
                                     ViewGroup parent) {
-            // TODO Auto-generated method stub
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(R.layout.dropdown_item, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView35);
@@ -438,22 +445,28 @@ public class SearchParam extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
-            return getCustomView(position, convertView, parent);
+            return getCustomView(position, parent);
         }
 
-        public View getCustomView(int position, View convertView,
-                                  ViewGroup parent) {
-            // TODO Auto-generated method stub
-            // return super.getView(position, convertView, parent);
+        public View getCustomView(int position, ViewGroup parent) {
 
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(currentColorSpinner, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView34);
-            label.setText(getResources().getStringArray(currentCities)[position]);
+            ImageView iv = (ImageView) row.findViewById(R.id.imageIcon);
+            iv.setImageResource(R.drawable.marker);
+            if (arrFirstLogin[1]){
+                label.setText("Город");
+                arrFirstLogin[1] = false;
+            }
+            else {
+                label.setText(getResources().getStringArray(currentCities)[position]);
+            }
             return row;
         }
     }
+
+//    Адаптер пола
 
     private class SpinnersCustomAdapterSex extends ArrayAdapter<String> {
 
@@ -488,10 +501,20 @@ public class SearchParam extends Fragment {
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(currentColorSpinner, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView34);
-            label.setText(getResources().getStringArray(R.array.sex)[position]);
+            ImageView iv = (ImageView) row.findViewById(R.id.imageIcon);
+            iv.setImageResource(R.drawable.man);
+            if (arrFirstLogin[2]){
+                label.setText("Пол");
+                arrFirstLogin[2] = false;
+            }
+            else {
+                label.setText(getResources().getStringArray(R.array.sex)[position]);
+            }
             return row;
         }
     }
+
+//    Адаптер цели знакомства
 
     private class SpinnersCustomAdapterHerefor extends ArrayAdapter<String> {
 
@@ -526,7 +549,15 @@ public class SearchParam extends Fragment {
             LayoutInflater inflater = getActivity().getLayoutInflater();
             View row = inflater.inflate(currentColorSpinner, parent, false);
             TextView label = (TextView) row.findViewById(R.id.textView34);
-            label.setText(getResources().getStringArray(R.array.herefor)[position]);
+            ImageView iv = (ImageView) row.findViewById(R.id.imageIcon);
+            iv.setImageResource(R.drawable.heart);
+            if (arrFirstLogin[4]){
+                label.setText("Цель знакомства");
+                arrFirstLogin[4] = false;
+            }
+            else {
+                label.setText(getResources().getStringArray(R.array.herefor)[position]);
+            }
             return row;
         }
     }

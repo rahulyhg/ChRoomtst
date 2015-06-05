@@ -1,9 +1,5 @@
 package unicorn.ertech.chroom;
-import android.app.Application;
 import android.content.Context;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,11 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 /**
  * Created by Ильнур on 26.01.2015.
  */
@@ -46,7 +40,7 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         }
         else
             holder = (chatHolder) v.getTag();
-        holder.tvMsg.setText(smileManager.getSmiledText(getContext(),p.message));
+        holder.tvMsg.setText(SmileManager.getSmiledText(getContext(), p.message));
         Display display = ((WindowManager)this.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         double test = display.getWidth()/(1.3);
         holder.tvMsg.setMaxWidth((int)test);
@@ -80,7 +74,7 @@ public class pmChatAdapter extends ArrayAdapter<pmChatMessage> {
         }
         holder.tvMsg.setLayoutParams(lp);
         holder.tvMsg.setPadding(15, 15, 15, 15);
-        holder.tvMsg.setText(smileManager.getSmiledText(getContext(),p.message));
+        holder.tvMsg.setText(SmileManager.getSmiledText(getContext(), p.message));
         /*DisplayMetrics metricsB = new DisplayMetrics();
         display.getMetrics(metricsB);
         int pic_max=(int)(300*metricsB.density);*/
