@@ -18,5 +18,9 @@ public class chatHolder {
     public RelativeLayout Rl;
     public ImageButton imgButton;
     public ImageView imgAttached;
+    public ImageView imgAttached2;
+    public ImageView imgAttached3;
+    public ImageView imgAttached4;
+    public ImageView imgAttached5;
     public LinearLayout Ll;
 }

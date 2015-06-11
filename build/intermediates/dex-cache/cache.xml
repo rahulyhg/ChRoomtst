@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\ILDAR\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-android\1.1.2\91c20388c9a45f62b5ed8fe0502bb76ff6251fc7\bolts-android-1.1.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="91c20388c9a45f62b5ed8fe0502bb76ff6251fc7">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.2-ca28ab4e12b28ae9c36a1682ce480c9cbafa62c8.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-f30b302534c9b382e382e0b5aaea6afbed816aa9.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="055783146ba9654a725442563be78cad303aad1f">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-a411f6b973e8fe4cd2f564b0e511284df60736ee.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-abb2bba20a2590f913ad83b716b1780509d86b3e.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\ChRoomtst\vksdk_library\unspecified\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3bc676ed116ec6095fb8736bc118c5628d9ca308">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-741e4470301b1fa6f554e9f97cd73b5de18bce2c.jar" />
+    </item>
+    <item
+        jar="C:\Users\ILDAR\.gradle\caches\modules-2\files-2.1\com.nostra13.universalimageloader\universal-image-loader\1.9.3\a85588bec3e2c4584d593d3f15df1677321bca72\universal-image-loader-1.9.3.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a85588bec3e2c4584d593d3f15df1677321bca72">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.9.3-21d8d0c62ea62bcf06ea90d7131d689244fbec70.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\me.tedyin.circleprogressbarlib\circleprogressbarlib\0.6.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="48d307373d2a7ec5cb093352ccd663d061abc1e8">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-2c2489f55a9153210bb6d4326e210bb1168e18f5.jar" />
+    </item>
+    <item
+        jar="C:\Users\ILDAR\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-d24982c13d5fab88da3369eaf692bc1566f2e327.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="41b3870cbe5fa546d8095b5b89d42cb69f3dd175">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-e12abfcf7ec350356f59757bb90d908af015adb1.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\libs\Simple-Rss2-Android.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="532d9349e403a3d2195e1a5928735dc953b95584">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\Simple-Rss2-Android-af3fded4fa6190ee84d4a38d7c62afbb28f35178.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-d91faac28315738ec7fd696a69cceab7371bc898.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a96b762bde4139de855735f175ec4d17dca55a6d">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-2b61efeca1f5891bcf51b310f1856cb7a1b12972.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-272fe7e7c458b09d608df2f388af5a738207efc6.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a08d65794b844d8e7540bf9a33859bf3b2482d7f">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-48d2c7d7506b143a19f683eb4a896e9e769a3d0a.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.astuetz\pagerslidingtabstrip\1.0.1\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7912610ed96381c25c36d986eba422731b9641b6">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-afed90d217988da525752de564601779d898d652.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\ChRoomtst\MediaChooserlib\unspecified\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="60c3f3c8af842a741be533ec0c50f7c3cea69b81">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-4e5873012e2f61356a3bf571eeb88311c3efc9ce.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="17f8750d5c0749e44dd7c54aa390d9c937803825">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-c1dbc9018fd04e222e2c6b481c30d78d7851002f.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e3d791b42eaa90416cd0b2d2e608092794a3baa4">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-f30b63ce5ec01779c2996c4b54f2274af2186766.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0e8228b4bc69c6a2c8d7c18498a77e53417d2574">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-4ec0dc71add08ea712c15da223088cb702f407ae.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\libs\httpclientandroidlib-1.2.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d884b9ed1234ce24ae00913167760836bf089050">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\httpclientandroidlib-1.2.0-d6a5398dc9f7a31d54a79096ed799782d000b419.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="c976518693e89ad44fbfccfc654941eaec198d08">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-2ebbeafeaf27e12ccfb6bb773c42e0bc6415c9fc.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1c5a76debf0c2857ccad422c4a80ed785982f8df">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-d7fa4219531207960e8d87bea42d3a3f35e709c4.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-c0c37ac00cec34cc560fbeef084d4fea41ddbe6a.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3c0b099f9de16b265ecd6122fcb603e7d0d29f90">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-f11382779280776bce7d3daa9f6fe62d319f3a5d.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9224bc4c54ba95147c7eabd874573763c07cb6be">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-b1dfca5a0a77b1f5b580d81ed362d4a11a45781c.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="73ccb92b70112f2e463e415ef8d7275de7da6516">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-396dc772b2c6d25f11e437d206669db4cfea7a2d.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="fb04b12526b0073c7fb1ebb70c5842d82ee95596">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-e43e58dbd0a87770aa87d0a22c7dbfeff8289f85.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\3.21.1\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0285ad8da812e92dda76ed5d0dcba05724c7911d">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-8102b430bd82111ff57b11d8ddb04b13a83a182f.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ef5f051e7308febe289dc93c67c5f32785b4260a">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-f4403e24f967b18e619b10d95537b9fc7233d6e6.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="29fd6d3794b71491c2789708cd8d03c71feb8954">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-bab5f7c14f9b90c57263b52d3fc69c47fb648b73.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4cd0b093824b3228fffc21ea369b98d0b1db6566">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-2f2dccbbc37ff736b22c724e64a49fb1b64b3bb8.jar" />
+    </item>
+    <item
+        jar="D:\GitHub\ChRoomtst\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7ff613bf78ab057293892fdbd4169eda899c89b9">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\classes-04c8c289b0a41f2924719f47e66fe9071d3f411c.jar" />
+    </item>
+    <item
+        jar="C:\Users\ILDAR\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="D:\GitHub\ChRoomtst\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-28a923c58d7919d9a532e48facd11cb9b23c7462.jar" />
+    </item>
+
+</items>

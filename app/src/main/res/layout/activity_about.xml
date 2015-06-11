@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Чат для знакомств и общения. Версия 1.05a Android"
+        android:text="Чат для знакомств и общения. Версия 1.11 Android"
         android:id="@+id/tvResetPassword"
         android:visibility="visible"
         android:gravity="center"

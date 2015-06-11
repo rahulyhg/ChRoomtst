@@ -183,7 +183,7 @@
                 android:text="Отправить сообщение"
                 android:id="@+id/butProfileSend"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/but_green"
+                android:background="@color/izum_blue"
                 android:textColor="@color/white"
                 android:layout_marginLeft="-13dp"
                 android:layout_marginRight="-13dp" />

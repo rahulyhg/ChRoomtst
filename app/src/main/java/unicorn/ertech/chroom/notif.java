@@ -119,31 +119,35 @@ public class notif extends Service {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(s.equals("false"))
-                {
-                    try {
-                        realNum = json.getString("total");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    if(s.equals("false"))
+                    {
+                        try {
+                            realNum = json.getString("total");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    try {
-                        lastID4 = json.getString("lastid");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                        try {
+                            lastID4 = json.getString("lastid");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    if (!realNum.equals("0")) {
-                        Log.e("notif_num", realNum);
+                        if (!realNum.equals("0")) {
+                            Log.e("notif_num", realNum);
+                            Log.e("notif_token", token);
+                            Log.e("notif_lastId", lastID4);
+                            int i = createInfoNotification("У Вас есть непрочитанные сообщения");
+                        }
+                    }
+                    else
+                    {
                         Log.e("notif_token", token);
-                        Log.e("notif_lastId", lastID4);
-                        int i = createInfoNotification("У Вас есть непрочитанные сообщения");
+                        Log.e("notif_error", json.toString());
                     }
-                }
-                else
-                {
-                    Log.e("notif_token", token);
-                    Log.e("notif_error", json.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

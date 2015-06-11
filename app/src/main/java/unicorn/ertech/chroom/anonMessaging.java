@@ -28,7 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -65,14 +68,16 @@ public class anonMessaging extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.private_chat);
 
-        butSend=(ImageButton)findViewById(R.id.buttonSend);
-        butSmile=(ImageButton)findViewById(R.id.buttonSmile);
+        butSend=(ImageButton)findViewById(R.id.button2);
+        butSmile=(ImageButton)findViewById(R.id.butSmile);
         lvChat=(ListView)findViewById(R.id.lvChat);
-        txtSend=(EditText)findViewById(R.id.sendText);
+        txtSend=(EditText)findViewById(R.id.editText1);
         nick = (TextView)findViewById(R.id.profileBack);
         avatar = (ImageView)findViewById(R.id.ivChatAvatar);
         butBack=(ImageButton)findViewById(R.id.butNewsBack);
         butStar=(ImageButton)findViewById(R.id.ibStar);
+        ImageButton butFile=(ImageButton)findViewById(R.id.butFile);
+        butFile.setVisibility(View.GONE);
         dateTime = new Date();
 
         SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
@@ -157,7 +162,6 @@ public class anonMessaging extends Activity {
                 }
             }
         }, 1L * 250, 2L * 1000);
-        final TableLayout smileTable = (TableLayout)findViewById(R.id.smileTablePm);
 
 //        final SmileManager sMgr = new SmileManager(this, this, this.getCurrentFocus());
         butSmile.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +216,11 @@ public class anonMessaging extends Activity {
 
                 if (status.equals("false")) {
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
-                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", "");
+                    String[] sArr = new String[5];
+                    for(int t=0; t<5; t++){
+                        sArr[t]="";
+                    }
+                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", convertTime(),  sArr);
                     messages.add(msgCount,p);
                     msgCount++;
                     adapter.notifyDataSetChanged();
@@ -275,7 +283,11 @@ public class anonMessaging extends Activity {
                             messag = new JSONObject(arr.get(i).toString());
                             s = messag.getString("system");
                             if(s.equals("0")) {
-                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("attach"));
+                                String[] sArr = new String[5];
+                                for(int t=0; t<5; t++){
+                                    sArr[t]="";
+                                }
+                                pmChatMessage p = new pmChatMessage(messag.getString("id"), messag.getString("message"), "1", messag.getString("time"), sArr);
                                 messages.add(msgCount, p);
                                 msgCount++;
                             }
@@ -516,7 +528,11 @@ public class anonMessaging extends Activity {
 
                 if (status.equals("false")) {
                     //Toast.makeText(getApplicationContext(), "Сообщение успешно добавлено!", Toast.LENGTH_SHORT).show();
-                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", "");
+                    String[] sArr = new String[5];
+                    for(int t=0; t<5; t++){
+                        sArr[t]="";
+                    }
+                    pmChatMessage p = new pmChatMessage(userId, outMsg, "0", convertTime(), sArr);
                     messages.add(msgCount,p);
                     msgCount++;
                     adapter.notifyDataSetChanged();
@@ -531,5 +547,11 @@ public class anonMessaging extends Activity {
                 Toast.makeText(getApplicationContext(), "Проверьте Ваше подключение к Интернет!", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public String convertTime(){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd%HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        return df.format(today);
     }
 }

@@ -129,14 +129,7 @@
             android:layout_marginLeft="15dp" />
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/android_share"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/share_but"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone" />
+
 
     <com.facebook.widget.LoginButton
         android:id="@+id/login_button"

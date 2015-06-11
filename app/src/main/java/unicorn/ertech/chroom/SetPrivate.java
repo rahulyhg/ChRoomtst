@@ -71,35 +71,13 @@ public class SetPrivate extends Activity {
     }
 
     private void setColor(){
-        sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        int col=sPref.getInt(SAVED_COLOR, 0);
-        switch (col) {
-            case 0:
-                topRow.setBackgroundResource(R.color.green);
-                break;
-            case 1:
-                topRow.setBackgroundResource(R.color.blue);
-                break;
-            case 2:
-                topRow.setBackgroundResource(R.color.orange);
-                break;
-            case 3:
-                topRow.setBackgroundResource(R.color.purple);
-                break;
-            default:
-                break;
-        }
+        topRow.setBackgroundResource(R.color.izum_blue);
     };
 
     @Override
     public void onResume(){
         super.onResume();
         setColor();
-    }
-
-    public void myClick(View v)
-    {
-        blackOpen();
     }
 
 }

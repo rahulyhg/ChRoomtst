@@ -25,6 +25,10 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import static android.os.Debug.dumpHprofData;
+
 /**
  * Created by Timur on 22.01.2015.
  */
@@ -99,42 +103,12 @@ public class Profile2 extends Activity implements View.OnClickListener {
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         TextView tvProfPhoto = (TextView) findViewById(R.id.tvProfilePhoto);
         TextView tvProfInfo = (TextView) findViewById(R.id.tvProfileInfo);
-        if (sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                topRow.setBackgroundResource(R.color.blue);
-                back.setBackgroundResource(R.color.blue);
-                tvProfInfo.setBackgroundResource(R.color.blue);
-                tvProfPhoto.setBackgroundResource(R.color.blue);
-                //tvProfStat.setBackgroundResource(R.color.bluelight);
-                //profileGlass.setBackgroundResource(R.color.blueglass);
-                butSend.setBackgroundResource(R.drawable.but_blue);
-            } else if (col == 0) {
-                topRow.setBackgroundResource(R.color.green);
-                back.setBackgroundResource(R.color.green);
-                tvProfInfo.setBackgroundResource(R.color.green);
-                tvProfPhoto.setBackgroundResource(R.color.green);
-                //tvProfStat.setBackgroundResource(R.color.greenlight);
-                //profileGlass.setBackgroundResource(R.color.greenglass);
-                butSend.setBackgroundResource(R.drawable.but_green);
-            } else if (col == 2) {
-                topRow.setBackgroundResource(R.color.orange);
-                back.setBackgroundResource(R.color.orange);
-                tvProfInfo.setBackgroundResource(R.color.orange);
-                tvProfPhoto.setBackgroundResource(R.color.orange);
-                //tvProfStat.setBackgroundResource(R.color.orangelight);
-                //profileGlass.setBackgroundResource(R.color.orangeglass);
-                butSend.setBackgroundResource(R.drawable.but_orange);
-            } else if (col == 3) {
-                topRow.setBackgroundResource(R.color.purple);
-                back.setBackgroundResource(R.color.purple);
-                tvProfInfo.setBackgroundResource(R.color.purple);
-                tvProfPhoto.setBackgroundResource(R.color.purple);
-                //tvProfStat.setBackgroundResource(R.color.purplelight);
-                //profileGlass.setBackgroundResource(R.color.purpleglass);
-                butSend.setBackgroundResource(R.drawable.but_purple);
-            }
-        }
+
+        topRow.setBackgroundResource(R.color.izum_blue);
+        back.setBackgroundResource(R.color.izum_blue);
+        tvProfInfo.setBackgroundResource(R.color.izum_blue);
+        tvProfPhoto.setBackgroundResource(R.color.izum_blue);
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         ImageView butGift = (ImageView) findViewById(R.id.profileGift);
         butGift.setOnClickListener(new View.OnClickListener() {

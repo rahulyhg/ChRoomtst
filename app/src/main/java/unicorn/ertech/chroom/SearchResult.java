@@ -283,22 +283,7 @@ public class SearchResult extends Activity {
     }
 
     public void setColor(){
-        SharedPreferences sPref;
-        sPref = getSharedPreferences("color_scheme", Context.MODE_PRIVATE);
-        if(sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                topRow.setBackgroundResource(R.color.blue);
-            } else if (col == 0) {
-                topRow.setBackgroundResource(R.color.green);
-            } else if (col == 2) {
-                topRow.setBackgroundResource(R.color.orange);
-            } else if (col == 3) {
-                topRow.setBackgroundResource(R.color.purple);
-            }
-        }else{
-            topRow.setBackgroundResource(R.color.green);
-        }
+        topRow.setBackgroundResource(R.color.izum_blue);
     }
 
     @Override

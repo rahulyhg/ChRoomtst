@@ -4,15 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView9"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentTop="false"
-        android:layout_centerInParent="true"
-        android:src="@drawable/loading" />
+
 
     <unicorn.ertech.chroom.TouchImageView
         android:layout_width="match_parent"
@@ -20,5 +12,12 @@
         android:id="@+id/ivPhotoViewer"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

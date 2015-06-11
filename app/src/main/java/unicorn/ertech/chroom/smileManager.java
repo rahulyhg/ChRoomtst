@@ -1,5 +1,6 @@
 package unicorn.ertech.chroom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.v4.app.FragmentActivity;
@@ -52,6 +53,14 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
     View view;
     FragmentActivity activity;
 
+    public SmileManager(Context context) {
+
+        this.context = context;
+
+        addSmilesInArray();
+        bindSmilePattern();
+    }
+
     public SmileManager(FragmentActivity activity, Context context, View view) {
 
         this.context = context;
@@ -59,16 +68,9 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
         this.view = view;
 
         init();
-
     }
 
     private void init(){
-
-        for(int i=0; i<SMILECOUNT; i++){
-            int sum = i + 1;
-            int resID = context.getResources().getIdentifier("s" + sum, "drawable", context.getPackageName());
-            arrayID.add(resID);
-        }
 
         parentLayout = (LinearLayout) view.findViewById(R.id.list_parent);
         popUpView = activity.getLayoutInflater().inflate(R.layout.smile_popup, null);
@@ -100,6 +102,24 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
         });
 
         smilesButton.setOnKeyListener(this);
+
+        addSmilesInArray();
+
+        bindSmilePattern();
+
+
+        enablePopUpView();
+        checkKeyboardHeight(parentLayout);
+        enableFooterView();
+    }
+
+    private void addSmilesInArray(){
+
+        for(int i=0; i<SMILECOUNT; i++){
+            int sum = i + 1;
+            int resID = context.getResources().getIdentifier("s" + sum, "drawable", context.getPackageName());
+            arrayID.add(resID);
+        }
 
         arraySmile.add(new SmileManagerHolder(":)", arrayID.get(0)));
         arraySmile.add(new SmileManagerHolder(";)", arrayID.get(1)));
@@ -146,13 +166,6 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
         arraySmile.add(new SmileManagerHolder(":-*", arrayID.get(16)));
         arraySmile.add(new SmileManagerHolder("x-0", arrayID.get(17)));
         arraySmile.add(new SmileManagerHolder(":-p", arrayID.get(19)));
-
-        bindSmilePattern();
-
-
-        enablePopUpView();
-        checkKeyboardHeight(parentLayout);
-        enableFooterView();
     }
 
     public View setView(){
@@ -160,12 +173,8 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
     }
 
     public boolean windowDismiss(){
-        if(popupWindow.isShowing())
+        if(windowIsShowing())
             popupWindow.dismiss();
-        if(isKeyBoardVisible){
-            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
         return true;
     }
 
@@ -186,15 +195,15 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
         popupWindow = new PopupWindow(popUpView, LayoutParams.MATCH_PARENT,
                 (int)keyboardHeight, false);
 
-        TextView backSpace = (TextView) popUpView.findViewById(R.id.back);
-        backSpace.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
-                content.dispatchKeyEvent(event);
-            }
-        });
+//        TextView backSpace = (TextView) popUpView.findViewById(R.id.back);
+//        backSpace.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
+//                content.dispatchKeyEvent(event);
+//            }
+//        });
 
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ChRoomtst.iml" filepath="$PROJECT_DIR$/ChRoomtst.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MediaChooserlib/MediaChooserlib.iml" filepath="$PROJECT_DIR$/MediaChooserlib/MediaChooserlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/vksdk_library/vksdk_library.iml" filepath="$PROJECT_DIR$/vksdk_library/vksdk_library.iml" />
     </modules>

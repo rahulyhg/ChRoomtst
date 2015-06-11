@@ -10,13 +10,18 @@ public class pmChatMessage {
     String message;
     String uid;
     String direction;
-    String attach;
+    String time;
+    String[] attach;
 
-    public pmChatMessage(String UID,String MSG, String DIR, String Attach)
+    public pmChatMessage(String UID,String MSG, String DIR, String time, String[] Attach)
     {
         this.uid = UID;
         this.message = MSG;
         this.direction = DIR;
-        this.attach=Attach;
+        this.attach = new String[5];
+        this.time = time;
+        for(int i=0; i<5; i++){
+            this.attach[i]=Attach[i];
+        }
     }
 }

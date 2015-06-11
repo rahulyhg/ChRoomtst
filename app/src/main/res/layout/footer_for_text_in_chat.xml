@@ -1,65 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ivGrad1"
-        android:layout_alignWithParentIfMissing="true"
         android:background="@color/white"
-        android:src="@drawable/tmp2"
-        android:scaleType="fitXY"
-        android:layout_marginTop="-10dp"
-        android:layout_alignTop="@+id/editText1"
-        android:layout_alignBottom="@+id/button2" />
+        android:orientation="horizontal">
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/button2"
-        android:visibility="visible"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/knopka200"
-        android:scaleType="fitCenter"
-        android:background="@android:color/transparent"
-        android:padding="5dp" />
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText1"
-        android:layout_alignParentBottom="false"
-        android:layout_toRightOf="@+id/butSmile"
-        android:layout_toLeftOf="@+id/button2"
-        android:visibility="visible"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_toStartOf="@+id/button2"
-        android:background="@drawable/cornerstxt"
-        android:minHeight="40dp"
-        android:maxHeight="150dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp" />
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text=":)"
-        android:id="@+id/butSmile"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="true"
-        android:visibility="visible"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/smile_circle"
-        android:background="@color/white"
-        android:scaleType="fitCenter"
-        android:padding="5dp" />
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text=":)"
+                android:id="@+id/butSmile"
+                android:visibility="visible"
+                android:src="@drawable/smile_circle"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:padding="5dp" />
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText1"
+            android:inputType="text|textCapSentences"
+            android:background="@drawable/cornerstxt"
+            android:minHeight="40dp"
+            android:maxHeight="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp" />
+
+
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/button2"
+                android:visibility="visible"
+                android:src="@drawable/knopka200"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"
+                android:padding="5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>

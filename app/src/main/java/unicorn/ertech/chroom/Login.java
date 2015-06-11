@@ -287,7 +287,8 @@ public class Login extends Activity {
                     Intent i = new Intent(getApplicationContext(), Main.class);
                     i.putExtra("Token", token);
                     startActivity(i);
-                    Log.e("writefile", token);
+                    finish();
+                   // Log.e("writefile", token);
                 }
             }else{
                 if(errorCode==41){
@@ -322,7 +323,7 @@ public class Login extends Activity {
             pDialog.dismiss();
             if (json != null){
                 boolean result;
-                result = true;
+                result = false;
                 try {
                     result = json.getBoolean("auth");
 //                  Log.e("saveToken", token);
@@ -340,7 +341,8 @@ public class Login extends Activity {
                         Intent i = new Intent(getApplicationContext(), Main.class);
                         i.putExtra("Token", token);
                         startActivity(i);
-                        Log.e("writefile", token);
+                        finish();
+                        //Log.e("writefile", token);
                     }
                 }else{
                     log.setVisibility(View.VISIBLE);

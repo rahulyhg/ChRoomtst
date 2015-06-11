@@ -532,7 +532,9 @@ public class ConversationsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(s.equals("false")){
+                if(s == null) return;
+
+                if("false".equals(s)){
                     try{
                         s=json.getString("online");
                         if(messages.size()>0){

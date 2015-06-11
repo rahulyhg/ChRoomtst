@@ -30,22 +30,22 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
         chatHolder holder = new chatHolder();
         conversationsMsg p = chat.get(position);
         // First let's verify the convertView is not null
         if (convertView == null) {
             // This a new view we inflate the new layout
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.conversations, null);
+//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = LayoutInflater.from(context).inflate(R.layout.conversations, parent, false);
+//            convertView = inflater.inflate(R.layout.conversations, null);
 
             // Now we can fill the layout with the right values
-            TextView from = (TextView) v.findViewById(R.id.fromC2);
-            TextView msg = (TextView) v.findViewById(R.id.messagC2);
-            TextView time = (TextView) v.findViewById(R.id.timeC2);
-            TextView online = (TextView)v.findViewById(R.id.onlineC2);
-            ImageView image = (ImageView)v.findViewById(R.id.imgC2);
-            RelativeLayout rl = (RelativeLayout)v.findViewById(R.id.conversations_color);
+            TextView from = (TextView) convertView.findViewById(R.id.fromC2);
+            TextView msg = (TextView) convertView.findViewById(R.id.messagC2);
+            TextView time = (TextView) convertView.findViewById(R.id.timeC2);
+            TextView online = (TextView)convertView.findViewById(R.id.onlineC2);
+            ImageView image = (ImageView)convertView.findViewById(R.id.imgC2);
+            RelativeLayout rl = (RelativeLayout)convertView.findViewById(R.id.conversations_color);
 
             holder.tvFrom = from;
             holder.tvMsg = msg;
@@ -54,10 +54,10 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             holder.tvOnline= online;
             holder.Rl = rl;
 
-            v.setTag(holder);
+            convertView.setTag(holder);
         }
         else {
-            holder = (chatHolder) v.getTag();
+            holder = (chatHolder) convertView.getTag();
         }
 
         if(p.direction.equals("false"))
@@ -72,6 +72,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         holder.tvFrom.setText(p.from);
         holder.tvMsg.setText(SmileManager.getSmiledText(getContext(), p.message));
         holder.tvOnline.setText(p.online);
+
         Calendar currTime = Calendar.getInstance();
         int cday = currTime.get(currTime.DAY_OF_MONTH);
 
@@ -105,8 +106,7 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
         int day = Integer.parseInt(date[2]);if(day<10&&date[2].length()==1){date[2]="0"+date[2];}
         dateTime[0]=date[0]+"-"+date[1]+"-"+date[2];
 
-        holder.tvTime.setGravity(Gravity.RIGHT);
-        holder.tvMsg.setGravity(Gravity.LEFT);
+
         if(!date[0].equals("0000")) {
             if (year == cyear) {
                 if (month == cmonth) {
@@ -146,6 +146,6 @@ public class conversationsAdapter extends ArrayAdapter<conversationsMsg> {
             Picasso.with(getContext()).load(R.drawable.nophoto).resize(100, 0).into(holder.img);
         }
 
-        return v;
+        return convertView;
     }
 }

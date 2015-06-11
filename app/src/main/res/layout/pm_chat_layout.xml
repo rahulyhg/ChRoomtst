@@ -1,32 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="5dp"
     android:layout_margin="10dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/pm_chat_lay" >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:orientation="vertical"
+            android:background="#cccccc"
+            android:id="@+id/pm_chat_lay"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp" />
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:id="@+id/ivAttachPm"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:weightSum="110"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="125dp"
+                    android:id="@+id/ivAttachPm2"
+                    android:maxWidth="50dp"
+                    android:scaleType="centerCrop"
+                    android:maxHeight="50dp"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"
+                    android:layout_weight="20"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="5dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="125dp"
+                    android:id="@+id/ivAttachPm3"
+                    android:maxWidth="50dp"
+                    android:scaleType="centerCrop"
+                    android:maxHeight="50dp"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"
+                    android:layout_weight="20"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="5dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="125dp"
+                    android:id="@+id/ivAttachPm4"
+                    android:maxWidth="50dp"
+                    android:scaleType="centerCrop"
+                    android:maxHeight="50dp"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"
+                    android:layout_weight="20"
+                    android:layout_marginTop="5dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="125dp"
+                    android:id="@+id/ivAttachPm5"
+                    android:maxWidth="50dp"
+                    android:scaleType="centerCrop"
+                    android:maxHeight="50dp"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"
+                    android:layout_weight="20"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/message_text"
+            android:id="@+id/timeC2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:padding="10dp"
-            android:textSize="15sp"
-            android:gravity="center" />
+            android:text="time"
+            android:textColor="#AAAAAA"
+            android:paddingRight="5dp"
+            android:layout_gravity="right|center_vertical" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ivAttachPm"
-            android:padding="10dp" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

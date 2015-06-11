@@ -10,9 +10,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +19,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileInputStream;
@@ -77,6 +76,8 @@ public class Main extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SmileManager smileManager = new SmileManager(this);
+
 
         tabHost = getTabHost();
         Intent i = getIntent();
@@ -130,12 +131,21 @@ public class Main extends TabActivity {
         searchtab.setContent(searchIntent);
 
         // Вкладка
-        incognitotab = tabHost.newTabSpec("Incognito");
+        incognitotab = tabHost.newTabSpec("GeoLocation");
         /*View tabView5;
         tabView5 = createTabView(tabHost.getContext(), "", R.drawable.icon5s);
         incognitotab.setIndicator(tabView5);*/
-        Intent incognitoIntent = new Intent(this, IncognitoTab.class);
+        Intent incognitoIntent = new Intent(this, GeoLocationTab.class);
         incognitotab.setContent(incognitoIntent);
+
+        ImageLoader imageLoader=ImageLoader.getInstance();
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+
+
+        sPref = getPreferences(MODE_PRIVATE);
+        Editor ed = sPref.edit();
+        ed.putString(SAVE_TAB, "Private");
+        ed.commit();
 
         setColor();
 
@@ -160,13 +170,15 @@ public class Main extends TabActivity {
                 /*Intent in = new Intent(getApplicationContext(), Support.class);
                 startActivity(in);*/
                 Intent i = new Intent(getApplicationContext(), PrivateMessaging.class);
-                i.putExtra("userId","0");
+                i.putExtra("userId","106");
                 i.putExtra("userPROFILE", "0");
                 i.putExtra("token",str);
                 i.putExtra("nick","Служба поддержки");
                 i.putExtra("favorite","false");
-                i.putExtra("shake", "true");//значит служба поддержки
+                i.putExtra("shake", "false");//значит служба поддержки
                 i.putExtra("fromDialogs","false");
+
+                i.putExtra("userPROFILE", "106");
                 startActivity(i);
             }
         });
@@ -211,7 +223,7 @@ public class Main extends TabActivity {
             }
         }
         if(!userData.contains("density")){
-            SharedPreferences.Editor ed = userData.edit();
+            ed = userData.edit();
             ed.putFloat("density", metricsB.density);
             ed.commit();
         }
@@ -264,7 +276,7 @@ public class Main extends TabActivity {
         butSettings.setBackgroundResource(R.color.izum_blue);
 
         View tabView1;
-        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon3sb);
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
         searchtab.setIndicator(tabView1);
         tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon1sb);
         privatetab.setIndicator(tabView1);
@@ -272,13 +284,13 @@ public class Main extends TabActivity {
         globaltab.setIndicator(tabView1);
         tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon4sb);
         newstab.setIndicator(tabView1);
-        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon5sb);
+        tabView1 = createTabView(tabHost.getContext(), "", R.drawable.icon3sb);
         incognitotab.setIndicator(tabView1);
         tabHost.clearAllTabs();
         tabHost.addTab(privatetab); //личка
         tabHost.addTab(globaltab); //поиск
         tabHost.addTab(newstab); //общий чат
-        tabHost.addTab(searchtab); //новости
+//        tabHost.addTab(searchtab); //новости
         tabHost.addTab(incognitotab); //инкогнито
 
         sPref = getPreferences(MODE_PRIVATE);

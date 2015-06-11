@@ -35,7 +35,7 @@ public class Search extends FragmentActivity {
     public static final int FRAGMENT_TWO = 1;
     public static final int FRAGMENT_THREE = 2;
     public static final int FRAGMENT_FOUR = 3;
-    public static final int FRAGMENTS = 3;
+    public static final int FRAGMENTS = 2;
     private final List<Fragment> _fragments = new ArrayList<Fragment>();
 
     ViewPager pager;
@@ -50,7 +50,6 @@ public class Search extends FragmentActivity {
 
         _fragments.add(FRAGMENT_ONE, new ShareNetworks());
         _fragments.add(FRAGMENT_TWO, new SearchParam());
-        _fragments.add(FRAGMENT_THREE, new SearchRandom());
 
         pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
@@ -85,8 +84,6 @@ public class Search extends FragmentActivity {
                     return "Поделиться в соцсетях";
                 case 1:
                     return "Поиск";
-                case 2:
-                    return "Встряска";
             }
             return "Title " + position;
         }

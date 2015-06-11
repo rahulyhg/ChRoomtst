@@ -38,7 +38,6 @@ import java.util.TimerTask;
 public class AdsFragment extends Fragment implements InterfaceSet{
         private Context context;
         public int pageNumber;
-        ImageButton butSmile;
         EditText txtSend;
         int msgCount;
         ListView lvChat;
@@ -242,11 +241,24 @@ public class AdsFragment extends Fragment implements InterfaceSet{
 
             if("false".equals(status))
             {
-                Toast.makeText(getActivity().getApplicationContext(),"Сообщение успешно добавлено!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Сообщение успешно добавлено!",Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(getActivity().getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                try {
+                    status=json.getString("error_code");
+                    if(status.equals("60")){
+                        Toast.makeText(getActivity().getApplicationContext(), "Нельзя отправить пустое сообщение!", Toast.LENGTH_LONG).show();
+                    }else if(status.equals("12")){
+                        Toast.makeText(getActivity().getApplicationContext(), "Вы забанены за нарушение правил чата!", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(), "Ошибка при добавлении сообщения!", Toast.LENGTH_LONG).show();
+                }
+
             }
         }
     }

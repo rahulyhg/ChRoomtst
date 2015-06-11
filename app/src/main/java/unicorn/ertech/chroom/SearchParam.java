@@ -196,6 +196,8 @@ public class SearchParam extends Fragment {
             //region = regionSpinner.getSelectedItem().toString();
             cit=GeoConvertIds.getServerCityId(city.getSelectedItemPosition());
             reg=GeoConvertIds.getServerRegionId(regionSpinner.getSelectedItemPosition());
+            region=Integer.toString(reg);
+
             //region = "";
 
             pDialog = new ProgressDialog(context);
@@ -224,7 +226,7 @@ public class SearchParam extends Fragment {
                 //jParser.setParam("sex","");
             }
 
-            jParser.setParam("region", Integer.toString(reg));
+            jParser.setParam("region", region);
             jParser.setParam("online", online);
             if(hereforSpinner.getSelectedItemId()==0)
             {
@@ -256,7 +258,7 @@ public class SearchParam extends Fragment {
             e.printStackTrace();
         }
 
-        if(status.equals("false"))
+            if("false".equals(status))
         {
             String num = "";
             try {
@@ -279,6 +281,7 @@ public class SearchParam extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                    results.clear();
                 for (int i = 0; i < Integer.parseInt(num); i++)
                 {
                     try {
@@ -362,9 +365,10 @@ public class SearchParam extends Fragment {
         jPars.setParam("token", token);
         jPars.setParam("action", "global_search");
 
+        if(sexSpinner!=null){
         if(sexSpinner.getSelectedItemId()!=2) {
             jPars.setParam("sex", String.valueOf(sexSpinner.getSelectedItemId()));
-        }
+        }}
         else
         {
             //jParser.setParam("sex","");
@@ -376,6 +380,7 @@ public class SearchParam extends Fragment {
         //jPars.setParam("city", city.getText().toString());
         jPars.setParam("age_from", Integer.toString(age1));
         jPars.setParam("age_till", Integer.toString(age2));
+        jPars.setParam("city", Integer.toString(cit));
     }
 
 //    Адаптер региона

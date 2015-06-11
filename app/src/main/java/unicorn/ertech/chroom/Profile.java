@@ -181,42 +181,13 @@ public class Profile extends Activity {
                 saveProfile.setVisibility(View.VISIBLE);
             }
         });
-        if (sPref.contains(SAVED_COLOR)) {
-            int col = sPref.getInt(SAVED_COLOR, 0);
-            if (col == 1) {
-                topRow.setBackgroundResource(R.color.blue);
-                back.setBackgroundResource(R.color.blue);
-                saveProfile.setBackgroundResource(R.color.blue);
-                tvProfInfo.setBackgroundResource(R.color.blue);
-                tvProfPhoto.setBackgroundResource(R.color.blue);
-                //tvProfStat.setBackgroundResource(R.color.bluelight);
-                //profileGlass.setBackgroundResource(R.color.blueglass);
-            } else if (col == 0) {
-                topRow.setBackgroundResource(R.color.green);
-                back.setBackgroundResource(R.color.green);
-                tvProfInfo.setBackgroundResource(R.color.green);
-                tvProfPhoto.setBackgroundResource(R.color.green);
-                saveProfile.setBackgroundResource(R.color.green);
-                //tvProfStat.setBackgroundResource(R.color.greenlight);
-                //profileGlass.setBackgroundResource(R.color.greenglass);
-            } else if (col == 2) {
-                topRow.setBackgroundResource(R.color.orange);
-                back.setBackgroundResource(R.color.orange);
-                tvProfInfo.setBackgroundResource(R.color.orange);
-                saveProfile.setBackgroundResource(R.color.orange);
-                tvProfPhoto.setBackgroundResource(R.color.orange);
-                //tvProfStat.setBackgroundResource(R.color.orangelight);
-                //profileGlass.setBackgroundResource(R.color.orangeglass);
-            } else if (col == 3) {
-                topRow.setBackgroundResource(R.color.purple);
-                back.setBackgroundResource(R.color.purple);
-                tvProfInfo.setBackgroundResource(R.color.purple);
-                saveProfile.setBackgroundResource(R.color.purple);
-                tvProfPhoto.setBackgroundResource(R.color.purple);
-                //tvProfStat.setBackgroundResource(R.color.purplelight);
-                //profileGlass.setBackgroundResource(R.color.purpleglass);
-            }
-        }
+
+        topRow.setBackgroundResource(R.color.izum_blue);
+        back.setBackgroundResource(R.color.izum_blue);
+        saveProfile.setBackgroundResource(R.color.izum_blue);
+        tvProfInfo.setBackgroundResource(R.color.izum_blue);
+        tvProfPhoto.setBackgroundResource(R.color.izum_blue);
+
         saveProfile.setVisibility(View.INVISIBLE);
         datePick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,6 +277,7 @@ public class Profile extends Activity {
                         R.layout.spinner_with_arrows, getResources().getStringArray(currentCities));
                 adapter4.notifyDataSetChanged();
                 etProfileCity.setAdapter(adapter4);
+                saveProfile.setVisibility(View.VISIBLE);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -314,7 +286,10 @@ public class Profile extends Activity {
             public void onItemSelected(AdapterView<?> parent, View itemSelected, int selectedItemPosition, long selectedId) {
                 if(itemSelected==null) {
                     etProfileCity.setSelection(savedCity);
+
                     //incr++;
+                }else{
+                    saveProfile.setVisibility(View.VISIBLE);
                 }
                 Log.d("selectedspinner", Integer.toString(selectedItemPosition));
             }

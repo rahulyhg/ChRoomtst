@@ -73,6 +73,7 @@ public class GlobalChat extends FragmentActivity{
                 activeFragment = position;
                 InterfaceSet fragOld = (InterfaceSet) _fragments.get(lastFragment);
                 fragOld.Stop();
+                hideKeyBoard();
                 fragOld.windowDismiss();
                 InterfaceSet fragNew = (InterfaceSet) _fragments.get(position);
                 fragNew.Start(position);
@@ -139,6 +140,11 @@ public class GlobalChat extends FragmentActivity{
         }
     }
 
+    private void hideKeyBoard(){
+        ((InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
+
     @Override
     public  void onResume(){
         super.onResume();
@@ -179,5 +185,12 @@ public class GlobalChat extends FragmentActivity{
                 }
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ((InterfaceSet)_fragments.get(lastFragment)).windowDismiss();
+        hideKeyBoard();
     }
 }

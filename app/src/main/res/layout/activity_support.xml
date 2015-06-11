@@ -27,7 +27,7 @@
         android:text="Поддержка"
         android:id="@+id/tvSupportTitle"
         android:textAlignment="center"
-        android:background="@drawable/g_strip"
+        android:background="@color/green"
         android:visibility="visible"
         android:textColor="@color/black"
         android:gravity="center"

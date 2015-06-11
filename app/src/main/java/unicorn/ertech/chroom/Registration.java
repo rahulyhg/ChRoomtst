@@ -195,7 +195,7 @@ public class Registration extends Activity{
                 ed.putInt("city", citySpin.getSelectedItemPosition());
                 ed.putString("cityStr", citySpin.getSelectedItem().toString());
                 ed.commit();
-                Intent i = new Intent(getApplicationContext(), HowUseInteractive.class);
+                Intent i = new Intent(getApplicationContext(), Main.class);
                 i.putExtra("Token", token);
                 startActivity(i);
                 //getParent().finish();
