@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
@@ -63,6 +65,8 @@ public class Main extends TabActivity {
     ImageButton butSupport;
     ImageButton butSettings;
     public  static String URL = "http://im.topufa.org/index.php";
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     final String SAVED_COLOR = "color";
 
@@ -72,6 +76,18 @@ public class Main extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //Analytics
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker("UA-64294953-1");
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
+        tracker.enableAdvertisingIdCollection(true);
+        //Analytics
 
 
         tabHost = getTabHost();

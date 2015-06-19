@@ -29,6 +29,9 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.android.Facebook;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,6 +77,13 @@ public class SearchMain extends Fragment {
         //ну и контекст, так как фрагменты не содержат собственного
         context = view.getContext();
 
+        //Аналитика. Для конкретных событий
+        GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
+        final Tracker tracker = analytics.newTracker("UA-64294953-1");
+        tracker.setScreenName("Окно поиска");
+        tracker.enableAdvertisingIdCollection(true);
+        //Аналитика. Для конкретных событий
+
         ivRandom=(ImageView)view.findViewById(R.id.ivSearchRand);
         ivParam = (ImageView)view.findViewById(R.id.ivSearchParam);
         ivContacts = (ImageView)view.findViewById(R.id.ivSearchCont);
@@ -109,6 +119,11 @@ public class SearchMain extends Fragment {
         layRand.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Клики")
+                        .setAction("Клик встряска")
+                        .setLabel("Встряска")
+                        .build());
                 Search search_parent = (Search)getActivity();
                 search_parent.startRandom();
             }
@@ -117,6 +132,11 @@ public class SearchMain extends Fragment {
         layParam.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Клики")
+                        .setAction("Клик поиск по параметрам")
+                        .setLabel("Поиск по параметрам")
+                        .build());
                 Search search_parent = (Search)getActivity();
                 search_parent.startParam();
             }
@@ -126,6 +146,11 @@ public class SearchMain extends Fragment {
             @Override
             public void onClick(View v){
                 //publishFeedDialog();
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Клики")
+                        .setAction("Клик по шейрингу")
+                        .setLabel("Шейринг")
+                        .build());
                 Search search_parent = (Search)getActivity();
                 search_parent.startShare();
             };
