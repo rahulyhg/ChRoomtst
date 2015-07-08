@@ -1,7 +1,9 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -158,11 +160,19 @@ public class RegionFragment extends Fragment implements InterfaceSet{
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int izumCount = DataClass.getIzumCount();
+                Log.e("Izum","IzumCount = " + izumCount);
+
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 room = "3159";
                 outMsg = txtSend.getText().toString();
-                new OutMsg().execute();
+                if (izumCount > 0){
+                    new OutMsg().execute();
+                    DataClass.setIzumCount(izumCount - 1);
+                } else {
+                    showDialog();
+                }
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
 
                 txtSend.setText("");
@@ -194,6 +204,7 @@ public class RegionFragment extends Fragment implements InterfaceSet{
 
     @Override
     public boolean windowDismiss() {
+        if(sMgr == null) return false;
         if(sMgr.windowIsShowing()){
             return sMgr.windowDismiss();
         }
@@ -244,13 +255,13 @@ public class RegionFragment extends Fragment implements InterfaceSet{
         }
     }
 
-    private class globalChat3 extends AsyncTask<String, String, JSONObject> {
+    private class globalChat3 extends AsyncTask<String, chatMessage, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
         @Override
-        protected JSONObject doInBackground(String... args) {
+        protected Void doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
@@ -262,10 +273,7 @@ public class RegionFragment extends Fragment implements InterfaceSet{
             //jParser.setParam("device_id", "dsfadfg");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
+
             if(json!=null) {
                 //String deleted_total = "0";
                 JSONArray deleted = null;
@@ -319,30 +327,40 @@ public class RegionFragment extends Fragment implements InterfaceSet{
                         try {
                             messag = new JSONObject(arr.get(i).toString());
                             Log.e("Country_messagregion", messag.toString());
-                            if (firsTime) {
-                                if (!messag.equals(null)) {
-                                    messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
-                                }
-                            } else {
-                                if (!messag.equals(null)) {
-                                    messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
-                                }
-                            }
-                            msgCount++;
+
+                            publishProgress(new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (NullPointerException e) {
                         }
                     }
 
-                    adapter.notifyDataSetChanged();
-
                     firsTime = false;
-
-
                 }
             }
+            return null;
+        }
 
+        @Override
+        protected void onProgressUpdate(chatMessage... values) {
+            super.onProgressUpdate(values);
+            if (firsTime) {
+                if (!values[0].equals(null)) {
+                    messages.add(msgCount, values[0]);
+                }
+            } else {
+                if (!values[0].equals(null)) {
+                    messages.add(0, values[0]);
+                }
+            }
+            msgCount++;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -376,5 +394,29 @@ public class RegionFragment extends Fragment implements InterfaceSet{
                 return;
             }
         }
+    }
+
+
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Пополнить счёт");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(getActivity(), Billing.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

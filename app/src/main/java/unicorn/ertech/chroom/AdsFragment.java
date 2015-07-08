@@ -1,7 +1,9 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -47,7 +49,6 @@ public class AdsFragment extends Fragment implements InterfaceSet{
         String URL = "http://im.topufa.org/index.php";
         String lastID1, lastID2,lastID3,lastID4, msgNum, room, outMsg, token, deleted_total;
         List<chatMessage> messages = new ArrayList<chatMessage>();
-        private ArrayList<HashMap<String, Object>> citiList;
         final String SAVED_CITY = "city";
         chatAdapter adapter;
         boolean stopTImer = true;
@@ -55,12 +56,6 @@ public class AdsFragment extends Fragment implements InterfaceSet{
         globalChat1 chatTask;
         SmileManager sMgr;
 
-        /** Handle the results from the voice recognition activity. */
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,7 +121,6 @@ public class AdsFragment extends Fragment implements InterfaceSet{
         deleted_total = "0";
         //myID = "1";
         //listArr = new ArrayList<String>();
-        citiList = new ArrayList<HashMap<String, Object>>();
 
         ///lstAdptr = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, listArr);
         adapter = new chatAdapter(messages,getActivity().getApplicationContext());
@@ -161,12 +155,20 @@ public class AdsFragment extends Fragment implements InterfaceSet{
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int izumCount = DataClass.getIzumCount();
+                Log.e("Izum","IzumCount = " + izumCount);
+
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                         //room = "11";
                 outMsg = txtSend.getText().toString();
                 sMgr.windowDismiss();
-                new OutMsg().execute();
+                if (izumCount > 0){
+                    new OutMsg().execute();
+                    DataClass.setIzumCount(izumCount - 1);
+                } else {
+                    showDialog();
+                }
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
 
                 txtSend.setText("");
@@ -198,6 +200,9 @@ public class AdsFragment extends Fragment implements InterfaceSet{
 
     @Override
     public boolean windowDismiss() {
+
+        if(sMgr == null) return false;
+
         if(sMgr.windowIsShowing()){
             return sMgr.windowDismiss();
         }
@@ -263,14 +268,14 @@ public class AdsFragment extends Fragment implements InterfaceSet{
         }
     }
 
-    private class globalChat1 extends AsyncTask<String, String, JSONObject> {
+    private class globalChat1 extends AsyncTask<String, chatMessage, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
         @Override
-        protected JSONObject doInBackground(String... args) {
+        protected Void doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
@@ -285,86 +290,96 @@ public class AdsFragment extends Fragment implements InterfaceSet{
             Log.e("City_sendjson", "1111");
             JSONObject json = jParser.getJSONFromUrl(URL);
             Log.e("City_sendjson", "2222");
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
+
             if(json!=null) {
 
-            JSONArray deleted = null;
-            boolean flag = false;
-            String lastid = null;
-            JSONArray arr = null;
-            String s = null;
-            JSONObject messag = null;
-            Log.e("City_room", room);
-            try {
-                msgNum = json.getString("total");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                Log.e("City_pageNumber", pageNumber + "");
-                lastid = json.getString("lastid");
-                Log.e("City_lastid", lastid);
-                Log.e("City_lastID", lastID1);
-                if (lastID1.equals(lastid)) {
-                    lastID1 = json.getString("lastid");
-                } else {
-                    flag = true;
-                    lastID1 = json.getString("lastid");
+                JSONArray deleted = null;
+                boolean flag = false;
+                String lastid = null;
+                JSONArray arr = null;
+                String s = null;
+                JSONObject messag = null;
+                Log.e("City_room", room);
+                try {
                     msgNum = json.getString("total");
-                    Log.e("City_msgNum", msgNum);
-                    s = json.getString("data");
-                    arr = new JSONArray(s);
-                    deleted_total = json.getString("total-deleted");
-                    s = arr.get(0).toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                try {
+                    Log.e("City_pageNumber", pageNumber + "");
+                    lastid = json.getString("lastid");
+                    Log.e("City_lastid", lastid);
+                    Log.e("City_lastID", lastID1);
+                    if (lastID1.equals(lastid)) {
+                        lastID1 = json.getString("lastid");
+                    } else {
+                        flag = true;
+                        lastID1 = json.getString("lastid");
+                        msgNum = json.getString("total");
+                        Log.e("City_msgNum", msgNum);
+                        s = json.getString("data");
+                        arr = new JSONArray(s);
+                        deleted_total = json.getString("total-deleted");
+                        s = arr.get(0).toString();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-            if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
-                Log.e("City_sendjson", "3333loop");
-                if(!deleted_total.equals("0"))
-                {
-                    try {
-                        s = json.getString("deleted");
-                        deleted = new JSONArray(s);
-                        if(!deleted_total.equals("")) {
-                            for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
-                                checkInList(deleted.get(i).toString());
+                if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
+                    Log.e("City_sendjson", "3333loop");
+                    if(!deleted_total.equals("0"))
+                    {
+                        try {
+                            s = json.getString("deleted");
+                            deleted = new JSONArray(s);
+                            if(!deleted_total.equals("")) {
+                                for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
+                                    checkInList(deleted.get(i).toString());
+                                }
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-                for (int i = 0; i < Integer.parseInt(msgNum); i++) {
-                    try {
-                        messag = new JSONObject(arr.get(i).toString());
-                        Log.e("City_messagads", messag.toString());
-                        if (firsTime) {
-                            messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
+                    for (int i = 0; i < Integer.parseInt(msgNum); i++) {
+                        try {
+                            messag = new JSONObject(arr.get(i).toString());
+                            Log.e("City_messagads", messag.toString());
+                            publishProgress(new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
-                        } else {
-                            messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
                         }
-                        msgCount++;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (NullPointerException e) {
                     }
+                    Log.e("City_sendjson", "loop4");
+
+
+                    firsTime = false;
+
                 }
-                Log.e("City_sendjson", "loop4");
 
-
-                firsTime = false;
-
-                adapter.notifyDataSetChanged();
             }
-
+            return null;
         }
+
+        @Override
+        protected void onProgressUpdate(chatMessage... values) {
+            super.onProgressUpdate(values);
+            if (firsTime) {
+                messages.add(msgCount, values[0]);
+
+            } else {
+                messages.add(0, values[0]);
+            }
+            msgCount++;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            adapter.notifyDataSetChanged();
 
         }
     }
@@ -408,5 +423,29 @@ public class AdsFragment extends Fragment implements InterfaceSet{
     @Override
     public void onPause(){
         super.onPause();
+    }
+
+
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Пополнить счёт");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(getActivity(), Billing.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

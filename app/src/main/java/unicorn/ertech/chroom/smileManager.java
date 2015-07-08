@@ -352,10 +352,7 @@ public class SmileManager implements SmilesGridAdapter.KeyClickListener, View.On
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        Log.e(TEST, "Нажата кнопка");
         if (keyCode == KeyEvent.KEYCODE_BACK && popupWindow.isShowing()) {
-            Log.e(TEST, "назад");
-            Log.e(TEST, "и прошла обработку");
             popupWindow.dismiss();
             return true;
         }

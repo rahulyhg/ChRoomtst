@@ -201,7 +201,7 @@ public class FavoritesFragment extends Fragment {
                     try{
                         s=json.getString("online");
                         if(s.equals("true")&&messages.size()>0){
-                            messages.get(currentPosition).online="| online";
+                            messages.get(currentPosition).online=" | online";
                         }else{
                             messages.get(currentPosition).online="";
                         }

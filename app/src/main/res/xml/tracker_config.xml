@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="ga_trackingId">UA-64294953-1</string>
+    <string name="ga_sampleFrequency">100.0</string>
+    <integer name="ga_sessionTimeout">1800</integer>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_anonymizeIp">false</bool>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <screenName name="unicorn.ertech.chroom.Main">Главное окно</screenName>
+    <screenName name="unicorn.ertech.chroom.PrivateChat">Окно сообщении</screenName>
+    <screenName name="unicorn.ertech.chroom.Search">Окно поиска</screenName>
+    <screenName name="unicorn.ertech.chroom.GlobalChat">Окно чата</screenName>
+    <screenName name="unicorn.ertech.chroom.GeoLocationTab">Окно геолокации</screenName>
+</resources>

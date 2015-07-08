@@ -532,7 +532,7 @@ public class ConversationsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(s == null) return;
+                if(s == null) s = "";
 
                 if("false".equals(s)){
                     try{

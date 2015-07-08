@@ -15,6 +15,10 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -44,6 +48,9 @@ public class PrivateChat extends FragmentActivity {
     /** сам ViewPager который будет все это отображать. */
     private ViewPager _viewPager;
 
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
+
     ViewPager pager;
     PagerAdapter pagerAdapter;
 
@@ -51,6 +58,15 @@ public class PrivateChat extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_private);
+
+//        Analytics
+
+        analytics = GoogleAnalytics.getInstance(this);
+
+        tracker = analytics.newTracker(R.xml.tracker_config);
+        tracker.enableAdvertisingIdCollection(true);
+
+//        Analytics
 
         // создаем фрагменты.
         _fragments.add(FRAGMENT_ONE, new ConversationsFragment());
@@ -61,6 +77,37 @@ public class PrivateChat extends FragmentActivity {
         pager.setAdapter(pagerAdapter);
         tabStrip = (com.kpbird.triangletabs.PagerSlidingTabStrip)findViewById(R.id.pagerTabStrip_priv);
         tabStrip.setViewPager(pager);
+        tabStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch(position){
+                    case 0:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Скролл")
+                                .setAction("Скролл(Выбор окна)")
+                                .setLabel("Личные сообщения")
+                                .build());
+                        break;
+                    case 1:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Скролл")
+                                .setAction("Скролл(Выбор окна)")
+                                .setLabel("Друзья")
+                                .build());
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         /*SharedPreferences sPref;
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         if(sPref.contains(SAVED_COLOR)) {
@@ -75,23 +122,6 @@ public class PrivateChat extends FragmentActivity {
                 tabStrip.setTabBackground(R.color.purple);
             }
         }*/
-        /*pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                //PageFragment.pageNumber = position;
-                Log.d(TAG, "onPageSelected, position = " + position);
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });*/
     }
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {

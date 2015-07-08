@@ -1,7 +1,10 @@
 package unicorn.ertech.chroom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -126,10 +129,18 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int izumCount = DataClass.getIzumCount();
+                Log.e("Izum","IzumCount = " + izumCount);
+
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 outMsg = txtSend.getText().toString();
-                new OutMsg().execute();
+                if (izumCount > 0){
+                    new OutMsg().execute();
+                    DataClass.setIzumCount(izumCount - 1);
+                } else {
+                    showDialog();
+                }
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
 
                 txtSend.setText("");
@@ -165,6 +176,12 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
 
     @Override
     public boolean windowDismiss() {
+
+        if(sMgr == null) return false;
+
+        if(sMgr.windowIsShowing()){
+            return sMgr.windowDismiss();
+        }
         return false;
     }
 
@@ -211,14 +228,14 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
         }
     }
 
-    private class globalChat extends AsyncTask<String, String, JSONObject> {
+    private class globalChat extends AsyncTask<String, anonChat, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
         @Override
-        protected JSONObject doInBackground(String... args) {
+        protected Void doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
@@ -229,10 +246,7 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
             //jParser.setParam("device_id", "dsfadfg");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
+
             if(json!=null) {
                 boolean flag = false;
                 String lastid = null;
@@ -266,12 +280,7 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
                     for (int i = 0; i < Integer.parseInt(msgNum); i++) {
                         try {
                             messag = new JSONObject(arr.get(i).toString());
-                            if (firsTime) {
-                                messages.add(msgCount, new anonChat(messag.getString("id"),messag.getString("nick"), messag.getString("sex"), messag.getString("message")));
-                            } else {
-                                messages.add(0, new anonChat(messag.getString("id"),messag.getString("nick"), messag.getString("sex"), messag.getString("message")));
-                            }
-                            msgCount++;
+                            publishProgress(new anonChat(messag.getString("id"),messag.getString("nick"), messag.getString("sex"), messag.getString("message")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (NullPointerException e) {
@@ -279,11 +288,28 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
                         }
                     }
 
-                    adapter.notifyDataSetChanged();
-
                     firsTime = false;
                 }
             }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(anonChat... values) {
+            super.onProgressUpdate(values);
+            if (firsTime) {
+                messages.add(msgCount, values[0]);
+            } else {
+                messages.add(0, values[0]);
+            }
+            msgCount++;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            adapter.notifyDataSetChanged();
+
         }
     }
 
@@ -303,5 +329,28 @@ public class IncognitoChat extends Fragment implements InterfaceSet{
     public void onPause(){
         super.onPause();
         stopTImer=true;
+    }
+
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Пополнить счёт");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(getActivity(), Billing.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

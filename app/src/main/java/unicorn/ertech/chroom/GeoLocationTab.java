@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -46,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -76,14 +79,47 @@ public class GeoLocationTab extends FragmentActivity
     ImageView checkButton, zoomButton;
     static String token;
     LatLng ll, checkInLL;
-    String longitude, latitude, time_checkin;
+    long time1, time2;
+    String longitude, latitude, time_checkin = "360";
 
     private ArrayList<CustomMarker> arrayMarker = new ArrayList<CustomMarker>();
+
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
+
+
+    @Override
+    public void onBackPressed() {
+
+        Calendar calend = Calendar.getInstance();
+        if(time1==0){
+            time1=calend.getTimeInMillis();
+            Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+        }else{
+            time2=calend.getTimeInMillis();
+            if(time2-time1<=2000){
+                finish();
+            }else{
+                time1=time2;
+                Toast.makeText(getApplicationContext(), "Нажмите ещё раз, чтобы выйти", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_incognito);
+
+//        Analytics
+
+        analytics = GoogleAnalytics.getInstance(this);
+
+        tracker = analytics.newTracker(R.xml.tracker_config);
+        tracker.enableAdvertisingIdCollection(true);
+
+//        Analytics
+
         setContext(this);
         mLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
@@ -110,18 +146,20 @@ public class GeoLocationTab extends FragmentActivity
             Log.e("GeoLocation", "Service enable");
             buildGoogleApiClient();
         }
+
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     checkInLL = displayLocation();
-//                checkInLL = new LatLng(lat, lng);
+
                     if (checkInLL == null) return;
                 } else {
                     showDialog(context);
                     return;
                 }
+
 
 
                 showDialogCheckIn(context);
@@ -172,6 +210,21 @@ public class GeoLocationTab extends FragmentActivity
                 }
             }
         }, 0, 2L * 1000);
+
+        autoCheckin();
+    }
+
+    private void autoCheckin() {
+
+        if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            checkInLL = displayLocation();
+
+            if (checkInLL == null) return;
+        } else {
+            return;
+        }
+
+        new GeoCheckin().execute();
     }
 
     private void setContext(Context context){
@@ -336,6 +389,7 @@ public class GeoLocationTab extends FragmentActivity
         incognitoTitle.setBackgroundResource(R.color.izum_blue);
         canSearch = true;
         showDialogDebug(this, "");
+        time1=0; time2=0;
     }
 
     @Override
@@ -385,7 +439,6 @@ public class GeoLocationTab extends FragmentActivity
         Log.e("GeoLocation", "onMarkerClick");
         for (int i = 0; i<arrayMarker.size(); i++) {
 
-            if (arrayMarker.get(i).getUMarker().getId() == null) continue;
 
             if (arrayMarker.get(i).getUMarker().getId().equals(marker.getId())) {
                 String UserId = arrayMarker.get(i).getUserId();
@@ -396,8 +449,6 @@ public class GeoLocationTab extends FragmentActivity
                 intent.putExtra("nick",nick);
                 intent.putExtra("avatar",arrayMarker.get(i).getAvatar());
                 intent.putExtra("userPROFILE", UserId);
-                //messages.remove(position);
-                //adapter.notifyDataSetChanged();
                 startActivity(intent);
             }
         }
@@ -432,35 +483,37 @@ public class GeoLocationTab extends FragmentActivity
             String status = "";
             Object nullObj = null;
 
-            try {
-                status = json.getString("error").equals(nullObj) ? "true" : json.getString("error");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            if("false".equals(status))
-            {
-                boolean success = false;
+            if (json != null){
                 try {
-                    success = json.getBoolean("success");
+                    status = json.getString("error");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if("true".equals(success)) {
-                    //Toast.makeText(getActivity().getApplicationContext(), String.valueOf(sexSpinner.getSelectedItemId()), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), "Зачекинились", Toast.LENGTH_LONG).show();
+
+                if("false".equals(status))
+                {
+                    boolean success = false;
+                    try {
+                        success = json.getBoolean("success");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if("true".equals(success)) {
+                        //Toast.makeText(getActivity().getApplicationContext(), String.valueOf(sexSpinner.getSelectedItemId()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Зачекинились", Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "Ошибка при совершении поиска!", Toast.LENGTH_LONG).show();
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Ошибка при совершении поиска!", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
 
     private class GeoSearch extends AsyncTask<String, String, ArrayList<CustomMarker>> {
 
-       String le, loe;
+        String le, loe;
 
         private ArrayList<CustomMarker> arrayMarkerSearch = new ArrayList<CustomMarker>();
 

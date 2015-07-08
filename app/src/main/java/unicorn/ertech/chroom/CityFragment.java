@@ -2,7 +2,9 @@ package unicorn.ertech.chroom;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -159,10 +161,18 @@ public class CityFragment extends android.support.v4.app.Fragment implements Int
         butSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int izumCount = DataClass.getIzumCount();
+                Log.e("Izum","IzumCount = " + izumCount);
+
                 Context context = getActivity().getApplicationContext();
                 InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 outMsg = txtSend.getText().toString();
-                new OutMsg().execute();
+                if (izumCount > 0){
+                    new OutMsg().execute();
+                    DataClass.setIzumCount(izumCount - 1);
+                } else {
+                    showDialog();
+                }
                 imm.hideSoftInputFromWindow(txtSend.getWindowToken(), 0);
                 txtSend.setText("");
             }
@@ -234,14 +244,14 @@ public class CityFragment extends android.support.v4.app.Fragment implements Int
         }
     }
 
-    private class globalChat2 extends AsyncTask<String, String, JSONObject> {
+    private class globalChat2 extends AsyncTask<String, chatMessage, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
         }
         @Override
-        protected JSONObject doInBackground(String... args) {
+        protected Void doInBackground(String... args) {
             JSONParser jParser = new JSONParser();
 
             //ставим нужные нам параметры
@@ -253,83 +263,92 @@ public class CityFragment extends android.support.v4.app.Fragment implements Int
             //jParser.setParam("device_id", "dsfadfg");
             // Getting JSON from URL
             JSONObject json = jParser.getJSONFromUrl(URL);
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
+
             if(json!=null) {
 
-            JSONArray deleted = null;
-            boolean flag = false;
-            String lastid = null;
-            JSONArray arr = null;
-            String s = null;
-            JSONObject messag = null;
-            Log.e("Region_room", room);
-            try {
-                msgNum = json.getString("total");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                Log.e("Region_pageNumber", pageNumber + "");
-                lastid = json.getString("lastid");
-                Log.e("Region_lastid", lastid);
-                Log.e("Region_lastID", lastID2);
-                if (lastID2.equals(lastid)) {
-                    lastID2 = json.getString("lastid");
-                } else {
-                    flag = true;
-                    lastID2 = json.getString("lastid");
+                JSONArray deleted = null;
+                boolean flag = false;
+                String lastid = null;
+                JSONArray arr = null;
+                String s = null;
+                JSONObject messag = null;
+                Log.e("Region_room", room);
+                try {
                     msgNum = json.getString("total");
-                    Log.e("Region_msgNum", msgNum);
-                    s = json.getString("data");
-                    arr = new JSONArray(s);
-                    deleted_total = json.getString("total-deleted");
-                    s = arr.get(0).toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
-                if(!deleted_total.equals("0"))
-                {
-                    try {
-                        s = json.getString("deleted");
-                        deleted = new JSONArray(s);
-                        if(!deleted_total.equals("")) {
-                            for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
-                                checkInList(deleted.get(i).toString());
+                try {
+                    Log.e("Region_pageNumber", pageNumber + "");
+                    lastid = json.getString("lastid");
+                    Log.e("Region_lastid", lastid);
+                    Log.e("Region_lastID", lastID2);
+                    if (lastID2.equals(lastid)) {
+                        lastID2 = json.getString("lastid");
+                    } else {
+                        flag = true;
+                        lastID2 = json.getString("lastid");
+                        msgNum = json.getString("total");
+                        Log.e("Region_msgNum", msgNum);
+                        s = json.getString("data");
+                        arr = new JSONArray(s);
+                        deleted_total = json.getString("total-deleted");
+                        s = arr.get(0).toString();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (flag && (!msgNum.equals("0")) || (!deleted_total.equals("0"))) {
+                    if(!deleted_total.equals("0"))
+                    {
+                        try {
+                            s = json.getString("deleted");
+                            deleted = new JSONArray(s);
+                            if(!deleted_total.equals("")) {
+                                for (int i = 0; i < Integer.parseInt(deleted_total); i++) {
+                                    checkInList(deleted.get(i).toString());
+                                }
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-                for (int i = 0; i < Integer.parseInt(msgNum); i++) {
-                    try {
-                        messag = new JSONObject(arr.get(i).toString());
-                        Log.e("Region_messagcity", messag.toString());
-                        if (firsTime) {
-                            messages.add(msgCount, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
+                    for (int i = 0; i < Integer.parseInt(msgNum); i++) {
+                        try {
+                            messag = new JSONObject(arr.get(i).toString());
+                            Log.e("Region_messagcity", messag.toString());
 
-                        } else {
-                            messages.add(0, new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
+                            publishProgress(new chatMessage(messag.getString("uid"), messag.getString("nickname")+" "+"|"+messag.getString("age"), messag.getString("message"), messag.getString("avatar"),messag.getString("id")));
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
                         }
-                        msgCount++;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (NullPointerException e) {
                     }
+
+                    firsTime = false;
                 }
 
-                adapter.notifyDataSetChanged();
-
-                firsTime = false;
             }
-
+            return null;
         }
+
+        @Override
+        protected void onProgressUpdate(chatMessage... values) {
+            super.onProgressUpdate(values);
+            if (firsTime) {
+                messages.add(msgCount, values[0]);
+
+            } else {
+                messages.add(0, values[0]);
+            }
+            msgCount++;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            adapter.notifyDataSetChanged();
 
         }
     }
@@ -379,9 +398,34 @@ public class CityFragment extends android.support.v4.app.Fragment implements Int
 
     @Override
     public boolean windowDismiss() {
+        if(sMgr == null) return false;
         if(sMgr.windowIsShowing()){
             return sMgr.windowDismiss();
         }
         return false;
+    }
+
+
+
+    private void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Пополнить счёт");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(getActivity(), Billing.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

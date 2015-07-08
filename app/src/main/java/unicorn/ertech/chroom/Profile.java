@@ -53,6 +53,7 @@ import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -79,6 +80,7 @@ public class Profile extends Activity {
     EditText tvProfStat;
     TextView etName;
     TextView birthDay, hobbiesTv, hereForTv, datePick;
+    TextView izumCount;
     EditText etProfileAbout;
     //EditText etProfileCity;
     Button saveProfile;
@@ -122,6 +124,8 @@ public class Profile extends Activity {
         datePick=(TextView)findViewById(R.id.tvProfSetBirthday);
         sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
         sPref2 = getSharedPreferences("user", MODE_PRIVATE);
+        izumCount = (TextView)findViewById(R.id.countIzum);
+        izumCount.setText("" + DataClass.getIzumCount());
         TextView tvProfPhoto = (TextView) findViewById(R.id.tvProfilePhoto);
         TextView tvProfInfo = (TextView) findViewById(R.id.tvProfileInfo);
         etName = (TextView) findViewById(R.id.etName);
@@ -475,6 +479,11 @@ public class Profile extends Activity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
+
+    /*
+            Загрузка данных пользователя
+    */
+
     private class loadUserData extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {
@@ -543,7 +552,7 @@ public class Profile extends Activity {
                 photosURLs[1]=json.getString("photo2");
                 photosURLs[2]=json.getString("photo3");
                 photosURLs[3]=json.getString("photo4");
-                photosURLs[4]=json.getString("avatar");;
+                photosURLs[4]=json.getString("avatar");
                 photosURLs[5]=json.getString("photo1_full");
                 photosURLs[6]=json.getString("photo2_full");
                 photosURLs[7]=json.getString("photo3_full");
@@ -579,6 +588,8 @@ public class Profile extends Activity {
             etProfileAbout.setText(userAbout);
         }
     }
+
+
     private class sendUserData extends AsyncTask<String, String, JSONObject> {
         @Override
         protected void onPreExecute() {

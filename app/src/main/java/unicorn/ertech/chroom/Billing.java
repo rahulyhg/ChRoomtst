@@ -305,7 +305,7 @@ public class Billing extends Activity {
 
             Log.d(TAG, "Purchase successful.");
 
-// ЭТО ЕСЛ�? ВСЕ ГУД
+// ЭТО ЕСЛИ? ВСЕ ГУД
 
             if (purchase.getSku().equals(ONE_BUTTON)) {
                 izuminok += 30;
@@ -455,24 +455,7 @@ public class Billing extends Activity {
     }
 
     private void setColor(){
-        SharedPreferences sPref = getSharedPreferences("color_scheme", MODE_PRIVATE);
-        int col=sPref.getInt("color", 0);
-        switch (col) {
-            case 0:
-                topRow.setBackgroundResource(R.color.green);
-                break;
-            case 1:
-                topRow.setBackgroundResource(R.color.blue);
-                break;
-            case 2:
-                topRow.setBackgroundResource(R.color.orange);
-                break;
-            case 3:
-                topRow.setBackgroundResource(R.color.purple);
-                break;
-            default:
-                break;
-        }
+        topRow.setBackgroundResource(R.color.izum_blue);
     };
 
     private  class getBalance extends AsyncTask<String, String, JSONObject> {

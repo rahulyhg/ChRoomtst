@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:background="@color/green"
+        android:background="@color/izum_blue"
         android:id="@+id/topRowWal" >
 
         <ImageButton
@@ -246,7 +246,7 @@
                 android:layout_width="40dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:background="#76ab0e"
+                android:background="@color/izum_blue"
                 android:onClick="one"
                 android:gravity="center"
                 android:text="30 рублей"
@@ -288,7 +288,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textColor="#ffffff"
-                android:background="#76ab0e"
+                android:background="@color/izum_blue"
                 android:text="50 рублей" />
         </LinearLayout>
 
@@ -325,7 +325,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#ffffff"
-                android:background="#76ab0e"
+                android:background="@color/izum_blue"
                 android:text="100 рублей" />
 
         </LinearLayout>
@@ -364,7 +364,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#ffffff"
-                android:background="#76ab0e"
+                android:background="@color/izum_blue"
                 android:text="500 рублей" />
 
         </LinearLayout>

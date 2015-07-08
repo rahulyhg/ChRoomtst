@@ -35,19 +35,35 @@
 
         </LinearLayout>
 
-        <EditText
+        <LinearLayout
             android:layout_weight="1"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText1"
-            android:inputType="text|textCapSentences"
-            android:background="@drawable/cornerstxt"
-            android:minHeight="40dp"
-            android:maxHeight="150dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText1"
+                android:inputType="text|textCapSentences"
+                android:background="@drawable/cornerstxt"
+                android:minHeight="40dp"
+                android:maxHeight="150dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:text="1"
+                android:background="@drawable/shape_coin"
+                android:gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
 
 
 

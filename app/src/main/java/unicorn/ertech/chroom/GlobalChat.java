@@ -14,6 +14,10 @@ import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -46,10 +50,23 @@ public class GlobalChat extends FragmentActivity{
 
     int activeFragment = 1;
 
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_global);
+
+//        Analytics
+
+        analytics = GoogleAnalytics.getInstance(this);
+
+        tracker = analytics.newTracker(R.xml.tracker_config);
+        tracker.enableAdvertisingIdCollection(true);
+
+//        Analytics
+
         // создаем фрагменты.
         _fragments.add(FRAGMENT_ONE, new IncognitoChat());
         _fragments.add(FRAGMENT_TWO, new AdsFragment());
@@ -64,12 +81,40 @@ public class GlobalChat extends FragmentActivity{
         tabs.setViewPager(viewPager);
         tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
+                switch(position){
+                    case 0:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Скролл")
+                                .setAction("Скролл(Выбор окна)")
+                                .setLabel("Анонимный чат")
+                                .build());
+                        break;
+                    case 1:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Скролл")
+                                .setAction("Скролл(Выбор окна)")
+                                .setLabel("Чат по городам")
+                                .build());
+                        break;
+                    case 2:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Скролл")
+                                .setAction("Скролл(Выбор окна)")
+                                .setLabel("Чат по областям")
+                                .build());
+                        break;
+                    case 3:
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Скролл")
+                                .setAction("Скролл(Выбор окна)")
+                                .setLabel("Чат по стране")
+                                .build());
+                        break;
+                }
                 activeFragment = position;
                 InterfaceSet fragOld = (InterfaceSet) _fragments.get(lastFragment);
                 fragOld.Stop();
@@ -82,9 +127,8 @@ public class GlobalChat extends FragmentActivity{
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(int state) {}
 
-            }
         });
         tabs.setTextColor(getResources().getColor(R.color.white));
         tabs.setBackgroundResource(R.color.izum_blue);
@@ -112,7 +156,7 @@ public class GlobalChat extends FragmentActivity{
         public CharSequence getPageTitle(int position) {
             switch(position){
                 case 0:
-                    return "Анономный чат";
+                    return "Анонимный чат";
                 case 1:
                     String[] city = getResources().getStringArray(R.array.cities);
                     SharedPreferences sPref = getSharedPreferences("saved_chats", Context.MODE_PRIVATE);

@@ -9,8 +9,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +21,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -64,17 +76,34 @@ public class Main extends TabActivity {
     ImageButton butProfile;
     ImageButton butSupport;
     ImageButton butSettings;
-    public  static String URL = "http://im.topufa.org/index.php";
+    public static String URL = "http://im.topufa.org/index.php";
+    public static GoogleAnalytics analytics;
+    public static Tracker tracker;
 
     final String SAVED_COLOR = "color";
     final String SAVE_TAB = "tab";
 
     View tabViewTMP;
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
+
+//        Analytics
+
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker(R.xml.tracker_config);
+        tracker.enableExceptionReporting(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
+
+//        Analytics
+
 
         SmileManager smileManager = new SmileManager(this);
 
@@ -82,6 +111,7 @@ public class Main extends TabActivity {
         tabHost = getTabHost();
         Intent i = getIntent();
         str = i.getStringExtra("Token");
+        DataClass.setToken(str);
 
         topRow=(RelativeLayout)findViewById(R.id.topRowAbout);
         butSettings = (ImageButton) findViewById(R.id.settingsButton);
@@ -149,6 +179,8 @@ public class Main extends TabActivity {
 
         setColor();
 
+        setOnClick();
+
          /*tabHost.addTab(privatetab);
         tabHost.addTab(globaltab);
         tabHost.addTab(searchtab);
@@ -159,6 +191,11 @@ public class Main extends TabActivity {
         butSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Клики")
+                        .setAction("Нажатие на кнопку")
+                        .setLabel("Настройки")
+                        .build());
                 Intent in = new Intent(getApplicationContext(), SetActivity.class);
                 startActivity(in);
             }
@@ -169,6 +206,12 @@ public class Main extends TabActivity {
             public void onClick(View v) {
                 /*Intent in = new Intent(getApplicationContext(), Support.class);
                 startActivity(in);*/
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Клики")
+                        .setAction("Нажатие на кнопку")
+                        .setLabel("Техподдержка")
+                        .build());
+
                 Intent i = new Intent(getApplicationContext(), PrivateMessaging.class);
                 i.putExtra("userId","106");
                 i.putExtra("userPROFILE", "0");
@@ -186,6 +229,12 @@ public class Main extends TabActivity {
         butProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Клики")
+                        .setAction("Нажатие на кнопку")
+                        .setLabel("Профиль")
+                        .build());
+
                 Intent in = new Intent(getApplicationContext(), Profile.class);
                 startActivity(in);
             }
@@ -227,6 +276,44 @@ public class Main extends TabActivity {
             ed.putFloat("density", metricsB.density);
             ed.commit();
         }
+    }
+
+    private void setOnClick() {
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                switch (tabId){
+                    case "Private":
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Клики")
+                                .setAction("Нажатие на таб")
+                                .setLabel("Сообщения")
+                                .build());
+                        break;
+                    case "Global":
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Клики")
+                                .setAction("Нажатие на таб")
+                                .setLabel("Поиск")
+                                .build());
+                        break;
+                    case "News":
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Клики")
+                                .setAction("Нажатие на таб")
+                                .setLabel("Общий чат")
+                                .build());
+                        break;
+                    case "GeoLocation":
+                        tracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Клики")
+                                .setAction("Нажатие на таб")
+                                .setLabel("Геолокация")
+                                .build());
+                        break;
+                }
+            }
+        });
     }
 
     private static View createTabView(final Context context, final String text, int id) {
@@ -337,6 +424,15 @@ public class Main extends TabActivity {
     public void onResume(){
         super.onResume();
         setColor();
+
+        SharedPreferences sPref2 = getSharedPreferences("user", MODE_PRIVATE);
+
+        if (sPref2.contains("user")) {
+            DataClass.setUserID(sPref2.getInt("user", 0));
+            if (DataClass.getUserID() != 0) {
+                new loadUserData().execute();
+            }
+        }
     }
 
     @Override
@@ -365,5 +461,35 @@ public class Main extends TabActivity {
             }
         }
     }
+
+    private class loadUserData extends AsyncTask<String, String, JSONObject> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            JSONParser jParser = new JSONParser();
+//ставим нужные нам параметры
+            jParser.setParam("action", "profile_get");
+            jParser.setParam("userid", Integer.toString(DataClass.getUserID()));
+            jParser.setParam("token", DataClass.getToken());
+// Getting JSON from URL
+            JSONObject json = jParser.getJSONFromUrl(URL);
+            return json;
+        }
+        @Override
+        protected void onPostExecute(JSONObject json) {
+
+            if(json!=null) {
+                try {
+                    DataClass.setIzumCount(json.getInt("balance"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
 
