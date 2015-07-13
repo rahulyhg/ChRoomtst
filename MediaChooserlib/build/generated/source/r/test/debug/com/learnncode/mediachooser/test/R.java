@@ -14,8 +14,9 @@ public final class R {
         public static final int headerbar_color=0x7f040000;
         public static final int headerbar_selected_tab_color=0x7f040001;
         public static final int headerbar_title_color=0x7f040002;
-        public static final int tabs_color=0x7f040003;
-        public static final int tabs_title_color=0x7f040004;
+        public static final int izum_blue=0x7f040003;
+        public static final int tabs_color=0x7f040004;
+        public static final int tabs_title_color=0x7f040005;
     }
     public static final class drawable {
         public static final int ic_camera_selected_from_media_chooser_header_bar=0x7f020000;

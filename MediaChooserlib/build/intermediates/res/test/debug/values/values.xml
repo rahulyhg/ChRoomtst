@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <color name="headerbar_color"> #81D4FA</color>
     <color name="headerbar_selected_tab_color"> #34b4e3 </color>
     <color name="headerbar_title_color"> #FFFFFF </color>
+    <color name="izum_blue">#3d8ada</color>
     <color name="tabs_color"> #0FB470 </color>
     <color name="tabs_title_color"> #FFFFFF </color>
     <string name="app_name">MediaChooser</string>

@@ -5,4 +5,4 @@
     <item android:drawable="@drawable/ic_camera_selected_from_media_chooser_header_bar" android:state_pressed="true"/>
     <item android:drawable="@drawable/ic_camera_unselect_from_media_chooser_header_bar"/>
 
-</selector><!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/src/main/res/drawable/selector_camera_button.xml -->
+</selector><!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/src/main/res/drawable/selector_camera_button.xml -->

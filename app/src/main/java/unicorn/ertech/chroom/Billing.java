@@ -7,13 +7,17 @@ import unicorn.ertech.chroom.util.Purchase;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -24,7 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class Billing extends Activity {
+public class Billing extends Fragment {
     // Debug tag, for logging
     static final String TAG = "NK TEST PURCHASE";
     static String URL = "http://im.topufa.org/index.php";
@@ -45,81 +49,45 @@ public class Billing extends Activity {
     TextView sms;
     TextView play;
     TextView other;
-    TextView count;
     TextView tvIz30;
     TextView tvIz50;
     TextView tvIz100;
     TextView tvBezlim;
     TextView b;
-    TextView title;
 
     ImageButton butBack;
 
-    RelativeLayout topRow;
 
     int izuminok = 0;
     String token;
+    
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.billing);
 
-        count = (TextView) findViewById(R.id.count);
-        des = (TextView) findViewById(R.id.des);
+        
+    }
 
-        sms = (TextView) findViewById(R.id.des);
-        play = (TextView) findViewById(R.id.des);
-        other = (TextView) findViewById(R.id.des);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //задаем разметку фрагменту
+        View view = inflater.inflate(R.layout.billing, container, false);
+        //ну и контекст, так как фрагменты не содержат собственного
+        context = view.getContext();
 
-        tvIz30 = (TextView) findViewById(R.id.textView30);
-        tvIz50 = (TextView) findViewById(R.id.textView50);
-        tvIz100 = (TextView) findViewById(R.id.textView100);
-        tvBezlim = (TextView) findViewById(R.id.textViewB);
-        b = (TextView) findViewById(R.id.b);
-        title = (TextView) findViewById(R.id.title);
+        tvIz30 = (TextView) view.findViewById(R.id.textView30);
+        tvIz50 = (TextView) view.findViewById(R.id.textView50);
+        tvIz100 = (TextView) view.findViewById(R.id.textView100);
+        tvBezlim = (TextView) view.findViewById(R.id.textViewB);
 
-        butBack=(ImageButton)findViewById(R.id.setBack);
-
-        //Typeface font = Typeface.createFromAsset(this.getAssets(), "MyriadProRegular.ttf");
-       // tvIz30.setTypeface(font, Typeface.BOLD);
-
-       // tvIz50.setTypeface(font, Typeface.BOLD);
-
-       // tvIz100.setTypeface(font, Typeface.BOLD);
-
-       // tvBezlim.setTypeface(font, Typeface.BOLD);
-      //  b.setTypeface(font, Typeface.BOLD);
-
-     //   count.setTypeface(font);
-     //   des.setTypeface(font, Typeface.ITALIC);
-
-    //    sms.setTypeface(font);
-    //    play.setTypeface(font);
-    //    other.setTypeface(font);
-    //    count.setTypeface(font);
-    //    title.setTypeface(font, Typeface.BOLD);
-
-        Button bt30 = (Button) findViewById(R.id.bt30);
-        Button bt50 = (Button) findViewById(R.id.bt50);
-        Button bt100 = (Button) findViewById(R.id.bt100);
-        Button btB = (Button) findViewById(R.id.btB);
-
-    //    bt30.setTypeface(font);
-    //    bt50.setTypeface(font);
-    //    bt100.setTypeface(font);
-    //    btB.setTypeface(font);
-
-        topRow = (RelativeLayout)findViewById(R.id.topRowWal);
-        butBack=(ImageButton)findViewById(R.id.setBackWal);
-
-        // count.setText("��������: " + izuminok);
 
 // КЛЮЧ
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkWzjEZ83E73Ci0ldk3XvSIrQqRq75AnJQnRG0Ax3MkrRpOKlYtpB9UzU3pbcwQILDhcH8reRUnFfIS9FrfykI3TM0/YmbpMjgE5f18Vh8qtkNW3Barlr7dkOK6mXaPswepg4S9vcVMEwAFwBjcY65JgATySJXnf75T2nqeD1x8uBizlB9Vui3vASA8SY/ka0qoNJb3F+ET5Tmt4fFINsm2GyJoYzZoWRLXSWJgiU8Y2bKdrb9ZyzTPPNCM8IEzcW01wrVg2wikOriEVdNpKqN3F3gNZ0x0EQJC6aU8zIW2N5ewNrEa011SqECEOiFEqB1G6xdthu7qBG7L3I8fpnawIDAQAB";
 
         Log.d(TAG, "Creating IAB helper.");
-        mHelper = new IabHelper(this, base64EncodedPublicKey);
+        mHelper = new IabHelper(context, base64EncodedPublicKey);
 
         // enable debug logging (for a production application, you should set this to false).
         mHelper.enableDebugLogging(true);
@@ -147,7 +115,7 @@ public class Billing extends Activity {
         });
 
         try {
-            SharedPreferences userData = getSharedPreferences("userdata", Activity.MODE_PRIVATE);
+            SharedPreferences userData = context.getSharedPreferences("userdata", Activity.MODE_PRIVATE);
             if((userData.contains("token"))){
                 if(!userData.getString("token", "0").equals("0")){
                     token=userData.getString("token", "");
@@ -159,19 +127,18 @@ public class Billing extends Activity {
             e.printStackTrace();
         }
 
-        setColor();
-        butBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeMe();
-            }
-        });
+        Button bt30 = (Button) view.findViewById(R.id.bt30);
+        Button bt50 = (Button) view.findViewById(R.id.bt50);
+        Button bt100 = (Button) view.findViewById(R.id.bt100);
+        Button btB = (Button) view.findViewById(R.id.btB);
 
-        new getBalance().execute();
-    }
 
-    public void closeMe(){
-        this.finish();
+        bt30.setOnClickListener(one);
+        bt50.setOnClickListener(two);
+        bt100.setOnClickListener(three);
+        btB.setOnClickListener(four);
+        
+        return view;
     }
 
     // Listener that's called when we finish querying the items and subscriptions we own
@@ -219,54 +186,64 @@ public class Billing extends Activity {
         }
     };
 
-    public void one(View arg0) {
-        String payload = "ONE_BUTTON";
 
-        if(!token.equals("")){
-            mHelper.launchPurchaseFlow(this, ONE_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);
+    View.OnClickListener one = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            String payload = "ONE_BUTTON";
+
+            if(!token.equals("")){
+                mHelper.launchPurchaseFlow(getActivity(), ONE_BUTTON, RC_REQUEST,
+                        mPurchaseFinishedListener, payload);
+            }
+            else{
+                Toast.makeText(context, "������ �����������", Toast.LENGTH_SHORT);
+            }
         }
-        else{
-            Toast.makeText(getApplicationContext(), "������ �����������", Toast.LENGTH_SHORT);
+    };
+
+    View.OnClickListener two = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            String payload = "";
+            if(!token.equals("")){
+                mHelper.launchPurchaseFlow(getActivity(), TWO_BUTTON, RC_REQUEST,
+                        mPurchaseFinishedListener, payload);}
+            else{
+                Toast.makeText(context, "������ �����������", Toast.LENGTH_SHORT);
+            }
         }
-    }
+    };
 
-    public void two(View arg0) {
-        String payload = "";
-        if(!token.equals("")){
-        mHelper.launchPurchaseFlow(this, TWO_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);}
-        else{
-            Toast.makeText(getApplicationContext(), "������ �����������", Toast.LENGTH_SHORT);
+    View.OnClickListener three = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            String payload = "";
+            if(!token.equals("")){
+                mHelper.launchPurchaseFlow(getActivity(), THREE_BUTTON, RC_REQUEST,
+                        mPurchaseFinishedListener, payload);}
+            else{
+                Toast.makeText(context, "������ �����������", Toast.LENGTH_SHORT);
+            }
         }
-    }
+    };
 
-    public void three(View arg0) {
-        String payload = "";
-        if(!token.equals("")){
-        mHelper.launchPurchaseFlow(this, THREE_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);}
-        else{
-            Toast.makeText(getApplicationContext(), "������ �����������", Toast.LENGTH_SHORT);
+    View.OnClickListener four = new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            String payload = "";
+            if(!token.equals("")){
+                mHelper.launchPurchaseFlow(getActivity(), FOUR_BUTTON, RC_REQUEST,
+                        mPurchaseFinishedListener, payload);}
+            else{
+                Toast.makeText(context, "������ �����������", Toast.LENGTH_SHORT);
+            }
         }
-    }
-
-    public void four(View arg0) {
-        String payload = "";
-        if(!token.equals("")){
-        mHelper.launchPurchaseFlow(this, FOUR_BUTTON, RC_REQUEST,
-                mPurchaseFinishedListener, payload);}
-        else{
-            Toast.makeText(getApplicationContext(), "������ �����������", Toast.LENGTH_SHORT);
-        }
-    }
-
-
-
+    };
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
         if (mHelper == null) return;
 
@@ -309,7 +286,7 @@ public class Billing extends Activity {
 
             if (purchase.getSku().equals(ONE_BUTTON)) {
                 izuminok += 30;
-                count.setText("������: "+izuminok+" �������� ");
+                //count.setText("������: "+izuminok+" �������� ");
                 //      tvIz30.setText("������� ��������: " + izuminok);
                 //      mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
@@ -319,7 +296,7 @@ public class Billing extends Activity {
 
             if (purchase.getSku().equals(TWO_BUTTON)) {
                 izuminok += 50;
-                count.setText("������: " + izuminok+" �������� ");
+                //count.setText("������: " + izuminok+" �������� ");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
                 t[0]="50";
@@ -328,7 +305,7 @@ public class Billing extends Activity {
 
             if (purchase.getSku().equals(THREE_BUTTON)) {
                 izuminok += 100;
-                count.setText("������: " + izuminok+" �������� ");
+                //count.setText("������: " + izuminok+" �������� ");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
                 t[0]="100";
@@ -337,7 +314,7 @@ public class Billing extends Activity {
 
             if (purchase.getSku().equals(FOUR_BUTTON)) {
                 //izuminok += 500;
-                count.setText("������: ��������");
+                //count.setText("������: ��������");
                 //	tvBezlim.setText("�������� ������");
                 mHelper.consumeAsync(purchase, mConsumeFinishedListener);
                 String[] t= new String[1];
@@ -392,7 +369,7 @@ public class Billing extends Activity {
     }
 
     void alert(String message) {
-        AlertDialog.Builder bld = new AlertDialog.Builder(this);
+        AlertDialog.Builder bld = new AlertDialog.Builder(context);
         bld.setMessage(message);
         bld.setNeutralButton("OK", null);
         Log.d(TAG, "Showing alert dialog: " + message);
@@ -430,16 +407,16 @@ public class Billing extends Activity {
                 }
                 if(s.equals("false")){
                     try{
-                        Toast.makeText(getApplicationContext(),"�������", Toast.LENGTH_SHORT);
+                        Toast.makeText(context,"�������", Toast.LENGTH_SHORT);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
                     //adapter.notifyDataSetChanged();
                 }else{
                     if(s.equals("13")){
-                        Toast.makeText(getApplicationContext(),"�������� �����", Toast.LENGTH_SHORT);
+                        Toast.makeText(context,"�������� �����", Toast.LENGTH_SHORT);
                     }else if(s.equals("22")){
-                        Toast.makeText(getApplicationContext(),"�� ���������������� � ��", Toast.LENGTH_SHORT);
+                        Toast.makeText(context,"�� ���������������� � ��", Toast.LENGTH_SHORT);
                     }
                 }
             }
@@ -449,59 +426,10 @@ public class Billing extends Activity {
 
     public void sms(View v)
     {
-        //Intent in = new Intent(getApplicationContext(), sms.class);
+        //Intent in = new Intent(context, sms.class);
         //startActivity(in);
         //finish();
     }
 
-    private void setColor(){
-        topRow.setBackgroundResource(R.color.izum_blue);
-    };
 
-    private  class getBalance extends AsyncTask<String, String, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONParser jParser = new JSONParser();
-
-            //������ ������ ��� ���������
-            jParser.setParam("token", token);
-            jParser.setParam("action", "balance_get");
-            // Getting JSON from URL
-
-            JSONObject json = jParser.getJSONFromUrl(URL);
-            return json;
-        }
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            if(json!=null) {
-                String s="";
-                try {
-                    s = json.getString("error");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if("false".equals(s)){
-                    try {
-                        //String s1=new String("������: " + json.getString("balance")+" �������� ", "");
-                        count.setText(json.getString("balance")+" ");
-                        count.append(getResources().getString(R.string.Wallet2));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    //adapter.notifyDataSetChanged();
-                }else{
-                    if(s.equals("13")){
-                        Toast.makeText(getApplicationContext(),"�������� �����", Toast.LENGTH_SHORT);
-                    }else if(s.equals("22")){
-                        Toast.makeText(getApplicationContext(),"�� ���������������� � ��������", Toast.LENGTH_SHORT);
-                    }
-                }
-            }
-
-        }
-    }//����� asyncTask
 }

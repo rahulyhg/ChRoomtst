@@ -6,33 +6,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:background="@color/izum_blue"
-        android:id="@+id/topRowWal" >
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:id="@+id/setBackWal"
-            android:src="@drawable/back_left"
-            android:padding="10dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:focusableInTouchMode="false" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Кошелёк"
-            android:id="@+id/textView13"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"
-            android:textSize="20sp" />
-    </RelativeLayout>
-
     <ScrollView
     android:id="@+id/scrollView1"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,181 +18,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:gravity="center"
-
-            android:padding="20dp"
-            android:orientation="horizontal"  >
-
-            <TextView
-                android:id="@+id/b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Баланс: "
-                android:textColor="#000000"
-                android:textSize="21dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="21dp"
-                android:gravity="left"
-                android:textColor="#000000"
-                android:text="0 изюминок" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="#f8f8f8"
-            android:gravity="center"
-
-
-            android:orientation="horizontal"  >
-
-            <TextView
-                android:id="@+id/sms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="sms"
-                android:gravity="center"
-                android:textSize="16dp"
-                android:clickable="true"
-                android:textColor="#000000"
-                android:text="   SMS  " />
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#DCDCDC"
-                android:orientation="horizontal" >
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:textColor="#000000"
-                android:text="  Google Play " />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:background="#f8f8f8"
-
-
-
-            android:orientation="horizontal"  >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-
-                android:orientation="horizontal" >
-
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:background="#4e5e63"
-                android:orientation="horizontal" >
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DCDCDC"
-            android:orientation="horizontal" >
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:background="#ffffff"
-            android:gravity="center"
-
-
-            android:orientation="horizontal"  >
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="2"
-                android:padding="17dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/kop" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:paddingRight="20dp"
-                    android:text="Как использовать?     "
-                    android:textColor="#000000"
-                    android:textSize="13dp"
-                    android:typeface="sans"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/des"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="Дарите друзьям подарки и \nлайки, повышайте свой\nрейтинг и привлекайте \nвнимание в общем чате!"
-                    android:textColor="#000000"
-                    android:textSize="11dp"
-                    android:textStyle="italic"
-                    android:typeface="sans" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DCDCDC"
-            android:orientation="horizontal" >
-        </LinearLayout>
 
 
         <LinearLayout
@@ -247,7 +45,6 @@
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:background="@color/izum_blue"
-                android:onClick="one"
                 android:gravity="center"
                 android:text="30 рублей"
                 android:textColor="#ffffff" />
@@ -283,7 +80,6 @@
             <Button
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:onClick="two"
                 android:id="@+id/bt50"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -320,7 +116,6 @@
             <Button
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:onClick="three"
                 android:id="@+id/bt100"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -359,7 +154,6 @@
             <Button
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:onClick="four"
                 android:id="@+id/btB"
                 android:layout_weight="1"
                 android:gravity="center"

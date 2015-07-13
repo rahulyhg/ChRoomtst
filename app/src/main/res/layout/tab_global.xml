@@ -8,7 +8,7 @@
         android:id="@+id/pagerTabStrip"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/green"
+        android:background="@color/izum_blue"
         custom:pstsTextAllCaps="false"
         custom:pstsDividerColor="@android:color/transparent"
         custom:pstsIndicatorColor="@color/white"

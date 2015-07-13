@@ -235,6 +235,7 @@ public class Login extends Activity {
                 ed2.putString(SAVED_PASSWORD, pass.getText().toString());
             }else{ed2.putString(SAVED_PASSWORD, "0");}
             ed2.commit();
+            DataClass.setUserPhone(log.getText().toString());
         }
         @Override
         protected JSONObject doInBackground(String... args) {

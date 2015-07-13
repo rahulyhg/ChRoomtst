@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_alignParentTop="true"
-    android:background="#0FB470" >
+    android:background="@color/izum_blue" >
 
     <ImageView
         android:id="@+id/backArrowImageViewFromMediaChooserHeaderView"
@@ -51,4 +51,4 @@
         android:contentDescription="@null"
         android:scaleType="centerInside" />
 
-</RelativeLayout><!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/src/main/res/layout/view_header_bar_media_chooser.xml --><!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/build/intermediates/bundles/debug/res/layout/view_header_bar_media_chooser.xml -->
+</RelativeLayout><!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/src/main/res/layout/view_header_bar_media_chooser.xml --><!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/build/intermediates/bundles/debug/res/layout/view_header_bar_media_chooser.xml -->

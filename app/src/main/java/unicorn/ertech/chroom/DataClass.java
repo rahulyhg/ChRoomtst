@@ -8,6 +8,7 @@ public class DataClass {
     private static int izumCount = 0;
     private static int userID = 0;
     private static String userToken = "";
+    private static String userPhone = "";
 
     public static void setIzumCount(int count){
         izumCount = count;
@@ -31,5 +32,13 @@ public class DataClass {
 
     public static int getUserID(){
         return userID;
+    }
+
+    public static String getUserPhone() {
+        return userPhone;
+    }
+
+    public static void setUserPhone(String userPhone) {
+        DataClass.userPhone = userPhone;
     }
 }

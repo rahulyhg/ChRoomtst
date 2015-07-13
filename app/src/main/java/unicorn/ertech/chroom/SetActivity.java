@@ -79,7 +79,7 @@ public class SetActivity extends Activity {
         txtWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showActivity(Billing.class);
+                showActivity(BillingMainTabs.class);
             }
         });
         setChat.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +144,7 @@ public class SetActivity extends Activity {
         laySetWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showActivity(Billing.class);
+                showActivity(BillingMainTabs.class);
             }
         });
 

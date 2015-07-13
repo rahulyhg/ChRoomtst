@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/src/main/res/values/colors.xml -->
+    <!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="headerbar_color"> #81D4FA</color>
     <color name="headerbar_selected_tab_color"> #34b4e3 </color>
@@ -8,7 +8,7 @@
     <color name="izum_blue">#3d8ada</color>
     <color name="tabs_color"> #0FB470 </color>
     <color name="tabs_title_color"> #FFFFFF </color>
-    <!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/src/main/res/values/strings.xml -->
+    <!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">MediaChooser</string>
     <string name="done"> Done </string>
@@ -27,7 +27,7 @@
     <string name="selected_file_size">  Selected media size is : </string>
     <string name="video"> Video </string>
     <string name="videos_tab"> Videos </string>
-    <!-- From: file:/D:/GitHub/ChRoomtst/MediaChooserlib/src/main/res/values/styles.xml -->
+    <!-- From: file:/E:/чатрум/ChRoom11/ChRoomtst/MediaChooserlib/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

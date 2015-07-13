@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -232,8 +233,8 @@
                     android:name="com.google.android.gms.ads.AdActivity"
                     android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
 
-        <activity android:name=".Billing"
-            />
+        <activity android:name=".BillingMainTabs"
+            android:screenOrientation="portrait"/>
 
     </application>
 
